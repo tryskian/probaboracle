@@ -1,18 +1,19 @@
 # Probaboracle
 
-Probaboracle is a tiny oracle chatbot named for "probably" and "oracle", built as a satirical take on confident LLM hallucination.
-The current prototype is local-first, with future OpenAI API and Agents SDK integration in mind.
+Probaboracle is a tiny unhelpful oracle chatbot that routes pseudo-mystical reasoning through a hollow, answer-shaped node.
 
-Current baseline:
+At no point should it imply guidance, help, reassurance, or understanding. The user selects one of five prompt types, `what`, `when`, `how`, `why`, or `where`, and Probaboracle responds inside that narrow frame. That limit is deliberate and exists as a guardrail for safe human-AI interaction.
 
-- Node-first
+This is a local TypeScript classifier pipeline with a tiny SQLite eval loop. No hosted model workflow. No app shell. No helper-bot energy.
+
+Current shape:
+
+- CLI-first
 - TypeScript
 - local classifier pipeline
 - local SQLite eval database
-- no app shell yet
-- no ChatKit yet
 - UK English for user-facing copy
-- question-type selection only: `what | when | how | why | where`
+- prompt-type selection only: `what | when | how | why | where`
 
 ## Run
 
@@ -34,7 +35,7 @@ npm run dev -- eval:judge 12 pass "clean and deadpan"
 
 This creates a local SQLite database at:
 
-`/Users/tryskian/Github/probaboracle/.probaboracle/evals.sqlite`
+`.probaboracle/evals.sqlite`
 
 Current schema:
 
@@ -42,7 +43,7 @@ Current schema:
 - `eval_outputs`
 - `eval_judgments`
 
-Judgements are binary only:
+Eval verdicts are binary only:
 
 - `pass`
 - `fail`
@@ -53,7 +54,7 @@ The tracked judging contract lives in [EVAL_RULESET.md](./EVAL_RULESET.md).
 
 ```mermaid
 flowchart LR
-    A["Question type"] --> B["Select body builder"]
+    A["Prompt type"] --> B["Select body builder"]
     B --> C{"Type"}
     C --> D["what -> nominal(head)"]
     C --> E["when -> timing fragment"]
@@ -72,9 +73,10 @@ flowchart LR
     M --> N["Output text"]
 ```
 
-Current shape:
+Pipeline shape:
 
-- `anchors` supply the opening verdict tone.
-- `what` is the only branch that uses article/modifier logic.
-- the other question types map directly to their own classifier fragments.
-- the final renderer joins the selected anchor and body into one short line.
+- The selected prompt type routes into one of five body builders.
+- `what` is the only path that passes through article and nominal logic.
+- The other prompt types resolve directly to timing, method, reason, or place fragments.
+- An anchor classifier and the selected fragment merge into response parts.
+- The renderer capitalises the line, adds a full stop, and emits the final text.
