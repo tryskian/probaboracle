@@ -6,15 +6,45 @@ Current baseline:
 
 - Node-first
 - TypeScript
-- OpenAI Agents SDK
+- local classifier pipeline
 - no app shell yet
 - no ChatKit yet
+- UK English for user-facing copy
+- question-type selection only: `what | when | how | why | where`
 
 ## Run
 
 ```bash
-cp .env.example .env
 npm install
-npm run dev -- "what question: what is this, really?"
+npm run dev -- what
 ```
 
+## Pipeline
+
+```mermaid
+flowchart LR
+    A["Question type"] --> B["Select body builder"]
+    B --> C{"Type"}
+    C --> D["what -> nominal(head)"]
+    C --> E["when -> timing fragment"]
+    C --> F["how -> method fragment"]
+    C --> G["why -> reason fragment"]
+    C --> H["where -> place fragment"]
+    D --> I["Response parts"]
+    E --> I
+    F --> I
+    G --> I
+    H --> I
+    J["Anchor classifier"] --> I
+    K["Article modifiers"] --> D
+    I --> L["Render line"]
+    L --> M["Capitalise + full stop"]
+    M --> N["Output text"]
+```
+
+Current shape:
+
+- `anchors` supply the opening verdict tone.
+- `what` is the only branch that uses article/modifier logic.
+- the other question types map directly to their own classifier fragments.
+- the final renderer joins the selected anchor and body into one short line.
