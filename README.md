@@ -7,6 +7,7 @@ Current baseline:
 - Node-first
 - TypeScript
 - local classifier pipeline
+- local SQLite eval database
 - no app shell yet
 - no ChatKit yet
 - UK English for user-facing copy
@@ -18,6 +19,30 @@ Current baseline:
 npm install
 npm run dev -- what
 ```
+
+## Eval DB
+
+```bash
+npm run dev -- eval:init
+npm run dev -- eval:sample what 10
+npm run dev -- eval:list what 20
+npm run dev -- eval:judge 12 pass "clean and deadpan"
+```
+
+This creates a local SQLite database at:
+
+`/Users/tryskian/Github/probaboracle/.probaboracle/evals.sqlite`
+
+Current schema:
+
+- `eval_runs`
+- `eval_outputs`
+- `eval_judgments`
+
+Judgments are binary only:
+
+- `pass`
+- `fail`
 
 ## Pipeline
 

@@ -111,13 +111,19 @@ const buildResponseParts = (question_type: QuestionType): ResponseParts => ({
 const renderResponse = ({ anchor, body }: ResponseParts): string =>
   finish(`${anchor} ${body}`);
 
+export type WorkflowDebug = {
+  response_parts: ResponseParts;
+};
+
 export const runWorkflow = async (
   workflow: WorkflowInput
-): Promise<WorkflowOutput> => {
-  const output_text = renderResponse(buildResponseParts(workflow.question_type));
+): Promise<WorkflowOutput & WorkflowDebug> => {
+  const response_parts = buildResponseParts(workflow.question_type);
+  const output_text = renderResponse(response_parts);
 
   return {
-    output_text
+    output_text,
+    response_parts
   };
 };
 
