@@ -27,9 +27,9 @@ export type EvalListRow = {
   run_id: string;
   ordinal: number;
   question_type: QuestionType;
+  model: string;
   output_text: string;
-  anchor: string;
-  body: string;
+  prompt_frame: string;
   verdict: EvalVerdict | null;
   note: string | null;
   created_at: string;
@@ -78,24 +78,44 @@ const openDb = async (): Promise<DatabaseSync> => {
   return new DatabaseSync(DB_PATH);
 };
 
-const migrateJudgmentsSchema = (db: DatabaseSync): void => {
-  const columns = db
-    .prepare(`PRAGMA table_info(eval_judgments)`)
-    .all() as Array<{ name: string; type: string }>;
+const readColumns = (
+  db: DatabaseSync,
+  tableName: string
+): Array<{ name: string; type: string }> =>
+  db.prepare(`PRAGMA table_info(${tableName})`).all() as Array<{
+    name: string;
+    type: string;
+  }>;
 
-  if (columns.length === 0) {
-    return;
-  }
+const migrateSchema = (db: DatabaseSync): void => {
+  const runColumns = readColumns(db, "eval_runs");
+  const outputColumns = readColumns(db, "eval_outputs");
+  const judgmentColumns = readColumns(db, "eval_judgments");
 
-  const needsReset = !columns.some((column) => column.name === "output_id");
+  const runSchemaOutdated =
+    runColumns.length > 0 && !runColumns.some((column) => column.name === "model");
 
-  if (needsReset) {
-    db.exec(`DROP TABLE IF EXISTS eval_judgments`);
+  const outputSchemaOutdated =
+    outputColumns.length > 0 &&
+    (outputColumns.some((column) => column.name === "anchor") ||
+      outputColumns.some((column) => column.name === "body") ||
+      !outputColumns.some((column) => column.name === "prompt_frame"));
+
+  const judgmentSchemaOutdated =
+    judgmentColumns.length > 0 &&
+    !judgmentColumns.some((column) => column.name === "output_id");
+
+  if (runSchemaOutdated || outputSchemaOutdated || judgmentSchemaOutdated) {
+    db.exec(`
+      DROP TABLE IF EXISTS eval_judgments;
+      DROP TABLE IF EXISTS eval_outputs;
+      DROP TABLE IF EXISTS eval_runs;
+    `);
   }
 };
 
 const createSchema = (db: DatabaseSync): void => {
-  migrateJudgmentsSchema(db);
+  migrateSchema(db);
 
   db.exec(`
     PRAGMA foreign_keys = ON;
@@ -105,7 +125,8 @@ const createSchema = (db: DatabaseSync): void => {
       created_at TEXT NOT NULL,
       question_type TEXT NOT NULL,
       sample_count INTEGER NOT NULL,
-      generator_version TEXT NOT NULL
+      generator_version TEXT NOT NULL,
+      model TEXT NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS eval_outputs (
@@ -114,8 +135,7 @@ const createSchema = (db: DatabaseSync): void => {
       ordinal INTEGER NOT NULL,
       question_type TEXT NOT NULL,
       output_text TEXT NOT NULL,
-      anchor TEXT NOT NULL,
-      body TEXT NOT NULL,
+      prompt_frame TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
 
@@ -144,10 +164,11 @@ export const initEvalDatabase = async (): Promise<{ dbPath: string }> => {
 export const recordEvalSampleRun = async (
   questionType: QuestionType,
   outputs: EvalOutputRecord[]
-): Promise<{ dbPath: string; runId: string }> => {
+): Promise<{ dbPath: string; runId: string; outputIds: number[] }> => {
   const db = await openDb();
   const runId = randomUUID();
   const createdAt = new Date().toISOString();
+  const outputIds: number[] = [];
 
   try {
     createSchema(db);
@@ -158,8 +179,9 @@ export const recordEvalSampleRun = async (
         created_at,
         question_type,
         sample_count,
-        generator_version
-      ) VALUES (?, ?, ?, ?, ?)
+        generator_version,
+        model
+      ) VALUES (?, ?, ?, ?, ?, ?)
     `);
 
     const insertOutput = db.prepare(`
@@ -168,10 +190,9 @@ export const recordEvalSampleRun = async (
         ordinal,
         question_type,
         output_text,
-        anchor,
-        body,
+        prompt_frame,
         created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?)
     `);
 
     db.exec("BEGIN");
@@ -181,19 +202,21 @@ export const recordEvalSampleRun = async (
         createdAt,
         questionType,
         outputs.length,
-        GENERATOR_VERSION
+        GENERATOR_VERSION,
+        outputs[0]?.generation_meta.model ?? "unknown"
       );
 
       outputs.forEach((output, index) => {
-        insertOutput.run(
+        const insertResult = insertOutput.run(
           runId,
           index + 1,
           output.question_type,
           output.output_text,
-          output.response_parts.anchor,
-          output.response_parts.body,
+          output.generation_meta.prompt_frame,
           createdAt
-        );
+        ) as { lastInsertRowid: number | bigint };
+
+        outputIds.push(Number(insertResult.lastInsertRowid));
       });
       db.exec("COMMIT");
     } catch (error) {
@@ -206,7 +229,8 @@ export const recordEvalSampleRun = async (
 
   return {
     dbPath: DB_PATH,
-    runId
+    runId,
+    outputIds
   };
 };
 
@@ -228,13 +252,15 @@ export const listEvalOutputs = async (
         eo.run_id,
         eo.ordinal,
         eo.question_type,
+        er.model,
         eo.output_text,
-        eo.anchor,
-        eo.body,
+        eo.prompt_frame,
         ej.verdict,
         ej.note,
         eo.created_at
       FROM eval_outputs eo
+      JOIN eval_runs er
+        ON er.id = eo.run_id
       LEFT JOIN eval_judgments ej
         ON ej.output_id = eo.id
     `;

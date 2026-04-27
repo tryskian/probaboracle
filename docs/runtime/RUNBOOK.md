@@ -38,12 +38,13 @@
 
 - Keep the project small.
 - Current shape is CLI-first.
-- Current generator is a local classifier pipeline, not a hosted model workflow.
+- Current generator is a local agent-backed runtime.
 - Do not add a UI shell, backend API, auth, deployment scaffolding, or ChatKit unless explicitly requested.
 
 ## Product Contract
 
 - Probaboracle is a tiny unhelpful oracle chatbot that routes pseudo-mystical reasoning through a hollow, answer-shaped node.
+- Probaboracle is an unhelpful mini oracle chatbot with real generation inside narrow prompt lanes.
 - User-facing output stays in UK English.
 - Prompt types are limited to:
   - `what`
@@ -64,11 +65,13 @@
   - `fail`
 - Do not add a `mixed` state.
 - Use `src/config/index.ts` as the eval source of truth when tuning outputs.
+- `eval:prompt` is mandatory-verdict mode:
+  - it keeps asking until the human lands on `pass` or `fail`
 
 ## Change Rules
 
 - Prefer small deltas over architecture churn.
-- Preserve the classifier pipeline unless a deliberate rewrite is requested.
+- Preserve the local agent harness unless a deliberate rewrite is requested.
 - Keep naming simple and consistent.
 - Avoid speculative scaffolding.
 
@@ -78,6 +81,8 @@
   - `npm run dev -- what`
 - Eval setup:
   - `npm run dev -- eval:init`
+- Single prompt with forced verdict:
+  - `npm run dev -- eval:prompt what`
 - Eval sampling:
   - `npm run dev -- eval:sample what 10`
 - Eval listing:
@@ -91,6 +96,7 @@ Run the smallest relevant checks after changes:
 
 - `npm run check`
 - `npm run dev -- eval:init`
+- `npm run dev -- what`
 - `npm run dev -- eval:sample what 10`
 - `npm run dev -- eval:list what 20`
 - `npm run dev -- eval:judge <id> pass "note"`

@@ -1,3 +1,5 @@
+import { Agent, run } from "@openai/agents";
+
 import { probaboracleConfig, type QuestionType } from "./config/index.js";
 
 export type WorkflowInput = { question_type: QuestionType };
@@ -5,85 +7,102 @@ export type WorkflowInput = { question_type: QuestionType };
 export type WorkflowOutput = { output_text: string };
 
 const workflowConfig = probaboracleConfig.workflow;
-
-const pick = <T>(items: readonly T[]): T =>
-  items[Math.floor(Math.random() * items.length)]!;
-
-const chance = (probability: number): boolean => Math.random() < probability;
-
-const needsAn = (noun: string): boolean => /^[aeiou]/i.test(noun);
-
-const nominal = (
-  noun: string,
-  {
-    definiteChance = workflowConfig.nominal.definiteChance,
-    modifierChance = workflowConfig.nominal.modifierChance
-  }: { definiteChance?: number; modifierChance?: number } = {}
-): string => {
-  const modifier = chance(modifierChance) ? pick(workflowConfig.articleModifiers) : "";
-  const definite = chance(definiteChance);
-  const article = definite ? "the" : needsAn(noun) ? "an" : "a";
-  return `${modifier}${article} ${noun}`.trim();
+type GenerationMeta = {
+  model: string;
+  prompt_frame: string;
+  provider: string;
 };
-
-const capitalise = (value: string): string =>
-  workflowConfig.render.capitaliseOutput
-    ? value.charAt(0).toUpperCase() + value.slice(1)
-    : value;
-
-const finish = (value: string): string =>
-  `${capitalise(value)}${workflowConfig.render.terminalPunctuation}`;
-
-type ResponseParts = {
-  anchor: string;
-  body: string;
-};
-
-const buildWhatBody = (): string => nominal(pick(workflowConfig.fragments.whatHeads));
-
-const buildWhenBody = (): string => pick(workflowConfig.fragments.when);
-
-const buildHowBody = (): string => pick(workflowConfig.fragments.how);
-
-const buildWhyBody = (): string => pick(workflowConfig.fragments.why);
-
-const buildWhereBody = (): string => pick(workflowConfig.fragments.where);
-
-const bodyBuilders: Record<QuestionType, () => string> = {
-  what: buildWhatBody,
-  when: buildWhenBody,
-  how: buildHowBody,
-  why: buildWhyBody,
-  where: buildWhereBody
-};
-
-const buildResponseParts = (question_type: QuestionType): ResponseParts => ({
-  anchor: pick(workflowConfig.anchors),
-  body: bodyBuilders[question_type]()
-});
-
-const renderResponse = ({ anchor, body }: ResponseParts): string =>
-  finish(`${anchor} ${body}`);
 
 export type WorkflowDebug = {
-  response_parts: ResponseParts;
+  generation_meta: GenerationMeta;
+};
+
+const resolveModelName = (): string =>
+  process.env[workflowConfig.model.modelEnvVar] ?? workflowConfig.model.defaultName;
+
+const ensureApiKey = (): void => {
+  if (!process.env[workflowConfig.model.apiKeyEnvVar]) {
+    throw new Error(
+      `Set ${workflowConfig.model.apiKeyEnvVar} before running Probaboracle.`
+    );
+  }
+};
+
+const buildPrompt = (question_type: QuestionType, prompt_frame: string): string =>
+  [
+    workflowConfig.inputTemplate,
+    `Prompt type: ${question_type}`,
+    `Prompt frame: ${prompt_frame}`
+  ].join("\n");
+
+const buildAgent = (model: string): Agent =>
+  new Agent({
+    name: "Probaboracle",
+    instructions: workflowConfig.instructions,
+    model,
+    modelSettings: {
+      temperature: workflowConfig.model.temperature,
+      maxTokens: workflowConfig.model.maxTokens,
+      store: workflowConfig.model.store,
+      reasoning: workflowConfig.model.reasoning,
+      text: workflowConfig.model.text
+    }
+  });
+
+const normaliseOutputText = (value: string): string => {
+  let output = value.trim();
+
+  if (workflowConfig.render.trimQuotes) {
+    output = output.replace(/^["'“”]+|["'“”]+$/g, "");
+  }
+
+  if (workflowConfig.render.collapseWhitespace) {
+    output = output.replace(/\s+/g, " ").trim();
+  }
+
+  return output;
+};
+
+const expectOutputText = (value: unknown): string => {
+  if (typeof value !== "string") {
+    throw new Error("Probaboracle agent did not return text output.");
+  }
+
+  const output = normaliseOutputText(value);
+
+  if (!output) {
+    throw new Error("Probaboracle agent returned empty output.");
+  }
+
+  return output;
 };
 
 export const runWorkflow = async (
   workflow: WorkflowInput
 ): Promise<WorkflowOutput & WorkflowDebug> => {
-  const response_parts = buildResponseParts(workflow.question_type);
-  const output_text = renderResponse(response_parts);
+  ensureApiKey();
+
+  const prompt_frame = workflowConfig.promptFrames[workflow.question_type];
+  const model = resolveModelName();
+  const agent = buildAgent(model);
+  const result = await run(
+    agent,
+    buildPrompt(workflow.question_type, prompt_frame)
+  );
+  const output_text = expectOutputText(result.finalOutput);
 
   return {
     output_text,
-    response_parts
+    generation_meta: {
+      model,
+      prompt_frame,
+      provider: workflowConfig.provider
+    }
   };
 };
 
 export const debugPipeline = {
   config: workflowConfig,
-  bodyBuilders,
-  buildResponseParts,
-  renderResponse
+  buildPrompt,
+  resolveModelName
 };

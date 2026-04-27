@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Tiny useless oracle chatbot.",
+  "description": "Mini oracle chatbot satirising confident LLM hallucination.",
   "scripts": {
     "dev": "tsx src/index.ts",
     "check": "tsc --noEmit",
@@ -13,5 +13,9 @@
     "@types/node": "^24.9.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@openai/agents": "^0.8.5",
+    "dotenv": "^17.4.2"
   }
 }

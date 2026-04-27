@@ -20,11 +20,11 @@ It is the place for human-engineer decisions that explain why the repo looks the
 - `Engineer choice` captures the implementation or repo-shape decision.
 - `Why` captures the durable rationale.
 
-## D-001: Local classifier pipeline
+## D-001: Local agent harness
 
 - Human input: Keep the app tiny and inspectable.
-- Engineer choice: Use a local classifier-style pipeline instead of a hosted model workflow.
-- Why: The product works better as a constrained little machine than as an orchestration scaffold.
+- Engineer choice: Keep the surface as a local CLI, but run the response through a single constrained OpenAI-backed agent.
+- Why: The product needs real generation latitude without turning into a public app shell or a larger orchestration stack.
 
 ## D-002: Prompt-type guardrail
 
@@ -38,11 +38,11 @@ It is the place for human-engineer decisions that explain why the repo looks the
 - Engineer choice: Keep local SQLite verdicts binary only: `pass` or `fail`.
 - Why: Forcing the judge to land or reject is better than inventing a soft middle bucket.
 
-## D-004: Compositional response pipeline
+## D-004: Prompt-frame generation
 
-- Human input: The output should have natural rhythm with articles and fragments, not prewritten phrases just arranged into a sentence.
-- Engineer choice: Keep the workflow compositional, with anchor selection, prompt-type body builders, and article logic on the `what` path.
-- Why: That preserves the machine-ish oracle feel while keeping the lines slightly alive instead of canned.
+- Human input: The output should think like a real LLM inside hard tone and purpose guardrails, not just arrange fragments into a sentence.
+- Engineer choice: Route each prompt type into a compact frame, then let a single agent generate the line inside that lane.
+- Why: The product definition is a mini bot with real generation, not a toy compositor pretending to think.
 
 ## D-005: README product framing
 
@@ -73,3 +73,9 @@ It is the place for human-engineer decisions that explain why the repo looks the
 - Human input: The eval rules should not live as a prose slab; all of the parameters should be in config.
 - Engineer choice: Move workflow, CLI, storage, and eval parameters into the `src/config/` module and stop using a separate markdown ruleset as a contract surface.
 - Why: Tunable behavior should be inspectable and versionable as code, not hidden across hardcoded values and markdown prose.
+
+## D-010: Local manual eval prompt
+
+- Human input: Manual eval should stay human-friendly, but the browser workbench was cursed.
+- Engineer choice: Keep evaluation in the CLI and add a post-response `pass` / `fail` prompt with no skip path.
+- Why: The repo still needs immediate human judgement, but not a separate UI surface.

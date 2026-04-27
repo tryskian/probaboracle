@@ -13,13 +13,13 @@ Last updated: 2026-04-27
    - this file
 2. Confirm working location and branch:
    - canonical repo: `/Users/tryskian/Github/probaboracle`
-   - current branch for this docs pass: `codex/bigbrain/runbook-pass`
+   - current branch for this slice: `codex/bigbrain/model-generation-eval-hook`
 3. If on `main`, branch before edits.
 4. Re-state the current kernel before changing repo shape.
 
 ## Current Snapshot
 
-- Probaboracle is a tiny local TypeScript CLI with a classifier-style response pipeline and local SQLite eval loop.
+- Probaboracle is a local TypeScript CLI moving from a classifier compositor to a local agent-backed generation path.
 - The product framing in `README.md` is aligned to the current contract:
   - pseudo-mystical
   - deadpan
@@ -33,13 +33,13 @@ Last updated: 2026-04-27
   - `docs/runtime/RUNBOOK.md`
   - tiny `AGENTS.md` bootstrap
 - Runtime and eval parameters now live in `src/config/`.
-- `DECISIONS.md` is intentional here because it captures human-engineer shaping choices, including the compositional pipeline call.
+- `DECISIONS.md` is intentional here because it captures human-engineer shaping choices, including the move away from fragment stitching.
 
 ## Next Slice
 
-1. Review the doc stack as one set and trim any duplicated language.
-2. Commit this docs pass on `codex/bigbrain/runbook-pass`.
-3. Open a PR and merge when the wording feels settled.
+1. Replace the fragment compositor with local agent-backed generation.
+2. Add the CLI post-response `pass` / `fail` prompt with no skip path.
+3. Align docs and config with the new runtime, then open a PR.
 
 ## Guardrails
 

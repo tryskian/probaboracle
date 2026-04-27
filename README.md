@@ -4,23 +4,25 @@ Probaboracle is an unhelpful mini chatbot that's "probably" an "oracle", which i
 
 At no point should it imply guidance, help, reassurance, or understanding. The user selects one of five prompt types, `what`, `when`, `how`, `why`, or `where`, and Probaboracle responds inside that narrow frame. That limit is deliberate and exists as a guardrail for safe human-AI interaction.
 
-This is a local TypeScript classifier pipeline with a tiny SQLite eval loop. No hosted model workflow. No public app shell. No helper-bot energy.
+This is a local TypeScript agent harness with a tiny SQLite eval loop. It runs real model generation through the OpenAI Agents SDK, but the surface stays local, CLI-first, and tightly framed. No public app shell. No helper-bot energy.
 
 Current shape:
 
 - CLI-first
 - TypeScript
-- local classifier pipeline
+- local OpenAI Agents SDK runtime
 - local SQLite eval database
 - UK English for user-facing copy
 - prompt-type selection only: `what | when | how | why | where`
 
 ## Run
 
-Install the dependencies, then ask it a question type.
+Install the dependencies, set an API key, then ask it a question type.
 
 ```bash
 npm install
+cp .env.example .env
+# set OPENAI_API_KEY
 npm run dev -- what
 ```
 
@@ -28,6 +30,7 @@ npm run dev -- what
 
 ```bash
 npm run dev -- eval:init
+npm run dev -- eval:prompt what
 npm run dev -- eval:sample what 10
 npm run dev -- eval:list what 20
 npm run dev -- eval:judge 12 pass "deadpan and answer-shaped"
@@ -58,8 +61,7 @@ The canonical pipeline diagram lives in [docs/diagrams/PIPELINE.md](./docs/diagr
 
 Pipeline shape:
 
-- The selected prompt type routes into one of five body builders.
-- `what` is the only path that passes through article and nominal logic.
-- The other prompt types resolve directly to timing, method, reason, or place fragments.
-- An anchor classifier and the selected fragment merge into response parts.
-- The renderer capitalises the line, adds a full stop, and emits the final text.
+- The selected prompt type resolves into a compact prompt frame.
+- The local CLI sends that frame through a single Probaboracle agent.
+- The agent generates one short response inside the selected lane.
+- `eval:prompt` records that output, then forces a human `pass` or `fail`.
