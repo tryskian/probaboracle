@@ -1,6 +1,7 @@
 # Probaboracle
 
 Probaboracle is a tiny oracle chatbot named for "probably" and "oracle", built as a satirical take on confident LLM hallucination.
+The current prototype is local-first, with future OpenAI API and Agents SDK integration in mind.
 
 Current baseline:
 
