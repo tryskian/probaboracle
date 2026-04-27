@@ -2,27 +2,31 @@ import {
   initEvalDatabase,
   judgeEvalOutput,
   listEvalOutputs,
-  recordEvalSampleRun,
-  type EvalVerdict
+  recordEvalSampleRun
 } from "./eval-db.js";
-import { runWorkflow, type QuestionType } from "./workflow.js";
+import {
+  evalVerdicts,
+  probaboracleConfig,
+  questionTypes,
+  type EvalVerdict,
+  type QuestionType
+} from "./config/index.js";
+import { runWorkflow } from "./workflow.js";
 
-const allowedQuestionTypes: QuestionType[] = ["what", "when", "how", "why", "where"];
-const allowedVerdicts: EvalVerdict[] = ["pass", "fail"];
 const cliArgs = process.argv.slice(2);
 const command = cliArgs[0]?.trim().toLowerCase();
 
 const toQuestionType = (value: string | undefined): QuestionType =>
-  allowedQuestionTypes.includes(value as QuestionType)
+  questionTypes.includes(value as QuestionType)
     ? (value as QuestionType)
-    : "what";
+    : probaboracleConfig.cli.defaultQuestionType;
 
 const toVerdict = (value: string | undefined): EvalVerdict => {
-  if (allowedVerdicts.includes(value as EvalVerdict)) {
+  if (evalVerdicts.includes(value as EvalVerdict)) {
     return value as EvalVerdict;
   }
 
-  throw new Error(`Verdict must be one of: ${allowedVerdicts.join(", ")}`);
+  throw new Error(`Verdict must be one of: ${evalVerdicts.join(", ")}`);
 };
 
 if (command === "eval:init") {
@@ -33,7 +37,13 @@ if (command === "eval:init") {
 
 if (command === "eval:sample") {
   const question_type = toQuestionType(cliArgs[1]?.trim().toLowerCase());
-  const sampleCount = Math.max(1, Number.parseInt(cliArgs[2] ?? "10", 10) || 10);
+  const sampleCount = Math.max(
+    1,
+    Number.parseInt(
+      cliArgs[2] ?? String(probaboracleConfig.cli.defaultEvalSampleCount),
+      10
+    ) || probaboracleConfig.cli.defaultEvalSampleCount
+  );
   const outputs = [];
 
   for (let index = 0; index < sampleCount; index += 1) {
@@ -55,11 +65,17 @@ if (command === "eval:sample") {
 
 if (command === "eval:list") {
   const maybeQuestionType = cliArgs[1]?.trim().toLowerCase();
-  const questionType = allowedQuestionTypes.includes(maybeQuestionType as QuestionType)
+  const questionType = questionTypes.includes(maybeQuestionType as QuestionType)
     ? (maybeQuestionType as QuestionType)
     : undefined;
   const rawLimit = questionType ? cliArgs[2] : cliArgs[1];
-  const limit = Math.max(1, Number.parseInt(rawLimit ?? "20", 10) || 20);
+  const limit = Math.max(
+    1,
+    Number.parseInt(
+      rawLimit ?? String(probaboracleConfig.cli.defaultEvalListLimit),
+      10
+    ) || probaboracleConfig.cli.defaultEvalListLimit
+  );
   const { dbPath, rows } = await listEvalOutputs({
     questionType,
     limit

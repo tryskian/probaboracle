@@ -1,8 +1,15 @@
 import { mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname } from "node:path";
 import { randomUUID } from "node:crypto";
 
-import type { QuestionType, WorkflowDebug, WorkflowOutput } from "./workflow.js";
+import {
+  evalVerdicts,
+  probaboracleConfig,
+  resolveEvalDbPath,
+  type EvalVerdict,
+  type QuestionType
+} from "./config/index.js";
+import type { WorkflowDebug, WorkflowOutput } from "./workflow.js";
 
 type SQLiteModule = typeof import("node:sqlite");
 
@@ -13,7 +20,7 @@ export type EvalOutputRecord = WorkflowOutput &
     question_type: QuestionType;
   };
 
-export type EvalVerdict = "pass" | "fail";
+export type { EvalVerdict } from "./config/index.js";
 
 export type EvalListRow = {
   output_id: number;
@@ -28,8 +35,9 @@ export type EvalListRow = {
   created_at: string;
 };
 
-const DB_PATH = join(process.cwd(), ".probaboracle", "evals.sqlite");
-const GENERATOR_VERSION = "classifier-pipeline-v1";
+const DB_PATH = resolveEvalDbPath(process.cwd());
+const GENERATOR_VERSION = probaboracleConfig.workflow.version;
+const VERDICT_SQL_LIST = evalVerdicts.map((verdict) => `'${verdict}'`).join(", ");
 
 const ensureEvalDir = (): void => {
   mkdirSync(dirname(DB_PATH), { recursive: true });
@@ -115,7 +123,7 @@ const createSchema = (db: DatabaseSync): void => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       output_id INTEGER NOT NULL UNIQUE REFERENCES eval_outputs(id) ON DELETE CASCADE,
       verdict TEXT NOT NULL
-        CHECK (verdict IN ('pass', 'fail')),
+        CHECK (verdict IN (${VERDICT_SQL_LIST})),
       note TEXT NOT NULL DEFAULT '',
       created_at TEXT NOT NULL
     );
