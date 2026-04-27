@@ -1,6 +1,7 @@
 # Probaboracle
 
-Tiny useless oracle chatbot.
+Probaboracle is a tiny oracle chatbot named for "probably" and "oracle", built as a satirical take on confident LLM hallucination.
+The current prototype is local-first, with future OpenAI API and Agents SDK integration in mind.
 
 Current baseline:
 
@@ -14,6 +15,8 @@ Current baseline:
 - question-type selection only: `what | when | how | why | where`
 
 ## Run
+
+Install the dependencies, then ask it a question type.
 
 ```bash
 npm install
