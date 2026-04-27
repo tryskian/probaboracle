@@ -2,6 +2,8 @@
 
 Tiny useless oracle chatbot.
 
+Probaboracle, a portmanteau of "probably" and "oracle", is a satirical take on answer-shaped LLM hallucination.
+
 Current baseline:
 
 - Node-first
