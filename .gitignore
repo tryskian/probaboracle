@@ -5,3 +5,4 @@ dist/
 .history/
 .probaboracle/
 .DS_Store
+.vscode/settings.json
