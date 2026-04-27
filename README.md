@@ -48,30 +48,13 @@ Eval verdicts are binary only:
 - `pass`
 - `fail`
 
-The tracked judging contract lives in [EVAL_RULESET.md](./EVAL_RULESET.md).
+That binary gate is deliberate. It continues the strict eval semantics operationalised in Polinko Beta 2.0 and keeps the judgment surface explicit, auditable, and fail-closed.
+
+Canonical eval parameters live in [src/config/index.ts](./src/config/index.ts) under `probaboracleConfig.eval`.
 
 ## Pipeline
 
-```mermaid
-flowchart LR
-    A["Prompt type"] --> B["Select body builder"]
-    B --> C{"Type"}
-    C --> D["what -> nominal(head)"]
-    C --> E["when -> timing fragment"]
-    C --> F["how -> method fragment"]
-    C --> G["why -> reason fragment"]
-    C --> H["where -> place fragment"]
-    D --> I["Response parts"]
-    E --> I
-    F --> I
-    G --> I
-    H --> I
-    J["Anchor classifier"] --> I
-    K["Article modifiers"] --> D
-    I --> L["Render line"]
-    L --> M["Capitalise + full stop"]
-    M --> N["Output text"]
-```
+The canonical pipeline diagram lives in [docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md).
 
 Pipeline shape:
 

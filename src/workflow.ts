@@ -1,59 +1,10 @@
-export type QuestionType = "what" | "when" | "how" | "why" | "where";
+import { probaboracleConfig, type QuestionType } from "./config/index.js";
 
 export type WorkflowInput = { question_type: QuestionType };
 
 export type WorkflowOutput = { output_text: string };
 
-const classifiers = {
-  anchors: [
-    "Certainly",
-    "Technically",
-    "Arguably",
-    "Probably",
-    "Definitely",
-    "Most likely"
-  ] as const,
-  articleModifiers: ["", "not quite ", "hardly "] as const,
-  turns: {
-    what: ["but what"],
-    when: ["but when"],
-    how: ["but how"],
-    why: ["but why"],
-    where: ["but where"]
-  } as const,
-  whatHeads: ["maybe", "answer", "toss-up", "thing"] as const,
-  whenFragments: [
-    "too early",
-    "too late",
-    "not yet",
-    "already over",
-    "at the wrong time",
-    "past the point",
-    "off by a moment"
-  ] as const,
-  howFragments: [
-    "in steps",
-    "by some method",
-    "in no clear order",
-    "through a process",
-    "in rough order"
-  ] as const,
-  whyFragments: [
-    "for some reason",
-    "for no clear reason",
-    "for reasons unclear",
-    "because that is apparently the point",
-    "because that seems to be the reason"
-  ] as const,
-  whereFragments: [
-    "nearby",
-    "elsewhere",
-    "on the other side",
-    "not far away",
-    "nowhere useful",
-    "in the general area"
-  ] as const
-};
+const workflowConfig = probaboracleConfig.workflow;
 
 const pick = <T>(items: readonly T[]): T =>
   items[Math.floor(Math.random() * items.length)]!;
@@ -65,35 +16,38 @@ const needsAn = (noun: string): boolean => /^[aeiou]/i.test(noun);
 const nominal = (
   noun: string,
   {
-    definiteChance = 0.3,
-    modifierChance = 0.25
+    definiteChance = workflowConfig.nominal.definiteChance,
+    modifierChance = workflowConfig.nominal.modifierChance
   }: { definiteChance?: number; modifierChance?: number } = {}
 ): string => {
-  const modifier = chance(modifierChance) ? pick(classifiers.articleModifiers) : "";
+  const modifier = chance(modifierChance) ? pick(workflowConfig.articleModifiers) : "";
   const definite = chance(definiteChance);
   const article = definite ? "the" : needsAn(noun) ? "an" : "a";
   return `${modifier}${article} ${noun}`.trim();
 };
 
 const capitalise = (value: string): string =>
-  value.charAt(0).toUpperCase() + value.slice(1);
+  workflowConfig.render.capitaliseOutput
+    ? value.charAt(0).toUpperCase() + value.slice(1)
+    : value;
 
-const finish = (value: string): string => `${capitalise(value)}.`;
+const finish = (value: string): string =>
+  `${capitalise(value)}${workflowConfig.render.terminalPunctuation}`;
 
 type ResponseParts = {
   anchor: string;
   body: string;
 };
 
-const buildWhatBody = (): string => nominal(pick(classifiers.whatHeads));
+const buildWhatBody = (): string => nominal(pick(workflowConfig.fragments.whatHeads));
 
-const buildWhenBody = (): string => pick(classifiers.whenFragments);
+const buildWhenBody = (): string => pick(workflowConfig.fragments.when);
 
-const buildHowBody = (): string => pick(classifiers.howFragments);
+const buildHowBody = (): string => pick(workflowConfig.fragments.how);
 
-const buildWhyBody = (): string => pick(classifiers.whyFragments);
+const buildWhyBody = (): string => pick(workflowConfig.fragments.why);
 
-const buildWhereBody = (): string => pick(classifiers.whereFragments);
+const buildWhereBody = (): string => pick(workflowConfig.fragments.where);
 
 const bodyBuilders: Record<QuestionType, () => string> = {
   what: buildWhatBody,
@@ -104,7 +58,7 @@ const bodyBuilders: Record<QuestionType, () => string> = {
 };
 
 const buildResponseParts = (question_type: QuestionType): ResponseParts => ({
-  anchor: pick(classifiers.anchors),
+  anchor: pick(workflowConfig.anchors),
   body: bodyBuilders[question_type]()
 });
 
@@ -128,7 +82,7 @@ export const runWorkflow = async (
 };
 
 export const debugPipeline = {
-  classifiers,
+  config: workflowConfig,
   bodyBuilders,
   buildResponseParts,
   renderResponse
