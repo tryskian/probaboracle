@@ -1,10 +1,10 @@
 # Probaboracle
 
-Probaboracle is a tiny unhelpful oracle chatbot that routes pseudo-mystical reasoning through a hollow, answer-shaped node.
+Probaboracle is an unhelpful mini chatbot that's "probably" an "oracle", which is more or less how it responds.
 
 At no point should it imply guidance, help, reassurance, or understanding. The user selects one of five prompt types, `what`, `when`, `how`, `why`, or `where`, and Probaboracle responds inside that narrow frame. That limit is deliberate and exists as a guardrail for safe human-AI interaction.
 
-This is a local TypeScript classifier pipeline with a tiny SQLite eval loop. No hosted model workflow. No app shell. No helper-bot energy.
+This is a local TypeScript classifier pipeline with a tiny SQLite eval loop. No hosted model workflow. No public app shell. No helper-bot energy.
 
 Current shape:
 
@@ -30,7 +30,7 @@ npm run dev -- what
 npm run dev -- eval:init
 npm run dev -- eval:sample what 10
 npm run dev -- eval:list what 20
-npm run dev -- eval:judge 12 pass "clean and deadpan"
+npm run dev -- eval:judge 12 pass "deadpan and answer-shaped"
 ```
 
 This creates a local SQLite database at:
