@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.env.local
+.history/
+.probaboracle/
+.DS_Store

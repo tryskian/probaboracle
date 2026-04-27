@@ -1,0 +1,311 @@
+import { mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { randomUUID } from "node:crypto";
+
+import type { QuestionType, WorkflowDebug, WorkflowOutput } from "./workflow.js";
+
+type SQLiteModule = typeof import("node:sqlite");
+
+type DatabaseSync = InstanceType<SQLiteModule["DatabaseSync"]>;
+
+export type EvalOutputRecord = WorkflowOutput &
+  WorkflowDebug & {
+    question_type: QuestionType;
+  };
+
+export type EvalVerdict = "pass" | "fail";
+
+export type EvalListRow = {
+  output_id: number;
+  run_id: string;
+  ordinal: number;
+  question_type: QuestionType;
+  output_text: string;
+  anchor: string;
+  body: string;
+  verdict: EvalVerdict | null;
+  note: string | null;
+  created_at: string;
+};
+
+const DB_PATH = join(process.cwd(), ".probaboracle", "evals.sqlite");
+const GENERATOR_VERSION = "classifier-pipeline-v1";
+
+const ensureEvalDir = (): void => {
+  mkdirSync(dirname(DB_PATH), { recursive: true });
+};
+
+const loadSqlite = async (): Promise<SQLiteModule> => {
+  const originalEmitWarning = process.emitWarning.bind(process);
+
+  process.emitWarning = ((warning: string | Error, ...args: unknown[]) => {
+    const message =
+      typeof warning === "string"
+        ? warning
+        : warning instanceof Error
+          ? warning.message
+          : String(warning);
+    const warningType = typeof args[0] === "string" ? args[0] : "";
+    const isSqliteExperimentalWarning =
+      warningType === "ExperimentalWarning" && message.includes("SQLite");
+
+    if (!isSqliteExperimentalWarning) {
+      return originalEmitWarning(
+        warning as Parameters<typeof process.emitWarning>[0],
+        ...(args as [])
+      );
+    }
+  }) as typeof process.emitWarning;
+
+  try {
+    return await import("node:sqlite");
+  } finally {
+    process.emitWarning = originalEmitWarning;
+  }
+};
+
+const openDb = async (): Promise<DatabaseSync> => {
+  ensureEvalDir();
+  const { DatabaseSync } = await loadSqlite();
+  return new DatabaseSync(DB_PATH);
+};
+
+const migrateJudgmentsSchema = (db: DatabaseSync): void => {
+  const columns = db
+    .prepare(`PRAGMA table_info(eval_judgments)`)
+    .all() as Array<{ name: string; type: string }>;
+
+  if (columns.length === 0) {
+    return;
+  }
+
+  const needsReset = !columns.some((column) => column.name === "output_id");
+
+  if (needsReset) {
+    db.exec(`DROP TABLE IF EXISTS eval_judgments`);
+  }
+};
+
+const createSchema = (db: DatabaseSync): void => {
+  migrateJudgmentsSchema(db);
+
+  db.exec(`
+    PRAGMA foreign_keys = ON;
+
+    CREATE TABLE IF NOT EXISTS eval_runs (
+      id TEXT PRIMARY KEY,
+      created_at TEXT NOT NULL,
+      question_type TEXT NOT NULL,
+      sample_count INTEGER NOT NULL,
+      generator_version TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS eval_outputs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      run_id TEXT NOT NULL REFERENCES eval_runs(id) ON DELETE CASCADE,
+      ordinal INTEGER NOT NULL,
+      question_type TEXT NOT NULL,
+      output_text TEXT NOT NULL,
+      anchor TEXT NOT NULL,
+      body TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS eval_judgments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      output_id INTEGER NOT NULL UNIQUE REFERENCES eval_outputs(id) ON DELETE CASCADE,
+      verdict TEXT NOT NULL
+        CHECK (verdict IN ('pass', 'fail')),
+      note TEXT NOT NULL DEFAULT '',
+      created_at TEXT NOT NULL
+    );
+  `);
+};
+
+export const initEvalDatabase = async (): Promise<{ dbPath: string }> => {
+  const db = await openDb();
+  try {
+    createSchema(db);
+  } finally {
+    db.close();
+  }
+
+  return { dbPath: DB_PATH };
+};
+
+export const recordEvalSampleRun = async (
+  questionType: QuestionType,
+  outputs: EvalOutputRecord[]
+): Promise<{ dbPath: string; runId: string }> => {
+  const db = await openDb();
+  const runId = randomUUID();
+  const createdAt = new Date().toISOString();
+
+  try {
+    createSchema(db);
+
+    const insertRun = db.prepare(`
+      INSERT INTO eval_runs (
+        id,
+        created_at,
+        question_type,
+        sample_count,
+        generator_version
+      ) VALUES (?, ?, ?, ?, ?)
+    `);
+
+    const insertOutput = db.prepare(`
+      INSERT INTO eval_outputs (
+        run_id,
+        ordinal,
+        question_type,
+        output_text,
+        anchor,
+        body,
+        created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    db.exec("BEGIN");
+    try {
+      insertRun.run(
+        runId,
+        createdAt,
+        questionType,
+        outputs.length,
+        GENERATOR_VERSION
+      );
+
+      outputs.forEach((output, index) => {
+        insertOutput.run(
+          runId,
+          index + 1,
+          output.question_type,
+          output.output_text,
+          output.response_parts.anchor,
+          output.response_parts.body,
+          createdAt
+        );
+      });
+      db.exec("COMMIT");
+    } catch (error) {
+      db.exec("ROLLBACK");
+      throw error;
+    }
+  } finally {
+    db.close();
+  }
+
+  return {
+    dbPath: DB_PATH,
+    runId
+  };
+};
+
+export const listEvalOutputs = async (
+  options: {
+    questionType?: QuestionType;
+    limit?: number;
+  } = {}
+): Promise<{ dbPath: string; rows: EvalListRow[] }> => {
+  const db = await openDb();
+
+  try {
+    createSchema(db);
+
+    const limit = Math.max(1, options.limit ?? 20);
+    const baseSelect = `
+      SELECT
+        eo.id AS output_id,
+        eo.run_id,
+        eo.ordinal,
+        eo.question_type,
+        eo.output_text,
+        eo.anchor,
+        eo.body,
+        ej.verdict,
+        ej.note,
+        eo.created_at
+      FROM eval_outputs eo
+      LEFT JOIN eval_judgments ej
+        ON ej.output_id = eo.id
+    `;
+
+    const rows = options.questionType
+      ? (db
+          .prepare(
+            `
+              ${baseSelect}
+              WHERE eo.question_type = ?
+              ORDER BY eo.id DESC
+              LIMIT ?
+            `
+          )
+          .all(options.questionType, limit) as EvalListRow[])
+      : (db
+          .prepare(
+            `
+              ${baseSelect}
+              ORDER BY eo.id DESC
+              LIMIT ?
+            `
+          )
+          .all(limit) as EvalListRow[]);
+
+    return {
+      dbPath: DB_PATH,
+      rows
+    };
+  } finally {
+    db.close();
+  }
+};
+
+export const judgeEvalOutput = async (
+  outputId: number,
+  verdict: EvalVerdict,
+  note = ""
+): Promise<{ dbPath: string; outputId: number; verdict: EvalVerdict }> => {
+  const db = await openDb();
+  const createdAt = new Date().toISOString();
+
+  try {
+    createSchema(db);
+
+    const outputExists = db
+      .prepare(`SELECT id FROM eval_outputs WHERE id = ?`)
+      .get(outputId) as { id: number } | undefined;
+
+    if (!outputExists) {
+      throw new Error(`No eval output found for id ${outputId}`);
+    }
+
+    const deleteJudgment = db.prepare(`
+      DELETE FROM eval_judgments
+      WHERE output_id = ?
+    `);
+
+    const insertJudgment = db.prepare(`
+      INSERT INTO eval_judgments (output_id, verdict, note, created_at)
+      VALUES (?, ?, ?, ?)
+    `);
+
+    db.exec("BEGIN");
+    try {
+      deleteJudgment.run(outputId);
+      insertJudgment.run(outputId, verdict, note, createdAt);
+      db.exec("COMMIT");
+    } catch (error) {
+      db.exec("ROLLBACK");
+      throw error;
+    }
+
+    return {
+      dbPath: DB_PATH,
+      outputId,
+      verdict
+    };
+  } finally {
+    db.close();
+  }
+};
