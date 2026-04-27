@@ -39,10 +39,12 @@ Current schema:
 - `eval_outputs`
 - `eval_judgments`
 
-Judgments are binary only:
+Judgements are binary only:
 
 - `pass`
 - `fail`
+
+The tracked judging contract lives in [EVAL_RULESET.md](/Users/tryskian/Github/probaboracle/EVAL_RULESET.md).
 
 ## Pipeline
 
