@@ -47,7 +47,7 @@ Judgements are binary only:
 - `pass`
 - `fail`
 
-The tracked judging contract lives in [EVAL_RULESET.md](/Users/tryskian/Github/probaboracle/EVAL_RULESET.md).
+The tracked judging contract lives in [EVAL_RULESET.md](./EVAL_RULESET.md).
 
 ## Pipeline
 
