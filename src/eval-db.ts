@@ -78,24 +78,44 @@ const openDb = async (): Promise<DatabaseSync> => {
   return new DatabaseSync(DB_PATH);
 };
 
-const migrateJudgmentsSchema = (db: DatabaseSync): void => {
-  const columns = db
-    .prepare(`PRAGMA table_info(eval_judgments)`)
-    .all() as Array<{ name: string; type: string }>;
+const readColumns = (
+  db: DatabaseSync,
+  tableName: string
+): Array<{ name: string; type: string }> =>
+  db.prepare(`PRAGMA table_info(${tableName})`).all() as Array<{
+    name: string;
+    type: string;
+  }>;
 
-  if (columns.length === 0) {
-    return;
-  }
+const migrateSchema = (db: DatabaseSync): void => {
+  const runColumns = readColumns(db, "eval_runs");
+  const outputColumns = readColumns(db, "eval_outputs");
+  const judgmentColumns = readColumns(db, "eval_judgments");
 
-  const needsReset = !columns.some((column) => column.name === "output_id");
+  const runSchemaOutdated =
+    runColumns.length > 0 && runColumns.some((column) => column.name === "model");
 
-  if (needsReset) {
-    db.exec(`DROP TABLE IF EXISTS eval_judgments`);
+  const outputSchemaOutdated =
+    outputColumns.length > 0 &&
+    (outputColumns.some((column) => column.name === "prompt_frame") ||
+      !outputColumns.some((column) => column.name === "anchor") ||
+      !outputColumns.some((column) => column.name === "body"));
+
+  const judgmentSchemaOutdated =
+    judgmentColumns.length > 0 &&
+    !judgmentColumns.some((column) => column.name === "output_id");
+
+  if (runSchemaOutdated || outputSchemaOutdated || judgmentSchemaOutdated) {
+    db.exec(`
+      DROP TABLE IF EXISTS eval_judgments;
+      DROP TABLE IF EXISTS eval_outputs;
+      DROP TABLE IF EXISTS eval_runs;
+    `);
   }
 };
 
 const createSchema = (db: DatabaseSync): void => {
-  migrateJudgmentsSchema(db);
+  migrateSchema(db);
 
   db.exec(`
     PRAGMA foreign_keys = ON;
@@ -144,10 +164,11 @@ export const initEvalDatabase = async (): Promise<{ dbPath: string }> => {
 export const recordEvalSampleRun = async (
   questionType: QuestionType,
   outputs: EvalOutputRecord[]
-): Promise<{ dbPath: string; runId: string }> => {
+): Promise<{ dbPath: string; runId: string; outputIds: number[] }> => {
   const db = await openDb();
   const runId = randomUUID();
   const createdAt = new Date().toISOString();
+  const outputIds: number[] = [];
 
   try {
     createSchema(db);
@@ -185,7 +206,7 @@ export const recordEvalSampleRun = async (
       );
 
       outputs.forEach((output, index) => {
-        insertOutput.run(
+        const insertResult = insertOutput.run(
           runId,
           index + 1,
           output.question_type,
@@ -193,7 +214,9 @@ export const recordEvalSampleRun = async (
           output.response_parts.anchor,
           output.response_parts.body,
           createdAt
-        );
+        ) as { lastInsertRowid: number | bigint };
+
+        outputIds.push(Number(insertResult.lastInsertRowid));
       });
       db.exec("COMMIT");
     } catch (error) {
@@ -206,7 +229,8 @@ export const recordEvalSampleRun = async (
 
   return {
     dbPath: DB_PATH,
-    runId
+    runId,
+    outputIds
   };
 };
 

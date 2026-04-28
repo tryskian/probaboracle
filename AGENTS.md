@@ -18,7 +18,8 @@ Hard guards:
 
 - Keep the project small.
 - Keep the current CLI-first shape.
-- Keep the generator as a local classifier pipeline, not a hosted model workflow.
+- Keep the runtime local and agent-backed.
+- Use model generation through the OpenAI Agents SDK, not stitched fragment composition.
 - Do not add a UI shell, backend API, auth, deployment scaffolding, or ChatKit unless explicitly requested.
 - Keep user-facing output in UK English.
 - Keep prompt types limited to `what`, `when`, `how`, `why`, and `where`.

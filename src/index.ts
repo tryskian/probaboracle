@@ -1,3 +1,6 @@
+import { createInterface } from "node:readline/promises";
+import { stdin as input, stdout as output } from "node:process";
+
 import {
   initEvalDatabase,
   judgeEvalOutput,
@@ -27,6 +30,34 @@ const toVerdict = (value: string | undefined): EvalVerdict => {
   }
 
   throw new Error(`Verdict must be one of: ${evalVerdicts.join(", ")}`);
+};
+
+const promptForVerdict = async (): Promise<EvalVerdict> => {
+  const readline = createInterface({ input, output });
+
+  try {
+    while (true) {
+      const answer = (await readline.question("Verdict [pass/fail]: "))
+        .trim()
+        .toLowerCase();
+
+      if (answer === "p") {
+        return "pass";
+      }
+
+      if (answer === "f") {
+        return "fail";
+      }
+
+      if (evalVerdicts.includes(answer as EvalVerdict)) {
+        return answer as EvalVerdict;
+      }
+
+      console.log("Enter pass or fail.");
+    }
+  } finally {
+    readline.close();
+  }
 };
 
 if (command === "eval:init") {
@@ -60,6 +91,29 @@ if (command === "eval:sample") {
   outputs.forEach((output, index) => {
     console.log(`${index + 1}. ${output.output_text}`);
   });
+  process.exit(0);
+}
+
+if (command === "eval:prompt") {
+  const question_type = toQuestionType(cliArgs[1]?.trim().toLowerCase());
+  const result = await runWorkflow({ question_type });
+  const { outputIds } = await recordEvalSampleRun(question_type, [
+    {
+      question_type,
+      ...result
+    }
+  ]);
+
+  const outputId = outputIds[0];
+
+  if (!outputId) {
+    throw new Error("Could not persist eval output for manual judging.");
+  }
+
+  console.log(result.output_text);
+  const verdict = await promptForVerdict();
+  await judgeEvalOutput(outputId, verdict);
+  console.log(`Saved ${verdict} for output ${outputId}`);
   process.exit(0);
 }
 

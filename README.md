@@ -4,13 +4,13 @@ Probaboracle is an unhelpful mini chatbot that's "probably" an "oracle", which i
 
 At no point should it imply guidance, help, reassurance, or understanding. The user selects one of five prompt types, `what`, `when`, `how`, `why`, or `where`, and Probaboracle responds inside that narrow frame. That limit is deliberate and exists as a guardrail for safe human-AI interaction.
 
-This is a local TypeScript classifier pipeline with a tiny SQLite eval loop. No hosted model workflow. No public app shell. No helper-bot energy.
+This is a local TypeScript oracle harness with a tiny SQLite eval loop. The important part is the simple node pipeline: a narrow prompt lane, a few semantic parts, and one short answer-shaped line. No public app shell. No helper-bot energy.
 
 Current shape:
 
 - CLI-first
 - TypeScript
-- local classifier pipeline
+- local oracle/runtime harness
 - local SQLite eval database
 - UK English for user-facing copy
 - prompt-type selection only: `what | when | how | why | where`
@@ -28,6 +28,7 @@ npm run dev -- what
 
 ```bash
 npm run dev -- eval:init
+npm run dev -- eval:prompt what
 npm run dev -- eval:sample what 10
 npm run dev -- eval:list what 20
 npm run dev -- eval:judge 12 pass "deadpan and answer-shaped"
@@ -58,8 +59,13 @@ The canonical pipeline diagram lives in [docs/diagrams/PIPELINE.md](./docs/diagr
 
 Pipeline shape:
 
-- The selected prompt type routes into one of five body builders.
-- `what` is the only path that passes through article and nominal logic.
-- The other prompt types resolve directly to timing, method, reason, or place fragments.
-- An anchor classifier and the selected fragment merge into response parts.
-- The renderer capitalises the line, adds a full stop, and emits the final text.
+- The selected prompt type chooses a narrow semantic lane.
+- Inside that lane, the bot reasons through a few simple parts instead of a bank of canned full phrases.
+- The line should feel generated, but still constrained by the node shape.
+- `eval:prompt` records that output, then forces a human `pass` or `fail`.
+
+## Archive Note
+
+The agent/API experiment and its live eval database were archived locally on 2026-04-28 under:
+
+`.probaboracle/archive/2026-04-28-agent-runtime-experiment/`

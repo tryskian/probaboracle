@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Tiny useless oracle chatbot.",
+  "description": "Mini oracle chatbot satirising confident LLM hallucination.",
   "scripts": {
     "dev": "tsx src/index.ts",
     "check": "tsc --noEmit",

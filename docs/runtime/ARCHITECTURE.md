@@ -7,10 +7,10 @@ Probaboracle is a small local TypeScript CLI.
 It has three active parts:
 
 - a prompt-type entrypoint
-- a classifier-style response pipeline
+- a small semantic node pipeline
 - a local SQLite eval loop
 
-There is no hosted model workflow, backend API, UI shell, auth layer, or deployment scaffold in the current architecture.
+There is no public app shell, backend API, auth layer, or deployment scaffold in the current architecture.
 
 ## Entrypoint
 
@@ -19,7 +19,7 @@ The CLI lives in [src/index.ts](../../src/index.ts).
 It does two jobs:
 
 - routes normal prompt invocations into the workflow
-- exposes eval commands for init, sample, list, and judge
+- exposes eval commands for init, prompt, sample, list, and judge
 
 Prompt types are fixed:
 
@@ -40,25 +40,20 @@ The canonical diagram lives in [docs/diagrams/PIPELINE.md](../diagrams/PIPELINE.
 The flow is:
 
 1. accept a selected prompt type
-2. choose a body builder for that type
-3. build a fragment
-4. combine that fragment with an anchor
-5. capitalise and punctuate the final line
+2. narrow the semantic lane for that type
+3. reason through a few small response parts
+4. return one short generated line
 
-The pipeline is compositional, not a bank of prewritten full sentences.
+The important constraint is simplicity:
 
-Current moving parts:
+- one narrow lane per prompt type
+- a few semantic parts rather than full canned lines
+- no public session layer
+- no UI shell
 
-- anchor classifier:
-  - `Certainly`, `Technically`, `Arguably`, `Probably`, `Definitely`, `Most likely`
-- article modifier logic:
-  - empty, `not quite`, `hardly`
-- `what` path:
-  - nominal head selection plus article logic
-- `when`, `how`, `why`, `where` paths:
-  - fragment selection for timing, method, reason, and place
+The node shape is more important than implementation purity. The product works when the line feels alive but still bounded.
 
-Only the `what` path passes through article and nominal logic. The other prompt types resolve directly to their own fragment sets.
+The archived agent/API experiment is local-only and not part of the active runtime.
 
 ## Eval Loop
 
@@ -102,6 +97,6 @@ There is no `mixed` state in the schema or judging contract. That gate is delibe
 ## Change Bias
 
 - Prefer small deltas over architecture churn.
-- Preserve the classifier pipeline unless a deliberate rewrite is requested.
+- Preserve the simple node shape unless a deliberate rewrite is requested.
 - Keep naming simple and consistent.
 - Avoid speculative scaffolding.
