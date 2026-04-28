@@ -14,6 +14,77 @@ PROMPT_FRAMES: dict[str, str] = {
     "where": "gesture at position without becoming navigable",
 }
 
+LANE_GUARDS: dict[str, str] = {
+    "what": "Keep spatial language sparse; this lane hints at shape, not location.",
+    "when": "Prefer timing uncertainty over spatial contrast.",
+    "why": (
+        "Stay deadpan and causal-adjacent; avoid ornate or self-referential "
+        "metaphors."
+    ),
+    "where": (
+        "Use one location contrast at most; do not loop on 'here' and 'there'."
+    ),
+}
+
+TONE_CONTRACT: tuple[str, ...] = (
+    "answer-shaped non-answer",
+    "deadpan but slightly pseudo-mystical",
+    "confident and indecisive at the same time",
+    "resolved in grammar but unresolved in meaning",
+    "non-concrete and unhelpful",
+    "clean contradiction over florid vagueness",
+)
+
+PIPELINE_STEPS: tuple[str, ...] = (
+    "certainty signal",
+    "indecision signal",
+    "connective or hinge",
+    "soft conclusion",
+)
+
+STYLE_SIGNALS: tuple[str, ...] = (
+    "definitely",
+    "apparently",
+    "probably",
+    "technically",
+    "certainly",
+    "maybe",
+    "perhaps",
+    "certain",
+    "uncertain",
+    "toss-up",
+    "or perhaps not",
+    "not quite",
+    "almost",
+    "but",
+    "though",
+    "or",
+    "and yet",
+    "neither",
+    "nor",
+    "so",
+    "yeah",
+    "which",
+    "settles",
+    "nothing",
+    "here",
+    "there",
+    "do",
+    "with",
+    "that",
+    "what",
+    "you",
+    "may",
+    "make",
+)
+
+OUTPUT_GUARDS: tuple[str, ...] = (
+    "begin with a capital letter",
+    "avoid repeating the same signal more than twice",
+    "use 'or perhaps not' sparingly",
+    "prefer one clean contradiction over stacked clauses",
+)
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -25,7 +96,7 @@ class Settings:
 def load_settings() -> Settings:
     return Settings(
         app_name="Probaboracle",
-        model=os.getenv("PROBABORACLE_MODEL", "gpt-4.1"),
+        model=os.getenv("PROBABORACLE_MODEL", "gpt-5-nano"),
         eval_db_path=Path(".local/evals.sqlite"),
     )
 

@@ -28,7 +28,7 @@ runtime shape without rereading every file.
 2. `config.py` validates the selected prompt type.
 3. The selected prompt type defines the reasoning lane.
 4. That lane reasons through certainty words, indecision words, connective
-   articles or hinges, and soft conclusions.
+   articles or hinges, and soft conclusions using one shared style-signal pool.
 5. `agent.py` builds the oracle agent and runs that constrained reasoning task
    through the OpenAI Agents SDK.
 6. The CLI prints the final response.
@@ -40,6 +40,7 @@ runtime shape without rereading every file.
 - Live runtime config:
   - environment variables
   - tracked constants in `src/probaboracle/config.py`
+  - shared style signals are cues for model reasoning, not a fixed word bank
 - Eval state:
   - `.local/evals.sqlite`
   - `eval_outputs` stores generated outputs

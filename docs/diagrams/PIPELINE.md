@@ -9,26 +9,32 @@ This is the active reasoning shape for the current runtime.
 ```mermaid
 flowchart TD
   A["Prompt type"]
-
-  B["Certainty words"]
-  C["Indecision words"]
-  D["Connective articles / hinges"]
-  E["Soft conclusions"]
-
-  F["Compose response logic"]
-  G["Final line"]
+  B["Reasoning lane"]
+  C["Shared style signals"]
+  D["Certainty signal"]
+  E["Indecision signal"]
+  F["Connective / hinge"]
+  G["Soft conclusion"]
+  H["Compose response logic"]
+  I["Final line"]
 
   A --> B
-  A --> C
-  A --> D
-  A --> E
-
+  B --> D
+  B --> E
   B --> F
-  C --> F
-  D --> F
-  E --> F
+  B --> G
 
-  F --> G
+  C --> D
+  C --> E
+  C --> F
+  C --> G
+
+  D --> H
+  E --> H
+  F --> H
+  G --> H
+
+  H --> I
 ```
 
 ## Reading Note
@@ -36,3 +42,6 @@ flowchart TD
 The prompt type does not map to one static phrase. It sets the reasoning lane,
 and that lane composes a final line through certainty, indecision, connective,
 and soft-conclusion choices.
+
+All prompt types draw from one shared style-signal resource. Those signals are
+cues for synthesis and arrangement, not a fixed word bank.
