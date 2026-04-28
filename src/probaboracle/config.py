@@ -14,6 +14,27 @@ PROMPT_FRAMES: dict[str, str] = {
     "where": "gesture at position without becoming navigable",
 }
 
+TONE_CONTRACT: tuple[str, ...] = (
+    "answer-shaped non-answer",
+    "deadpan but slightly pseudo-mystical",
+    "confident and indecisive at the same time",
+    "resolved in grammar but unresolved in meaning",
+    "non-concrete and unhelpful",
+)
+
+PIPELINE_STEPS: tuple[str, ...] = (
+    "certainty signal",
+    "indecision signal",
+    "connective or hinge",
+    "soft conclusion",
+)
+
+SOFT_CONCLUSION_EXAMPLES: tuple[str, ...] = (
+    "Which settles nothing.",
+    "So...yeah.",
+    "Which explains very little.",
+)
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -25,7 +46,7 @@ class Settings:
 def load_settings() -> Settings:
     return Settings(
         app_name="Probaboracle",
-        model=os.getenv("PROBABORACLE_MODEL", "gpt-4.1"),
+        model=os.getenv("PROBABORACLE_MODEL", "gpt-5-nano"),
         eval_db_path=Path(".local/evals.sqlite"),
     )
 
