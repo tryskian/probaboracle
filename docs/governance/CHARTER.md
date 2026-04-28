@@ -6,6 +6,9 @@ Build a small, local, agent-backed oracle runtime that explores constrained
 human-AI interaction through deliberately vague, non-concrete responses and
 strict binary evaluation.
 
+Probaboracle is a mini project within Polinko and carries the same underlying
+discipline in a smaller form.
+
 ## Durable Rules
 
 - CLI-first runtime is canonical.
@@ -15,6 +18,9 @@ strict binary evaluation.
   - `why`
   - `where`
 - No freeform prompt input is accepted in the active runtime path.
+- The fixed prompt types are an interaction and reasoning boundary:
+  - they constrain the scope of the oracle's response shape
+  - they do not imply a simplistic or template-only runtime
 - The runtime must stay agent-backed through the OpenAI Agents SDK.
 - Responses must stay in UK English.
 - Responses must stay vague, answer-shaped, and non-concrete.
@@ -23,6 +29,7 @@ strict binary evaluation.
   - `pass`
   - `fail`
 - Keep the project small and local-first.
+- Keep the project aligned with Polinko's safety and eval discipline.
 - Archive before delete.
 
 ## Working Model

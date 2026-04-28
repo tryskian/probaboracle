@@ -11,7 +11,13 @@ from probaboracle.config import (
     normalise_verdict,
     require_openai_api_key,
 )
-from probaboracle.eval_db import counts, init_db, judge_output, list_outputs, record_output
+from probaboracle.eval_db import (
+    counts,
+    init_db,
+    judge_output,
+    list_outputs,
+    record_output,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -31,7 +37,11 @@ def build_parser() -> argparse.ArgumentParser:
     list_parser.add_argument("--prompt-type", default=None)
     list_parser.add_argument("--limit", type=int, default=20)
 
-    judge_parser = subparsers.add_parser("eval-judge", help="Record a binary judgment.")
+    judge_parser = subparsers.add_parser(
+        "judge",
+        aliases=["eval-judge"],
+        help="Record a binary verdict.",
+    )
     judge_parser.add_argument("output_id", type=int)
     judge_parser.add_argument("verdict")
     judge_parser.add_argument("--note", default="")
@@ -91,6 +101,8 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
         f"fail={summary['fail']} "
         f"pending={summary['pending']}"
     )
+    print("\nVERDICT: PASS | FAIL [note]")
+    print('Example: make judge ID=12 VERDICT=pass NOTE="deadpan and vague"')
     return 0
 
 
@@ -116,7 +128,7 @@ def main(argv: list[str] | None = None) -> int:
         return command_eval_init()
     if args.command == "eval-list":
         return command_eval_list(args.prompt_type, args.limit)
-    if args.command == "eval-judge":
+    if args.command in {"judge", "eval-judge"}:
         return command_eval_judge(args.output_id, args.verdict, args.note)
 
     parser.error("Unknown command.")

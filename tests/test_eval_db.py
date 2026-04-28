@@ -2,7 +2,13 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from probaboracle.eval_db import counts, init_db, judge_output, list_outputs, record_output
+from probaboracle.eval_db import (
+    counts,
+    init_db,
+    judge_output,
+    list_outputs,
+    record_output,
+)
 
 
 class EvalDbTests(TestCase):

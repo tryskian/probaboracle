@@ -22,7 +22,9 @@ eval decisions. Keep entries short and operational.
 - Category: `runtime_engineering`
 - Tags: `prompt_surface`, `safety_scope`, `constrained_input`
 - Decision: Limit the active prompt types to `what`, `when`, `why`, and `where`.
-- Why: The product is a constrained oracle instrument, not an open chat tool.
+- Why: The product is a constrained oracle instrument, not an open chat tool;
+  the fixed prompts are a reasoning-scope boundary for the interaction, not a
+  claim that the runtime itself is mechanically simple.
 
 ## D-003: Binary eval gates
 
@@ -56,3 +58,12 @@ eval decisions. Keep entries short and operational.
   command surface.
 - Why: It is the lightest path that still matches the broader Polinko working
   model.
+
+## D-007: Explicit Polinko lineage
+
+- Category: `collaboration_method`
+- Tags: `polinko_lineage`, `scope_relation`, `shared_discipline`
+- Decision: Frame Probaboracle explicitly as a mini project within Polinko
+  rather than as a disconnected side repo.
+- Why: The runtime is smaller, but the safety posture, eval discipline, and
+  systems thinking are continuous with the wider research project.

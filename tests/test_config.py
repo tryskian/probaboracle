@@ -1,6 +1,11 @@
 from unittest import TestCase
 
-from probaboracle.config import PROMPT_TYPES, VERDICTS, normalise_prompt_type, normalise_verdict
+from probaboracle.config import (
+    PROMPT_TYPES,
+    VERDICTS,
+    normalise_prompt_type,
+    normalise_verdict,
+)
 
 
 class ConfigContractTests(TestCase):

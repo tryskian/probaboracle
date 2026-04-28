@@ -5,11 +5,16 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "probaboracle"
 version = "0.1.0"
-description = "Local CLI mini app that's probably an oracle."
+description = "Unhelpful local CLI mini oracle within Polinko with a constrained reasoning surface."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
   "openai-agents==0.14.7",
+]
+
+[project.optional-dependencies]
+dev = [
+  "isort==6.1.0",
 ]
 
 [project.scripts]
@@ -20,3 +25,9 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+src_paths = ["src", "tests"]
+known_first_party = ["probaboracle"]

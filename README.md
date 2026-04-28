@@ -6,10 +6,17 @@ is more or less how it responds.
 It is a local CLI mini app first: lightweight in surface area, but still a real
 runtime. The prompt surface is fixed to `what`, `when`, `why`, and `where`.
 There is no further prompt input. That limit is deliberate and exists as a
-guardrail for safe human-AI interaction.
+guardrail for safe human-AI interaction. It also keeps the interaction inside a
+deliberate reasoning scope: the prompts bound what kind of answer-shape the
+oracle is allowed to attempt, not because the engineering behind it is simple,
+but because the interaction boundary is intentionally narrow.
 
 At no point should it imply guidance, help, reassurance, or understanding.
 Responses should stay vague, answer-shaped, and non-concrete.
+
+Probaboracle is a mini project within Polinko, not separate from it. It carries
+the same safety-minded way of working, the same binary eval discipline, and the
+same systems thinking in a smaller local form.
 
 This repo follows Polinko's systems discipline on a smaller scale:
 
@@ -41,6 +48,17 @@ make install
 make ask PROMPT=what
 ```
 
+Peanutbrain shortcuts:
+
+```bash
+make env
+make what
+make when
+make why
+make where
+make eval-when-5
+```
+
 3. Initialise the eval database:
 
 ```bash
@@ -62,6 +80,7 @@ make list PROMPT=when LIMIT=10
 6. Judge outputs:
 
 ```bash
+make judge ID=1 VERDICT=pass NOTE="deadpan and non-concrete"
 make pass ID=1 NOTE="deadpan and non-concrete"
 make fail ID=2 NOTE="too concrete"
 ```

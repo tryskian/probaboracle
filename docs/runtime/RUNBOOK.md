@@ -33,17 +33,32 @@
 
 - Install:
   - `make install`
+- Open the local venv shell:
+  - `make env`
+  - alias: `make venv`
 - Environment sanity:
   - `make doctor-env`
 - Run one oracle lane:
   - `make ask PROMPT=what`
+  - shortcuts:
+    - `make what`
+    - `make when`
+    - `make why`
+    - `make where`
+- Generate a five-sample eval batch quickly:
+  - `make eval-what-5`
+  - `make eval-when-5`
+  - `make eval-why-5`
+  - `make eval-where-5`
 - Create local eval storage:
   - `make eval-init`
 - Generate local eval samples:
   - `make sample PROMPT=when COUNT=5`
 - List recent outputs:
   - `make list PROMPT=when LIMIT=10`
-- Judge an output:
+- Record a verdict:
+  - `make judge ID=1 VERDICT=pass NOTE="deadpan and vague"`
+- Shortcut verdict targets:
   - `make pass ID=1 NOTE="deadpan and vague"`
   - `make fail ID=2 NOTE="too concrete"`
 - Run local tests:
