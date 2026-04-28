@@ -1,3 +1,11 @@
+Metadata-Version: 2.4
+Name: probaboracle
+Version: 0.1.0
+Summary: Local CLI mini app that's probably an oracle.
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: openai-agents==0.14.7
+
 # Probaboracle
 
 Probaboracle is an unhelpful mini chatbot that's "probably" an "oracle", which
@@ -77,7 +85,6 @@ make fail ID=2 NOTE="too concrete"
 
 ## Pipeline Diagram
 
-The canonical Mermaid pipeline diagram lives in
-[docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md). The current runtime
-reasons through certainty words, indecision words, connective articles or
-hinges, and soft conclusions before resolving to one final line.
+The canonical Mermaid pipeline diagram will live in
+[docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md). A bootstrap placeholder
+is there now so your real diagram has a clean landing spot.
