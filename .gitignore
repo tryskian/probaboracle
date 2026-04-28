@@ -3,6 +3,7 @@
 .local/
 __pycache__/
 *.py[cod]
+*.egg-info/
 .pytest_cache/
 .mypy_cache/
 *.log
