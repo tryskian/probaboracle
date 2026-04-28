@@ -7,7 +7,7 @@ Probaboracle is a small local TypeScript CLI.
 It has three active parts:
 
 - a prompt-type entrypoint
-- a local agent-backed generation path
+- a small semantic node pipeline
 - a local SQLite eval loop
 
 There is no public app shell, backend API, auth layer, or deployment scaffold in the current architecture.
@@ -20,8 +20,6 @@ It does two jobs:
 
 - routes normal prompt invocations into the workflow
 - exposes eval commands for init, prompt, sample, list, and judge
-
-Live prompt generation requires `OPENAI_API_KEY`. The optional `PROBABORACLE_MODEL` override defaults to `gpt-5.4-nano`.
 
 Prompt types are fixed:
 
@@ -42,17 +40,20 @@ The canonical diagram lives in [docs/diagrams/PIPELINE.md](../diagrams/PIPELINE.
 The flow is:
 
 1. accept a selected prompt type
-2. resolve the compact frame for that type
-3. send that frame through a single Probaboracle agent
+2. narrow the semantic lane for that type
+3. reason through a few small response parts
 4. return one short generated line
 
-The pipeline is model-backed, but still tightly constrained:
+The important constraint is simplicity:
 
-- one agent
-- one prompt frame per type
-- no tool use
+- one narrow lane per prompt type
+- a few semantic parts rather than full canned lines
 - no public session layer
 - no UI shell
+
+The node shape is more important than implementation purity. The product works when the line feels alive but still bounded.
+
+The archived agent/API experiment is local-only and not part of the active runtime.
 
 ## Eval Loop
 
@@ -96,6 +97,6 @@ There is no `mixed` state in the schema or judging contract. That gate is delibe
 ## Change Bias
 
 - Prefer small deltas over architecture churn.
-- Preserve the local agent harness unless a deliberate rewrite is requested.
+- Preserve the simple node shape unless a deliberate rewrite is requested.
 - Keep naming simple and consistent.
 - Avoid speculative scaffolding.

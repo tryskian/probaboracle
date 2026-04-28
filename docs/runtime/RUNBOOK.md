@@ -38,7 +38,7 @@
 
 - Keep the project small.
 - Current shape is CLI-first.
-- Current generator is a local agent-backed runtime.
+- Current generator is a simple semantic node pipeline with local evaluation.
 - Do not add a UI shell, backend API, auth, deployment scaffolding, or ChatKit unless explicitly requested.
 
 ## Product Contract
@@ -71,7 +71,7 @@
 ## Change Rules
 
 - Prefer small deltas over architecture churn.
-- Preserve the local agent harness unless a deliberate rewrite is requested.
+- Preserve the simple node shape unless a deliberate rewrite is requested.
 - Keep naming simple and consistent.
 - Avoid speculative scaffolding.
 
@@ -89,6 +89,11 @@
   - `npm run dev -- eval:list what 20`
 - Eval judging:
   - `npm run dev -- eval:judge 12 pass "clean and deadpan"`
+
+## Local Archive
+
+- Archived agent/API experiment:
+  - `.probaboracle/archive/2026-04-28-agent-runtime-experiment/`
 
 ## Validation
 

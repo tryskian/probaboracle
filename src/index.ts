@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
@@ -142,7 +140,7 @@ if (command === "eval:list") {
     const verdict = row.verdict ?? "untagged";
     const note = row.note ? ` | ${row.note}` : "";
     console.log(
-      `${row.output_id}. [${row.question_type} | ${row.model}] ${row.output_text} | ${verdict}${note}`
+      `${row.output_id}. [${row.question_type}] ${row.output_text} | ${verdict}${note}`
     );
   });
   process.exit(0);

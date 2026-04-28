@@ -27,9 +27,9 @@ export type EvalListRow = {
   run_id: string;
   ordinal: number;
   question_type: QuestionType;
-  model: string;
   output_text: string;
-  prompt_frame: string;
+  anchor: string;
+  body: string;
   verdict: EvalVerdict | null;
   note: string | null;
   created_at: string;
@@ -93,13 +93,13 @@ const migrateSchema = (db: DatabaseSync): void => {
   const judgmentColumns = readColumns(db, "eval_judgments");
 
   const runSchemaOutdated =
-    runColumns.length > 0 && !runColumns.some((column) => column.name === "model");
+    runColumns.length > 0 && runColumns.some((column) => column.name === "model");
 
   const outputSchemaOutdated =
     outputColumns.length > 0 &&
-    (outputColumns.some((column) => column.name === "anchor") ||
-      outputColumns.some((column) => column.name === "body") ||
-      !outputColumns.some((column) => column.name === "prompt_frame"));
+    (outputColumns.some((column) => column.name === "prompt_frame") ||
+      !outputColumns.some((column) => column.name === "anchor") ||
+      !outputColumns.some((column) => column.name === "body"));
 
   const judgmentSchemaOutdated =
     judgmentColumns.length > 0 &&
@@ -125,8 +125,7 @@ const createSchema = (db: DatabaseSync): void => {
       created_at TEXT NOT NULL,
       question_type TEXT NOT NULL,
       sample_count INTEGER NOT NULL,
-      generator_version TEXT NOT NULL,
-      model TEXT NOT NULL
+      generator_version TEXT NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS eval_outputs (
@@ -135,7 +134,8 @@ const createSchema = (db: DatabaseSync): void => {
       ordinal INTEGER NOT NULL,
       question_type TEXT NOT NULL,
       output_text TEXT NOT NULL,
-      prompt_frame TEXT NOT NULL,
+      anchor TEXT NOT NULL,
+      body TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
 
@@ -179,9 +179,8 @@ export const recordEvalSampleRun = async (
         created_at,
         question_type,
         sample_count,
-        generator_version,
-        model
-      ) VALUES (?, ?, ?, ?, ?, ?)
+        generator_version
+      ) VALUES (?, ?, ?, ?, ?)
     `);
 
     const insertOutput = db.prepare(`
@@ -190,9 +189,10 @@ export const recordEvalSampleRun = async (
         ordinal,
         question_type,
         output_text,
-        prompt_frame,
+        anchor,
+        body,
         created_at
-      ) VALUES (?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
 
     db.exec("BEGIN");
@@ -202,8 +202,7 @@ export const recordEvalSampleRun = async (
         createdAt,
         questionType,
         outputs.length,
-        GENERATOR_VERSION,
-        outputs[0]?.generation_meta.model ?? "unknown"
+        GENERATOR_VERSION
       );
 
       outputs.forEach((output, index) => {
@@ -212,7 +211,8 @@ export const recordEvalSampleRun = async (
           index + 1,
           output.question_type,
           output.output_text,
-          output.generation_meta.prompt_frame,
+          output.response_parts.anchor,
+          output.response_parts.body,
           createdAt
         ) as { lastInsertRowid: number | bigint };
 
@@ -252,15 +252,13 @@ export const listEvalOutputs = async (
         eo.run_id,
         eo.ordinal,
         eo.question_type,
-        er.model,
         eo.output_text,
-        eo.prompt_frame,
+        eo.anchor,
+        eo.body,
         ej.verdict,
         ej.note,
         eo.created_at
       FROM eval_outputs eo
-      JOIN eval_runs er
-        ON er.id = eo.run_id
       LEFT JOIN eval_judgments ej
         ON ej.output_id = eo.id
     `;

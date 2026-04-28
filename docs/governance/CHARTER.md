@@ -2,14 +2,14 @@
 
 ## Mission
 
-Build a mini oracle chatbot with constrained prompt lanes and local agent-backed generation that produces short pseudo-mystical non-answers without drifting into help, guidance, or advice.
+Build a mini oracle chatbot with constrained prompt lanes and a simple semantic node pipeline that produces short pseudo-mystical non-answers without drifting into help, guidance, or advice.
 
 ## Durable Rules
 
 - Keep the project small.
 - CLI-first is the canonical execution surface.
-- The runtime remains local and CLI-first, even when generation is model-backed.
-- Generation runs through a single constrained agent, not a stitched fragment compositor.
+- The runtime remains local and CLI-first.
+- Preserve the simple node shape. Avoid both stitched full-phrase banks and loose oracle soup.
 - Do not add a UI shell, backend API, auth, deployment scaffolding, or ChatKit unless explicitly requested.
 - User-facing output stays in UK English.
 - Prompt types stay limited to:
@@ -26,7 +26,7 @@ Build a mini oracle chatbot with constrained prompt lanes and local agent-backed
   - `fail`
 - Do not add a `mixed` verdict state.
 - The binary eval gate is by design. It continues the strict pass/fail semantics operationalised in Polinko Beta 2.0 as part of a broader human-AI safety and alignment stance.
-- Prefer inspectable prompt framing over sentence-stitching or scaffolding-heavy abstractions.
+- Prefer inspectable simple structure over sentence-stitching or scaffolding-heavy abstractions.
 
 ## Working Model
 
@@ -62,7 +62,7 @@ Build a mini oracle chatbot with constrained prompt lanes and local agent-backed
 
 - In scope:
   - local CLI prompt generation
-  - agent-backed response generation
+  - local node-based response generation
   - local SQLite eval storage
   - README and docs that explain the product and system clearly
 - Out of scope unless explicitly requested:
