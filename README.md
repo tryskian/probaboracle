@@ -99,4 +99,6 @@ make fail ID=2 NOTE="too concrete"
 The canonical Mermaid pipeline diagram lives in
 [docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md). The current runtime
 reasons through certainty words, indecision words, connective articles or
-hinges, and soft conclusions before resolving to one final line.
+hinges, and soft conclusions before resolving to one final line. All prompt
+types draw from one shared style-signal resource, and those signals are cues
+for synthesis rather than a fixed word bank.
