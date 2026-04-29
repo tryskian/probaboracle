@@ -7,11 +7,11 @@ class AgentOutputNormalisationTests(TestCase):
     def test_normalise_response_text_compacts_whitespace(self) -> None:
         self.assertEqual(
             normalise_response_text("  Perhaps   a reason,\n or perhaps not.  "),
-            "Perhaps a reason, or perhaps not.",
+            "perhaps a reason, or perhaps not.",
         )
 
-    def test_normalise_response_text_capitalises_first_letter(self) -> None:
+    def test_normalise_response_text_lowercases_the_line(self) -> None:
         self.assertEqual(
-            normalise_response_text("probably a reason, or perhaps not."),
-            "Probably a reason, or perhaps not.",
+            normalise_response_text("Probably a reason, or Perhaps Not."),
+            "probably a reason, or perhaps not.",
         )
