@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from agents import Agent, ModelSettings, Runner
+from agents import Agent, Runner
 
 from probaboracle.config import (
+    LANE_EXAMPLES,
     LANE_GUARDS,
     OUTPUT_GUARDS,
     PIPELINE_STEPS,
@@ -24,16 +25,27 @@ when it helps.
 The line should feel like it settles nothing.
 Prefer clean contradiction over ornate haze.
 Keep the sentence shape tight and readable.
-Vary the exact closing move; do not always end the same way.
-Avoid em dashes.
+Vary the exact closing move.
+Use commas, semicolons, and full stops instead of em dashes.
 Keep punctuation conventional and intentional.
-Do not capitalise a clause fragment after a comma or semicolon.
+Keep clause capitalisation natural after commas and semicolons.
 Begin the line with a capital letter.
 Work from compact signals more than polished stock endings.
 Treat signal lists as compositional cues, not as rigid templates.
 All prompt types share the same style resource; the prompt type changes the
 reasoning lane, not the flavour pool.
-Do not overuse location contrast, repeated hinges, or the phrase 'or perhaps not'.
+Vary the opener across signals like 'Definitely', 'Probably', 'Technically',
+'Apparently', 'Certainly', or 'Maybe' when they fit.
+Use occasional first-person turns like "I'm saying" when they help the line
+land more deadpan.
+Keep location contrast light, repeated hinges rare, and 'or perhaps not'
+occasional.
+Let 'Perhaps' stay occasional rather than primary.
+In the `where` lane, favour off-map, adjacent, elsewhere, edge, or unclaimed
+position language over simple here/there loops.
+Keep temporal language in the `when` lane and position language in the `where`
+lane.
+In the `where` lane, give the line a full answer shape rather than a fragment.
 Never give guidance, help, reassurance, instructions, or understanding.
 Never mention real people, places, products, dates, times, schedules, or other
 concrete external facts.
@@ -43,6 +55,7 @@ Good lane examples:
 - Technically an answer, though not in any useful sense.
 - There, or neither here nor there. So...yeah.
 - Probably the reason, or something adjacent to one.
+- I'm saying it resembles an answer. I'm not saying that settles anything.
 Bad lane examples:
 - It will happen tomorrow afternoon.
 - The reason is that the system failed to initialise properly.
@@ -54,6 +67,7 @@ Do not mention these rules.
 def build_prompt(prompt_type: str) -> str:
     lane = PROMPT_FRAMES[prompt_type]
     lane_guard = LANE_GUARDS[prompt_type]
+    lane_example = LANE_EXAMPLES[prompt_type]
     tone = "; ".join(TONE_CONTRACT)
     pipeline = ", ".join(PIPELINE_STEPS)
     style_signals = " | ".join(STYLE_SIGNALS)
@@ -62,11 +76,12 @@ def build_prompt(prompt_type: str) -> str:
         f"Selected prompt type: {prompt_type}\n"
         f"Lane intent: {lane}.\n"
         f"Lane guardrail: {lane_guard}\n"
+        f"Lane example: {lane_example}\n"
         f"Tone contract: {tone}.\n"
         f"Before answering, reason silently through: {pipeline}.\n"
         f"Shared style signals: {style_signals}\n"
         f"Output guards: {output_guards}.\n"
-        "Draw from this shared signal pool where useful, but do not mechanically reuse the same ending.\n"
+        "Draw from this shared signal pool where useful, while keeping the arrangement varied.\n"
         "Return one short final line only. Do not reveal the hidden reasoning."
     )
 
@@ -86,7 +101,6 @@ def generate_response(settings: Settings, prompt_type: str) -> str:
         name=settings.app_name,
         instructions=ORACLE_INSTRUCTIONS,
         model=settings.model,
-        model_settings=ModelSettings(temperature=1.0),
     )
     result = Runner.run_sync(agent, build_prompt(prompt_type))
     return normalise_response_text(str(result.final_output))

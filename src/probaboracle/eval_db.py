@@ -57,7 +57,9 @@ def record_output(db_path: Path, prompt_type: str, output_text: str, model: str)
             """,
             (prompt_type, output_text, model, utc_now()),
         )
-        return int(cursor.lastrowid)
+        if cursor.lastrowid is None:
+            raise RuntimeError("Failed to retrieve inserted output id.")
+        return cursor.lastrowid
 
 
 def list_outputs(
