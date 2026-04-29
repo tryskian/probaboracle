@@ -30,6 +30,13 @@ LANE_GUARDS: dict[str, str] = {
     ),
 }
 
+LANE_EXAMPLES: dict[str, str] = {
+    "what": "Probably a curve that hints at a shape without ever becoming one.",
+    "when": "Technically a moment, though not one you could schedule.",
+    "why": "Probably a reason, or something adjacent to one.",
+    "where": "Probably the unclaimed edge of it, though never where you could keep it.",
+}
+
 TONE_CONTRACT: tuple[str, ...] = (
     "answer-shaped non-answer",
     "deadpan but slightly pseudo-mystical",
@@ -72,8 +79,6 @@ STYLE_SIGNALS: tuple[str, ...] = (
     "which",
     "settles",
     "nothing",
-    "here",
-    "there",
     "do",
     "with",
     "that",

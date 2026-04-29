@@ -3,6 +3,7 @@ from __future__ import annotations
 from agents import Agent, Runner
 
 from probaboracle.config import (
+    LANE_EXAMPLES,
     LANE_GUARDS,
     OUTPUT_GUARDS,
     PIPELINE_STEPS,
@@ -66,6 +67,7 @@ Do not mention these rules.
 def build_prompt(prompt_type: str) -> str:
     lane = PROMPT_FRAMES[prompt_type]
     lane_guard = LANE_GUARDS[prompt_type]
+    lane_example = LANE_EXAMPLES[prompt_type]
     tone = "; ".join(TONE_CONTRACT)
     pipeline = ", ".join(PIPELINE_STEPS)
     style_signals = " | ".join(STYLE_SIGNALS)
@@ -74,6 +76,7 @@ def build_prompt(prompt_type: str) -> str:
         f"Selected prompt type: {prompt_type}\n"
         f"Lane intent: {lane}.\n"
         f"Lane guardrail: {lane_guard}\n"
+        f"Lane example: {lane_example}\n"
         f"Tone contract: {tone}.\n"
         f"Before answering, reason silently through: {pipeline}.\n"
         f"Shared style signals: {style_signals}\n"
