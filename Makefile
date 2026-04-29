@@ -15,6 +15,7 @@ SWEEP_LIST_LIMIT ?= 20
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
 .PHONY: install env venv doctor-env check package-check ask sample eval-init list judge pass fail clean
+.PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
 .PHONY: sweep-gremlin sweep-rigorous
@@ -90,6 +91,13 @@ check:
 
 package-check:
 	$(PY) -m build
+
+render-eval-chart-deps:
+	npm install
+
+render-eval-chart:
+	@test -d "node_modules" || (echo "Missing node_modules. Run make render-eval-chart-deps." && exit 1)
+	$(PY) scripts/render_eval_chart.py
 
 ask:
 	$(PY) -m probaboracle ask $(PROMPT)

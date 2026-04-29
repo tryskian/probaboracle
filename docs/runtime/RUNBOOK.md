@@ -86,7 +86,24 @@
 - Run local tests:
   - `make check`
 - Build the package locally:
-  - `make package-check`
+- `make package-check`
+  - build the Python package and verify metadata still resolves.
+- `make render-eval-chart-deps`
+  - install the explicit Node dependencies for the static D3 renderer.
+- `make render-eval-chart`
+  - render the current PASS/FAIL/PENDING lane chart from `.local/evals.sqlite`
+    into `docs/diagrams/probaboracle-pass-fail.svg`.
+
+## Eval Chart
+
+Probaboracle's primary static chart is a strict stacked bar chart:
+
+- x-axis: prompt lane (`what`, `when`, `why`, `where`)
+- segments: `fail`, `pass`, `pending`
+- source of truth: `eval_outputs.current_verdict` in `.local/evals.sqlite`
+
+This chart is intentionally simple. It is the binary pulse surface first, not a
+failure-taxonomy dashboard.
 
 ## Command Ownership Rule
 

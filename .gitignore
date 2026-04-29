@@ -13,6 +13,7 @@ __pycache__/
 !.env.example
 .vscode/
 *.code-workspace
+node_modules/
 docs/peanut/*
 !docs/peanut/.gitkeep
 output/jupyter-notebook/*
