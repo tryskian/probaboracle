@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sqlite3
 from typing import Iterable
 
 from probaboracle.agent import generate_response
@@ -49,7 +50,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def print_rows(rows: Iterable[dict]) -> None:
+def print_rows(rows: Iterable[sqlite3.Row]) -> None:
     print("ID  PROMPT  VERDICT  OUTPUT")
     for row in rows:
         verdict = row["current_verdict"] or "pending"

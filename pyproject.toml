@@ -15,6 +15,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "isort==6.1.0",
+  "mypy==1.15.0",
 ]
 
 [project.scripts]
@@ -31,3 +32,8 @@ profile = "black"
 line_length = 88
 src_paths = ["src", "tests"]
 known_first_party = ["probaboracle"]
+
+[tool.mypy]
+python_version = "3.10"
+mypy_path = "src"
+packages = ["probaboracle"]

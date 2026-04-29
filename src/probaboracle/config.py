@@ -16,13 +16,17 @@ PROMPT_FRAMES: dict[str, str] = {
 
 LANE_GUARDS: dict[str, str] = {
     "what": "Keep spatial language sparse; this lane hints at shape, not location.",
-    "when": "Prefer timing uncertainty over spatial contrast.",
+    "when": (
+        "Prefer timing uncertainty with moment, timing, arrival, delay, soon, "
+        "late, or not-yet language."
+    ),
     "why": (
-        "Stay deadpan and causal-adjacent; avoid ornate or self-referential "
-        "metaphors."
+        "Stay deadpan and causal-adjacent; use plain contradiction over ornate "
+        "or self-referential metaphor."
     ),
     "where": (
-        "Use one location contrast at most; do not loop on 'here' and 'there'."
+        "Use one clear position cue with off-map, adjacent, edge, or unclaimed "
+        "language, and give it a full noun phrase plus qualifier."
     ),
 }
 
@@ -49,7 +53,6 @@ STYLE_SIGNALS: tuple[str, ...] = (
     "technically",
     "certainly",
     "maybe",
-    "perhaps",
     "certain",
     "uncertain",
     "toss-up",
@@ -64,6 +67,8 @@ STYLE_SIGNALS: tuple[str, ...] = (
     "nor",
     "so",
     "yeah",
+    "i'm",
+    "saying",
     "which",
     "settles",
     "nothing",
@@ -80,8 +85,10 @@ STYLE_SIGNALS: tuple[str, ...] = (
 
 OUTPUT_GUARDS: tuple[str, ...] = (
     "begin with a capital letter",
-    "avoid repeating the same signal more than twice",
+    "repeat signals sparingly",
     "use 'or perhaps not' sparingly",
+    "vary openers across the signal pool",
+    "use occasional first-person framing when it sharpens the line",
     "prefer one clean contradiction over stacked clauses",
 )
 
