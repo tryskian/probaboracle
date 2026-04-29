@@ -85,6 +85,8 @@
   - `make fail ID=2 NOTE="too concrete"`
 - Run local tests:
   - `make check`
+- Build the package locally:
+  - `make package-check`
 
 ## Command Ownership Rule
 
@@ -95,8 +97,9 @@
 ## Validation Rule
 
 1. Run `make check` for tracked logic changes.
-2. Run one live `make ask PROMPT=<type>` smoke if `OPENAI_API_KEY` is present.
-3. If eval persistence changes, run:
+2. Run `make package-check` when packaging or dependency metadata changes.
+3. Run one live `make ask PROMPT=<type>` smoke if `OPENAI_API_KEY` is present.
+4. If eval persistence changes, run:
    - `make eval-init`
    - `make sample PROMPT=what COUNT=1`
    - `make list PROMPT=what LIMIT=5`

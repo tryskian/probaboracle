@@ -14,7 +14,7 @@ SWEEP_LIST_LIMIT ?= 20
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
-.PHONY: install env venv doctor-env check ask sample eval-init list judge pass fail clean
+.PHONY: install env venv doctor-env check package-check ask sample eval-init list judge pass fail clean
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
 .PHONY: sweep-gremlin sweep-rigorous
@@ -88,6 +88,9 @@ eod:
 check:
 	$(PY) -m unittest discover -s tests -p 'test_*.py'
 
+package-check:
+	$(PY) -m build
+
 ask:
 	$(PY) -m probaboracle ask $(PROMPT)
 
@@ -153,4 +156,4 @@ sweep-rigorous:
 	$(MAKE) --no-print-directory list LIMIT="$(SWEEP_LIST_LIMIT)"
 
 clean:
-	rm -rf $(VENV) .pytest_cache .mypy_cache
+	rm -rf $(VENV) .pytest_cache .mypy_cache build dist src/*.egg-info

@@ -124,6 +124,12 @@ make pass ID=1 NOTE="deadpan and non-concrete"
 make fail ID=2 NOTE="too concrete"
 ```
 
+1. Verify the package build still resolves cleanly:
+
+```bash
+make package-check
+```
+
 ## Docs
 
 - [docs/governance/CHARTER.md](./docs/governance/CHARTER.md)

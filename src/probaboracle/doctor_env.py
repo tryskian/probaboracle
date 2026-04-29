@@ -79,8 +79,6 @@ def _check_imports() -> int:
         "agents",
         "openai",
         "dotenv",
-        "pandas",
-        "mypy",
     ]
     for name in required_modules:
         if importlib.util.find_spec(name) is None:
@@ -88,6 +86,17 @@ def _check_imports() -> int:
             _warn(f"Missing module: {name}")
         else:
             _ok(f"Import available: {name}")
+
+    optional_dev_modules = [
+        "build",
+        "isort",
+        "mypy",
+    ]
+    for name in optional_dev_modules:
+        if importlib.util.find_spec(name) is None:
+            _warn(f"Optional dev module missing: {name}")
+        else:
+            _ok(f"Optional dev import available: {name}")
     return issues
 
 
