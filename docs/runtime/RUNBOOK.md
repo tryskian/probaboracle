@@ -33,6 +33,12 @@
 
 - Install:
   - `make install`
+- Codex cloud environment setup:
+  - `./scripts/cloud-setup.sh`
+  - creates a feature branch automatically when the environment starts on
+    `main`
+- Codex cloud environment maintenance:
+  - `./scripts/cloud-maintenance.sh`
 - Open the local venv shell:
   - `make env`
   - alias: `make venv`
@@ -43,6 +49,7 @@
 - Start-of-day operator pass:
   - `make day-start`
   - alias: `make sod`
+  - creates a feature branch automatically when run from `main`
 - End-of-day operator pass:
   - `make eod`
 - Run one oracle lane:
