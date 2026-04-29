@@ -3,28 +3,67 @@
 Probaboracle is an unhelpful mini chatbot that's "probably" an "oracle", which  
 is more or less how it responds.
 
-It is a local CLI mini app first: lightweight in surface area, but still a real  
-runtime. The prompt surface is fixed to `what`, `when`, `why`, and `where`.  
-There is no further prompt input. That limit is deliberate and exists as a  
-guardrail for safe human-AI interaction. It also keeps the interaction inside a  
-deliberate reasoning scope: the prompts bound what kind of answer-shape the  
-oracle is allowed to attempt, not because the engineering behind it is simple,  
-but because the interaction boundary is intentionally narrow.
+Probaboracle is an applied AI research engineering project continuing my
+hypotheses about binary evaluation discipline, minimal config, and systems
+design. It is a local CLI mini app first: lightweight in surface area, but
+built on the same runtime logic as Polinko at a smaller scale, with
+agent-backed generation, a local runtime, and a CLI-first operator surface.
+
+The prompt surface is fixed by design. It accepts predetermined inputs for
+`what`, `when`, `why`, and `where`, along with a runtime direction that shapes
+the app's guardrails without collapsing into reinforced restrictions.
+
+Those predetermined prompts let the model reason inside a matched scope so its
+behaviour stays aligned with its intended shape. As a mini chatbot with a
+narrow scope and purpose, Probaboracle uses one generation node to constrain
+the reasoning lane while still allowing word generation beyond its lightweight
+shell.
 
 At no point should it imply guidance, help, reassurance, or understanding.  
 Responses should stay vague, answer-shaped, and non-concrete.
 
-Probaboracle is a mini project within Polinko, not separate from it. It carries  
-the same safety-minded way of working, the same binary eval discipline, and the  
-same systems thinking in a smaller local form.
+## Pipeline Diagram
 
-This repo follows Polinko's systems discipline on a smaller scale:
+The canonical Mermaid pipeline diagram lives in
+[docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md).
 
-- local runtime
-- agent-backed generation
-- minimal config
-- binary eval gates only
-- CLI-first operator surface
+```mermaid
+flowchart TD
+  A["Prompt type"]
+  B["Reasoning lane"]
+  C["Shared style signals"]
+  D["Certainty signal"]
+  E["Indecision signal"]
+  F["Connective / hinge"]
+  G["Soft conclusion"]
+  H["Compose response logic"]
+  I["Final line"]
+
+  A --> B
+  B --> D
+  B --> E
+  B --> F
+  B --> G
+
+  C --> D
+  C --> E
+  C --> F
+  C --> G
+
+  D --> H
+  E --> H
+  F --> H
+  G --> H
+
+  H --> I
+```
+
+The current runtime reasons through certainty words, indecision words,
+connective articles or hinges, and soft conclusions before resolving to one
+final line. All prompt types draw from one shared style-signal resource, and
+those signals are cues for synthesis rather than a fixed word bank. The words
+are still generated in one model call; prompt type matches the reasoning
+scope, while the model handles the final sentence logic.
 
 ## Current Shape
 
@@ -93,12 +132,3 @@ make fail ID=2 NOTE="too concrete"
 - [docs/runtime/RUNBOOK.md](./docs/runtime/RUNBOOK.md)
 - [docs/governance/SESSION_HANDOFF.md](./docs/governance/SESSION_HANDOFF.md)
 - [docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md)
-
-## Pipeline Diagram
-
-The canonical Mermaid pipeline diagram lives in  
-[docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md). The current runtime  
-reasons through certainty words, indecision words, connective articles or  
-hinges, and soft conclusions before resolving to one final line. All prompt  
-types draw from one shared style-signal resource, and those signals are cues  
-for synthesis rather than a fixed word bank.

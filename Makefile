@@ -56,6 +56,12 @@ session-status:
 day-start:
 	@set -eu; \
 	echo "== Probaboracle Start-of-Day =="; \
+	CURRENT_BRANCH="$$(git branch --show-current)"; \
+	if [ "$$CURRENT_BRANCH" = "main" ]; then \
+		BRANCH_NAME="codex/bigbrain/sod-$$(date +%Y%m%d-%H%M%S)"; \
+		echo "Creating feature branch: $$BRANCH_NAME"; \
+		git checkout -b "$$BRANCH_NAME"; \
+	fi; \
 	echo "Read in order:"; \
 	echo "  - README.md"; \
 	echo "  - docs/governance/CHARTER.md"; \
