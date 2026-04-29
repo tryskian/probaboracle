@@ -38,6 +38,13 @@
   - alias: `make venv`
 - Environment sanity:
   - `make doctor-env`
+- Session snapshot:
+  - `make session-status`
+- Start-of-day operator pass:
+  - `make day-start`
+  - alias: `make sod`
+- End-of-day operator pass:
+  - `make eod`
 - Run one oracle lane:
   - `make ask PROMPT=what`
   - shortcuts:
@@ -54,6 +61,14 @@
   - `make eval-init`
 - Generate local eval samples:
   - `make sample PROMPT=when COUNT=5`
+- Weighted gremlin sweep:
+  - `make sweep-gremlin`
+  - optional:
+    - `make sweep-gremlin SWEEP_COUNT=3`
+- Rigorous sweep wrapper:
+  - `make sweep-rigorous`
+  - optional:
+    - `make sweep-rigorous SWEEP_COUNT=3 SWEEP_LIST_LIMIT=10`
 - List recent outputs:
   - `make list PROMPT=when LIMIT=10`
 - Record a verdict:
