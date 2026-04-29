@@ -124,6 +124,24 @@ make pass ID=1 NOTE="deadpan and non-concrete"
 make fail ID=2 NOTE="too concrete"
 ```
 
+1. Verify the package build still resolves cleanly:
+
+```bash
+make package-check
+```
+
+1. Install the chart renderer dependencies:
+
+```bash
+make render-eval-chart-deps
+```
+
+1. Render the static PASS/FAIL/PENDING lane chart from the live eval DB:
+
+```bash
+make render-eval-chart
+```
+
 ## Docs
 
 - [docs/governance/CHARTER.md](./docs/governance/CHARTER.md)
@@ -132,3 +150,4 @@ make fail ID=2 NOTE="too concrete"
 - [docs/runtime/RUNBOOK.md](./docs/runtime/RUNBOOK.md)
 - [docs/governance/SESSION_HANDOFF.md](./docs/governance/SESSION_HANDOFF.md)
 - [docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md)
+- [docs/diagrams/EVAL_CHART.md](./docs/diagrams/EVAL_CHART.md)
