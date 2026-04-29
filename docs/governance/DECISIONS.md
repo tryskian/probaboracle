@@ -139,3 +139,21 @@ Keep entries short, but informative enough to show what changed and why.
 - Why: This keeps Probaboracle on the Polinko line. The model should reveal its
   real habits through data, then learn from what fails, rather than being
   smothered under prompt accretion.
+
+## D-010: Matched prompt scope and one-node generation
+
+- Date: `2026-04-29`
+- Category: `runtime_engineering`
+- Tags: `matched_scope`, `safe_interaction`, `minimal_config`, `one_node_generation`
+- Decision:
+  - keep the fixed prompt surface matched to the intended reasoning scope
+  - treat that matched scope as a material guardrail for safe interaction,
+    drift control, and preserving the reasoning slope
+  - keep runtime config minimal
+  - express the target reasoning shape through concise directions rather than a
+    long list of restrictions
+  - generate words through one model node with shared vocabulary, while prompt
+    type constrains the reasoning lane
+- Why: Vocabulary is universal. The prompts should bound the kind of reasoning
+  the oracle performs, while the model still resolves the actual sentence
+  structure in one generation path.

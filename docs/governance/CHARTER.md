@@ -20,8 +20,13 @@ discipline in a smaller form.
 - No freeform prompt input is accepted in the active runtime path.
 - The fixed prompt types are an interaction and reasoning boundary:
   - they constrain the scope of the oracle's response shape
+  - they are a material guardrail for safe interaction and drift control
+  - they help keep the runtime on the intended reasoning slope
   - they do not imply a simplistic or template-only runtime
 - The runtime must stay agent-backed through the OpenAI Agents SDK.
+- The runtime should stay minimal in config and explicit in reasoning target.
+- Runtime directions should describe the target reasoning shape rather than
+  accumulate long restriction lists.
 - Responses must stay in UK English.
 - Responses must stay vague, answer-shaped, and non-concrete.
 - Responses must not imply guidance, help, reassurance, or understanding.
@@ -72,6 +77,7 @@ discipline in a smaller form.
   - local CLI runtime
   - fixed prompt selection
   - agent-backed generation
+  - one-node model generation with shared vocabulary
   - local SQLite eval storage
   - binary human judgment
   - diagram-backed runtime explanation
