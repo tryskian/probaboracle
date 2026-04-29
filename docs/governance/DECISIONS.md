@@ -124,3 +124,18 @@ Keep entries short, but informative enough to show what changed and why.
     pass
 - Why: The prompt type should control the reasoning lane, while the model
   remains free to synthesize beyond the literal words provided.
+
+## D-009: Hold the baseline and learn from failures
+
+- Date: `2026-04-29`
+- Category: `eval_quality`
+- Tags: `baseline`, `pass_fail`, `polinko_method`, `prompt_drift`
+- Decision:
+  - keep the runtime baseline simple during long eval runs
+  - prefer long sample streams plus hard `pass` / `fail` judgment sweeps over
+    layering more prompt instructions
+  - only change the runtime contract when repeated failures are strong enough
+    to earn a real intervention
+- Why: This keeps Probaboracle on the Polinko line. The model should reveal its
+  real habits through data, then learn from what fails, rather than being
+  smothered under prompt accretion.

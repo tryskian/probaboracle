@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-04-28
+Last updated: 2026-04-29
 
 ## Startup
 
@@ -19,23 +19,29 @@ Last updated: 2026-04-28
 
 ## Current Snapshot
 
-- Repo has been re-initialised from a clean slate.
 - Active runtime shape is local CLI plus local SQLite eval storage.
 - Prompt surface is fixed to `what`, `when`, `why`, and `where`.
-- Binary eval gates are part of the first slice, not a later add-on.
-- The canonical Mermaid pipeline diagram now lives in
-  `docs/diagrams/PIPELINE.md`.
-- The active tone pass clarified that prompt type selects the reasoning lane,
-  while all lanes draw from one shared style-signal pool.
+- Output is fully lowercase as part of the deadpan tone contract.
+- Binary eval gates are active and remain strictly `pass` / `fail`.
+- The tone branch was pulled back to the simpler baseline after prompt
+  accretion started fighting the Polinko method.
+- A long baseline run generated a large new untagged backlog and made the main
+  duplicate families obvious:
+  - `why`: `reason / adjacent to one / perhaps not`
+  - `what`: `curve / shape / becoming one`
+  - `when`: `moment / not one you could schedule`
+  - `where`: `unclaimed edge / not where you could keep it`
 - Shared style signals are cues for synthesis, not a fixed word bank.
 
 ## Next Slice
 
-1. Run live tone samples across `what`, `when`, `why`, and `where`.
-2. Judge the outputs with strict binary `pass` / `fail` verdicts.
-3. Tune voice until outputs feel properly vague and unhelpful without becoming
-   concrete.
-4. Expand test coverage once the first real runtime behaviour settles.
+1. Judge the new untagged backlog in sweeps.
+2. Use repeated failure clusters to decide whether the baseline has earned a
+   real change.
+3. Keep the runtime contract steady unless the data justifies intervention.
+4. Only after the backlog is judged:
+   - decide whether a narrow change is warranted
+   - or keep collecting more baseline evidence
 
 ## Guardrails
 
@@ -44,6 +50,7 @@ Last updated: 2026-04-28
 - Do not add freeform input while the constrained interaction theory is active.
 - Keep eval verdicts binary only.
 - Keep style signals as reasoning cues, not as a hard word bank.
+- Prefer baseline-first tuning from repeated failures, not prompt accretion.
 
 ## Session Close
 

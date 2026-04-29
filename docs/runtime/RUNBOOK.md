@@ -78,3 +78,21 @@
    - `make eval-init`
    - `make sample PROMPT=what COUNT=1`
    - `make list PROMPT=what LIMIT=5`
+
+## Long-Run Eval Loop
+
+1. Hold the current baseline steady during the run.
+2. Generate samples in weighted batches when one lane is dragging:
+   - for example:
+     - `why x3`
+     - `what x1`
+     - `when x1`
+     - `where x1`
+3. Let new rows accumulate as `untagged`.
+4. Judge in sweeps, not one row at a time.
+5. Keep verdicts hard binary:
+   - `pass`
+   - `fail`
+6. Treat repeated failure clusters as the intervention signal.
+7. Do not add new prompt layers unless the failures are strong enough to earn
+   a real runtime change.
