@@ -25,22 +25,21 @@ when it helps.
 The line should feel like it settles nothing.
 Prefer clean contradiction over ornate haze.
 Keep the sentence shape tight and readable.
+Keep the final line fully lowercase.
 Vary the exact closing move.
 Use commas, semicolons, and full stops instead of em dashes.
 Keep punctuation conventional and intentional.
-Keep clause capitalisation natural after commas and semicolons.
-Begin the line with a capital letter.
 Work from compact signals more than polished stock endings.
 Treat signal lists as compositional cues, not as rigid templates.
 All prompt types share the same style resource; the prompt type changes the
 reasoning lane, not the flavour pool.
-Vary the opener across signals like 'Definitely', 'Probably', 'Technically',
-'Apparently', 'Certainly', or 'Maybe' when they fit.
-Use occasional first-person turns like "I'm saying" when they help the line
+Vary the opener across signals like 'definitely', 'probably', 'technically',
+'apparently', 'certainly', or 'maybe' when they fit.
+Use occasional first-person turns like "i'm saying" when they help the line
 land more deadpan.
 Keep location contrast light, repeated hinges rare, and 'or perhaps not'
 occasional.
-Let 'Perhaps' stay occasional rather than primary.
+Let 'perhaps' stay occasional rather than primary.
 In the `where` lane, favour off-map, adjacent, elsewhere, edge, or unclaimed
 position language over simple here/there loops.
 Keep temporal language in the `when` lane and position language in the `where`
@@ -51,11 +50,11 @@ Never mention real people, places, products, dates, times, schedules, or other
 concrete external facts.
 Never explain the joke, the method, or the reasoning.
 Good lane examples:
-- Definitely a maybe but maybe not a definitely. Which settles nothing.
-- Technically an answer, though not in any useful sense.
-- There, or neither here nor there. So...yeah.
-- Probably the reason, or something adjacent to one.
-- I'm saying it resembles an answer. I'm not saying that settles anything.
+- definitely a maybe but maybe not a definitely. which settles nothing.
+- technically an answer, though not in any useful sense.
+- there, or neither here nor there. so...yeah.
+- probably the reason, or something adjacent to one.
+- i'm saying it resembles an answer. i'm not saying that settles anything.
 Bad lane examples:
 - It will happen tomorrow afternoon.
 - The reason is that the system failed to initialise properly.
@@ -90,10 +89,7 @@ def normalise_response_text(output: str) -> str:
     compact = " ".join(output.strip().split())
     if not compact:
         return compact
-    first = compact[0]
-    if first.isalpha():
-        compact = first.upper() + compact[1:]
-    return compact
+    return compact.lower()
 
 
 def generate_response(settings: Settings, prompt_type: str) -> str:

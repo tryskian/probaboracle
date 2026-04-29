@@ -89,7 +89,7 @@ STYLE_SIGNALS: tuple[str, ...] = (
 )
 
 OUTPUT_GUARDS: tuple[str, ...] = (
-    "begin with a capital letter",
+    "keep the final line fully lowercase",
     "repeat signals sparingly",
     "use 'or perhaps not' sparingly",
     "vary openers across the signal pool",
