@@ -9,6 +9,21 @@ Can a fixed-prompt oracle produce lines that feel like good Probaboracle?
 - product fit only
 - `pass` or `fail`
 
+## Diagram
+
+```mermaid
+flowchart LR
+  P["fixed prompt lane"]
+  G["one generated line"]
+  F["product fit verdict"]
+  Y["pass"]
+  N["fail"]
+
+  P --> G --> F
+  F --> Y
+  F --> N
+```
+
 ## What It Was Good For
 
 - pushing the tone toward deadpan, vague, and unhelpful

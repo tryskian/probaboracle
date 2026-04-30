@@ -11,6 +11,32 @@ Can a coherent out-of-lane line still be a very good Probaboracle response?
 - coherent absurdity as another downstream lens
 - product fit can still be satisfied through coherent absurdity
 
+## Diagram
+
+```mermaid
+flowchart LR
+  P["fixed prompt lane"]
+  G["one generated line"]
+  C["coherence verdict"]
+  CP["coherent"]
+  CF["incoherent"]
+  R["prompt relevance verdict"]
+  RP["in-lane"]
+  RF["out-of-lane"]
+  A["coherent absurdity verdict"]
+  AP["valuable drift"]
+  AF["weak blur"]
+  PF["product fit"]
+
+  P --> G --> C
+  C --> CF
+  C --> CP --> R
+  R --> RP --> PF
+  R --> RF --> A
+  A --> AP --> PF
+  A --> AF
+```
+
 ## Main Finding
 
 Yes. Some prompt-irrelevant lines are not junk. They are coherent, lane-led

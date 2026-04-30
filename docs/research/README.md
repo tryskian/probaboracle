@@ -56,6 +56,44 @@ evidence means.
 - current question:
   - can a coherent out-of-lane line still count as strong oracle behaviour?
 
+## Plans
+
+These are future lanes, not active betas.
+
+- provider portability
+  - if the runtime surface widens later, keep OpenAI-native behaviour stable
+    while making room for an Azure-compatible deployment path
+- research visuals
+  - keep the per-beta diagrams in tracked docs
+  - add a more polished cross-beta Sankey later if the era-to-era story needs a
+    stronger public artifact
+- future betas
+  - only promote a new beta when the eval architecture changes materially
+  - do not turn one more sweep or backlog cleanup into a fake beta
+
+The rule stays the same as Polinko:
+
+- plans are useful
+- but they are not evidence
+- and they do not become active method until the repo actually earns them
+
+## Cross-Beta Flow
+
+```mermaid
+flowchart LR
+  B1["Research Beta 1.0<br/>product fit only"]
+  B2["Research Beta 2.0<br/>coherence first"]
+  B3["Research Beta 3.0<br/>coherence + prompt relevance"]
+  B4["Research Beta 4.0<br/>coherence + coherent absurdity"]
+
+  S1["one verdict overloaded tone,<br/>sentence quality, and lane control"]
+  S2["coherence pulled out as the<br/>primary experimental gate"]
+  S3["lane control separated from<br/>sentence coherence"]
+  S4["valuable coherent drift preserved<br/>as a selective class"]
+
+  B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4
+```
+
 ## Read In Order
 
 1. [Research Beta 1.0: Product Fit Only](./BETA_1_PRODUCT_FIT.md)
@@ -102,6 +140,10 @@ Read these betas by role, not by neatness or badge number:
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed
 to mean.
+
+The diagrams are part of that evidence. The eval pipeline changes are not just
+presentation cleanup; they are a visible record of where the method was
+actually wrestled into shape.
 
 ## Polinko Contrast
 

@@ -11,6 +11,22 @@ prompt surface?
 - `pass` = coherent sentence
 - `fail` = incoherent sentence
 
+## Diagram
+
+```mermaid
+flowchart LR
+  P["fixed prompt lane"]
+  G["one generated line"]
+  C["coherence verdict"]
+  CP["coherent"]
+  CF["incoherent"]
+  PF["product fit remains separate"]
+
+  P --> G --> C
+  C --> CP --> PF
+  C --> CF
+```
+
 ## Main Finding
 
 Yes. This was the real experiment.

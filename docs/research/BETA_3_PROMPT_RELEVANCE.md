@@ -10,6 +10,26 @@ Once a line is coherent, does it stay in-lane for the selected prompt?
 - prompt relevance second
 - both stay binary
 
+## Diagram
+
+```mermaid
+flowchart LR
+  P["fixed prompt lane"]
+  G["one generated line"]
+  C["coherence verdict"]
+  CP["coherent"]
+  CF["incoherent"]
+  R["prompt relevance verdict"]
+  RP["in-lane"]
+  RF["out-of-lane"]
+
+  P --> G --> C
+  C --> CF
+  C --> CP --> R
+  R --> RP
+  R --> RF
+```
+
 ## Main Finding
 
 Prompt relevance is narrower than product fit and different from coherence.
