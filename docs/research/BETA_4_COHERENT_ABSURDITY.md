@@ -10,6 +10,7 @@ Can a coherent out-of-lane line still be a very good Probaboracle response?
 - relevance as one downstream lens
 - coherent absurdity as another downstream lens
 - product fit can still be satisfied through coherent absurdity
+- when isolating this gate, use one product per run and judge it immediately
 
 ## Diagram
 
@@ -54,16 +55,25 @@ The meaningful evaluation surface is the `coherence = pass` and
 
 That pocket is now fully swept:
 
-- `2 pass / 7 fail / 0 pending`
+- `2 pass / 13 fail / 0 pending`
+
+The broader absurdity table is larger:
+
+- `5 pass / 13 fail / 788 pending`
+
+but that is not the primary instrument for this beta.
 
 The two passes are strong precisely because they are rare:
 
 - `There, or neither here nor there; perhaps a silhouette, perhaps not.`
 - `it's probably the edge case, or perhaps not, which settles nothing.`
 
-The larger absurdity table still shows many pending rows, but that is not the
-real backlog. Outside the coherence-pass relevance-fail pocket, absurdity is
-not the question we are asking.
+Outside the coherence-pass relevance-fail pocket, absurdity is not the
+question we are asking.
+
+The strongest signal for this beta came from serial single-product runs rather
+than from broader pooled sweeps. That method made it easier to see whether one
+line, by itself, earned coherence and absurdity at the same time.
 
 ## Why It Matters
 

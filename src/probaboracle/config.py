@@ -4,6 +4,10 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+ROOT = Path(__file__).resolve().parents[2]
+
 PROMPT_TYPES: tuple[str, ...] = ("what", "when", "why", "where")
 VERDICTS: tuple[str, ...] = ("pass", "fail")
 
@@ -109,6 +113,7 @@ class Settings:
 
 
 def load_settings() -> Settings:
+    load_dotenv(ROOT / ".env", override=False)
     return Settings(
         app_name="Probaboracle",
         model=os.getenv("PROBABORACLE_MODEL", "gpt-5-nano"),

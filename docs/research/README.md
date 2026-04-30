@@ -55,6 +55,8 @@ evidence means.
   - `Research Beta 4.0`
 - current question:
   - can a coherent out-of-lane line still count as strong oracle behaviour?
+- current clean probe:
+  - single-product serial runs when testing the coherent-absurdity gate
 
 ## Plans
 
@@ -128,6 +130,8 @@ Not a beta:
 - `Research Beta 4.0`
   - complete enough to establish the class
   - coherent absurdity is a small selective pocket, not a blanket rescue lane
+  - single-product serial runs are the cleanest follow-up instrument for this
+    beta
 
 ## Interpretation Rule
 

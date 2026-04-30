@@ -96,5 +96,7 @@ discipline in a smaller form.
 ## Security / Ops Baseline
 
 - `OPENAI_API_KEY` is required for live generation.
+- The local CLI runtime auto-loads the repo `.env` before checking live
+  credentials.
 - Localhost and local CLI execution are the trusted development boundary.
 - Keep local eval data under `.local/`.

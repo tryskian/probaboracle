@@ -49,6 +49,7 @@ coherent absurdity before the final product-fit judgment.
 
 - Live runtime config:
   - environment variables
+  - repo `.env` auto-loaded by `load_settings()`
   - tracked constants in `src/probaboracle/config.py`
   - shared style signals are cues for model reasoning, not a fixed word bank
   - runtime directions should describe the target reasoning shape, not become a

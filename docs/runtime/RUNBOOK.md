@@ -26,7 +26,10 @@
    - `git branch --show-current`
 3. Create the local environment:
    - `make install`
-4. Check live runtime prerequisites:
+4. Add live runtime credentials:
+   - put `OPENAI_API_KEY` in the repo `.env` or export it in the shell
+   - the local runtime auto-loads the repo `.env`
+5. Check live runtime prerequisites:
    - `make doctor-env`
 
 ## Doc Map
@@ -94,6 +97,7 @@
   - `make eval-init`
 - Generate local eval samples:
   - `make sample PROMPT=when COUNT=5`
+  - reads the repo `.env` automatically when present
 - Weighted gremlin sweep:
   - `make sweep-gremlin`
   - optional:
@@ -118,7 +122,7 @@
 - Run local tests:
   - `make check`
 - Build the package locally:
-- `make package-check`
+  - `make package-check`
   - build the Python package and verify metadata still resolves.
 - Lint tracked docs:
   - `npm run lint:docs`
@@ -182,6 +186,20 @@ failure-taxonomy dashboard.
 6. Treat repeated failure clusters as the intervention signal.
 7. Do not add new prompt layers unless the failures are strong enough to earn
    a real runtime change.
+
+## Single-Product Signal Loop
+
+1. Use this loop when the goal is isolating the strongest per-product signal
+   for a selective downstream gate.
+2. Generate one product at a time:
+   - for example:
+     - `make sample PROMPT=what COUNT=1`
+3. Judge that one product immediately:
+   - coherence first
+   - relevance second
+   - coherent absurdity only if relevance fails after coherence passes
+4. Repeat one product at a time instead of pooling a larger batch.
+5. Prefer this loop over broader sweeps when testing coherent absurdity.
 
 ## Layered Eval Lenses
 
