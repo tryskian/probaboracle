@@ -1,4 +1,4 @@
-# Beta 1: Product Fit Only
+# Research Beta 1.0: Product Fit Only
 
 ## What This Beta Asked
 
@@ -8,6 +8,21 @@ Can a fixed-prompt oracle produce lines that feel like good Probaboracle?
 
 - product fit only
 - `pass` or `fail`
+
+## Diagram
+
+```mermaid
+flowchart LR
+  P["fixed prompt lane"]
+  G["one generated line"]
+  F["product fit verdict"]
+  Y["pass"]
+  N["fail"]
+
+  P --> G --> F
+  F --> Y
+  F --> N
+```
 
 ## What It Was Good For
 

@@ -1,4 +1,4 @@
-# Beta 2: Coherence First
+# Research Beta 2.0: Coherence First
 
 ## What This Beta Asked
 
@@ -10,6 +10,22 @@ prompt surface?
 - coherence first
 - `pass` = coherent sentence
 - `fail` = incoherent sentence
+
+## Diagram
+
+```mermaid
+flowchart LR
+  P["fixed prompt lane"]
+  G["one generated line"]
+  C["coherence verdict"]
+  CP["coherent"]
+  CF["incoherent"]
+  PF["product fit remains separate"]
+
+  P --> G --> C
+  C --> CP --> PF
+  C --> CF
+```
 
 ## Main Finding
 

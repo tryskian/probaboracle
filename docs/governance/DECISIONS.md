@@ -21,11 +21,26 @@ Keep entries short, but informative enough to show what changed and why.
 - `collaboration_method`
 - `workflow_environment`
 
+## Provenance Rule
+
+Each decision should read as one of these:
+
+- `human-led method decision`
+  - the theory, bridge logic, or eval meaning came from the human lead
+- `repo formalization`
+  - the repo later encoded an already-active method or contract
+- `implementation decision`
+  - the engineering layer chose mechanics after the method was already set
+
+If a decision crosses layers, say so plainly instead of flattening the method
+into implementation authorship.
+
 ## D-001: Local CLI first
 
 - Date: `2026-04-28`
 - Category: `runtime_engineering`
 - Tags: `local_first`, `cli`, `small_surface`
+- Provenance: `repo formalization`
 - Decision:
   - start with a local CLI runtime before any broader surface
   - keep the first execution path terminal-native and local
@@ -36,6 +51,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-28`
 - Category: `runtime_engineering`
 - Tags: `prompt_surface`, `safety_scope`, `constrained_input`
+- Provenance: `human-led method decision`
 - Decision:
   - limit the active prompt types to:
     - `what`
@@ -52,6 +68,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-28`
 - Category: `eval_quality`
 - Tags: `pass_fail`, `polinko_lineage`, `strict_judgment`
+- Provenance: `human-led method decision`
 - Decision:
   - keep human eval verdicts strictly binary:
     - `pass`
@@ -64,6 +81,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-28`
 - Category: `runtime_engineering`
 - Tags: `agents_sdk`, `model_native`, `non_template_runtime`
+- Provenance: `human-led method decision`
 - Decision:
   - use the OpenAI Agents SDK as the runtime generation path
   - do not build the active oracle path out of stitched static fragments
@@ -75,6 +93,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-28`
 - Category: `workflow_environment`
 - Tags: `docs_stack`, `runbook`, `architecture`
+- Provenance: `implementation decision`
 - Decision:
   - use a trimmed Polinko-style doc stack:
     - charter
@@ -91,6 +110,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-28`
 - Category: `workflow_environment`
 - Tags: `python`, `make`, `venv`
+- Provenance: `implementation decision`
 - Decision:
   - bootstrap with Python
   - use a local `.venv`
@@ -103,6 +123,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-28`
 - Category: `collaboration_method`
 - Tags: `polinko_lineage`, `scope_relation`, `shared_discipline`
+- Provenance: `human-led method decision`
 - Decision:
   - frame Probaboracle explicitly as a mini project within Polinko
   - do not present it as a disconnected side repo
@@ -114,6 +135,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-28`
 - Category: `runtime_engineering`
 - Tags: `style_signals`, `human_direction`, `model_reasoning`, `non_template_runtime`
+- Provenance: `human-led method decision`
 - Decision:
   - use one shared style-signal resource across all prompt types
   - let prompt type control the reasoning lane, not the flavour pool
@@ -130,6 +152,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-29`
 - Category: `eval_quality`
 - Tags: `baseline`, `pass_fail`, `polinko_method`, `prompt_drift`
+- Provenance: `human-led method decision`
 - Decision:
   - keep the runtime baseline simple during long eval runs
   - prefer long sample streams plus hard `pass` / `fail` judgment sweeps over
@@ -145,6 +168,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-29`
 - Category: `runtime_engineering`
 - Tags: `matched_scope`, `safe_interaction`, `minimal_config`, `one_node_generation`
+- Provenance: `human-led method decision`
 - Decision:
   - keep the fixed prompt surface matched to the intended reasoning scope
   - treat that matched scope as a material guardrail for safe interaction,
@@ -163,6 +187,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-29`
 - Category: `eval_quality`
 - Tags: `coherence`, `sidecar_eval`, `research_method`
+- Provenance: `human-led method decision`
 - Decision:
   - treat sentence coherence as the primary experimental binary gate
   - keep product fit separate from coherence
@@ -178,6 +203,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-29`
 - Category: `eval_quality`
 - Tags: `relevance`, `absurdity`, `layered_judgment`
+- Provenance: `human-led method decision`
 - Decision:
   - keep prompt relevance as its own binary sidecar
   - evaluate coherent absurdity separately from prompt relevance
@@ -194,6 +220,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-30`
 - Category: `workflow_environment`
 - Tags: `diagram_surface`, `public_docs`, `internal_docs`
+- Provenance: `human-led method decision`
 - Decision:
   - keep the public diagram page high-level
   - show the generation pipeline and the eval-shape relationships together in
@@ -208,6 +235,7 @@ Keep entries short, but informative enough to show what changed and why.
 - Date: `2026-04-30`
 - Category: `eval_quality`
 - Tags: `research_docs`, `beta_structure`, `method_tracking`
+- Provenance: `human-led method decision`
 - Decision:
   - treat each distinct eval architecture as a beta
   - document tracked findings by beta approach rather than by every sweep
@@ -216,3 +244,103 @@ Keep entries short, but informative enough to show what changed and why.
 - Why: The research story needs method shifts, not a pile of batch logs.
   Distinct betas keep the findings legible while `docs/peanut/` remains the
   local lane for raw operator material.
+
+## D-015: Runtime doc ownership stays split by job
+
+- Date: `2026-04-30`
+- Category: `workflow_environment`
+- Tags: `docs_governance`, `runtime_changes`, `architecture`, `handoff`
+- Provenance: `repo formalization`
+- Decision:
+  - record durable runtime or eval-method changes in `docs/governance/DECISIONS.md`
+  - update `docs/runtime/ARCHITECTURE.md` when the stable system shape changes
+  - use `docs/governance/SESSION_HANDOFF.md` for the current checkpoint and
+    next slice only
+  - use `docs/runtime/RUNBOOK.md` for operator procedure changes only
+- Why: Runtime adjustments were too easy to smear across several docs. This
+  split keeps durable changes, stable shape, live checkpoint, and procedure
+  from collapsing into one blurred history lane.
+
+## D-016: Research betas are method eras, not release versions
+
+- Date: `2026-04-30`
+- Category: `eval_quality`
+- Tags: `beta_structure`, `research_method`, `repo_framing`
+- Provenance: `human-led method decision`
+- Decision:
+  - treat Probaboracle betas as named research architectures
+  - do not present them as package or app release versions
+  - use research-era numbering such as `Research Beta 1.0`, `2.0`, `3.0`, and
+    `4.0` when the method shifts are distinct eras rather than software
+    releases
+  - keep the current research beta visible in public repo framing, but point
+    beta interpretation back to `docs/research/README.md`
+- Why: A plain `v4` label hides what actually changed. The important shift is
+  methodological: what the verdict is asking and how the evidence should be
+  interpreted.
+
+## D-017: Final output stays one-line and lowercase
+
+- Date: `2026-04-30`
+- Category: `runtime_engineering`
+- Tags: `output_contract`, `lowercase`, `tone_contract`
+- Provenance: `repo formalization`
+- Decision:
+  - return one short final line only
+  - normalise the final output to lowercase
+  - keep the line tight, readable, and deadpan rather than fragmentary or
+    overworked
+- Why: Lowercase and one-line output are part of the oracle contract, not just
+  incidental style. They keep the voice flat, comparable, and recognisably
+  Probaboracle across lanes.
+
+## D-018: Product fit remains the canonical top-level verdict
+
+- Date: `2026-04-30`
+- Category: `eval_quality`
+- Tags: `product_fit`, `sidecars`, `canonical_verdict`
+- Provenance: `repo formalization`
+- Decision:
+  - keep product fit as the canonical top-level verdict stored in
+    `eval_outputs.current_verdict`
+  - keep coherence, prompt relevance, and coherent absurdity as separate binary
+    sidecars rather than replacements for product fit
+  - use the sidecars to clarify why a line passed or failed, not to collapse
+    the eval surface back into one overloaded judgment
+- Why: Product fit remains the strict oracle-quality gate, while the sidecars
+  keep sentence quality, lane control, and valuable drift analytically
+  separate.
+
+## D-019: Eval storage keeps both history and current snapshot
+
+- Date: `2026-04-30`
+- Category: `eval_quality`
+- Tags: `eval_storage`, `sqlite`, `history`, `current_state`
+- Provenance: `implementation decision`
+- Decision:
+  - keep generated rows in `eval_outputs`
+  - keep append-only judgment history tables for:
+    - product fit
+    - coherence
+    - prompt relevance
+    - coherent absurdity
+  - mirror the latest verdict and note for each lens onto the current snapshot
+    columns in `eval_outputs`
+- Why: The repo needs both an audit trail of judgments and a fast current-state
+  surface for listing, charting, and operator review.
+
+## D-020: Primary public eval chart stays lane-first and binary
+
+- Date: `2026-04-30`
+- Category: `workflow_environment`
+- Tags: `eval_chart`, `public_surface`, `binary_signal`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - keep the primary public static chart as a prompt-lane stacked bar chart
+  - derive that chart from `eval_outputs.current_verdict`
+  - treat `NULL` canonical verdicts as `pending`
+  - keep richer detail as a secondary surface rather than replacing the binary
+    lane chart
+- Why: The first visible research pulse should be fail pressure, pass pressure,
+  and backlog by lane. That is the cleanest high-level evidence surface for
+  this repo.

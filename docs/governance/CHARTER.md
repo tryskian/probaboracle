@@ -62,14 +62,17 @@ discipline in a smaller form.
   - public repo framing and command entrypoint
 - `docs/governance/DECISIONS.md`
   - durable engineering, runtime, and eval decisions
+  - first home for durable runtime or eval-method changes
 - `docs/research/README.md`
   - tracked beta findings and research reading path
+  - beta map, not runtime change ledger
 - `docs/runtime/ARCHITECTURE.md`
-  - stable system shape and contracts
+  - stable system shape and contracts after durable changes land
 - `docs/runtime/RUNBOOK.md`
   - operator procedure and command ownership
 - `docs/governance/SESSION_HANDOFF.md`
   - current checkpoint and next slice
+  - active snapshot, not durable history
 - `docs/diagrams/PIPELINE.md`
   - canonical home for the pipeline diagram
 

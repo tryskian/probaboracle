@@ -1,12 +1,27 @@
 # Probaboracle
 
-An unhelpful mini chatbot that's "probably" an "oracle", which is more or less
-how it responds.
+![Research Beta](https://img.shields.io/badge/research_beta-4.0%20coherent%20absurdity-E15759)
 
-Probaboracle is a confidently absurd mini **[Polinko model](https://github.com/tryskian/polinko)**. Its prompt surface is fixed to `what`, `when`, `why`, and `where` to keep behaviour aligned with its intended shape and purpose.
+## An unhelpful mini chatbot that's "probably" an "oracle", which is more or less how it responds
+
+Probaboracle is a confidently absurd mini **[Polinko model](https://github.com/tryskian/polinko)** and my second experiment within this ongoing research. Its prompt surface is fixed to `what`, `when`, `why`, and `where` to keep behaviour aligned with its intended shape and purpose.
+
+Current tracked research beta:
+- `Research Beta 4.0`
+- `coherence + coherent absurdity`
+
+In this repo, betas are research architectures, not product release versions.
+
+Use:
+- [docs/research/README.md](./docs/research/README.md)
+  - for the beta map and research reading path
+- [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)
+  - for durable runtime and eval changes
 
 ## Get Started
 
 [docs/runtime/RUNBOOK.md](./docs/runtime/RUNBOOK.md)
+
+---
 
 *Probaboracle is not a resource for advice, guidance, help, reassurance, or understanding.*
