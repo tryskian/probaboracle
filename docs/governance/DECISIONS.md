@@ -157,3 +157,32 @@ Keep entries short, but informative enough to show what changed and why.
 - Why: Vocabulary is universal. The prompts should bound the kind of reasoning
   the oracle performs, while the model still resolves the actual sentence
   structure in one generation path.
+
+## D-011: Coherence is the primary experimental gate
+
+- Date: `2026-04-29`
+- Category: `eval_quality`
+- Tags: `coherence`, `sidecar_eval`, `research_method`
+- Decision:
+  - treat sentence coherence as the primary experimental binary gate
+  - keep product fit separate from coherence
+  - evaluate coherence with a dedicated sidecar verdict:
+    - `pass`
+    - `fail`
+- Why: The research question is whether the model can maintain coherent
+  sentence reasoning inside constrained guardrails. Product taste is a
+  stricter downstream layer, not the core experiment.
+
+## D-012: Downstream eval lenses stay separate
+
+- Date: `2026-04-29`
+- Category: `eval_quality`
+- Tags: `relevance`, `absurdity`, `handwaving`, `layered_judgment`
+- Decision:
+  - keep prompt relevance as its own binary sidecar
+  - evaluate coherent absurdity separately from prompt relevance
+  - evaluate answer-shaped hand waving separately from both
+  - do not collapse these lenses back into one overloaded verdict
+- Why: Some responses are coherent but out-of-lane, and some out-of-lane
+  responses are still valuable oracle behaviour. Separate binary lenses make
+  those distinctions visible instead of flattening them.

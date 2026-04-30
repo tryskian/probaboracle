@@ -122,6 +122,10 @@ make list PROMPT=when LIMIT=10
 make judge ID=1 VERDICT=pass NOTE="deadpan and non-concrete"
 make pass ID=1 NOTE="deadpan and non-concrete"
 make fail ID=2 NOTE="too concrete"
+.venv/bin/python -m probaboracle judge-coherence 12 pass --note "coherent sentence"
+.venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"
+.venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"
+.venv/bin/python -m probaboracle judge-handwaving 12 pass --note "answer-shaped handwaving"
 ```
 
 1. Verify the package build still resolves cleanly:

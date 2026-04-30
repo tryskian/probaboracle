@@ -33,7 +33,12 @@ runtime shape without rereading every file.
    through the OpenAI Agents SDK in one model generation node.
 6. The CLI prints the final response.
 7. Optional sample generation stores outputs in `.local/evals.sqlite`.
-8. Human evaluation records a binary `pass` or `fail`.
+8. Human evaluation records layered binary judgments:
+   - product fit
+   - coherence
+   - prompt relevance
+   - coherent absurdity
+   - hand waving
 
 ## Data Surfaces
 
@@ -47,6 +52,11 @@ runtime shape without rereading every file.
   - `.local/evals.sqlite`
   - `eval_outputs` stores generated outputs
   - `eval_judgments` stores human `pass` / `fail` decisions
+  - sidecar judgment tables store separate binary lenses for:
+    - coherence
+    - prompt relevance
+    - coherent absurdity
+    - hand waving
 
 ## Reasoning Contract
 

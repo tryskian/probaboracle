@@ -23,6 +23,12 @@ Last updated: 2026-04-29
 - Prompt surface is fixed to `what`, `when`, `why`, and `where`.
 - Output is fully lowercase as part of the deadpan tone contract.
 - Binary eval gates are active and remain strictly `pass` / `fail`.
+- Layered eval sidecars now separate:
+  - product fit
+  - coherence
+  - prompt relevance
+  - coherent absurdity
+  - hand waving
 - The tone branch was pulled back to the simpler baseline after prompt
   accretion started fighting the Polinko method.
 - A long baseline run generated a large new untagged backlog and made the main
@@ -35,13 +41,11 @@ Last updated: 2026-04-29
 
 ## Next Slice
 
-1. Judge the new untagged backlog in sweeps.
-2. Use repeated failure clusters to decide whether the baseline has earned a
+1. Sweep the new sidecar lanes deliberately, not all at once.
+2. Keep coherence primary when judging new slices.
+3. Use repeated failure clusters to decide whether the baseline has earned a
    real change.
-3. Keep the runtime contract steady unless the data justifies intervention.
-4. Only after the backlog is judged:
-   - decide whether a narrow change is warranted
-   - or keep collecting more baseline evidence
+4. Keep the runtime contract steady unless the data justifies intervention.
 
 ## Guardrails
 

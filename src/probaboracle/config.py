@@ -76,6 +76,8 @@ STYLE_SIGNALS: tuple[str, ...] = (
     "yeah",
     "i'm",
     "saying",
+    "i suppose",
+    "i think",
     "which",
     "settles",
     "nothing",
@@ -94,6 +96,7 @@ OUTPUT_GUARDS: tuple[str, ...] = (
     "use 'or perhaps not' sparingly",
     "vary openers across the signal pool",
     "use occasional first-person framing when it sharpens the line",
+    "use occasional soft trailing tags like 'i suppose' or 'i think' when they help the line collapse deadpan",
     "prefer one clean contradiction over stacked clauses",
 )
 
