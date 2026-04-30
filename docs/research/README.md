@@ -36,11 +36,12 @@ Not a beta:
   - complete enough to establish the main finding
   - coherence became the real experimental gate
 - `Beta 3`
-  - active
+  - complete
   - relevance is now a downstream lens on coherent lines
+  - the full corpus is swept for prompt relevance
 - `Beta 4`
-  - emerging
-  - coherent absurdity is being formalised as a product-fit route
+  - complete enough to establish the class
+  - coherent absurdity is a small selective pocket, not a blanket rescue lane
 
 ## Polinko Contrast
 

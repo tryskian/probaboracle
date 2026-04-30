@@ -28,6 +28,14 @@ Last updated: 2026-04-30
   - coherence
   - prompt relevance
   - coherent absurdity
+- Prompt relevance is now complete across the full corpus:
+  - `what`
+  - `when`
+  - `why`
+  - `where`
+- The meaningful coherent-absurdity pocket is also swept:
+  - `coherence = pass`
+  - `relevance = fail`
 - Public tracked docs now show:
   - the canonical generation pipeline
   - the high-level eval-shape diagram
@@ -46,8 +54,10 @@ Last updated: 2026-04-30
 
 ## Next Slice
 
-1. Sweep the remaining sidecar lanes deliberately, not all at once.
-2. Keep coherence primary when judging new slices.
+1. Decide whether to close the last `48` pending product-fit rows from the
+   focused `when` run, or leave them as an intentionally separate product
+   pocket.
+2. Keep coherence primary when judging any new slices.
 3. Use repeated failure clusters to decide whether the baseline has earned a
    real change.
 4. Keep the public eval shape and the private detailed flow aligned if either

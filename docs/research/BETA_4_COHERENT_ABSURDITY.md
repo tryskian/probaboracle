@@ -16,15 +16,28 @@ Can a coherent out-of-lane line still be a very good Probaboracle response?
 Yes. Some prompt-irrelevant lines are not junk. They are coherent, lane-led
 enough to hold together, and then they land a sideways oracle punchline.
 
-That is not a bug class to erase. It is a distinct research signal.
+But this class is smaller and stricter than it first looked.
+
+That is not a bug class to erase. It is a distinct research signal, but it is
+not a blanket rescue lane for every coherent relevance fail.
 
 ## Current Signal
 
-Current snapshot:
+The meaningful evaluation surface is the `coherence = pass` and
+`relevance = fail` pocket.
 
-- absurdity: `4 pass / 0 fail / 734 pending`
+That pocket is now fully swept:
 
-The class is still early, but it is already meaningful.
+- `2 pass / 7 fail / 0 pending`
+
+The two passes are strong precisely because they are rare:
+
+- `There, or neither here nor there; perhaps a silhouette, perhaps not.`
+- `it's probably the edge case, or perhaps not, which settles nothing.`
+
+The larger absurdity table still shows many pending rows, but that is not the
+real backlog. Outside the coherence-pass relevance-fail pocket, absurdity is
+not the question we are asking.
 
 ## Why It Matters
 
@@ -36,6 +49,9 @@ Probaboracle can produce responses that are:
 - product-interesting
 - slightly drifted
 - still recognisably good oracle behaviour
+
+It also shows the inverse: many coherent relevance fails are still just weak
+blur. The absurdity class earns its own lane because it is selective.
 
 ## What Changed Next
 
