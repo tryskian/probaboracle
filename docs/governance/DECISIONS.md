@@ -177,12 +177,28 @@ Keep entries short, but informative enough to show what changed and why.
 
 - Date: `2026-04-29`
 - Category: `eval_quality`
-- Tags: `relevance`, `absurdity`, `handwaving`, `layered_judgment`
+- Tags: `relevance`, `absurdity`, `layered_judgment`
 - Decision:
   - keep prompt relevance as its own binary sidecar
   - evaluate coherent absurdity separately from prompt relevance
-  - evaluate answer-shaped hand waving separately from both
+  - treat coherent absurdity as a product-fit route for coherent but out-of-lane
+    lines
   - do not collapse these lenses back into one overloaded verdict
 - Why: Some responses are coherent but out-of-lane, and some out-of-lane
   responses are still valuable oracle behaviour. Separate binary lenses make
-  those distinctions visible instead of flattening them.
+  those distinctions visible, and product fit can then distinguish between
+  failed relevance and valuable coherent absurdity.
+
+## D-013: Public eval shape stays high-level
+
+- Date: `2026-04-30`
+- Category: `workflow_environment`
+- Tags: `diagram_surface`, `public_docs`, `internal_docs`
+- Decision:
+  - keep the public diagram page high-level
+  - show the generation pipeline and the eval-shape relationships together in
+    tracked docs
+  - keep the detailed stop/pass/fail judgment flow in local/private
+    `docs/peanut/` notes while it remains an internal research surface
+- Why: The public docs should show the system shape clearly without turning the
+  repo-facing diagram page into an operator-only judgment chart.

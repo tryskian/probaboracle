@@ -16,18 +16,14 @@ from probaboracle.eval_db import (
     absurdity_counts,
     coherence_counts,
     counts,
-    handwaving_counts,
     init_db,
     judge_absurdity_output,
     judge_output,
-    judge_handwaving_output,
     judge_relevance_output,
     judge_coherence_output,
-    judge_structure_output,
     list_outputs,
     relevance_counts,
     record_output,
-    structure_counts,
 )
 
 
@@ -82,25 +78,16 @@ def build_parser() -> argparse.ArgumentParser:
     absurdity_judge_parser.add_argument("verdict")
     absurdity_judge_parser.add_argument("--note", default="")
 
-    handwaving_judge_parser = subparsers.add_parser(
-        "judge-handwaving",
-        help="Record a binary hand-waving verdict.",
-    )
-    handwaving_judge_parser.add_argument("output_id", type=int)
-    handwaving_judge_parser.add_argument("verdict")
-    handwaving_judge_parser.add_argument("--note", default="")
-
     return parser
 
 
 def print_rows(rows: Iterable[sqlite3.Row]) -> None:
-    print("ID  PROMPT  PRODUCT   COHERENCE  RELEVANCE  ABSURDITY  HANDWAVE  OUTPUT")
+    print("ID  PROMPT  PRODUCT   COHERENCE  RELEVANCE  ABSURDITY  OUTPUT")
     for row in rows:
         product_verdict = row["current_verdict"] or "pending"
         coherence_verdict = row["structure_current_verdict"] or "pending"
         relevance_verdict = row["relevance_current_verdict"] or "pending"
         absurdity_verdict = row["absurdity_current_verdict"] or "pending"
-        handwaving_verdict = row["handwaving_current_verdict"] or "pending"
         print(
             f"{row['id']:>2}  "
             f"{row['prompt_type']:<6}  "
@@ -108,7 +95,6 @@ def print_rows(rows: Iterable[sqlite3.Row]) -> None:
             f"{coherence_verdict:<10}  "
             f"{relevance_verdict:<9}  "
             f"{absurdity_verdict:<9}  "
-            f"{handwaving_verdict:<9}  "
             f"{row['output_text']}"
         )
 
@@ -154,7 +140,6 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
     coherence_summary = coherence_counts(settings.eval_db_path)
     relevance_summary = relevance_counts(settings.eval_db_path)
     absurdity_summary = absurdity_counts(settings.eval_db_path)
-    handwaving_summary = handwaving_counts(settings.eval_db_path)
     print(
         "\n"
         f"product total={product_summary['total']} "
@@ -180,12 +165,6 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
         f"fail={absurdity_summary['fail']} "
         f"pending={absurdity_summary['pending']}"
     )
-    print(
-        f"handwaving total={handwaving_summary['total']} "
-        f"pass={handwaving_summary['pass']} "
-        f"fail={handwaving_summary['fail']} "
-        f"pending={handwaving_summary['pending']}"
-    )
     print("\nPRODUCT VERDICT: PASS | FAIL [note]")
     print('Example: make judge ID=12 VERDICT=pass NOTE="deadpan and vague"')
     print("\nCOHERENCE VERDICT: PASS | FAIL [note]")
@@ -194,8 +173,6 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
     print('Example: .venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"')
     print("\nCOHERENT ABSURDITY VERDICT: PASS | FAIL [note]")
     print('Example: .venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"')
-    print("\nHAND WAVING VERDICT: PASS | FAIL [note]")
-    print('Example: .venv/bin/python -m probaboracle judge-handwaving 12 pass --note "answer-shaped handwaving"')
     return 0
 
 
@@ -239,16 +216,6 @@ def command_absurdity_judge(output_id: int, verdict: str, note: str) -> int:
     return 0
 
 
-def command_handwaving_judge(output_id: int, verdict: str, note: str) -> int:
-    settings = load_settings()
-    ensure_local_dirs(settings)
-    init_db(settings.eval_db_path)
-    verdict = normalise_verdict(verdict)
-    judge_handwaving_output(settings.eval_db_path, output_id, verdict, note)
-    print(f"Judged output {output_id} for hand waving as {verdict}.")
-    return 0
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -269,8 +236,6 @@ def main(argv: list[str] | None = None) -> int:
         return command_relevance_judge(args.output_id, args.verdict, args.note)
     if args.command == "judge-absurdity":
         return command_absurdity_judge(args.output_id, args.verdict, args.note)
-    if args.command == "judge-handwaving":
-        return command_handwaving_judge(args.output_id, args.verdict, args.note)
 
     parser.error("Unknown command.")
     return 2

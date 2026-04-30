@@ -31,12 +31,6 @@ CREATE TABLE IF NOT EXISTS eval_outputs (
             OR absurdity_current_verdict IS NULL
         ),
     absurdity_current_note TEXT NOT NULL DEFAULT '',
-    handwaving_current_verdict TEXT DEFAULT NULL
-        CHECK (
-            handwaving_current_verdict IN ('pass', 'fail')
-            OR handwaving_current_verdict IS NULL
-        ),
-    handwaving_current_note TEXT NOT NULL DEFAULT '',
     created_at TEXT NOT NULL
 );
 
@@ -65,14 +59,6 @@ CREATE TABLE IF NOT EXISTS eval_relevance_judgments (
 );
 
 CREATE TABLE IF NOT EXISTS eval_absurdity_judgments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    output_id INTEGER NOT NULL REFERENCES eval_outputs(id) ON DELETE CASCADE,
-    verdict TEXT NOT NULL CHECK (verdict IN ('pass', 'fail')),
-    note TEXT NOT NULL DEFAULT '',
-    created_at TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS eval_handwaving_judgments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     output_id INTEGER NOT NULL REFERENCES eval_outputs(id) ON DELETE CASCADE,
     verdict TEXT NOT NULL CHECK (verdict IN ('pass', 'fail')),
@@ -134,24 +120,6 @@ SIDECAR_COLUMNS = (
         """
         ALTER TABLE eval_outputs
         ADD COLUMN absurdity_current_note TEXT NOT NULL DEFAULT ''
-        """.strip(),
-    ),
-    (
-        "handwaving_current_verdict",
-        """
-        ALTER TABLE eval_outputs
-        ADD COLUMN handwaving_current_verdict TEXT DEFAULT NULL
-        CHECK (
-            handwaving_current_verdict IN ('pass', 'fail')
-            OR handwaving_current_verdict IS NULL
-        )
-        """.strip(),
-    ),
-    (
-        "handwaving_current_note",
-        """
-        ALTER TABLE eval_outputs
-        ADD COLUMN handwaving_current_note TEXT NOT NULL DEFAULT ''
         """.strip(),
     ),
 )
@@ -231,8 +199,6 @@ def list_outputs(
                     relevance_current_note,
                     absurdity_current_verdict,
                     absurdity_current_note,
-                    handwaving_current_verdict,
-                    handwaving_current_note,
                     created_at
                 FROM eval_outputs
                 WHERE prompt_type = ?
@@ -257,8 +223,6 @@ def list_outputs(
                     relevance_current_note,
                     absurdity_current_verdict,
                     absurdity_current_note,
-                    handwaving_current_verdict,
-                    handwaving_current_note,
                     created_at
                 FROM eval_outputs
                 ORDER BY id DESC
@@ -401,38 +365,6 @@ def judge_absurdity_output(db_path: Path, output_id: int, verdict: str, note: st
         )
 
 
-def judge_handwaving_output(db_path: Path, output_id: int, verdict: str, note: str) -> None:
-    with connect(db_path) as conn:
-        conn.executescript(SCHEMA)
-        _ensure_sidecar_columns(conn)
-        row = conn.execute(
-            "SELECT id FROM eval_outputs WHERE id = ?",
-            (output_id,),
-        ).fetchone()
-        if row is None:
-            raise ValueError(f"Output id {output_id} does not exist.")
-
-        conn.execute(
-            """
-            INSERT INTO eval_handwaving_judgments (
-                output_id,
-                verdict,
-                note,
-                created_at
-            ) VALUES (?, ?, ?, ?)
-            """,
-            (output_id, verdict, note, utc_now()),
-        )
-        conn.execute(
-            """
-            UPDATE eval_outputs
-            SET handwaving_current_verdict = ?, handwaving_current_note = ?
-            WHERE id = ?
-            """,
-            (verdict, note, output_id),
-        )
-
-
 def counts(db_path: Path) -> dict[str, int]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
@@ -551,40 +483,6 @@ def absurdity_counts(db_path: Path) -> dict[str, int]:
             SELECT COUNT(*) AS value
             FROM eval_outputs
             WHERE absurdity_current_verdict IS NULL
-            """
-        ).fetchone()["value"]
-        return {
-            "total": int(total),
-            "pass": int(passed),
-            "fail": int(failed),
-            "pending": int(pending),
-        }
-
-
-def handwaving_counts(db_path: Path) -> dict[str, int]:
-    with connect(db_path) as conn:
-        conn.executescript(SCHEMA)
-        _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()["value"]
-        passed = conn.execute(
-            """
-            SELECT COUNT(*) AS value
-            FROM eval_outputs
-            WHERE handwaving_current_verdict = 'pass'
-            """
-        ).fetchone()["value"]
-        failed = conn.execute(
-            """
-            SELECT COUNT(*) AS value
-            FROM eval_outputs
-            WHERE handwaving_current_verdict = 'fail'
-            """
-        ).fetchone()["value"]
-        pending = conn.execute(
-            """
-            SELECT COUNT(*) AS value
-            FROM eval_outputs
-            WHERE handwaving_current_verdict IS NULL
             """
         ).fetchone()["value"]
         return {

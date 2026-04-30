@@ -86,8 +86,6 @@
   - `.venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"`
 - Record a coherent absurdity verdict:
   - `.venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"`
-- Record a hand waving verdict:
-  - `.venv/bin/python -m probaboracle judge-handwaving 12 pass --note "answer-shaped handwaving"`
 - Shortcut verdict targets:
   - `make pass ID=1 NOTE="deadpan and vague"`
   - `make fail ID=2 NOTE="too concrete"`
@@ -156,5 +154,3 @@ failure-taxonomy dashboard.
 3. Prompt relevance asks whether the coherent sentence stays in-lane for the
    selected prompt type.
 4. Coherent absurdity is only meaningful once coherence is already passing.
-5. Hand waving tracks whether the response still lands as answer-shaped
-   evasiveness, separate from strict prompt fit.

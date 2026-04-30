@@ -38,10 +38,12 @@ runtime shape without rereading every file.
    - coherence
    - prompt relevance
    - coherent absurdity
-   - hand waving
 
-The generation diagram and the eval-layer diagram now live together in
-`docs/diagrams/PIPELINE.md`.
+The public generation diagram and the high-level public eval-shape diagram now
+live together in `docs/diagrams/PIPELINE.md`. The detailed judgment flow lives
+in local/private `docs/peanut/` notes. Incoherent lines terminate at the
+coherence gate, and coherent out-of-lane lines only continue if they pass as
+coherent absurdity before the final product-fit judgment.
 
 ## Data Surfaces
 
@@ -59,7 +61,6 @@ The generation diagram and the eval-layer diagram now live together in
     - coherence
     - prompt relevance
     - coherent absurdity
-    - hand waving
 
 ## Reasoning Contract
 
@@ -79,7 +80,8 @@ The generation diagram and the eval-layer diagram now live together in
 - Local persistence: `src/probaboracle/eval_db.py`
 - Operator procedure: `docs/runtime/RUNBOOK.md`
 - Durable decisions: `docs/governance/DECISIONS.md`
-- Pipeline diagram: `docs/diagrams/PIPELINE.md`
+- Public pipeline and eval-shape diagrams: `docs/diagrams/PIPELINE.md`
+- Local/private detailed eval flow: `docs/peanut/`
 
 ## Governance Flow
 

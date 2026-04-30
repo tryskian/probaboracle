@@ -6,11 +6,9 @@ from probaboracle.eval_db import (
     absurdity_counts,
     coherence_counts,
     counts,
-    handwaving_counts,
     init_db,
     judge_absurdity_output,
     judge_output,
-    judge_handwaving_output,
     judge_relevance_output,
     judge_structure_output,
     list_outputs,
@@ -44,8 +42,6 @@ class EvalDbTests(TestCase):
             self.assertEqual(rows[0]["relevance_current_note"], "")
             self.assertEqual(rows[0]["absurdity_current_verdict"], None)
             self.assertEqual(rows[0]["absurdity_current_note"], "")
-            self.assertEqual(rows[0]["handwaving_current_verdict"], None)
-            self.assertEqual(rows[0]["handwaving_current_note"], "")
 
             summary = counts(db_path)
             self.assertEqual(summary["total"], 1)
@@ -71,12 +67,6 @@ class EvalDbTests(TestCase):
             self.assertEqual(absurdity_summary["fail"], 0)
             self.assertEqual(absurdity_summary["pending"], 1)
 
-            handwaving_summary = handwaving_counts(db_path)
-            self.assertEqual(handwaving_summary["total"], 1)
-            self.assertEqual(handwaving_summary["pass"], 0)
-            self.assertEqual(handwaving_summary["fail"], 0)
-            self.assertEqual(handwaving_summary["pending"], 1)
-
     def test_structure_judgment_round_trip_is_separate_from_product_verdict(self) -> None:
         with TemporaryDirectory() as tmpdir:
             db_path = Path(tmpdir) / "evals.sqlite"
@@ -99,7 +89,6 @@ class EvalDbTests(TestCase):
             self.assertEqual(rows[0]["relevance_current_verdict"], None)
             self.assertEqual(rows[0]["relevance_current_note"], "")
             self.assertEqual(rows[0]["absurdity_current_verdict"], None)
-            self.assertEqual(rows[0]["handwaving_current_verdict"], None)
 
             product_summary = counts(db_path)
             self.assertEqual(product_summary["pending"], 1)
@@ -116,9 +105,6 @@ class EvalDbTests(TestCase):
 
             absurdity_summary = absurdity_counts(db_path)
             self.assertEqual(absurdity_summary["pending"], 1)
-
-            handwaving_summary = handwaving_counts(db_path)
-            self.assertEqual(handwaving_summary["pending"], 1)
 
     def test_relevance_judgment_round_trip_is_separate_from_other_verdicts(self) -> None:
         with TemporaryDirectory() as tmpdir:
@@ -140,7 +126,6 @@ class EvalDbTests(TestCase):
             self.assertEqual(rows[0]["relevance_current_verdict"], "pass")
             self.assertEqual(rows[0]["relevance_current_note"], "coherent and in-lane")
             self.assertEqual(rows[0]["absurdity_current_verdict"], None)
-            self.assertEqual(rows[0]["handwaving_current_verdict"], None)
 
             product_summary = counts(db_path)
             self.assertEqual(product_summary["pending"], 1)
@@ -156,10 +141,7 @@ class EvalDbTests(TestCase):
             absurdity_summary = absurdity_counts(db_path)
             self.assertEqual(absurdity_summary["pending"], 1)
 
-            handwaving_summary = handwaving_counts(db_path)
-            self.assertEqual(handwaving_summary["pending"], 1)
-
-    def test_absurdity_and_handwaving_round_trip_stay_separate(self) -> None:
+    def test_absurdity_judgment_round_trip_stays_separate(self) -> None:
         with TemporaryDirectory() as tmpdir:
             db_path = Path(tmpdir) / "evals.sqlite"
             init_db(db_path)
@@ -171,12 +153,6 @@ class EvalDbTests(TestCase):
                 model="gpt-5-nano",
             )
             judge_absurdity_output(db_path, output_id, "pass", "coherent absurdity")
-            judge_handwaving_output(
-                db_path,
-                output_id,
-                "pass",
-                "answer-shaped handwaving",
-            )
 
             rows = list_outputs(db_path, prompt_type="where", limit=5)
             self.assertEqual(len(rows), 1)
@@ -185,18 +161,8 @@ class EvalDbTests(TestCase):
             self.assertEqual(rows[0]["relevance_current_verdict"], None)
             self.assertEqual(rows[0]["absurdity_current_verdict"], "pass")
             self.assertEqual(rows[0]["absurdity_current_note"], "coherent absurdity")
-            self.assertEqual(rows[0]["handwaving_current_verdict"], "pass")
-            self.assertEqual(
-                rows[0]["handwaving_current_note"],
-                "answer-shaped handwaving",
-            )
 
             absurdity_summary = absurdity_counts(db_path)
             self.assertEqual(absurdity_summary["pass"], 1)
             self.assertEqual(absurdity_summary["fail"], 0)
             self.assertEqual(absurdity_summary["pending"], 0)
-
-            handwaving_summary = handwaving_counts(db_path)
-            self.assertEqual(handwaving_summary["pass"], 1)
-            self.assertEqual(handwaving_summary["fail"], 0)
-            self.assertEqual(handwaving_summary["pending"], 0)

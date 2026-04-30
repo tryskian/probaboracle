@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-04-29
+Last updated: 2026-04-30
 
 ## Startup
 
@@ -28,7 +28,11 @@ Last updated: 2026-04-29
   - coherence
   - prompt relevance
   - coherent absurdity
-  - hand waving
+- Public tracked docs now show:
+  - the canonical generation pipeline
+  - the high-level eval-shape diagram
+- The detailed stop/pass/fail eval flow stays in local/private `docs/peanut/`
+  notes.
 - The tone branch was pulled back to the simpler baseline after prompt
   accretion started fighting the Polinko method.
 - A long baseline run generated a large new untagged backlog and made the main
@@ -41,11 +45,12 @@ Last updated: 2026-04-29
 
 ## Next Slice
 
-1. Sweep the new sidecar lanes deliberately, not all at once.
+1. Sweep the remaining sidecar lanes deliberately, not all at once.
 2. Keep coherence primary when judging new slices.
 3. Use repeated failure clusters to decide whether the baseline has earned a
    real change.
-4. Keep the runtime contract steady unless the data justifies intervention.
+4. Keep the public eval shape and the private detailed flow aligned if either
+   changes.
 
 ## Guardrails
 
