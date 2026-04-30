@@ -24,7 +24,7 @@ LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
 .PHONY: sweep-gremlin sweep-rigorous
-.PHONY: session-status day-start sod eod eod-preflight eod-docs-check eod-git-check eod-stop
+.PHONY: session-status
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -159,48 +159,6 @@ caffeinate-status:
 decaffeinate: caffeinate-off
 caf: caffeinate-on
 decaf: decaffeinate
-
-day-start:
-	@set -eu; \
-	echo "== Probaboracle Start-of-Day =="; \
-	CURRENT_BRANCH="$$(git branch --show-current)"; \
-	if [ "$$CURRENT_BRANCH" = "main" ]; then \
-		BRANCH_NAME="codex/bigbrain/sod-$$(date +%Y%m%d-%H%M%S)"; \
-		echo "Creating feature branch: $$BRANCH_NAME"; \
-		git checkout -b "$$BRANCH_NAME"; \
-	fi; \
-	echo "Read in order:"; \
-	echo "  - README.md"; \
-	echo "  - docs/governance/CHARTER.md"; \
-	echo "  - docs/governance/DECISIONS.md"; \
-	echo "  - docs/runtime/ARCHITECTURE.md"; \
-	echo "  - docs/runtime/RUNBOOK.md"; \
-	if [ -f "docs/governance/SESSION_HANDOFF.md" ]; then \
-		echo "  - docs/governance/SESSION_HANDOFF.md"; \
-	fi; \
-	echo ""; \
-	$(MAKE) --no-print-directory caffeinate-on; \
-	$(MAKE) --no-print-directory doctor-env; \
-	$(MAKE) --no-print-directory session-status
-
-sod: day-start
-
-eod:
-	./scripts/end_of_day_routine.sh
-
-eod-preflight:
-	EOD_SKIP_GIT_CHECK=1 ./scripts/end_of_day_routine.sh
-
-eod-docs-check:
-	$(PY) ./scripts/check_eod_docs.py
-
-eod-git-check:
-	bash ./scripts/check_eod_git_clean.sh
-
-eod-stop:
-	@set -eu; \
-	$(MAKE) --no-print-directory decaf || true; \
-	$(MAKE) --no-print-directory session-status || true
 
 check:
 	$(PY) -m unittest discover -s tests -p 'test_*.py'

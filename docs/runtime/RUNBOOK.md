@@ -78,19 +78,6 @@
   - `make caffeinate-off-all`
 - Keep-awake status:
   - `make caffeinate-status`
-- Start-of-day operator pass:
-  - `make day-start`
-  - alias: `make sod`
-  - creates a feature branch automatically when run from `main`
-  - enables local `caffeinate` first on macOS
-- End-of-day operator pass:
-  - `make eod`
-  - preflight without the final git-clean gate:
-    - `make eod-preflight`
-  - docs freshness check:
-    - `make eod-docs-check`
-  - final clean-main gate:
-    - `make eod-git-check`
 - Run one oracle lane:
   - `make ask PROMPT=what`
   - shortcuts:
@@ -141,19 +128,9 @@
   - render the current PASS/FAIL/PENDING lane chart from `.local/evals.sqlite`
     into `docs/diagrams/probaboracle-pass-fail.svg`.
 
-## End-of-Day
+## Keep-Awake Notes
 
-`make eod` now mirrors the Polinko operator shape more closely, but stays
-Probaboracle-specific:
-
-1. check current-truth docs are refreshed for today
-2. run `doctor-env`
-3. run the test suite
-4. run `package-check`
-5. decaffeinate and run the status wrapper
-6. require clean, synced `main` unless using `make eod-preflight`
-
-Probaboracle still does not manage a server daemon, but it now mirrors Polinko's
+Probaboracle does not manage a server daemon, but it still mirrors Polinko's
 keep-awake control on macOS with one extra safety rule:
 
 - `make caffeinate-on` starts a slot-scoped `caffeinate`

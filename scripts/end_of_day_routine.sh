@@ -11,7 +11,7 @@ fi
 
 echo "[eod] starting end-of-day routine in: $ROOT_DIR"
 echo "[eod] 1/$TOTAL_STEPS eod-docs-check"
-make --no-print-directory eod-docs-check
+"$ROOT_DIR/.venv/bin/python" ./scripts/check_eod_docs.py
 
 echo "[eod] 2/$TOTAL_STEPS doctor-env"
 make --no-print-directory doctor-env
@@ -23,13 +23,14 @@ echo "[eod] 4/$TOTAL_STEPS package-check"
 make --no-print-directory package-check
 
 echo "[eod] 5/$TOTAL_STEPS stop background tasks"
-make --no-print-directory eod-stop
+make --no-print-directory decaf || true
+make --no-print-directory session-status || true
 
 if [ "${EOD_SKIP_GIT_CHECK:-}" = "1" ]; then
 	echo "[eod] git closeout skipped (preflight only)"
 else
 	echo "[eod] 6/$TOTAL_STEPS git closeout"
-	make --no-print-directory eod-git-check
+	bash ./scripts/check_eod_git_clean.sh
 fi
 
 echo "[eod] done"
