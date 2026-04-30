@@ -62,6 +62,8 @@ discipline in a smaller form.
   - public repo framing and command entrypoint
 - `docs/governance/DECISIONS.md`
   - durable engineering, runtime, and eval decisions
+- `docs/research/README.md`
+  - tracked beta findings and research reading path
 - `docs/runtime/ARCHITECTURE.md`
   - stable system shape and contracts
 - `docs/runtime/RUNBOOK.md`

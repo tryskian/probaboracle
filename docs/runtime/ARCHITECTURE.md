@@ -80,6 +80,7 @@ coherent absurdity before the final product-fit judgment.
 - Local persistence: `src/probaboracle/eval_db.py`
 - Operator procedure: `docs/runtime/RUNBOOK.md`
 - Durable decisions: `docs/governance/DECISIONS.md`
+- Tracked beta findings: `docs/research/`
 - Public pipeline and eval-shape diagrams: `docs/diagrams/PIPELINE.md`
 - Local/private detailed eval flow: `docs/peanut/`
 

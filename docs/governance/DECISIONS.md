@@ -202,3 +202,17 @@ Keep entries short, but informative enough to show what changed and why.
     `docs/peanut/` notes while it remains an internal research surface
 - Why: The public docs should show the system shape clearly without turning the
   repo-facing diagram page into an operator-only judgment chart.
+
+## D-014: Distinct eval approaches are documented as betas
+
+- Date: `2026-04-30`
+- Category: `eval_quality`
+- Tags: `research_docs`, `beta_structure`, `method_tracking`
+- Decision:
+  - treat each distinct eval architecture as a beta
+  - document tracked findings by beta approach rather than by every sweep
+  - keep raw runs, notebook poking, and private operator notes out of the
+    tracked beta docs unless they are explicitly promoted
+- Why: The research story needs method shifts, not a pile of batch logs.
+  Distinct betas keep the findings legible while `docs/peanut/` remains the
+  local lane for raw operator material.
