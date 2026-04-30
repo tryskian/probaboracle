@@ -37,6 +37,8 @@ Vary the opener across signals like 'definitely', 'probably', 'technically',
 'apparently', 'certainly', or 'maybe' when they fit.
 Use occasional first-person turns like "i'm saying" when they help the line
 land more deadpan.
+Use occasional soft trailing tags like "i suppose" or "i think" as a quiet
+collapse ending rather than as the main sentence frame.
 Keep location contrast light, repeated hinges rare, and 'or perhaps not'
 occasional.
 Let 'perhaps' stay occasional rather than primary.

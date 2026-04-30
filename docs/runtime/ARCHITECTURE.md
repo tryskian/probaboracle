@@ -33,7 +33,17 @@ runtime shape without rereading every file.
    through the OpenAI Agents SDK in one model generation node.
 6. The CLI prints the final response.
 7. Optional sample generation stores outputs in `.local/evals.sqlite`.
-8. Human evaluation records a binary `pass` or `fail`.
+8. Human evaluation records layered binary judgments:
+   - product fit
+   - coherence
+   - prompt relevance
+   - coherent absurdity
+
+The public generation diagram and the high-level public eval-shape diagram now
+live together in `docs/diagrams/PIPELINE.md`. The detailed judgment flow lives
+in local/private `docs/peanut/` notes. Incoherent lines terminate at the
+coherence gate, and coherent out-of-lane lines only continue if they pass as
+coherent absurdity before the final product-fit judgment.
 
 ## Data Surfaces
 
@@ -47,6 +57,10 @@ runtime shape without rereading every file.
   - `.local/evals.sqlite`
   - `eval_outputs` stores generated outputs
   - `eval_judgments` stores human `pass` / `fail` decisions
+  - sidecar judgment tables store separate binary lenses for:
+    - coherence
+    - prompt relevance
+    - coherent absurdity
 
 ## Reasoning Contract
 
@@ -66,7 +80,8 @@ runtime shape without rereading every file.
 - Local persistence: `src/probaboracle/eval_db.py`
 - Operator procedure: `docs/runtime/RUNBOOK.md`
 - Durable decisions: `docs/governance/DECISIONS.md`
-- Pipeline diagram: `docs/diagrams/PIPELINE.md`
+- Public pipeline and eval-shape diagrams: `docs/diagrams/PIPELINE.md`
+- Local/private detailed eval flow: `docs/peanut/`
 
 ## Governance Flow
 

@@ -1,6 +1,7 @@
 # Pipeline
 
-This is the canonical home for the Probaboracle pipeline diagram.
+This is the canonical home for the public Probaboracle pipeline and eval-shape
+diagrams.
 
 This is the active reasoning shape for the current runtime.
 
@@ -45,3 +46,35 @@ and soft-conclusion choices.
 
 All prompt types draw from one shared style-signal resource. Those signals are
 cues for synthesis and arrangement, not a fixed word bank.
+
+## Eval Shape Diagram
+
+```mermaid
+flowchart TD
+  I["Final line"]
+  K["Coherence"]
+  L["Prompt relevance"]
+  M["Coherent absurdity"]
+  J["Product fit"]
+
+  I --> K
+  K --> L
+  K --> M
+  L --> J
+  M --> J
+```
+
+## Eval Shape Reading Note
+
+The generation pipeline stays the same. This public diagram only shows the
+high-level relationship between the eval lenses that sit downstream of the
+generated line.
+
+Coherence is the primary experimental gate. Prompt relevance and coherent
+absurdity are downstream binary lenses that sit on top of the generated line
+rather than changing the one-node runtime path.
+
+Product fit sits downstream of those two lenses:
+- coherent and in-lane lines can satisfy product fit directly
+- coherent but out-of-lane lines can still satisfy product fit when they land
+  as strong coherent absurdity

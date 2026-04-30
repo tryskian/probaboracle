@@ -80,6 +80,12 @@
   - `make list PROMPT=when LIMIT=10`
 - Record a verdict:
   - `make judge ID=1 VERDICT=pass NOTE="deadpan and vague"`
+- Record a coherence verdict:
+  - `.venv/bin/python -m probaboracle judge-coherence 12 pass --note "coherent sentence"`
+- Record a prompt relevance verdict:
+  - `.venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"`
+- Record a coherent absurdity verdict:
+  - `.venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"`
 - Shortcut verdict targets:
   - `make pass ID=1 NOTE="deadpan and vague"`
   - `make fail ID=2 NOTE="too concrete"`
@@ -138,3 +144,13 @@ failure-taxonomy dashboard.
 6. Treat repeated failure clusters as the intervention signal.
 7. Do not add new prompt layers unless the failures are strong enough to earn
    a real runtime change.
+
+## Layered Eval Lenses
+
+1. Product fit stays the stricter oracle-quality gate.
+2. Coherence is the primary experimental gate:
+   - `pass` = coherent sentence
+   - `fail` = incoherent sentence
+3. Prompt relevance asks whether the coherent sentence stays in-lane for the
+   selected prompt type.
+4. Coherent absurdity is only meaningful once coherence is already passing.
