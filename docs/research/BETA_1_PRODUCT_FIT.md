@@ -1,4 +1,4 @@
-# Beta 1: Product Fit Only
+# Research Beta 1.0: Product Fit Only
 
 ## What This Beta Asked
 

@@ -1,4 +1,4 @@
-# Beta 4: Coherence + Coherent Absurdity
+# Research Beta 4.0: Coherence + Coherent Absurdity
 
 ## What This Beta Asked
 

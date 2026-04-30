@@ -1,4 +1,4 @@
-# Beta 2: Coherence First
+# Research Beta 2.0: Coherence First
 
 ## What This Beta Asked
 

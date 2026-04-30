@@ -1,4 +1,4 @@
-# Beta 3: Coherence + Prompt Relevance
+# Research Beta 3.0: Coherence + Prompt Relevance
 
 ## What This Beta Asked
 

@@ -8,12 +8,60 @@ approach, not a pile of sweeps.
 Raw run notes, operator poking, and private scratch material stay in
 `docs/peanut/`.
 
+## When To Read This
+
+- Need the beta map:
+  - start here
+- Need to know which research beta is current:
+  - use this file
+- Need durable runtime or eval method changes:
+  - use `docs/governance/DECISIONS.md`, not this folder
+
+## Beta Semantics
+
+These betas are research architectures.
+
+They are not:
+
+- app release versions
+- package versions
+- branch names
+- one more sweep
+
+Each beta marks a real change in what the evaluation is asking and what the
+evidence means.
+
+## Beta Map
+
+- `Research Beta 1.0`
+  - `product fit only`
+  - one binary verdict tried to carry product voice, sentence quality, and lane
+    control at once
+- `Research Beta 2.0`
+  - `coherence first`
+  - the primary experiment became sentence coherence inside constrained
+    generation
+- `Research Beta 3.0`
+  - `coherence + prompt relevance`
+  - lane control became a downstream lens on coherent lines
+- `Research Beta 4.0`
+  - `coherence + coherent absurdity`
+  - valuable out-of-lane responses became a small selective class rather than
+    undifferentiated failure
+
+## Current Beta
+
+- current tracked research beta:
+  - `Research Beta 4.0`
+- current question:
+  - can a coherent out-of-lane line still count as strong oracle behaviour?
+
 ## Read In Order
 
-1. [Beta 1: Product Fit Only](./BETA_1_PRODUCT_FIT.md)
-2. [Beta 2: Coherence First](./BETA_2_COHERENCE_FIRST.md)
-3. [Beta 3: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
-4. [Beta 4: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
+1. [Research Beta 1.0: Product Fit Only](./BETA_1_PRODUCT_FIT.md)
+2. [Research Beta 2.0: Coherence First](./BETA_2_COHERENCE_FIRST.md)
+3. [Research Beta 3.0: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
+4. [Research Beta 4.0: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
 
 ## What Counts As A Beta
 
@@ -29,19 +77,31 @@ Not a beta:
 
 ## Status Map
 
-- `Beta 1`
+- `Research Beta 1.0`
   - complete
   - useful for product taste, but overloaded as research
-- `Beta 2`
+- `Research Beta 2.0`
   - complete enough to establish the main finding
   - coherence became the real experimental gate
-- `Beta 3`
+- `Research Beta 3.0`
   - complete
   - relevance is now a downstream lens on coherent lines
   - the full corpus is swept for prompt relevance
-- `Beta 4`
+- `Research Beta 4.0`
   - complete enough to establish the class
   - coherent absurdity is a small selective pocket, not a blanket rescue lane
+
+## Interpretation Rule
+
+Read these betas by role, not by neatness or badge number:
+
+- `Research Beta 1.0` shaped the product voice
+- `Research Beta 2.0` established the core experimental gate
+- `Research Beta 3.0` separated lane control from sentence coherence
+- `Research Beta 4.0` preserved the selective value of coherent drift
+
+Later betas do not erase earlier ones. They narrow what each verdict is allowed
+to mean.
 
 ## Polinko Contrast
 

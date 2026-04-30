@@ -39,6 +39,9 @@ Last updated: 2026-04-30
 - Public tracked docs now show:
   - the canonical generation pipeline
   - the high-level eval-shape diagram
+- Current tracked research beta is:
+  - `Research Beta 4.0`
+  - `coherence + coherent absurdity`
 - Tracked research findings now live under `docs/research/` by beta approach.
 - The detailed stop/pass/fail eval flow stays in local/private `docs/peanut/`
   notes.
