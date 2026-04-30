@@ -9,7 +9,7 @@ description = "Unhelpful local CLI mini oracle within Polinko with a constrained
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-  "openai-agents==0.14.7",
+  "openai-agents==0.14.8",
   "python-dotenv==1.2.2",
 ]
 
