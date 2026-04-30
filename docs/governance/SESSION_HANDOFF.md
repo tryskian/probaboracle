@@ -20,6 +20,8 @@ Last updated: 2026-04-30
 ## Current Snapshot
 
 - Active runtime shape is local CLI plus local SQLite eval storage.
+- The local runtime now auto-loads the repo `.env` before live credential
+  checks.
 - Prompt surface is fixed to `what`, `when`, `why`, and `where`.
 - Output is fully lowercase as part of the deadpan tone contract.
 - Binary eval gates are active and remain strictly `pass` / `fail`.
@@ -36,6 +38,10 @@ Last updated: 2026-04-30
 - The meaningful coherent-absurdity pocket is also swept:
   - `coherence = pass`
   - `relevance = fail`
+  - current pocket: `2 pass / 13 fail / 0 pending`
+- Product fit is still intentionally behind the sidecars:
+  - `116` pending rows
+  - concentrated in `what` and `when`
 - Public tracked docs now show:
   - the canonical generation pipeline
   - the high-level eval-shape diagram
@@ -54,15 +60,18 @@ Last updated: 2026-04-30
   - `when`: `moment / not one you could schedule`
   - `where`: `unclaimed edge / not where you could keep it`
 - Shared style signals are cues for synthesis, not a fixed word bank.
+- The strongest current coherent-absurdity method is serial:
+  - one product per run
+  - immediate judgment
+  - no pooled batch taste when isolating that gate
 
 ## Next Slice
 
-1. Decide whether to close the last `48` pending product-fit rows from the
-   focused `when` run, or leave them as an intentionally separate product
-   pocket.
+1. Decide whether to close the remaining `116` pending product-fit rows, or
+   leave the focused `when` pocket as an intentionally separate product slice.
 2. Keep coherence primary when judging any new slices.
-3. Use repeated failure clusters to decide whether the baseline has earned a
-   real change.
+3. If continuing Beta 4 work, prefer single-product `what` or `why` runs with
+   immediate coherence, relevance, and absurdity judgment.
 4. Keep the public eval shape and the private detailed flow aligned if either
    changes.
 5. Keep tracked research findings grouped by beta approach, not by raw run.

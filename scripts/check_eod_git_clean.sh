@@ -7,7 +7,7 @@ REMOTE="${EOD_GIT_REMOTE:-origin}"
 fail() {
 	echo "eod-git-check: FAIL" >&2
 	echo "  $1" >&2
-	echo "  finish by merging the feature branch, switching to $BRANCH, pulling --ff-only, and rerunning make eod" >&2
+	echo "  finish by merging the feature branch, switching to $BRANCH, pulling --ff-only, and rerunning ./scripts/end_of_day_routine.sh" >&2
 	exit 1
 }
 

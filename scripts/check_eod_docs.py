@@ -50,7 +50,7 @@ def main() -> int:
         for failure in failures:
             print(f"- {failure}", file=sys.stderr)
         print(
-            "Update docs/governance/SESSION_HANDOFF.md before rerunning make eod.",
+            "Update docs/governance/SESSION_HANDOFF.md before rerunning ./scripts/end_of_day_routine.sh.",
             file=sys.stderr,
         )
         return 1

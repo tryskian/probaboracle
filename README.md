@@ -7,12 +7,14 @@
 Probaboracle is a confidently absurd mini **[Polinko model](https://github.com/tryskian/polinko)** and my second experiment within this ongoing research. Its prompt surface is fixed to `what`, `when`, `why`, and `where` to keep behaviour aligned with its intended shape and purpose.
 
 Current tracked research beta:
+
 - `Research Beta 4.0`
 - `coherence + coherent absurdity`
 
 In this repo, betas are research architectures, not product release versions.
 
 Use:
+
 - [docs/research/README.md](./docs/research/README.md)
   - for the beta map and research reading path
 - [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)

@@ -344,3 +344,37 @@ into implementation authorship.
 - Why: The first visible research pulse should be fail pressure, pass pressure,
   and backlog by lane. That is the cleanest high-level evidence surface for
   this repo.
+
+## D-021: Single-product eval isolates the strongest selective signal
+
+- Date: `2026-04-30`
+- Category: `eval_quality`
+- Tags: `single_product_eval`, `coherent_absurdity`, `strongest_signal`
+- Provenance: `human-led method decision`
+- Decision:
+  - use broad sweeps when the goal is mapping a lane or clearing a sidecar
+    backlog
+  - switch to one product per run when the goal is isolating the strongest
+    signal for a selective downstream gate
+  - for coherent absurdity, judge each generated line in order:
+    - coherence
+    - relevance
+    - absurdity only if it enters the coherence-pass relevance-fail pocket
+- Why: Coherent absurdity is too sparse for pooled batch taste to be the main
+  instrument. Single-product evaluation keeps attention on whether one line, by
+  itself, earns coherence and absurdity at the same time.
+
+## D-022: Local runtime auto-loads the repo `.env`
+
+- Date: `2026-04-30`
+- Category: `workflow_environment`
+- Tags: `dotenv`, `local_runtime`, `operator_hygiene`
+- Provenance: `implementation decision`
+- Decision:
+  - auto-load the repo `.env` from `src/probaboracle/config.py`
+  - keep `override=False` so explicit shell exports still win
+  - use the same credential bootstrap path for live CLI generation and local
+    eval commands
+- Why: The local operator path should not require manual shell sourcing every
+  time a sample or ask command runs. Repo-local `.env` loading keeps the
+  runtime small while reducing repeated environment grangle.
