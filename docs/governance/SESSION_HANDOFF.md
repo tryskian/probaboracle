@@ -31,6 +31,7 @@ Last updated: 2026-04-30
 - Public tracked docs now show:
   - the canonical generation pipeline
   - the high-level eval-shape diagram
+- Tracked research findings now live under `docs/research/` by beta approach.
 - The detailed stop/pass/fail eval flow stays in local/private `docs/peanut/`
   notes.
 - The tone branch was pulled back to the simpler baseline after prompt
@@ -51,6 +52,7 @@ Last updated: 2026-04-30
    real change.
 4. Keep the public eval shape and the private detailed flow aligned if either
    changes.
+5. Keep tracked research findings grouped by beta approach, not by raw run.
 
 ## Guardrails
 

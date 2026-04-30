@@ -29,6 +29,24 @@
 4. Check live runtime prerequisites:
    - `make doctor-env`
 
+## Doc Map
+
+- Repo framing:
+  - [README.md](../../README.md)
+- Durable rules:
+  - [docs/governance/CHARTER.md](../governance/CHARTER.md)
+- Durable decisions:
+  - [docs/governance/DECISIONS.md](../governance/DECISIONS.md)
+- Tracked beta findings:
+  - [docs/research/README.md](../research/README.md)
+- Runtime shape:
+  - [docs/runtime/ARCHITECTURE.md](./ARCHITECTURE.md)
+- Current checkpoint:
+  - [docs/governance/SESSION_HANDOFF.md](../governance/SESSION_HANDOFF.md)
+- Public diagrams:
+  - [docs/diagrams/PIPELINE.md](../diagrams/PIPELINE.md)
+  - [docs/diagrams/EVAL_CHART.md](../diagrams/EVAL_CHART.md)
+
 ## Command Surface
 
 - Install:
@@ -46,12 +64,33 @@
   - `make doctor-env`
 - Session snapshot:
   - `make session-status`
+- Keep-awake on:
+  - `make caffeinate-on`
+  - alias: `make caf`
+  - optional:
+    - `make caf CAFFEINATE_SLOT=eval-a`
+- Keep-awake off:
+  - `make decaffeinate`
+  - alias: `make decaf`
+  - optional:
+    - `make decaf CAFFEINATE_SLOT=eval-a`
+- Force-stop all matching `caffeinate` processes:
+  - `make caffeinate-off-all`
+- Keep-awake status:
+  - `make caffeinate-status`
 - Start-of-day operator pass:
   - `make day-start`
   - alias: `make sod`
   - creates a feature branch automatically when run from `main`
+  - enables local `caffeinate` first on macOS
 - End-of-day operator pass:
   - `make eod`
+  - preflight without the final git-clean gate:
+    - `make eod-preflight`
+  - docs freshness check:
+    - `make eod-docs-check`
+  - final clean-main gate:
+    - `make eod-git-check`
 - Run one oracle lane:
   - `make ask PROMPT=what`
   - shortcuts:
@@ -94,11 +133,33 @@
 - Build the package locally:
 - `make package-check`
   - build the Python package and verify metadata still resolves.
+- Lint tracked docs:
+  - `npm run lint:docs`
 - `make render-eval-chart-deps`
   - install the explicit Node dependencies for the static D3 renderer.
 - `make render-eval-chart`
   - render the current PASS/FAIL/PENDING lane chart from `.local/evals.sqlite`
     into `docs/diagrams/probaboracle-pass-fail.svg`.
+
+## End-of-Day
+
+`make eod` now mirrors the Polinko operator shape more closely, but stays
+Probaboracle-specific:
+
+1. check current-truth docs are refreshed for today
+2. run `doctor-env`
+3. run the test suite
+4. run `package-check`
+5. decaffeinate and run the status wrapper
+6. require clean, synced `main` unless using `make eod-preflight`
+
+Probaboracle still does not manage a server daemon, but it now mirrors Polinko's
+keep-awake control on macOS with one extra safety rule:
+
+- `make caffeinate-on` starts a slot-scoped `caffeinate`
+- the default slot is per-terminal when available, otherwise `default`
+- `make decaf` only stops the managed Probaboracle `caffeinate` for that slot
+- `make caffeinate-off-all` is the explicit force-stop path
 
 ## Eval Chart
 

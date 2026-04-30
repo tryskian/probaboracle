@@ -75,6 +75,7 @@ absurdity are downstream binary lenses that sit on top of the generated line
 rather than changing the one-node runtime path.
 
 Product fit sits downstream of those two lenses:
+
 - coherent and in-lane lines can satisfy product fit directly
 - coherent but out-of-lane lines can still satisfy product fit when they land
   as strong coherent absurdity

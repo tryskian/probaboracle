@@ -3,6 +3,10 @@ VENV ?= .venv
 BIN := $(VENV)/bin
 PIP := $(BIN)/pip
 PY := $(BIN)/python
+CAFFEINATE_SLOT ?= $(shell sh -c 'TTY=$$(tty 2>/dev/null || true); case "$$TTY" in /dev/*) SLOT="$${TTY#/dev/}" ;; *) SLOT="default" ;; esac; printf "%s" "$$SLOT" | tr -c "A-Za-z0-9_.-" "-"')
+CAFFEINATE_PID_FILE ?= /tmp/probaboracle-caffeinate.$(CAFFEINATE_SLOT).pid
+CAFFEINATE_LOG ?= /tmp/probaboracle-caffeinate.$(CAFFEINATE_SLOT).log
+CAFFEINATE_CMD ?= /usr/bin/caffeinate -d -i -m
 PROMPT ?= what
 COUNT ?= 5
 LIMIT ?= 20
@@ -15,11 +19,12 @@ SWEEP_LIST_LIMIT ?= 20
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
 .PHONY: install env venv doctor-env check package-check ask sample eval-init list judge pass fail clean
+.PHONY: caffeinate-on caffeinate-off caffeinate-off-all caffeinate-status decaffeinate caf decaf
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
 .PHONY: sweep-gremlin sweep-rigorous
-.PHONY: session-status day-start sod eod
+.PHONY: session-status day-start sod eod eod-preflight eod-docs-check eod-git-check eod-stop
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -52,7 +57,108 @@ session-status:
 		VIRTUAL_ENV="$$ACTIVE_VENV" PATH="$$ACTIVE_VENV/bin:$$PATH" "$(PY)" -c "from probaboracle.config import load_settings; from probaboracle.eval_db import counts; s=load_settings(); c=counts(s.eval_db_path); print(f\"evals: total={c['total']} pass={c['pass']} fail={c['fail']} pending={c['pending']}\")"; \
 	else \
 		echo "eval db: missing"; \
+	fi; \
+	echo ""; \
+	echo "== Keep-awake =="; \
+	$(MAKE) --no-print-directory caffeinate-status || true
+
+caffeinate-on:
+	@set -eu; \
+	echo "slot: $(CAFFEINATE_SLOT)"; \
+	if [ "$$(uname -s)" != "Darwin" ]; then \
+		echo "caffeinate is macOS-only; skipping."; \
+		exit 0; \
+	fi; \
+	if [ -f "$(CAFFEINATE_PID_FILE)" ]; then \
+		PID=$$(cat "$(CAFFEINATE_PID_FILE)" 2>/dev/null || true); \
+		if [ -n "$$PID" ] && kill -0 "$$PID" 2>/dev/null; then \
+			echo "caffeinate already running (PID $$PID)."; \
+			exit 0; \
+		fi; \
+		rm -f "$(CAFFEINATE_PID_FILE)"; \
+	fi; \
+	nohup $(CAFFEINATE_CMD) >"$(CAFFEINATE_LOG)" 2>&1 & \
+	PID=$$!; \
+	echo "$$PID" >"$(CAFFEINATE_PID_FILE)"; \
+	sleep 0.1; \
+	if kill -0 "$$PID" 2>/dev/null; then \
+		echo "caffeinate started for slot $(CAFFEINATE_SLOT) (PID $$PID)."; \
+	else \
+		rm -f "$(CAFFEINATE_PID_FILE)"; \
+		echo "Failed to start caffeinate."; \
+		exit 1; \
 	fi
+
+caffeinate-off:
+	@set -eu; \
+	echo "slot: $(CAFFEINATE_SLOT)"; \
+	if [ "$$(uname -s)" != "Darwin" ]; then \
+		echo "caffeinate is macOS-only; skipping."; \
+		exit 0; \
+	fi; \
+	if [ ! -f "$(CAFFEINATE_PID_FILE)" ]; then \
+		echo "No managed caffeinate PID file found."; \
+		exit 0; \
+	fi; \
+	PID=$$(cat "$(CAFFEINATE_PID_FILE)" 2>/dev/null || true); \
+	if [ -n "$$PID" ] && kill -0 "$$PID" 2>/dev/null; then \
+		kill "$$PID"; \
+		sleep 0.1; \
+		echo "caffeinate stopped for slot $(CAFFEINATE_SLOT) (PID $$PID)."; \
+	else \
+		echo "Stale PID file found; cleaning up."; \
+	fi; \
+	rm -f "$(CAFFEINATE_PID_FILE)"
+
+caffeinate-off-all:
+	@set -eu; \
+	if [ "$$(uname -s)" != "Darwin" ]; then \
+		echo "caffeinate is macOS-only; skipping."; \
+		exit 0; \
+	fi; \
+	$(MAKE) --no-print-directory caffeinate-off || true; \
+	PIDS=$$(pgrep -x caffeinate || true); \
+	if [ -n "$$PIDS" ]; then \
+		for PID in $$PIDS; do \
+			kill "$$PID" 2>/dev/null || true; \
+		done; \
+		sleep 0.1; \
+		echo "Stopped matching caffeinate processes: $$PIDS"; \
+	else \
+		echo "No matching caffeinate processes running."; \
+	fi; \
+	rm -f /tmp/probaboracle-caffeinate.*.pid
+
+caffeinate-status:
+	@set -eu; \
+	echo "slot: $(CAFFEINATE_SLOT)"; \
+	if [ "$$(uname -s)" != "Darwin" ]; then \
+		echo "caffeinate status is only available on macOS."; \
+		exit 0; \
+	fi; \
+	if [ -f "$(CAFFEINATE_PID_FILE)" ]; then \
+		PID=$$(cat "$(CAFFEINATE_PID_FILE)" 2>/dev/null || true); \
+		if [ -n "$$PID" ] && kill -0 "$$PID" 2>/dev/null; then \
+			echo "Managed caffeinate: RUNNING (PID $$PID)."; \
+		else \
+			echo "Managed caffeinate: STALE PID file."; \
+		fi; \
+	else \
+		echo "Managed caffeinate: OFF."; \
+	fi; \
+	ALL_PIDS=$$(pgrep -x caffeinate | tr '\n' ' ' | sed 's/  */ /g; s/^ //; s/ $$//' || true); \
+	if [ -n "$$ALL_PIDS" ]; then \
+		echo "Active caffeinate PIDs: $$ALL_PIDS"; \
+	fi; \
+	if command -v rg >/dev/null 2>&1; then \
+		/usr/bin/pmset -g assertions | rg -n "PreventUserIdleDisplaySleep|PreventUserIdleSystemSleep|PreventDiskIdle|caffeinate" || true; \
+	else \
+		/usr/bin/pmset -g assertions | grep -nE "PreventUserIdleDisplaySleep|PreventUserIdleSystemSleep|PreventDiskIdle|caffeinate" || true; \
+	fi
+
+decaffeinate: caffeinate-off
+caf: caffeinate-on
+decaf: decaffeinate
 
 day-start:
 	@set -eu; \
@@ -73,18 +179,28 @@ day-start:
 		echo "  - docs/governance/SESSION_HANDOFF.md"; \
 	fi; \
 	echo ""; \
+	$(MAKE) --no-print-directory caffeinate-on; \
 	$(MAKE) --no-print-directory doctor-env; \
 	$(MAKE) --no-print-directory session-status
 
 sod: day-start
 
 eod:
+	./scripts/end_of_day_routine.sh
+
+eod-preflight:
+	EOD_SKIP_GIT_CHECK=1 ./scripts/end_of_day_routine.sh
+
+eod-docs-check:
+	$(PY) ./scripts/check_eod_docs.py
+
+eod-git-check:
+	bash ./scripts/check_eod_git_clean.sh
+
+eod-stop:
 	@set -eu; \
-	echo "== Probaboracle End-of-Day =="; \
-	$(MAKE) --no-print-directory session-status; \
-	echo ""; \
-	echo "Recent outputs:"; \
-	$(MAKE) --no-print-directory list LIMIT=5 || true
+	$(MAKE) --no-print-directory decaf || true; \
+	$(MAKE) --no-print-directory session-status || true
 
 check:
 	$(PY) -m unittest discover -s tests -p 'test_*.py'
