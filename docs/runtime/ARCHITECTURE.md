@@ -40,6 +40,9 @@ runtime shape without rereading every file.
    - coherent absurdity
    - hand waving
 
+The generation diagram and the eval-layer diagram now live together in
+`docs/diagrams/PIPELINE.md`.
+
 ## Data Surfaces
 
 - Live runtime config:

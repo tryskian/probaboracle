@@ -63,7 +63,9 @@ connective articles or hinges, and soft conclusions before resolving to one
 final line. All prompt types draw from one shared style-signal resource, and
 those signals are cues for synthesis rather than a fixed word bank. The words
 are still generated in one model call; prompt type matches the reasoning
-scope, while the model handles the final sentence logic.
+scope, while the model handles the final sentence logic. The same diagram page
+also now includes the eval-layer diagram for product fit, coherence, prompt
+relevance, coherent absurdity, and hand waving.
 
 ## Current Shape
 
