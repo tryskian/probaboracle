@@ -22,8 +22,7 @@ make --no-print-directory check
 echo "[eod] 4/$TOTAL_STEPS package-check"
 make --no-print-directory package-check
 
-echo "[eod] 5/$TOTAL_STEPS stop background tasks"
-make --no-print-directory decaf || true
+echo "[eod] 5/$TOTAL_STEPS session snapshot"
 make --no-print-directory session-status || true
 
 if [ "${EOD_SKIP_GIT_CHECK:-}" = "1" ]; then
