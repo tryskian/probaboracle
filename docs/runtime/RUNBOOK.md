@@ -67,20 +67,6 @@
   - `make doctor-env`
 - Session snapshot:
   - `make session-status`
-- Keep-awake on:
-  - `make caffeinate-on`
-  - alias: `make caf`
-  - optional:
-    - `make caf CAFFEINATE_SLOT=eval-a`
-- Keep-awake off:
-  - `make decaffeinate`
-  - alias: `make decaf`
-  - optional:
-    - `make decaf CAFFEINATE_SLOT=eval-a`
-- Force-stop all matching `caffeinate` processes:
-  - `make caffeinate-off-all`
-- Keep-awake status:
-  - `make caffeinate-status`
 - Run one oracle lane:
   - `make ask PROMPT=what`
   - shortcuts:
@@ -131,16 +117,6 @@
 - `make render-eval-chart`
   - render the current PASS/FAIL/PENDING lane chart from `.local/evals.sqlite`
     into `docs/diagrams/probaboracle-pass-fail.svg`.
-
-## Keep-Awake Notes
-
-Probaboracle does not manage a server daemon, but it still mirrors Polinko's
-keep-awake control on macOS with one extra safety rule:
-
-- `make caffeinate-on` starts a slot-scoped `caffeinate`
-- the default slot is per-terminal when available, otherwise `default`
-- `make decaf` only stops the managed Probaboracle `caffeinate` for that slot
-- `make caffeinate-off-all` is the explicit force-stop path
 
 ## Eval Chart
 

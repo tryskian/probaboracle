@@ -378,3 +378,19 @@ into implementation authorship.
 - Why: The local operator path should not require manual shell sourcing every
   time a sample or ask command runs. Repo-local `.env` loading keeps the
   runtime small while reducing repeated environment grangle.
+
+## D-023: Keep-awake control is not part of the canonical operator surface
+
+- Date: `2026-05-01`
+- Category: `workflow_environment`
+- Tags: `operator_surface`, `makefile`, `local_runtime`
+- Provenance: `human-led method decision`, later `repo formalization`
+- Decision:
+  - remove the macOS `caffeinate` control targets from the canonical Makefile
+    surface
+  - keep session status focused on repo and eval state only
+  - do not treat keep-awake management as a first-class Probaboracle operator
+    concern
+- Why: The keep-awake lane introduced more operator grangle than value. The
+  repo should stay focused on the oracle runtime and eval workflow, not on
+  background power-management helpers.
