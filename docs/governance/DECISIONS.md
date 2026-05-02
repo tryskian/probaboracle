@@ -394,3 +394,23 @@ into implementation authorship.
 - Why: The keep-awake lane introduced more operator grangle than value. The
   repo should stay focused on the oracle runtime and eval workflow, not on
   background power-management helpers.
+
+## D-024: Coherence requires one resolved sentence, not stacked fragments
+
+- Date: `2026-05-01`
+- Category: `eval_quality`
+- Tags: `coherence`, `sentence_resolution`, `stricter_threshold`
+- Provenance: `human-led method decision`, later `repo formalization`
+- Decision:
+  - keep coherence as the primary experimental gate
+  - tighten the coherence threshold so a `pass` means:
+    - one resolved sentence
+    - one dominant reasoning lane
+    - punctuation supporting the line rather than propping it up
+  - fail lines that read like:
+    - stacked fragments
+    - a one-line list or tiny poem
+    - hinge accumulation held together by commas and connective residue
+- Why: Some lines looked coherent at a glance but only because punctuation and
+  stacked fragments were doing the reasoning work. The stricter threshold keeps
+  coherence focused on genuine sentence resolution rather than dressed-up blur.

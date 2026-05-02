@@ -97,7 +97,7 @@
 - Record a verdict:
   - `make judge ID=1 VERDICT=pass NOTE="deadpan and vague"`
 - Record a coherence verdict:
-  - `.venv/bin/python -m probaboracle judge-coherence 12 pass --note "coherent sentence"`
+  - `.venv/bin/python -m probaboracle judge-coherence 12 pass --note "one resolved sentence"`
 - Record a prompt relevance verdict:
   - `.venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"`
 - Record a coherent absurdity verdict:
@@ -181,8 +181,9 @@ failure-taxonomy dashboard.
 
 1. Product fit stays the stricter oracle-quality gate.
 2. Coherence is the primary experimental gate:
-   - `pass` = coherent sentence
-   - `fail` = incoherent sentence
-3. Prompt relevance asks whether the coherent sentence stays in-lane for the
+   - `pass` = one resolved sentence with one dominant reasoning lane
+   - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or
+     punctuation doing the reasoning work
+3. Prompt relevance asks whether a coherence-passing line stays in-lane for the
    selected prompt type.
 4. Coherent absurdity is only meaningful once coherence is already passing.

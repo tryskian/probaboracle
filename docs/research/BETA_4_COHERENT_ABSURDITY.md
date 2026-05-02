@@ -1,8 +1,12 @@
-# Research Beta 4.0: Coherence + Coherent Absurdity
+# Research Beta 4.1: Coherence + Coherent Absurdity
 
 ## What This Beta Asked
 
 Can a coherent out-of-lane line still be a very good Probaboracle response?
+
+This version keeps the same Beta 4 architecture, but raises the coherence bar:
+stacked fragments, one-line-list rhythm, and punctuation-held blur no longer
+count as clean coherence passes.
 
 ## Eval Shape
 
@@ -11,6 +15,8 @@ Can a coherent out-of-lane line still be a very good Probaboracle response?
 - coherent absurdity as another downstream lens
 - product fit can still be satisfied through coherent absurdity
 - when isolating this gate, use one product per run and judge it immediately
+- coherence only passes when the line resolves as one sentence rather than a
+  stacked fragment chain
 
 ## Diagram
 
@@ -59,9 +65,9 @@ That pocket is now fully swept:
 
 The broader absurdity table is larger:
 
-- `5 pass / 13 fail / 788 pending`
+- `5 pass / 14 fail / 824 pending`
 
-but that is not the primary instrument for this beta.
+but that is not the primary instrument for this beta version.
 
 The two passes are strong precisely because they are rare:
 
@@ -74,6 +80,10 @@ question we are asking.
 The strongest signal for this beta came from serial single-product runs rather
 than from broader pooled sweeps. That method made it easier to see whether one
 line, by itself, earned coherence and absurdity at the same time.
+
+It also clarified the coherence bar. Some lines initially looked coherent
+because commas, hinges, and soft tags were smoothing over fragment stacking.
+Those lines do not pass this beta cleanly anymore.
 
 ## Why It Matters
 

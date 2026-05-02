@@ -46,7 +46,7 @@ Last updated: 2026-05-01
   - the canonical generation pipeline
   - the high-level eval-shape diagram
 - Current tracked research beta is:
-  - `Research Beta 4.0`
+  - `Research Beta 4.1`
   - `coherence + coherent absurdity`
 - Tracked research findings now live under `docs/research/` by beta approach.
 - The detailed stop/pass/fail eval flow stays in local/private `docs/peanut/`
@@ -64,6 +64,11 @@ Last updated: 2026-05-01
   - one product per run
   - immediate judgment
   - no pooled batch taste when isolating that gate
+- Coherence is now being judged more strictly:
+  - one resolved sentence
+  - one dominant lane
+  - fail stacked fragment chains and one-line-list shapes even if they look
+    superficially tidy
 
 ## Next Slice
 
@@ -75,8 +80,8 @@ Last updated: 2026-05-01
    - one clean command surface
 3. Leave the current `116` pending product-fit rows alone unless product-fit
    closure becomes the explicit next kernel.
-4. If returning to Beta 4 research work, prefer single-product `what` or `why`
-   runs with immediate coherence, relevance, and absurdity judgment.
+4. If returning to Beta 4 research work, prefer single-product flex runs with
+   immediate coherence, relevance, and absurdity judgment.
 5. Keep tracked research findings grouped by beta approach, not by raw run.
 
 ## Guardrails

@@ -21,6 +21,8 @@ Raw run notes, operator poking, and private scratch material stay in
 
 These betas are research architectures.
 
+Minor versions tighten the active method inside the same architecture.
+
 They are not:
 
 - app release versions
@@ -44,7 +46,7 @@ evidence means.
 - `Research Beta 3.0`
   - `coherence + prompt relevance`
   - lane control became a downstream lens on coherent lines
-- `Research Beta 4.0`
+- `Research Beta 4.1`
   - `coherence + coherent absurdity`
   - valuable out-of-lane responses became a small selective class rather than
     undifferentiated failure
@@ -52,11 +54,13 @@ evidence means.
 ## Current Beta
 
 - current tracked research beta:
-  - `Research Beta 4.0`
+  - `Research Beta 4.1`
 - current question:
   - can a coherent out-of-lane line still count as strong oracle behaviour?
 - current clean probe:
   - single-product serial runs when testing the coherent-absurdity gate
+- current version turn:
+  - stricter coherence threshold inside Beta 4
 
 ## Current Finding
 
@@ -94,7 +98,7 @@ flowchart LR
   B1["Research Beta 1.0<br/>product fit only"]
   B2["Research Beta 2.0<br/>coherence first"]
   B3["Research Beta 3.0<br/>coherence + prompt relevance"]
-  B4["Research Beta 4.0<br/>coherence + coherent absurdity"]
+  B4["Research Beta 4.1<br/>coherence + coherent absurdity"]
 
   S1["one verdict overloaded tone,<br/>sentence quality, and lane control"]
   S2["coherence pulled out as the<br/>primary experimental gate"]
@@ -109,7 +113,7 @@ flowchart LR
 1. [Research Beta 1.0: Product Fit Only](./BETA_1_PRODUCT_FIT.md)
 2. [Research Beta 2.0: Coherence First](./BETA_2_COHERENCE_FIRST.md)
 3. [Research Beta 3.0: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
-4. [Research Beta 4.0: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
+4. [Research Beta 4.1: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
 
 ## What Counts As A Beta
 
@@ -135,7 +139,7 @@ Not a beta:
   - complete
   - relevance is now a downstream lens on coherent lines
   - the full corpus is swept for prompt relevance
-- `Research Beta 4.0`
+- `Research Beta 4.1`
   - complete enough to establish the class
   - coherent absurdity is a small selective pocket, not a blanket rescue lane
   - single-product serial runs are the cleanest follow-up instrument for this
@@ -148,7 +152,8 @@ Read these betas by role, not by neatness or badge number:
 - `Research Beta 1.0` shaped the product voice
 - `Research Beta 2.0` established the core experimental gate
 - `Research Beta 3.0` separated lane control from sentence coherence
-- `Research Beta 4.0` preserved the selective value of coherent drift
+- `Research Beta 4.1` preserves the selective value of coherent drift while
+  holding coherence to a stricter sentence-resolution bar
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed
 to mean.
