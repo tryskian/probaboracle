@@ -184,6 +184,9 @@ failure-taxonomy dashboard.
    - `pass` = one resolved sentence with one dominant reasoning lane
    - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or
      punctuation doing the reasoning work
+   - for Probaboracle's short lines, use a hard punctuation shortcut:
+     - `0-1` comma = normal
+     - `2+` commas = fail
 3. Prompt relevance asks whether a coherence-passing line stays in-lane for the
    selected prompt type.
 4. Coherent absurdity is only meaningful once coherence is already passing.

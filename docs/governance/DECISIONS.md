@@ -407,10 +407,12 @@ into implementation authorship.
     - one resolved sentence
     - one dominant reasoning lane
     - punctuation supporting the line rather than propping it up
+    - at most one comma in a short line
   - fail lines that read like:
     - stacked fragments
     - a one-line list or tiny poem
     - hinge accumulation held together by commas and connective residue
+    - any short line with more than one comma
 - Why: Some lines looked coherent at a glance but only because punctuation and
   stacked fragments were doing the reasoning work. The stricter threshold keeps
   coherence focused on genuine sentence resolution rather than dressed-up blur.

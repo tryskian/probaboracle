@@ -8,6 +8,12 @@ This version keeps the same Beta 4 architecture, but raises the coherence bar:
 stacked fragments, one-line-list rhythm, and punctuation-held blur no longer
 count as clean coherence passes.
 
+For short Probaboracle lines, this version also uses a hard punctuation
+heuristic:
+
+- `0-1` comma = normal
+- `2+` commas = fail
+
 ## Eval Shape
 
 - coherence first
