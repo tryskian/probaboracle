@@ -71,7 +71,7 @@ That pocket is now fully swept:
 
 The broader absurdity table is larger:
 
-- `5 pass / 14 fail / 824 pending`
+- `5 pass / 14 fail / 894 pending`
 
 but that is not the primary instrument for this beta version.
 
@@ -95,6 +95,22 @@ because that lane stress-tests the current coherence rule most directly.
 It also clarified the coherence bar. Some lines initially looked coherent
 because commas, hinges, and soft tags were smoothing over fragment stacking.
 Those lines do not pass this beta cleanly anymore.
+
+The current tracked long run is judged through row `913`:
+
+- product: `398 pass / 399 fail / 116 pending`
+- coherence: `792 pass / 121 fail / 0 pending`
+- relevance: `778 pass / 135 fail / 0 pending`
+- absurdity: `5 pass / 14 fail / 894 pending`
+
+That longer run also sharpened two lane-specific reads:
+
+- `when` now splits more cleanly between simple one-comma temporal passes and
+  stacked temporal fails
+- `why` is still usually the weakest product lane, but it surfaced two strong
+  in-lane exceptions:
+  - `896`: `apparently a reason, though not in any useful sense.`
+  - `913`: `technically a reason, though not in any useful sense.`
 
 ## Why It Matters
 

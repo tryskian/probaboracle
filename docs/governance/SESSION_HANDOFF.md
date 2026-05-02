@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-01
+Last updated: 2026-05-02
 
 ## Startup
 
@@ -42,6 +42,11 @@ Last updated: 2026-05-01
 - Product fit is still intentionally behind the sidecars:
   - `116` pending rows
   - concentrated in `what` and `when`
+- The current long-run serial checkpoint is judged through row `913`:
+  - product: `398 pass / 399 fail / 116 pending`
+  - coherence: `792 pass / 121 fail / 0 pending`
+  - relevance: `778 pass / 135 fail / 0 pending`
+  - absurdity: `5 pass / 14 fail / 894 pending`
 - Public tracked docs now show:
   - the canonical generation pipeline
   - the high-level eval-shape diagram
@@ -73,20 +78,27 @@ Last updated: 2026-05-01
   - fail stacked fragment chains and one-line-list shapes even if they look
     superficially tidy
   - for short lines, `2+` commas is now a hard fail heuristic
+- The current long run also surfaced two strong in-lane `why` exceptions:
+  - `896`: `apparently a reason, though not in any useful sense.`
+  - `913`: `technically a reason, though not in any useful sense.`
+- `when` is now splitting more clearly:
+  - simple one-comma temporal lines can pass
+  - stacked temporal blur fails fast
 
 ## Next Slice
 
-1. Define the first Probaboracle app-wrapper brief before building UI or shell
-   behaviour.
-2. Keep the wrapper small:
-   - local
-   - CLI-first
-   - one clean command surface
-3. Leave the current `116` pending product-fit rows alone unless product-fit
+1. Continue the Beta 4.1 long serial run from row `914` onward.
+2. Keep the active method the same:
+   - one product
+   - immediate judgment
+   - `25+` row checkpoints
+   - `50-100` rows, or about one hour, for the real long-run surface
+3. Keep extra `when` pressure in the mix while the stricter coherence rule is
+   under load.
+4. Keep watching for rare strong `why` exceptions rather than assuming that
+   lane is only fallback sludge.
+5. Leave the current `116` pending product-fit rows alone unless product-fit
    closure becomes the explicit next kernel.
-4. If returning to Beta 4 research work, prefer single-product flex runs with
-   immediate coherence, relevance, and absurdity judgment in `25+` row chunks.
-5. Keep tracked research findings grouped by beta approach, not by raw run.
 
 ## Guardrails
 
