@@ -416,3 +416,26 @@ into implementation authorship.
 - Why: Some lines looked coherent at a glance but only because punctuation and
   stacked fragments were doing the reasoning work. The stricter threshold keeps
   coherence focused on genuine sentence resolution rather than dressed-up blur.
+
+## D-025: Beta 4.1 serial probing should use real chunks, not measly runs
+
+- Date: `2026-05-01`
+- Category: `eval_quality`
+- Tags: `serial_probe`, `chunk_size`, `beta_4_1`
+- Provenance: `human-led method decision`, later `repo formalization`
+- Decision:
+  - keep Beta 4.1 probing serial:
+    - one product
+    - immediate judgment
+    - next product
+  - but treat a longer serial chunk as the minimum useful surface for a live
+    checkpoint
+  - use `25+` rows as the default minimum useful chunk before summarizing
+    progress
+  - treat `50-100` rows, or about one hour of serial probing, as the real
+    long-run surface
+  - keep extra `when` pressure in the mix because that lane is the most useful
+    stress test for the current coherence rule
+- Why: The value is in the data. Tiny taste-check runs make the method look
+  cleaner than it really is and do not produce enough pressure to learn from
+  the current coherence threshold.
