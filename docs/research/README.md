@@ -58,7 +58,7 @@ evidence means.
 - current question:
   - can a coherent out-of-lane line still count as strong oracle behaviour?
 - current clean probe:
-  - single-product serial runs when testing the coherent-absurdity gate
+  - long serial single-product runs when testing the coherent-absurdity gate
 - current version turn:
   - stricter coherence threshold inside Beta 4
 
@@ -69,6 +69,14 @@ evidence means.
 - prompt relevance is a downstream lens, not a proxy for sentence quality
 - coherent absurdity is a small selective class:
   - `2 pass / 13 fail` in the meaningful coherence-pass relevance-fail pocket
+- the long serial run through row `913` strengthened the stricter coherence
+  rule:
+  - `when` now splits cleanly between simple one-comma passes and stacked
+    temporal fails
+- `why` is still the weakest product lane overall, but it can still surface
+  rare novel passes:
+  - `896`: `apparently a reason, though not in any useful sense.`
+  - `913`: `technically a reason, though not in any useful sense.`
 
 ## Plans
 
@@ -142,8 +150,9 @@ Not a beta:
 - `Research Beta 4.1`
   - complete enough to establish the class
   - coherent absurdity is a small selective pocket, not a blanket rescue lane
-  - single-product serial runs are the cleanest follow-up instrument for this
-    beta
+  - long serial single-product runs are the cleanest follow-up instrument for
+    this beta
+  - the current tracked long run is judged through row `913`
 
 ## Interpretation Rule
 
