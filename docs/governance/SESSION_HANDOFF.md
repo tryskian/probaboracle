@@ -64,11 +64,15 @@ Last updated: 2026-05-01
   - one product per run
   - immediate judgment
   - no pooled batch taste when isolating that gate
+  - use `25+` rows as the default minimum useful chunk before summarizing
+  - treat `50-100` rows, or about one hour, as the real long-run surface
+  - keep extra `when` pressure in the mix
 - Coherence is now being judged more strictly:
   - one resolved sentence
   - one dominant lane
   - fail stacked fragment chains and one-line-list shapes even if they look
     superficially tidy
+  - for short lines, `2+` commas is now a hard fail heuristic
 
 ## Next Slice
 
@@ -81,7 +85,7 @@ Last updated: 2026-05-01
 3. Leave the current `116` pending product-fit rows alone unless product-fit
    closure becomes the explicit next kernel.
 4. If returning to Beta 4 research work, prefer single-product flex runs with
-   immediate coherence, relevance, and absurdity judgment.
+   immediate coherence, relevance, and absurdity judgment in `25+` row chunks.
 5. Keep tracked research findings grouped by beta approach, not by raw run.
 
 ## Guardrails

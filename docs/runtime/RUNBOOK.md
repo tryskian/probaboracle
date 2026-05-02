@@ -175,7 +175,13 @@ failure-taxonomy dashboard.
    - relevance second
    - coherent absurdity only if relevance fails after coherence passes
 4. Repeat one product at a time instead of pooling a larger batch.
-5. Prefer this loop over broader sweeps when testing coherent absurdity.
+5. Treat `25+` rows as the default minimum useful chunk before stopping for a
+   summary.
+6. Treat `50-100` rows, or about one hour of serial probing, as the real
+   long-run surface.
+7. Keep extra `when` pressure in the mix when testing the current coherence
+   rule.
+8. Prefer this loop over broader sweeps when testing coherent absurdity.
 
 ## Layered Eval Lenses
 
@@ -184,6 +190,9 @@ failure-taxonomy dashboard.
    - `pass` = one resolved sentence with one dominant reasoning lane
    - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or
      punctuation doing the reasoning work
+   - for Probaboracle's short lines, use a hard punctuation shortcut:
+     - `0-1` comma = normal
+     - `2+` commas = fail
 3. Prompt relevance asks whether a coherence-passing line stays in-lane for the
    selected prompt type.
 4. Coherent absurdity is only meaningful once coherence is already passing.

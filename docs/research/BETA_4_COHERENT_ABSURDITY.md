@@ -8,6 +8,12 @@ This version keeps the same Beta 4 architecture, but raises the coherence bar:
 stacked fragments, one-line-list rhythm, and punctuation-held blur no longer
 count as clean coherence passes.
 
+For short Probaboracle lines, this version also uses a hard punctuation
+heuristic:
+
+- `0-1` comma = normal
+- `2+` commas = fail
+
 ## Eval Shape
 
 - coherence first
@@ -80,6 +86,11 @@ question we are asking.
 The strongest signal for this beta came from serial single-product runs rather
 than from broader pooled sweeps. That method made it easier to see whether one
 line, by itself, earned coherence and absurdity at the same time.
+
+But those serial runs still need real volume. Under Beta 4.1, `25+` row serial
+chunks are the default minimum useful checkpoint, and `50-100` rows or about
+one hour is the real long-run surface. Extra `when` pressure stays in the mix
+because that lane stress-tests the current coherence rule most directly.
 
 It also clarified the coherence bar. Some lines initially looked coherent
 because commas, hinges, and soft tags were smoothing over fragment stacking.
