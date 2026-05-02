@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-04-30
+Last updated: 2026-05-01
 
 ## Startup
 
@@ -67,13 +67,16 @@ Last updated: 2026-04-30
 
 ## Next Slice
 
-1. Decide whether to close the remaining `116` pending product-fit rows, or
-   leave the focused `when` pocket as an intentionally separate product slice.
-2. Keep coherence primary when judging any new slices.
-3. If continuing Beta 4 work, prefer single-product `what` or `why` runs with
-   immediate coherence, relevance, and absurdity judgment.
-4. Keep the public eval shape and the private detailed flow aligned if either
-   changes.
+1. Define the first Probaboracle app-wrapper brief before building UI or shell
+   behaviour.
+2. Keep the wrapper small:
+   - local
+   - CLI-first
+   - one clean command surface
+3. Leave the current `116` pending product-fit rows alone unless product-fit
+   closure becomes the explicit next kernel.
+4. If returning to Beta 4 research work, prefer single-product `what` or `why`
+   runs with immediate coherence, relevance, and absurdity judgment.
 5. Keep tracked research findings grouped by beta approach, not by raw run.
 
 ## Guardrails

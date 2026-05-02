@@ -4,7 +4,7 @@
 
 ## An unhelpful mini chatbot that's "probably" an "oracle", which is more or less how it responds
 
-Probaboracle is a confidently absurd mini **[Polinko model](https://github.com/tryskian/polinko)** and my second experiment within this ongoing research. Its prompt surface is fixed to `what`, `when`, `why`, and `where` to keep behaviour aligned with its intended shape and purpose.
+Probaboracle is a confidently absurd mini **[Polinko research model](https://github.com/tryskian/polinko)** and my second experiment within this ongoing research. Its prompt surface is fixed to `what`, `when`, `why`, and `where` to keep behaviour aligned with its intended shape and purpose.
 
 Current tracked research beta:
 
@@ -13,7 +13,13 @@ Current tracked research beta:
 
 In this repo, betas are research architectures, not product release versions.
 
-Use:
+## What This Repo Demonstrates
+
+- constrained one-node generation through a fixed prompt surface
+- coherence-first evaluation instead of one overloaded product verdict
+- coherent absurdity as a small selective downstream class
+
+Read next:
 
 - [docs/research/README.md](./docs/research/README.md)
   - for the beta map and research reading path

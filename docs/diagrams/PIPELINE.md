@@ -3,7 +3,8 @@
 This is the canonical home for the public Probaboracle pipeline and eval-shape
 diagrams.
 
-This is the active reasoning shape for the current runtime.
+This is the shortest public explanation of how Probaboracle generates a line
+and how that line is judged.
 
 ## Canonical Diagram
 
@@ -73,6 +74,11 @@ generated line.
 Coherence is the primary experimental gate. Prompt relevance and coherent
 absurdity are downstream binary lenses that sit on top of the generated line
 rather than changing the one-node runtime path.
+
+The public claim is simple:
+
+- one-node constrained generation
+- then layered binary evaluation
 
 Product fit sits downstream of those two lenses:
 

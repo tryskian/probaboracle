@@ -58,6 +58,14 @@ evidence means.
 - current clean probe:
   - single-product serial runs when testing the coherent-absurdity gate
 
+## Current Finding
+
+- one-node constrained generation can hold sentence coherence under a fixed
+  prompt surface
+- prompt relevance is a downstream lens, not a proxy for sentence quality
+- coherent absurdity is a small selective class:
+  - `2 pass / 13 fail` in the meaningful coherence-pass relevance-fail pocket
+
 ## Plans
 
 These are future lanes, not active betas.
