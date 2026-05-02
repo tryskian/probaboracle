@@ -38,6 +38,8 @@ runtime shape without rereading every file.
    - coherence
    - prompt relevance
    - coherent absurdity
+   - coherence only passes when the line resolves as one sentence rather than a
+     stacked fragment chain
 
 The public generation diagram and the high-level public eval-shape diagram now
 live together in `docs/diagrams/PIPELINE.md`. The detailed judgment flow lives
@@ -73,6 +75,10 @@ coherent absurdity before the final product-fit judgment.
 - Words are generated in one node, not stitched from per-prompt fragments.
 - The model resolves the final logical sentence structure inside that one
   generation path.
+- Human coherence judgment checks whether that structure resolves cleanly:
+  - one dominant lane
+  - one resolved sentence
+  - punctuation supporting the line rather than carrying it
 
 ## Placement Rules
 

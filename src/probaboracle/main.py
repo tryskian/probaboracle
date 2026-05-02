@@ -168,7 +168,7 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
     print("\nPRODUCT VERDICT: PASS | FAIL [note]")
     print('Example: make judge ID=12 VERDICT=pass NOTE="deadpan and vague"')
     print("\nCOHERENCE VERDICT: PASS | FAIL [note]")
-    print('Example: .venv/bin/python -m probaboracle judge-coherence 12 pass --note "coherent sentence"')
+    print('Example: .venv/bin/python -m probaboracle judge-coherence 12 pass --note "one resolved sentence"')
     print("\nPROMPT RELEVANCE VERDICT: PASS | FAIL [note]")
     print('Example: .venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"')
     print("\nCOHERENT ABSURDITY VERDICT: PASS | FAIL [note]")
