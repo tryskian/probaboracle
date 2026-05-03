@@ -1,119 +1,107 @@
 # Architecture
 
-This page is the fast structural map of the repo: start here when you need the
-runtime shape without rereading every file.
+This is the fast map of Probaboracle's stable shape.
 
-## Top-Level Map
+Use it when you need to understand how the app, generation path, eval storage,
+and docs surfaces fit together without rereading the whole repo.
 
-- `pyproject.toml`
-  - package metadata and dependency pin
-- `Makefile`
-  - canonical operator command surface
-- `src/probaboracle/config.py`
-  - runtime contract and prompt/eval constants
-- `src/probaboracle/agent.py`
-  - OpenAI Agents SDK wiring
-- `src/probaboracle/eval_db.py`
-  - local SQLite eval storage and judgment writes
-- `src/probaboracle/main.py`
-  - CLI entrypoint for the default app loop and operator subcommands
-- `tests/`
-  - local contract and persistence tests
-- `docs/`
-  - charter, decisions, runbook, handoff, and diagrams
+## System Map
 
-## Runtime Flow
+| Surface | Role |
+| --- | --- |
+| `pyproject.toml` | package metadata and dependency pins |
+| `Makefile` | operator command surface |
+| `src/probaboracle/config.py` | prompt constants, settings, and runtime contract |
+| `src/probaboracle/agent.py` | OpenAI Agents SDK generation path |
+| `src/probaboracle/main.py` | default app loop and explicit subcommands |
+| `src/probaboracle/eval_db.py` | local SQLite eval storage |
+| `tests/` | contract and persistence tests |
+| `docs/` | charter, decisions, runbook, research notes, and diagrams |
 
-1. Bare `probaboracle` opens one persistent local app loop with a small
-   responsive header:
-   - boxed when the terminal is wide enough
-   - stacked fallbacks when it is not
-2. The user selects one fixed prompt type per turn from the selector:
-   - `enter` is the primary action
-   - `esc` is the explicit secondary exit path
-3. `config.py` validates the selected prompt type.
-4. The selected prompt type defines the reasoning lane and matched scope.
-5. That lane reasons through certainty words, indecision words, connective
-   articles or hinges, and soft conclusions using one shared style-signal pool.
-6. `agent.py` builds the oracle agent and runs that constrained reasoning task
-   through the OpenAI Agents SDK in one model generation node while the app
-   shows a minimal inline spinner wait state in the selected prompt area.
-7. After `enter`, the CLI collapses to the selected question, renders the
-   response on its own line, and then offers the immediate continue prompt.
-8. Operator subcommands remain available for explicit repo work like `ask`,
-   `sample`, `eval-list`, and `judge`.
-9. Optional sample generation stores outputs in `.local/evals.sqlite`.
-10. Human evaluation records layered binary judgments:
+## Default App Path
 
-    - product fit
-    - coherence
-    - prompt relevance
-    - coherent absurdity
-    - coherence only passes when the line resolves as one sentence rather than
-      a stacked fragment chain
+Bare `probaboracle` is the user-facing path.
 
-The public generation diagram and the high-level public eval-shape diagram now
-live together in `docs/diagrams/PIPELINE.md`. The detailed judgment flow lives
-in local/private `docs/peanut/` notes. Incoherent lines terminate at the
-coherence gate, and coherent out-of-lane lines only continue if they pass as
-coherent absurdity before the final product-fit judgment.
+It opens a persistent local CLI loop with:
 
-## Data Surfaces
+- a responsive header:
+  - boxed on wider terminals
+  - simpler stacked forms on narrower terminals
+- a fixed selector for:
+  - `where`
+  - `what`
+  - `why`
+  - `when`
+- `enter` as the primary action
+- `esc` as the explicit exit path
+- an inline spinner wait state while generation runs
+- a collapsed selected-question view after `enter`
+- the response on its own line under the selected question
+- an immediate `another question [y/n]?` follow-up
 
-- Live runtime config:
-  - environment variables
-  - repo `.env` auto-loaded by `load_settings()`
-  - tracked constants in `src/probaboracle/config.py`
-  - shared style signals are cues for model reasoning, not a fixed word bank
-  - runtime directions should describe the target reasoning shape, not become a
-    large restriction pile
-- Eval state:
-  - `.local/evals.sqlite`
-  - `eval_outputs` stores generated outputs
-  - `eval_judgments` stores human `pass` / `fail` decisions
-  - sidecar judgment tables store separate binary lenses for:
-    - coherence
-    - prompt relevance
-    - coherent absurdity
+Explicit subcommands such as `ask`, `sample`, `eval-list`, and `judge` remain
+available underneath the app path for operator work.
 
-## Reasoning Contract
+## Generation Path
 
-- Prompt type matches the reasoning scope.
-- The matched scope is a real guardrail:
-  - it helps avoid drift
-  - it preserves the intended reasoning slope
-- Vocabulary is shared across lanes.
-- Words are generated in one node, not stitched from per-prompt fragments.
-- The model resolves the final logical sentence structure inside that one
-  generation path.
-- The default user path is a persistent session loop, not a relaunch for each
-  question.
-- The default user path keeps the question and answer visually attached:
-  - selector first
-  - collapsed selected prompt second
-  - response line underneath
-  - follow-up prompt after that
-- Human coherence judgment checks whether that structure resolves cleanly:
-  - one dominant lane
-  - one resolved sentence
-  - punctuation supporting the line rather than carrying it
+1. The selector returns one fixed prompt type.
+2. `config.py` validates that prompt type.
+3. The prompt type sets the reasoning lane and matched scope.
+4. The lane draws from shared style signals:
+   - certainty
+   - indecision
+   - connective hinges
+   - soft conclusions
+5. `agent.py` runs one OpenAI Agents SDK generation node.
+6. The model resolves the final sentence structure inside that node.
+7. The CLI prints the final response.
 
-## Placement Rules
+The runtime is not stitched from static fragments. The shared style signals are
+cues for synthesis, not a fixed word bank.
 
-- Runtime contract and constants: `src/probaboracle/config.py`
-- Model generation wiring: `src/probaboracle/agent.py`
-- Local persistence: `src/probaboracle/eval_db.py`
-- Operator procedure: `docs/runtime/RUNBOOK.md`
-- Durable decisions: `docs/governance/DECISIONS.md`
-- Tracked beta findings: `docs/research/`
-- Public pipeline and eval-shape diagrams: `docs/diagrams/PIPELINE.md`
-- Local/private detailed eval flow: `docs/peanut/`
+## Eval Path
 
-## Governance Flow
+Eval data lives in `.local/evals.sqlite`.
 
-- `README.md` frames the repo and command entrypoint.
-- `docs/governance/CHARTER.md` holds durable rules.
-- `docs/governance/DECISIONS.md` holds durable decisions.
-- `docs/runtime/RUNBOOK.md` holds procedures and command ownership.
-- `docs/governance/SESSION_HANDOFF.md` holds the current checkpoint.
-- `docs/diagrams/PIPELINE.md` is the diagram home.
+Generated rows are stored in `eval_outputs`. Human judgments are append-only
+history, with the current verdict mirrored onto the output row for fast listing
+and charting.
+
+The active binary lenses are:
+
+- product fit
+- coherence
+- prompt relevance
+- coherent absurdity
+
+Coherence is the primary experimental gate. It only passes when the line
+resolves as one sentence with one dominant reasoning lane.
+
+The public generation and eval-shape diagrams live in
+`docs/diagrams/PIPELINE.md`. The more detailed stop/pass/fail operator flow
+stays in local/private `docs/peanut/` notes.
+
+## Contracts
+
+- The runtime stays local and CLI-first.
+- The runtime stays agent-backed through the OpenAI Agents SDK.
+- The prompt surface stays fixed to `what`, `when`, `why`, and `where`.
+- The default user path does not accept freeform input.
+- Operator commands stay separate from the app loop.
+- Eval verdicts stay binary:
+  - `pass`
+  - `fail`
+- Runtime directions describe the target reasoning shape rather than
+  accumulating long restriction lists.
+
+## Docs Ownership
+
+| Doc | Job |
+| --- | --- |
+| `README.md` | public framing and entrypoint |
+| `docs/governance/CHARTER.md` | durable rules |
+| `docs/governance/DECISIONS.md` | durable runtime and eval decisions |
+| `docs/runtime/RUNBOOK.md` | operator procedure and commands |
+| `docs/governance/SESSION_HANDOFF.md` | current checkpoint and next slice |
+| `docs/research/` | tracked beta findings |
+| `docs/diagrams/PIPELINE.md` | public generation and eval-shape diagrams |

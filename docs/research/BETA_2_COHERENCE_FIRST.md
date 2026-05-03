@@ -5,6 +5,13 @@
 Can one-node constrained generation produce coherent sentences inside the fixed
 prompt surface?
 
+## Short Answer
+
+Yes. This was the real experiment.
+
+Coherence proved much stronger than product fit, which showed that sentence
+reasoning and product taste needed to be judged separately.
+
 ## Eval Shape
 
 - coherence first
@@ -27,9 +34,7 @@ flowchart LR
   C --> CF
 ```
 
-## Main Finding
-
-Yes. This was the real experiment.
+## Current Signal
 
 On the current corpus snapshot, coherence is much stronger than product fit:
 

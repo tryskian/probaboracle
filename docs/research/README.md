@@ -1,27 +1,27 @@
 # Research
 
-Probaboracle keeps the tracked research lane small.
+Probaboracle keeps the tracked research lane small on purpose.
 
-This folder is for findings that matter. Each beta is a distinct eval
-approach, not a pile of sweeps.
+Each beta is a distinct eval approach. This folder preserves those method
+shifts and the findings they earned.
 
-Raw run notes, operator poking, and private scratch material stay in
-`docs/peanut/`.
+Raw run notes, operator poking, and private scratch material stay in the local
+`docs/peanut/` lane.
 
-## Use This File For
+## Start Here For
 
-- Need the beta map:
-  - start here
-- Need to know which research beta is current:
-  - use this file
-- Need durable runtime or eval method changes:
-  - use `docs/governance/DECISIONS.md`, not this folder
+- the current beta
+- the beta map
+- the research reading path
+- the difference between method evidence and future plans
+
+Durable runtime or eval-method decisions belong in
+`docs/governance/DECISIONS.md`.
 
 ## Beta Semantics
 
-These betas are research architectures.
-
-Minor versions tighten the active method inside the same architecture.
+These betas are research architectures. Minor versions tighten the active
+method inside the same architecture.
 
 They are not:
 
@@ -53,14 +53,18 @@ evidence means.
 
 ## Current Beta
 
-- current tracked research beta:
-  - `Research Beta 4.1`
-- current question:
-  - can a coherent out-of-lane line still count as strong oracle behaviour?
-- current clean probe:
-  - long serial single-product runs when testing the coherent-absurdity gate
-- current version turn:
-  - stricter coherence threshold inside Beta 4
+Current tracked research beta:
+
+- `Research Beta 4.1`
+
+Current question:
+
+Can a coherent out-of-lane line still count as strong oracle behaviour?
+
+Current clean probe:
+
+- long serial single-product runs when testing the coherent-absurdity gate
+- stricter coherence threshold inside Beta 4
 
 ## Current Finding
 

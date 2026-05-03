@@ -4,6 +4,13 @@
 
 Once a line is coherent, does it stay in-lane for the selected prompt?
 
+## Short Answer
+
+Usually, yes.
+
+Prompt relevance turned out to be narrower than product fit and different from
+coherence. It asks which reasoning lane is actually leading the sentence.
+
 ## Eval Shape
 
 - coherence first
@@ -29,16 +36,6 @@ flowchart LR
   R --> RP
   R --> RF
 ```
-
-## Main Finding
-
-Prompt relevance is narrower than product fit and different from coherence.
-
-It is not just a word-spotting exercise. The real question is which reasoning
-lane is actually leading the sentence.
-
-That split is now visible in more than one lane. Relevance can stay strong even
-when product fit is much harsher.
 
 ## Current Signal
 
