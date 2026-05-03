@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import shutil
 import sqlite3
 import sys
 import termios
@@ -32,26 +33,19 @@ from probaboracle.eval_db import (
 )
 
 APP_BANNER_INNER_WIDTH = 62
-APP_BANNER_TITLE = "PROBABORACLE"
-APP_BANNER_TAGLINE = "probably a mini chatbot oracle. definitely a mini chatbot."
+APP_BANNER_TITLE = "PROBABORACLE BETA 4.1"
+APP_BANNER_TAGLINE = "probably a mini oracle. definitely a mini chatbot."
 APP_BANNER_REPO = "github.com/tryskian/probaboracle"
+APP_BANNER_REPO_URL = "https://github.com/tryskian/probaboracle"
+APP_BANNER_BOX_WIDTH = APP_BANNER_INNER_WIDTH + 2
+APP_BANNER_STACKED_WIDTH = len(APP_BANNER_TAGLINE)
+APP_BANNER_MINIMAL_WIDTH = len(APP_BANNER_REPO)
+APP_BANNER_MINIMAL_TITLE = "probaboracle beta 4.1"
+APP_BANNER_MINIMAL_TAGLINE_LINES: tuple[str, ...] = (
+    "probably a mini oracle.",
+    "definitely a mini chatbot.",
+)
 
-
-def build_banner_lines() -> tuple[str, ...]:
-    def boxed(text: str = "") -> str:
-        return f"│{text.center(APP_BANNER_INNER_WIDTH)}│"
-
-    return (
-        f"┌{'─' * APP_BANNER_INNER_WIDTH}┐",
-        boxed(APP_BANNER_TITLE),
-        boxed(APP_BANNER_TAGLINE),
-        boxed(),
-        boxed(APP_BANNER_REPO),
-        f"└{'─' * APP_BANNER_INNER_WIDTH}┘",
-    )
-
-
-APP_BANNER_LINES = build_banner_lines()
 APP_DIVIDER = "────────────"
 APP_QUESTION_PROMPT = "⊹˙⋆ ask probaboracle [arrow keys]:"
 APP_QUESTION_PROMPT_FALLBACK = "⊹˙⋆ ask probaboracle:"
@@ -66,10 +60,76 @@ APP_CONTINUE_PROMPT = "another question [y/n]?"
 APP_RESPONSE_PREFIX = "⊹˙⋆ "
 APP_RESPONSE_SUFFIX = " ⋆˙⊹"
 APP_CONTINUE_DELAY_SECONDS = 0.25
-APP_POST_RESPONSE_BEATS: tuple[float, ...] = (0.45, 0.35, 0.9)
+APP_POST_RESPONSE_BEATS: tuple[float, ...] = (0.6, 0.35, 1.25)
 ANSI_RESET = "\x1b[0m"
 ANSI_BOLD = "\x1b[1m"
 ANSI_MUTED = "\x1b[38;5;245m"
+ANSI_CURSOR_HIDE = "\x1b[?25l"
+ANSI_CURSOR_SHOW = "\x1b[?25h"
+
+def build_banner_lines(style_active: bool = False) -> tuple[str, ...]:
+    def hyperlink(text: str, url: str) -> str:
+        return f"\033]8;;{url}\033\\{text}\033]8;;\033\\"
+
+    def boxed(text: str = "", *, link_url: str | None = None) -> str:
+        if link_url is None or not style_active:
+            return f"│{text.center(APP_BANNER_INNER_WIDTH)}│"
+
+        left_padding = max(0, (APP_BANNER_INNER_WIDTH - len(text)) // 2)
+        right_padding = max(0, APP_BANNER_INNER_WIDTH - len(text) - left_padding)
+        return (
+            f"│"
+            f"{' ' * left_padding}"
+            f"{hyperlink(text, link_url)}"
+            f"{' ' * right_padding}"
+            f"│"
+        )
+
+    return (
+        f"┌{'─' * APP_BANNER_INNER_WIDTH}┐",
+        boxed(APP_BANNER_TITLE),
+        boxed(APP_BANNER_TAGLINE),
+        boxed(),
+        boxed(APP_BANNER_REPO, link_url=APP_BANNER_REPO_URL),
+        f"└{'─' * APP_BANNER_INNER_WIDTH}┘",
+    )
+
+
+def build_stacked_banner_lines(style_active: bool = False) -> tuple[str, ...]:
+    repo_line = APP_BANNER_REPO
+    if style_active:
+        repo_line = f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+    return (
+        APP_BANNER_TITLE,
+        APP_BANNER_TAGLINE,
+        repo_line,
+    )
+
+
+def build_minimal_banner_lines(style_active: bool = False) -> tuple[str, ...]:
+    lines = [APP_BANNER_MINIMAL_TITLE, *APP_BANNER_MINIMAL_TAGLINE_LINES]
+    if style_active:
+        repo_line = f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+    else:
+        repo_line = APP_BANNER_REPO
+    lines.append(repo_line)
+    return tuple(lines)
+
+
+def choose_banner_lines(
+    terminal_width: int | None,
+    style_active: bool = False,
+) -> tuple[str, ...]:
+    if terminal_width is None or terminal_width >= APP_BANNER_BOX_WIDTH:
+        return build_banner_lines(style_active=style_active)
+    if terminal_width >= APP_BANNER_STACKED_WIDTH:
+        return build_stacked_banner_lines(style_active=style_active)
+    if terminal_width >= APP_BANNER_MINIMAL_WIDTH:
+        return build_minimal_banner_lines(style_active=style_active)
+    return (
+        APP_BANNER_MINIMAL_TITLE,
+        *APP_BANNER_MINIMAL_TAGLINE_LINES,
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -147,7 +207,11 @@ def print_rows(rows: Iterable[sqlite3.Row]) -> None:
 
 
 def print_app_header(output_fn: Callable[[str], None] = print) -> None:
-    for line in APP_BANNER_LINES:
+    style_active = hasattr(sys.stdout, "isatty") and sys.stdout.isatty()
+    terminal_width: int | None = None
+    if style_active:
+        terminal_width = shutil.get_terminal_size(fallback=(APP_BANNER_BOX_WIDTH, 24)).columns
+    for line in choose_banner_lines(terminal_width, style_active=style_active):
         output_fn(line)
     output_fn("")
 
@@ -166,7 +230,7 @@ def format_selector_option(
         punctuation = "?" if trailing_text is None else ":"
         line = f"> {prompt_type}{punctuation}"
         if trailing_text is None:
-            line = f"{line} [enter]"
+            line = f"{line} [enter] [esc to exit]"
         elif trailing_text:
             line = f"{line} {trailing_text}"
     else:
@@ -206,7 +270,7 @@ def build_selector_lines(
     selected_trailing_text: str | None = None,
     style_active: bool = False,
 ) -> list[str]:
-    lines = [APP_QUESTION_PROMPT, ""]
+    lines = [APP_QUESTION_PROMPT]
     for index, (_, prompt_type) in enumerate(APP_QUESTION_OPTIONS):
         lines.append(
             format_selector_option(
@@ -236,7 +300,10 @@ def build_selected_prompt_lines(
         prompt_line,
         response_line,
     ]
-    hidden_line_count = max(0, (len(APP_QUESTION_OPTIONS) - 2) + APP_SELECTOR_BOTTOM_PADDING_LINES)
+    hidden_line_count = max(
+        0,
+        len(build_selector_lines(selected_index)) - len(lines),
+    )
     lines.extend("" for _ in range(hidden_line_count))
     return lines
 
@@ -275,7 +342,10 @@ def render_selected_prompt(
         selected_trailing_text=selected_trailing_text,
         style_active=True,
     )
-    hidden_line_count = max(0, (len(APP_QUESTION_OPTIONS) - 2) + APP_SELECTOR_BOTTOM_PADDING_LINES)
+    hidden_line_count = max(
+        0,
+        len(build_selector_lines(selected_index)) - 4,
+    )
     if redraw:
         output_stream.write(f"\x1b[{len(lines)}F")
     for line in lines:
@@ -313,11 +383,11 @@ def read_selector_key(input_stream: TextIO | None = None) -> str:
 def prompt_for_question_selector(
     read_key_fn: Callable[[], str] | None = None,
     output_stream: TextIO | None = None,
-) -> tuple[int, str]:
+) -> tuple[int | None, str | None]:
     read_key_fn = read_selector_key if read_key_fn is None else read_key_fn
     output_stream = sys.stdout if output_stream is None else output_stream
     selected_index = 0
-    output_stream.write("\x1b[?25l")
+    output_stream.write(ANSI_CURSOR_HIDE)
     output_stream.flush()
     try:
         render_question_selector(selected_index, output_stream=output_stream)
@@ -333,8 +403,10 @@ def prompt_for_question_selector(
                 continue
             if key == "enter":
                 return selected_index, APP_QUESTION_OPTIONS[selected_index][1]
+            if key == "escape":
+                return None, None
     finally:
-        output_stream.write("\x1b[?25h")
+        output_stream.write(ANSI_CURSOR_SHOW)
         output_stream.flush()
 
 
@@ -346,9 +418,9 @@ def prompt_to_continue(
     output_fn = print if output_fn is None else output_fn
     while True:
         output_fn(APP_CONTINUE_PROMPT)
-        output_fn(APP_DIVIDER)
         answer = input_fn("> ").strip().lower()
         if answer in {"y", "yes"}:
+            output_fn(APP_DIVIDER)
             return True
         if answer in {"n", "no"}:
             return False
@@ -364,10 +436,8 @@ def prompt_to_continue_selector(
     output_stream = sys.stdout if output_stream is None else output_stream
 
     while True:
+        output_stream.write(ANSI_CURSOR_SHOW)
         output_stream.write(f"{APP_CONTINUE_PROMPT} ")
-        output_stream.write("\x1b[s")
-        output_stream.write(f"\n{APP_DIVIDER}\n")
-        output_stream.write("\x1b[u")
         output_stream.flush()
 
         answer = ""
@@ -383,9 +453,15 @@ def prompt_to_continue_selector(
                 output_stream.write("\b \b")
                 output_stream.flush()
                 continue
+            if key == "escape":
+                output_stream.write("\n")
+                output_stream.flush()
+                return False
             if key == "enter":
                 if answer in {"y", "n"}:
-                    output_stream.write("\n\x1b[1B\r")
+                    output_stream.write("\n")
+                    if answer == "y":
+                        output_stream.write(f"{APP_DIVIDER}\n")
                     output_stream.flush()
                     return answer == "y"
                 continue
@@ -442,12 +518,13 @@ def reveal_response_inline(
 
 
 def render_continue_break(
-    output_fn: Callable[[str], None] | None = None,
+    output_stream: TextIO | None = None,
 ) -> None:
-    output_fn = print if output_fn is None else output_fn
+    output_stream = sys.stdout if output_stream is None else output_stream
+    output_stream.write(ANSI_CURSOR_HIDE)
+    output_stream.flush()
     for beat in APP_POST_RESPONSE_BEATS:
         time.sleep(beat)
-    output_fn("")
 
 
 def command_app(
@@ -471,6 +548,9 @@ def command_app(
     while keep_running:
         if use_selector:
             selected_index, prompt_type = prompt_for_question_selector()
+            if prompt_type is None:
+                output_fn("")
+                return 0
         else:
             prompt_type = prompt_for_question_fallback(input_fn, output_fn)
         if use_selector:
@@ -489,7 +569,7 @@ def command_app(
                 selected_index=selected_index,
                 output_stream=sys.stdout,
             )
-            render_continue_break(output_fn)
+            render_continue_break(output_stream=sys.stdout)
         else:
             response = generate_response(settings, prompt_type)
             output_fn("")
