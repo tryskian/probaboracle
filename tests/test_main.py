@@ -20,13 +20,13 @@ class FakeTTY(StringIO):
 
 class MainAppLoopTests(TestCase):
     def test_choose_banner_lines_uses_box_when_wide(self) -> None:
-        lines = choose_banner_lines(terminal_width=80, style_active=False)
+        lines = choose_banner_lines(terminal_width=80)
 
         self.assertEqual(lines[0], "┌──────────────────────────────────────────────────────────────┐")
         self.assertIn("PROBABORACLE BETA 4.1", lines[1])
 
     def test_choose_banner_lines_uses_stacked_header_when_mid_width(self) -> None:
-        lines = choose_banner_lines(terminal_width=56, style_active=False)
+        lines = choose_banner_lines(terminal_width=56)
 
         self.assertEqual(
             lines,
@@ -38,7 +38,7 @@ class MainAppLoopTests(TestCase):
         )
 
     def test_choose_banner_lines_uses_minimal_header_when_narrow(self) -> None:
-        lines = choose_banner_lines(terminal_width=40, style_active=False)
+        lines = choose_banner_lines(terminal_width=40)
 
         self.assertEqual(
             lines,
@@ -51,7 +51,7 @@ class MainAppLoopTests(TestCase):
         )
 
     def test_choose_banner_lines_drops_repo_when_tiny(self) -> None:
-        lines = choose_banner_lines(terminal_width=28, style_active=False)
+        lines = choose_banner_lines(terminal_width=28)
 
         self.assertEqual(
             lines,
@@ -77,12 +77,18 @@ class MainAppLoopTests(TestCase):
         self.assertIn("\x1b[?25l", rendered)
         self.assertIn("\x1b[?25h", rendered)
         self.assertIn("⊹˙⋆ ask probaboracle [arrow keys]:", rendered)
-        self.assertIn("\x1b[1m> where? [enter] [esc to exit]\x1b[0m", rendered)
+        self.assertIn(
+            "\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m esc to exit\x1b[0m",
+            rendered,
+        )
         self.assertIn("\x1b[38;5;245m  what\x1b[0m", rendered)
-        self.assertIn("\x1b[1m> why? [enter] [esc to exit]\x1b[0m", rendered)
+        self.assertIn(
+            "\x1b[1m> why? [enter]\x1b[0m\x1b[38;5;245m esc to exit\x1b[0m",
+            rendered,
+        )
         self.assertIn("\x1b[38;5;245m  when\x1b[0m", rendered)
         self.assertIn(
-            "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K\x1b[1m> where? [enter] [esc to exit]\x1b[0m",
+            "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m esc to exit\x1b[0m",
             rendered,
         )
 

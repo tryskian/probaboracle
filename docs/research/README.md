@@ -8,7 +8,7 @@ approach, not a pile of sweeps.
 Raw run notes, operator poking, and private scratch material stay in
 `docs/peanut/`.
 
-## When To Read This
+## Use This File For
 
 - Need the beta map:
   - start here
