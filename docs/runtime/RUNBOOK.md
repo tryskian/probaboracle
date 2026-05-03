@@ -67,6 +67,10 @@
   - `make doctor-env`
 - Session snapshot:
   - `make session-status`
+- Open the local app loop:
+  - `probaboracle`
+  - this is the default user-facing path
+  - choose the question lane from the fixed selector
 - Run one oracle lane:
   - `make ask PROMPT=what`
   - shortcuts:
@@ -134,6 +138,9 @@ failure-taxonomy dashboard.
 1. Human lead does not run terminal work as the normal workflow.
 2. Engineer runs implementation, validation, and Git flow end to end.
 3. Human control stays on objective, scope, acceptance, and theory.
+4. Keep the local app loop separate from the operator command surface:
+   - bare `probaboracle` is the app path
+   - explicit subcommands remain the repo/operator path
 
 ## Validation Rule
 

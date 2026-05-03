@@ -20,6 +20,10 @@ Last updated: 2026-05-02
 ## Current Snapshot
 
 - Active runtime shape is local CLI plus local SQLite eval storage.
+- Bare `probaboracle` now opens one persistent local app loop:
+  - choose one of `where`, `what`, `why`, or `when` from the fixed selector
+  - get one response
+  - `continue? [y/n]`
 - The local runtime now auto-loads the repo `.env` before live credential
   checks.
 - Prompt surface is fixed to `what`, `when`, `why`, and `where`.
@@ -87,18 +91,16 @@ Last updated: 2026-05-02
 
 ## Next Slice
 
-1. Continue the Beta 4.1 long serial run from row `914` onward.
-2. Keep the active method the same:
-   - one product
-   - immediate judgment
-   - `25+` row checkpoints
-   - `50-100` rows, or about one hour, for the real long-run surface
-3. Keep extra `when` pressure in the mix while the stricter coherence rule is
-   under load.
-4. Keep watching for rare strong `why` exceptions rather than assuming that
-   lane is only fallback sludge.
-5. Leave the current `116` pending product-fit rows alone unless product-fit
-   closure becomes the explicit next kernel.
+1. Pick the final startup banner treatment for the local app loop.
+2. Keep the app wrapper small:
+   - local
+   - CLI-first
+   - one persistent session
+   - no widened prompt surface
+3. Smoke-test the installed `probaboracle` path after wrapper refinements.
+4. Keep operator subcommands separate from the user-facing app loop.
+5. Return to the Beta 4.1 serial run only when research becomes the active
+   kernel again.
 
 ## Guardrails
 
