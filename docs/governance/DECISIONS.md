@@ -455,9 +455,8 @@ into implementation authorship.
   - do not widen the prompt surface or add a separate UI shell just to make it
     feel like an app
 - Why: Probaboracle is ready to feel like a real small app, but the right
-  wrapper is still the existing local CLI runtime. A persistent session loop
-  makes the research instrument runnable without turning the project into a new
-  surface area.
+  wrapper is still the existing local CLI runtime. The app loop makes the
+  research instrument runnable without creating a new surface area.
 
 ## D-027: The app loop keeps a small staged interaction rhythm
 
@@ -476,8 +475,7 @@ into implementation authorship.
   - keep `esc` as the exit path in the selector flow
   - keep operator subcommands and research commands out of the user-facing loop
 - Why: The app should feel shaped and legible without turning into a larger UI.
-  The durable interaction contract is a tiny header-plus-selector oracle loop,
-  not a relaunch-per-question CLI and not a broadened chat surface.
+  The durable interaction contract is a tiny header-plus-selector oracle loop.
 
 ## D-028: The app opens with a real banner, with narrower fallbacks
 
@@ -521,10 +519,9 @@ into implementation authorship.
   - keep the wait state inline and minimal:
     - use the spinner by itself
     - do not add extra `loading` text
-- Why: Probaboracle needs enough CLI hierarchy to feel shaped and legible, but
-  the interaction still has to stay tiny. The durable UX contract is a
-  question-first selector that collapses cleanly, waits in place, and then
-  reveals a response without crowding the layout.
+- Why: The app needs enough hierarchy to stay readable during generation. The
+  wait state and answer layout should support the tiny loop without becoming a
+  second interface.
 
 ## D-030: Runtime and method changes require a tracked docs sweep
 
