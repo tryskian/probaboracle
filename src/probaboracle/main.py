@@ -67,6 +67,7 @@ ANSI_MUTED = "\x1b[38;5;245m"
 ANSI_CURSOR_HIDE = "\x1b[?25l"
 ANSI_CURSOR_SHOW = "\x1b[?25h"
 
+
 def build_banner_lines(style_active: bool = False) -> tuple[str, ...]:
     def hyperlink(text: str, url: str) -> str:
         return f"\033]8;;{url}\033\\{text}\033]8;;\033\\"
@@ -107,13 +108,14 @@ def build_stacked_banner_lines(style_active: bool = False) -> tuple[str, ...]:
 
 
 def build_minimal_banner_lines(style_active: bool = False) -> tuple[str, ...]:
-    lines = [APP_BANNER_MINIMAL_TITLE, *APP_BANNER_MINIMAL_TAGLINE_LINES]
+    repo_line = APP_BANNER_REPO
     if style_active:
         repo_line = f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
-    else:
-        repo_line = APP_BANNER_REPO
-    lines.append(repo_line)
-    return tuple(lines)
+    return (
+        APP_BANNER_MINIMAL_TITLE,
+        *APP_BANNER_MINIMAL_TAGLINE_LINES,
+        repo_line,
+    )
 
 
 def choose_banner_lines(
@@ -241,7 +243,9 @@ def format_selector_option(
             if trailing_text:
                 return f"{prompt} {trailing_text}"
             return prompt
-        return f"{ANSI_BOLD}{line}{ANSI_RESET}"
+        primary = f"{ANSI_BOLD}> {prompt_type}? [enter]{ANSI_RESET}"
+        secondary = f"{ANSI_MUTED} esc to exit{ANSI_RESET}"
+        return f"{primary}{secondary}"
     if style_active:
         return f"{ANSI_MUTED}{line}{ANSI_RESET}"
     return line
