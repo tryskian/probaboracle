@@ -148,7 +148,7 @@ class MainAppLoopTests(TestCase):
         with patch("probaboracle.main.time.sleep"):
             render_continue_break(output_stream=stdout)
 
-        self.assertEqual(stdout.getvalue(), "\x1b[?25l")
+        self.assertEqual(stdout.getvalue(), "\x1b[?25l\n")
 
     def test_main_without_subcommand_opens_interactive_app_loop(self) -> None:
         stdout = StringIO()

@@ -522,6 +522,7 @@ def render_continue_break(
 ) -> None:
     output_stream = sys.stdout if output_stream is None else output_stream
     output_stream.write(ANSI_CURSOR_HIDE)
+    output_stream.write("\n")
     output_stream.flush()
     for beat in APP_POST_RESPONSE_BEATS:
         time.sleep(beat)
