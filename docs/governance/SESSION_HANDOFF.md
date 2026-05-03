@@ -22,8 +22,9 @@ Last updated: 2026-05-02
 - Active runtime shape is local CLI plus local SQLite eval storage.
 - Bare `probaboracle` now opens one persistent local app loop:
   - choose one of `where`, `what`, `why`, or `when` from the fixed selector
-  - get one response
-  - `continue? [y/n]`
+  - after `enter`, collapse to the selected question only
+  - render the response on its own line
+  - follow with `another question [y/n]?`
 - The local runtime now auto-loads the repo `.env` before live credential
   checks.
 - Prompt surface is fixed to `what`, `when`, `why`, and `where`.
@@ -91,15 +92,14 @@ Last updated: 2026-05-02
 
 ## Next Slice
 
-1. Pick the final startup banner treatment for the local app loop.
-2. Keep the app wrapper small:
+1. Keep the app wrapper small:
    - local
    - CLI-first
    - one persistent session
    - no widened prompt surface
-3. Smoke-test the installed `probaboracle` path after wrapper refinements.
-4. Keep operator subcommands separate from the user-facing app loop.
-5. Return to the Beta 4.1 serial run only when research becomes the active
+2. Smoke-test the installed `probaboracle` path after wrapper refinements.
+3. Keep operator subcommands separate from the user-facing app loop.
+4. Return to the Beta 4.1 serial run only when research becomes the active
    kernel again.
 
 ## Guardrails

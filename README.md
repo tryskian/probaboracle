@@ -30,7 +30,9 @@ Read next:
 ## Get Started
 
 Run `probaboracle` to open the persistent local app loop and choose from the
-fixed question selector.
+fixed question selector. After `enter`, the app collapses to the selected
+question, renders one response on its own line, and then asks
+`another question [y/n]?`.
 
 [docs/runtime/RUNBOOK.md](./docs/runtime/RUNBOOK.md)
 
