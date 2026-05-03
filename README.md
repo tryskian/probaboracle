@@ -29,10 +29,21 @@ Read next:
 
 ## Get Started
 
-Run `probaboracle` to open the persistent local app loop and choose from the
-fixed question selector. After `enter`, the app collapses to the selected
-question, renders one response on its own line, and then asks
-`another question [y/n]?`.
+Run `probaboracle` to open the persistent local app loop.
+
+The app path now does this:
+
+- show a compact startup banner, with simpler fallbacks on narrower terminals
+- let you choose from the fixed selector:
+  - `where`
+  - `what`
+  - `why`
+  - `when`
+- use `enter` as the primary action and `esc` as the explicit exit path
+- after `enter`, collapse to the selected question only
+- show a minimal inline spinner wait state
+- render one response on its own line
+- immediately follow with `another question [y/n]?`
 
 [docs/runtime/RUNBOOK.md](./docs/runtime/RUNBOOK.md)
 

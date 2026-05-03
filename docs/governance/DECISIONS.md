@@ -459,3 +459,71 @@ into implementation authorship.
   wrapper is still the existing local CLI runtime. A persistent session loop
   makes the research instrument runnable without turning the project into a new
   surface area.
+
+## D-027: The app loop keeps a small staged interaction rhythm
+
+- Date: `2026-05-02`
+- Category: `runtime_engineering`
+- Tags: `app_loop`, `selector`, `header`, `interaction_rhythm`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - keep the app loop visually staged, but still small:
+    - responsive header treatment by terminal width
+    - fixed selector first
+    - collapsed selected prompt after `enter`
+    - response rendered on its own line
+    - immediate `another question [y/n]?` follow-up
+  - keep `esc` as the explicit exit path in the selector flow
+  - keep operator subcommands and research commands separate from that user
+  loop
+- Why: The app should feel shaped and legible without turning into a larger UI.
+  The durable interaction contract is a tiny header-plus-selector oracle loop,
+  not a relaunch-per-question CLI and not a broadened chat surface.
+
+## D-028: The app opens with a real banner, with narrower fallbacks
+
+- Date: `2026-05-02`
+- Category: `runtime_engineering`
+- Tags: `banner`, `header`, `cli_typography`, `responsive_fallback`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - keep a real Probaboracle banner at startup rather than plain whisper-text
+    heading lines
+  - treat the banner as the app's identity block:
+    - title
+    - one-line oracle/chatbot strapline
+    - repo pointer
+  - use a boxed header when the terminal is wide enough
+  - fall back to simpler stacked header forms as the terminal gets smaller,
+    rather than forcing the box to wrap or squash
+- Why: The app needs a stronger opening gesture than plain text alone, but the
+  right answer is a compact CLI banner with graceful width fallback, not a
+  bigger UI surface.
+
+## D-029: The app loop uses staged CLI hierarchy and an inline wait state
+
+- Date: `2026-05-02`
+- Category: `runtime_engineering`
+- Tags: `ux`, `layout`, `loader`, `selector`, `cli_hierarchy`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - keep the CLI interaction visually hierarchical:
+    - identity block first
+    - selector block second
+    - selected prompt and answer block third
+    - follow-up prompt after that
+  - after `enter`, collapse the full selector to the chosen prompt rather than
+    leaving the whole menu on screen
+  - render the answer on its own line under the selected prompt so the question
+    and answer stay contextually attached without turning the selector row into
+    soup
+  - keep `esc` as the explicit secondary action in the selector:
+    - visible as a soft exit hint on the active row
+    - exits cleanly from the selector and follow-up prompt
+  - keep the wait state inline and minimal:
+    - use the spinner by itself
+    - do not add extra `loading` text
+- Why: Probaboracle needs enough CLI hierarchy to feel shaped and legible, but
+  the interaction still has to stay tiny. The durable UX contract is a
+  question-first selector that collapses cleanly, waits in place, and then
+  reveals a response without smearing the layout.

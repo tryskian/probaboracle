@@ -60,7 +60,6 @@ APP_CONTINUE_PROMPT = "another question [y/n]?"
 APP_RESPONSE_PREFIX = "⊹˙⋆ "
 APP_RESPONSE_SUFFIX = " ⋆˙⊹"
 APP_CONTINUE_DELAY_SECONDS = 0.25
-APP_POST_RESPONSE_BEATS: tuple[float, ...] = (0.6, 0.35, 1.25)
 ANSI_RESET = "\x1b[0m"
 ANSI_BOLD = "\x1b[1m"
 ANSI_MUTED = "\x1b[38;5;245m"
@@ -232,7 +231,7 @@ def format_selector_option(
         punctuation = "?" if trailing_text is None else ":"
         line = f"> {prompt_type}{punctuation}"
         if trailing_text is None:
-            line = f"{line} [enter] [esc to exit]"
+            line = f"{line} [enter] hit esc to exit"
         elif trailing_text:
             line = f"{line} {trailing_text}"
     else:
@@ -244,7 +243,7 @@ def format_selector_option(
                 return f"{prompt} {trailing_text}"
             return prompt
         primary = f"{ANSI_BOLD}> {prompt_type}? [enter]{ANSI_RESET}"
-        secondary = f"{ANSI_MUTED} esc to exit{ANSI_RESET}"
+        secondary = f"{ANSI_MUTED} hit esc to exit{ANSI_RESET}"
         return f"{primary}{secondary}"
     if style_active:
         return f"{ANSI_MUTED}{line}{ANSI_RESET}"
@@ -528,8 +527,6 @@ def render_continue_break(
     output_stream.write(ANSI_CURSOR_HIDE)
     output_stream.write("\n")
     output_stream.flush()
-    for beat in APP_POST_RESPONSE_BEATS:
-        time.sleep(beat)
 
 
 def command_app(

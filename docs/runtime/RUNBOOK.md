@@ -70,7 +70,18 @@
 - Open the local app loop:
   - `probaboracle`
   - this is the default user-facing path
-  - choose the question lane from the fixed selector
+  - opens the responsive header plus the fixed selector
+  - choose the question lane from:
+    - `where`
+    - `what`
+    - `why`
+    - `when`
+  - `enter` selects
+  - `esc` exits
+  - after `enter`, the loop collapses to the selected question only
+  - the wait state is an inline spinner with no extra `loading` text
+  - the response renders on its own line
+  - `another question [y/n]?` follows immediately after the response
 - Run one oracle lane:
   - `make ask PROMPT=what`
   - shortcuts:

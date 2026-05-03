@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-02
+Last updated: 2026-05-03
 
 ## Startup
 
@@ -21,10 +21,17 @@ Last updated: 2026-05-02
 
 - Active runtime shape is local CLI plus local SQLite eval storage.
 - Bare `probaboracle` now opens one persistent local app loop:
+  - show a responsive startup header:
+    - boxed when wide enough
+    - stacked fallback when narrower
   - choose one of `where`, `what`, `why`, or `when` from the fixed selector
+  - active selector row uses:
+    - `[enter]`
+    - soft `hit esc to exit` hint
   - after `enter`, collapse to the selected question only
+  - use an inline spinner wait state with no extra `loading` text
   - render the response on its own line
-  - follow with `another question [y/n]?`
+  - follow immediately with `another question [y/n]?`
 - The local runtime now auto-loads the repo `.env` before live credential
   checks.
 - Prompt surface is fixed to `what`, `when`, `why`, and `where`.
@@ -97,9 +104,8 @@ Last updated: 2026-05-02
    - CLI-first
    - one persistent session
    - no widened prompt surface
-2. Smoke-test the installed `probaboracle` path after wrapper refinements.
-3. Keep operator subcommands separate from the user-facing app loop.
-4. Return to the Beta 4.1 serial run only when research becomes the active
+2. Keep operator subcommands separate from the user-facing app loop.
+3. Return to the Beta 4.1 serial run only when research becomes the active
    kernel again.
 
 ## Guardrails
