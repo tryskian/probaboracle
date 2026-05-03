@@ -66,7 +66,7 @@ APP_CONTINUE_PROMPT = "another question [y/n]?"
 APP_RESPONSE_PREFIX = "⊹˙⋆ "
 APP_RESPONSE_SUFFIX = " ⋆˙⊹"
 APP_CONTINUE_DELAY_SECONDS = 0.25
-APP_POST_RESPONSE_BEATS: tuple[float, ...] = (0.24, 0.16, 0.38)
+APP_POST_RESPONSE_BEATS: tuple[float, ...] = (0.45, 0.35, 0.9)
 ANSI_RESET = "\x1b[0m"
 ANSI_BOLD = "\x1b[1m"
 ANSI_MUTED = "\x1b[38;5;245m"
@@ -206,7 +206,7 @@ def build_selector_lines(
     selected_trailing_text: str | None = None,
     style_active: bool = False,
 ) -> list[str]:
-    lines = [APP_QUESTION_PROMPT]
+    lines = [APP_QUESTION_PROMPT, ""]
     for index, (_, prompt_type) in enumerate(APP_QUESTION_OPTIONS):
         lines.append(
             format_selector_option(
@@ -232,10 +232,11 @@ def build_selected_prompt_lines(
     response_line = f"  {selected_trailing_text}" if selected_trailing_text else ""
     lines = [
         APP_QUESTION_PROMPT,
+        "",
         prompt_line,
         response_line,
     ]
-    hidden_line_count = (len(APP_QUESTION_OPTIONS) - 2) + APP_SELECTOR_BOTTOM_PADDING_LINES
+    hidden_line_count = max(0, (len(APP_QUESTION_OPTIONS) - 2) + APP_SELECTOR_BOTTOM_PADDING_LINES)
     lines.extend("" for _ in range(hidden_line_count))
     return lines
 
@@ -274,7 +275,7 @@ def render_selected_prompt(
         selected_trailing_text=selected_trailing_text,
         style_active=True,
     )
-    hidden_line_count = (len(APP_QUESTION_OPTIONS) - 2) + APP_SELECTOR_BOTTOM_PADDING_LINES
+    hidden_line_count = max(0, (len(APP_QUESTION_OPTIONS) - 2) + APP_SELECTOR_BOTTOM_PADDING_LINES)
     if redraw:
         output_stream.write(f"\x1b[{len(lines)}F")
     for line in lines:
@@ -355,6 +356,41 @@ def prompt_to_continue(
         output_fn("")
 
 
+def prompt_to_continue_selector(
+    read_key_fn: Callable[[], str] | None = None,
+    output_stream: TextIO | None = None,
+) -> bool:
+    read_key_fn = read_selector_key if read_key_fn is None else read_key_fn
+    output_stream = sys.stdout if output_stream is None else output_stream
+
+    while True:
+        output_stream.write(f"{APP_CONTINUE_PROMPT} ")
+        output_stream.write("\x1b[s")
+        output_stream.write(f"\n{APP_DIVIDER}\n")
+        output_stream.write("\x1b[u")
+        output_stream.flush()
+
+        answer = ""
+        while True:
+            key = read_key_fn()
+            if key in {"y", "n"} and not answer:
+                answer = key
+                output_stream.write(key)
+                output_stream.flush()
+                continue
+            if key in {"\x7f", "\b"} and answer:
+                answer = ""
+                output_stream.write("\b \b")
+                output_stream.flush()
+                continue
+            if key == "enter":
+                if answer in {"y", "n"}:
+                    output_stream.write("\n\x1b[1B\r")
+                    output_stream.flush()
+                    return answer == "y"
+                continue
+
+
 def run_with_loading(
     task: Callable[[], str],
     output_stream: TextIO | None = None,
@@ -411,6 +447,7 @@ def render_continue_break(
     output_fn = print if output_fn is None else output_fn
     for beat in APP_POST_RESPONSE_BEATS:
         time.sleep(beat)
+    output_fn("")
 
 
 def command_app(
@@ -460,7 +497,10 @@ def command_app(
             output_fn(format_app_response(response))
             output_fn(APP_DIVIDER)
             output_fn("")
-        keep_running = prompt_to_continue(input_fn, output_fn)
+        if use_selector:
+            keep_running = prompt_to_continue_selector(output_stream=sys.stdout)
+        else:
+            keep_running = prompt_to_continue(input_fn, output_fn)
         if keep_running:
             time.sleep(APP_CONTINUE_DELAY_SECONDS)
             output_fn("")

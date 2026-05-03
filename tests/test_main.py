@@ -110,18 +110,26 @@ class MainAppLoopTests(TestCase):
                         "probaboracle.main.generate_response",
                         return_value="probably the unclaimed edge of it.",
                     ):
+                        def fake_continue_selector(*, output_stream):
+                            output_stream.write("another question [y/n]? y\n────────────\n")
+                            return False
+
                         with patch(
                             "probaboracle.main.prompt_for_question_selector",
                             return_value=(0, "where"),
                         ) as prompt_selector:
-                            with patch("probaboracle.main.time.sleep"):
-                                with patch("builtins.input", side_effect=["n"]):
+                            with patch(
+                                "probaboracle.main.prompt_to_continue_selector",
+                                side_effect=fake_continue_selector,
+                            ) as continue_selector:
+                                with patch("probaboracle.main.time.sleep"):
                                     with patch("sys.stdin", stdin):
                                         with patch("sys.stdout", stdout):
                                             exit_code = main([])
 
         self.assertEqual(exit_code, 0)
         prompt_selector.assert_called_once_with()
+        continue_selector.assert_called_once_with(output_stream=stdout)
         rendered = stdout.getvalue()
         self.assertIn("⊹˙⋆ ask probaboracle [arrow keys]:", rendered)
         self.assertIn("\x1b[1m> where:\x1b[0m", rendered)
@@ -130,8 +138,7 @@ class MainAppLoopTests(TestCase):
         self.assertNotIn("  what", rendered)
         self.assertNotIn("  why", rendered)
         self.assertNotIn("  when", rendered)
-        self.assertIn("another question [y/n]?", rendered)
-        self.assertIn("another question [y/n]?\n────────────", rendered)
+        self.assertIn("another question [y/n]? y\n────────────", rendered)
 
     def test_explicit_subcommand_path_still_works(self) -> None:
         stdout = StringIO()
