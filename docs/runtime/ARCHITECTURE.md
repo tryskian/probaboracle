@@ -24,15 +24,22 @@ runtime shape without rereading every file.
 
 ## Runtime Flow
 
-1. Bare `probaboracle` opens one persistent local app loop.
-2. The user selects one fixed prompt type per turn from the selector.
+1. Bare `probaboracle` opens one persistent local app loop with a small
+   responsive header:
+   - boxed when the terminal is wide enough
+   - stacked fallbacks when it is not
+2. The user selects one fixed prompt type per turn from the selector:
+   - `enter` is the primary action
+   - `esc` is the explicit secondary exit path
 3. `config.py` validates the selected prompt type.
 4. The selected prompt type defines the reasoning lane and matched scope.
 5. That lane reasons through certainty words, indecision words, connective
    articles or hinges, and soft conclusions using one shared style-signal pool.
 6. `agent.py` builds the oracle agent and runs that constrained reasoning task
-   through the OpenAI Agents SDK in one model generation node.
-7. The CLI prints the final response and offers a continue prompt.
+   through the OpenAI Agents SDK in one model generation node while the app
+   shows a minimal inline spinner wait state in the selected prompt area.
+7. After `enter`, the CLI collapses to the selected question, renders the
+   response on its own line, and then offers the immediate continue prompt.
 8. Operator subcommands remain available for explicit repo work like `ask`,
    `sample`, `eval-list`, and `judge`.
 9. Optional sample generation stores outputs in `.local/evals.sqlite`.
@@ -81,6 +88,11 @@ coherent absurdity before the final product-fit judgment.
   generation path.
 - The default user path is a persistent session loop, not a relaunch for each
   question.
+- The default user path keeps the question and answer visually attached:
+  - selector first
+  - collapsed selected prompt second
+  - response line underneath
+  - follow-up prompt after that
 - Human coherence judgment checks whether that structure resolves cleanly:
   - one dominant lane
   - one resolved sentence

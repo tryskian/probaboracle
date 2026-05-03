@@ -78,17 +78,17 @@ class MainAppLoopTests(TestCase):
         self.assertIn("\x1b[?25h", rendered)
         self.assertIn("⊹˙⋆ ask probaboracle [arrow keys]:", rendered)
         self.assertIn(
-            "\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m esc to exit\x1b[0m",
+            "\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m hit esc to exit\x1b[0m",
             rendered,
         )
         self.assertIn("\x1b[38;5;245m  what\x1b[0m", rendered)
         self.assertIn(
-            "\x1b[1m> why? [enter]\x1b[0m\x1b[38;5;245m esc to exit\x1b[0m",
+            "\x1b[1m> why? [enter]\x1b[0m\x1b[38;5;245m hit esc to exit\x1b[0m",
             rendered,
         )
         self.assertIn("\x1b[38;5;245m  when\x1b[0m", rendered)
         self.assertIn(
-            "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m esc to exit\x1b[0m",
+            "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m hit esc to exit\x1b[0m",
             rendered,
         )
 
