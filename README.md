@@ -29,6 +29,9 @@ Read next:
 
 ## Get Started
 
+Run `probaboracle` to open the persistent local app loop and choose from the
+fixed question selector.
+
 [docs/runtime/RUNBOOK.md](./docs/runtime/RUNBOOK.md)
 
 ---

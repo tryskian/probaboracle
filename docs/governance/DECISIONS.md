@@ -439,3 +439,23 @@ into implementation authorship.
 - Why: The value is in the data. Tiny taste-check runs make the method look
   cleaner than it really is and do not produce enough pressure to learn from
   the current coherence threshold.
+
+## D-026: Bare `probaboracle` opens the local app loop
+
+- Date: `2026-05-02`
+- Category: `runtime_engineering`
+- Tags: `app_wrapper`, `cli`, `local_runtime`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - keep the runtime local and CLI-first
+  - make bare `probaboracle` open one persistent local app loop
+  - keep prompt choice in that loop as a fixed selector, not typed freeform
+    input
+  - keep explicit subcommands like `ask`, `sample`, `eval-list`, and `judge`
+    as the operator surface underneath that app path
+  - do not widen the prompt surface or add a separate UI shell just to make it
+    feel like an app
+- Why: Probaboracle is ready to feel like a real small app, but the right
+  wrapper is still the existing local CLI runtime. A persistent session loop
+  makes the research instrument runnable without turning the project into a new
+  surface area.

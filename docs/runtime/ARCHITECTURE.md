@@ -16,7 +16,7 @@ runtime shape without rereading every file.
 - `src/probaboracle/eval_db.py`
   - local SQLite eval storage and judgment writes
 - `src/probaboracle/main.py`
-  - CLI entrypoint
+  - CLI entrypoint for the default app loop and operator subcommands
 - `tests/`
   - local contract and persistence tests
 - `docs/`
@@ -24,22 +24,26 @@ runtime shape without rereading every file.
 
 ## Runtime Flow
 
-1. CLI receives a fixed prompt selection.
-2. `config.py` validates the selected prompt type.
-3. The selected prompt type defines the reasoning lane and matched scope.
-4. That lane reasons through certainty words, indecision words, connective
+1. Bare `probaboracle` opens one persistent local app loop.
+2. The user selects one fixed prompt type per turn from the selector.
+3. `config.py` validates the selected prompt type.
+4. The selected prompt type defines the reasoning lane and matched scope.
+5. That lane reasons through certainty words, indecision words, connective
    articles or hinges, and soft conclusions using one shared style-signal pool.
-5. `agent.py` builds the oracle agent and runs that constrained reasoning task
+6. `agent.py` builds the oracle agent and runs that constrained reasoning task
    through the OpenAI Agents SDK in one model generation node.
-6. The CLI prints the final response.
-7. Optional sample generation stores outputs in `.local/evals.sqlite`.
-8. Human evaluation records layered binary judgments:
-   - product fit
-   - coherence
-   - prompt relevance
-   - coherent absurdity
-   - coherence only passes when the line resolves as one sentence rather than a
-     stacked fragment chain
+7. The CLI prints the final response and offers a continue prompt.
+8. Operator subcommands remain available for explicit repo work like `ask`,
+   `sample`, `eval-list`, and `judge`.
+9. Optional sample generation stores outputs in `.local/evals.sqlite`.
+10. Human evaluation records layered binary judgments:
+
+    - product fit
+    - coherence
+    - prompt relevance
+    - coherent absurdity
+    - coherence only passes when the line resolves as one sentence rather than
+      a stacked fragment chain
 
 The public generation diagram and the high-level public eval-shape diagram now
 live together in `docs/diagrams/PIPELINE.md`. The detailed judgment flow lives
@@ -75,6 +79,8 @@ coherent absurdity before the final product-fit judgment.
 - Words are generated in one node, not stitched from per-prompt fragments.
 - The model resolves the final logical sentence structure inside that one
   generation path.
+- The default user path is a persistent session loop, not a relaunch for each
+  question.
 - Human coherence judgment checks whether that structure resolves cleanly:
   - one dominant lane
   - one resolved sentence
