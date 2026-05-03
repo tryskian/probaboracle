@@ -4,27 +4,36 @@
 
 Can a coherent out-of-lane line still be a very good Probaboracle response?
 
-This version keeps the same Beta 4 architecture, but raises the coherence bar:
-stacked fragments, one-line-list rhythm, and punctuation-held blur no longer
-count as clean coherence passes.
+Beta 4.1 keeps the Beta 4 architecture, but raises the coherence bar. A line
+only passes coherence when it resolves as one sentence with one dominant
+reasoning lane.
 
 For short Probaboracle lines, this version also uses a hard punctuation
-heuristic:
+shortcut:
 
 - `0-1` comma = normal
 - `2+` commas = fail
 
+## Short Answer
+
+Yes, but rarely.
+
+Some prompt-irrelevant lines are still valuable. They are coherent,
+interesting, and recognisably Probaboracle. That makes coherent absurdity a
+real product signal.
+
+It is also a selective signal. Most coherent relevance fails are still weak
+blur, not missed value.
+
 ## Eval Shape
 
-- coherence first
-- relevance as one downstream lens
-- coherent absurdity as another downstream lens
-- product fit can still be satisfied through coherent absurdity
-- when isolating this gate, use one product per run and judge it immediately
-- coherence only passes when the line resolves as one sentence rather than a
-  stacked fragment chain
+The useful path is:
 
-## Diagram
+1. Generate one fixed-lane response.
+2. Judge coherence.
+3. If coherent, judge prompt relevance.
+4. If coherent but out-of-lane, judge coherent absurdity.
+5. Let product fit sit downstream of those lenses.
 
 ```mermaid
 flowchart LR
@@ -50,22 +59,14 @@ flowchart LR
   A --> AF
 ```
 
-## Main Finding
-
-Yes. Some prompt-irrelevant lines are not junk. They are coherent, lane-led
-enough to hold together, and then they land a sideways oracle punchline.
-
-But this class is smaller and stricter than it first looked.
-
-That is not a bug class to erase. It is a distinct research signal, but it is
-not a blanket rescue lane for every coherent relevance fail.
-
 ## Current Signal
 
-The meaningful evaluation surface is the `coherence = pass` and
-`relevance = fail` pocket.
+The primary Beta 4.1 pocket is:
 
-That pocket is now fully swept:
+- `coherence = pass`
+- `relevance = fail`
+
+That pocket is fully swept:
 
 - `2 pass / 13 fail / 0 pending`
 
@@ -73,28 +74,29 @@ The broader absurdity table is larger:
 
 - `5 pass / 14 fail / 894 pending`
 
-but that is not the primary instrument for this beta version.
+but that broader table is not the main instrument for this beta. Outside the
+coherence-pass relevance-fail pocket, absurdity is usually not the question
+being asked.
 
-The two passes are strong precisely because they are rare:
+The two strongest early passes were rare enough to matter:
 
 - `There, or neither here nor there; perhaps a silhouette, perhaps not.`
 - `it's probably the edge case, or perhaps not, which settles nothing.`
 
-Outside the coherence-pass relevance-fail pocket, absurdity is not the
-question we are asking.
+## Long-Run Read
 
-The strongest signal for this beta came from serial single-product runs rather
-than from broader pooled sweeps. That method made it easier to see whether one
-line, by itself, earned coherence and absurdity at the same time.
+The cleanest follow-up method is serial:
 
-But those serial runs still need real volume. Under Beta 4.1, `25+` row serial
-chunks are the default minimum useful checkpoint, and `50-100` rows or about
-one hour is the real long-run surface. Extra `when` pressure stays in the mix
-because that lane stress-tests the current coherence rule most directly.
+- one product
+- immediate judgment
+- next product
 
-It also clarified the coherence bar. Some lines initially looked coherent
-because commas, hinges, and soft tags were smoothing over fragment stacking.
-Those lines do not pass this beta cleanly anymore.
+Small taste checks are not enough. Under Beta 4.1:
+
+- `25+` rows is the minimum useful checkpoint
+- `50-100` rows, or about one hour, is the real long-run surface
+- extra `when` pressure should stay in the mix because it stress-tests the
+  current coherence rule
 
 The current tracked long run is judged through row `913`:
 
@@ -103,10 +105,10 @@ The current tracked long run is judged through row `913`:
 - relevance: `778 pass / 135 fail / 0 pending`
 - absurdity: `5 pass / 14 fail / 894 pending`
 
-That longer run also sharpened two lane-specific reads:
+That longer run sharpened two lane reads:
 
-- `when` now splits more cleanly between simple one-comma temporal passes and
-  stacked temporal fails
+- `when` splits between simple one-comma temporal passes and stacked temporal
+  fails
 - `why` is still usually the weakest product lane, but it surfaced two strong
   in-lane exceptions:
   - `896`: `apparently a reason, though not in any useful sense.`
@@ -114,17 +116,18 @@ That longer run also sharpened two lane-specific reads:
 
 ## Why It Matters
 
-This beta shows that out-of-lane is not the same as low-value.
+This beta separates three things that were easy to blur together:
 
-Probaboracle can produce responses that are:
+- incoherence
+- prompt drift
+- valuable coherent drift
 
-- coherent
-- product-interesting
-- slightly drifted
-- still recognisably good oracle behaviour
+That distinction matters because out-of-lane is not automatically low-value.
+Probaboracle can sometimes miss the selected lane and still produce a strong
+oracle response.
 
-It also shows the inverse: many coherent relevance fails are still just weak
-blur. The absurdity class earns its own lane because it is selective.
+The inverse is just as important: coherence does not rescue everything.
+Coherent absurdity earns its own lane because it is rare.
 
 ## What Changed Next
 

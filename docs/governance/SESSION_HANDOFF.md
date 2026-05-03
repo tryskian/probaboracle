@@ -2,125 +2,111 @@
 
 Last updated: 2026-05-03
 
-## Startup
+## Start Here
 
-1. Read docs in this order:
+1. Read:
    - `README.md`
    - `docs/governance/CHARTER.md`
    - `docs/governance/DECISIONS.md`
    - `docs/runtime/ARCHITECTURE.md`
    - `docs/runtime/RUNBOOK.md`
    - this file
-2. Confirm execution location and branch:
-   - canonical repo root
-   - feature branch for active implementation
-3. If on `main`, cut a task branch before editing.
-4. State the active kernel before making changes.
+2. Confirm repo and branch:
+   - `/Users/tryskian/Github/probaboracle`
+   - feature branch for tracked changes
+3. If the checkout is on `main`, cut a task branch before editing.
+4. State the active kernel before changing files.
 
-## Current Snapshot
+## Current State
 
-- Active runtime shape is local CLI plus local SQLite eval storage.
-- Bare `probaboracle` now opens one persistent local app loop:
-  - show a responsive startup header:
-    - boxed when wide enough
-    - stacked fallback when narrower
-  - choose one of `where`, `what`, `why`, or `when` from the fixed selector
-  - active selector row uses:
-    - `[enter]`
-    - soft `hit esc to exit` hint
-  - after `enter`, collapse to the selected question only
-  - use an inline spinner wait state with no extra `loading` text
-  - render the response on its own line
-  - follow immediately with `another question [y/n]?`
-- The local runtime now auto-loads the repo `.env` before live credential
-  checks.
-- Prompt surface is fixed to `what`, `when`, `why`, and `where`.
-- Output is fully lowercase as part of the deadpan tone contract.
-- Binary eval gates are active and remain strictly `pass` / `fail`.
-- Layered eval sidecars now separate:
-  - product fit
-  - coherence
-  - prompt relevance
-  - coherent absurdity
-- Prompt relevance is now complete across the full corpus:
-  - `what`
-  - `when`
-  - `why`
-  - `where`
-- The meaningful coherent-absurdity pocket is also swept:
-  - `coherence = pass`
-  - `relevance = fail`
-  - current pocket: `2 pass / 13 fail / 0 pending`
-- Product fit is still intentionally behind the sidecars:
-  - `116` pending rows
-  - concentrated in `what` and `when`
-- The current long-run serial checkpoint is judged through row `913`:
-  - product: `398 pass / 399 fail / 116 pending`
-  - coherence: `792 pass / 121 fail / 0 pending`
-  - relevance: `778 pass / 135 fail / 0 pending`
-  - absurdity: `5 pass / 14 fail / 894 pending`
-- Public tracked docs now show:
-  - the canonical generation pipeline
-  - the high-level eval-shape diagram
-- Current tracked research beta is:
-  - `Research Beta 4.1`
-  - `coherence + coherent absurdity`
-- Tracked research findings now live under `docs/research/` by beta approach.
-- The detailed stop/pass/fail eval flow stays in local/private `docs/peanut/`
-  notes.
-- The tone branch was pulled back to the simpler baseline after prompt
-  accretion started fighting the Polinko method.
-- A long baseline run generated a large new untagged backlog and made the main
-  duplicate families obvious:
-  - `why`: `reason / adjacent to one / perhaps not`
-  - `what`: `curve / shape / becoming one`
-  - `when`: `moment / not one you could schedule`
-  - `where`: `unclaimed edge / not where you could keep it`
-- Shared style signals are cues for synthesis, not a fixed word bank.
-- The strongest current coherent-absurdity method is serial:
-  - one product per run
-  - immediate judgment
-  - no pooled batch taste when isolating that gate
-  - use `25+` rows as the default minimum useful chunk before summarizing
-  - treat `50-100` rows, or about one hour, as the real long-run surface
-  - keep extra `when` pressure in the mix
-- Coherence is now being judged more strictly:
-  - one resolved sentence
-  - one dominant lane
-  - fail stacked fragment chains and one-line-list shapes even if they look
-    superficially tidy
-  - for short lines, `2+` commas is now a hard fail heuristic
-- The current long run also surfaced two strong in-lane `why` exceptions:
+Probaboracle is a local, CLI-first, agent-backed mini oracle.
+
+The default app path is bare `probaboracle`:
+
+- responsive startup header
+- fixed selector for `where`, `what`, `why`, and `when`
+- `enter` selects
+- soft `hit esc to exit` hint exits cleanly
+- inline spinner-only wait state
+- collapsed selected prompt
+- response on its own line
+- immediate `another question [y/n]?`
+
+Operator commands remain separate:
+
+- `ask`
+- `sample`
+- `eval-list`
+- `judge`
+- sidecar judgment commands
+
+## Research Snapshot
+
+Current tracked research beta:
+
+- `Research Beta 4.1`
+- `coherence + coherent absurdity`
+
+Current long-run checkpoint:
+
+- judged through row `913`
+- product: `398 pass / 399 fail / 116 pending`
+- coherence: `792 pass / 121 fail / 0 pending`
+- relevance: `778 pass / 135 fail / 0 pending`
+- absurdity: `5 pass / 14 fail / 894 pending`
+
+The active coherence rule is stricter than the early runs:
+
+- one resolved sentence
+- one dominant reasoning lane
+- short lines with `2+` commas fail
+- stacked fragment chains fail even when they look tidy
+
+Useful current reads:
+
+- `when` splits between simple one-comma temporal passes and stacked temporal
+  fails
+- `why` is still the weakest product lane, but has rare strong passes:
   - `896`: `apparently a reason, though not in any useful sense.`
   - `913`: `technically a reason, though not in any useful sense.`
-- `when` is now splitting more clearly:
-  - simple one-comma temporal lines can pass
-  - stacked temporal blur fails fast
 
-## Next Slice
+## Next Kernel
 
-1. Keep the app wrapper small:
-   - local
-   - CLI-first
-   - one persistent session
-   - no widened prompt surface
-2. Keep operator subcommands separate from the user-facing app loop.
-3. Return to the Beta 4.1 serial run only when research becomes the active
-   kernel again.
+Choose one lane at a time:
+
+- app polish:
+  - keep the wrapper small
+  - do not widen the prompt surface
+  - keep the user loop separate from operator commands
+- research:
+  - continue the Beta 4.1 serial run
+  - use `25+` rows as a minimum checkpoint
+  - treat `50-100` rows, or about one hour, as the real long-run surface
+- docs:
+  - sweep tracked docs after every runtime, product-shape, or research-method
+    change
+  - keep `docs/peanut/` as the private scratch lane
 
 ## Guardrails
 
 - Keep the app small.
-- Do not widen the prompt surface casually.
+- Keep the runtime local and CLI-first.
+- Keep generation agent-backed through the OpenAI Agents SDK.
+- Keep prompt types fixed to `what`, `when`, `why`, and `where`.
 - Do not add freeform input while the constrained interaction theory is active.
 - Keep eval verdicts binary only.
 - Keep style signals as reasoning cues, not as a hard word bank.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
 
-## Session Close
+## Close A Session
 
-- Follow `docs/runtime/RUNBOOK.md`.
-- Finish the branch validated and clean before merge.
+Follow `docs/runtime/RUNBOOK.md`.
+
+At minimum:
+
+- validate the active branch
+- merge only after checks pass
+- end on clean `main` when possible
 
 ## Copy/Paste Refresh Prompt
 

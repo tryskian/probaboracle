@@ -447,18 +447,16 @@ into implementation authorship.
 - Tags: `app_wrapper`, `cli`, `local_runtime`
 - Provenance: `human-led method decision`, later `implementation decision`
 - Decision:
-  - keep the runtime local and CLI-first
   - make bare `probaboracle` open one persistent local app loop
-  - keep prompt choice in that loop as a fixed selector, not typed freeform
-    input
+  - keep that loop local, CLI-first, and agent-backed
+  - keep prompt choice in that loop as a fixed selector, not typed input
   - keep explicit subcommands like `ask`, `sample`, `eval-list`, and `judge`
-    as the operator surface underneath that app path
+    underneath as the operator surface
   - do not widen the prompt surface or add a separate UI shell just to make it
     feel like an app
 - Why: Probaboracle is ready to feel like a real small app, but the right
-  wrapper is still the existing local CLI runtime. A persistent session loop
-  makes the research instrument runnable without turning the project into a new
-  surface area.
+  wrapper is still the existing local CLI runtime. The app loop makes the
+  research instrument runnable without creating a new surface area.
 
 ## D-027: The app loop keeps a small staged interaction rhythm
 
@@ -467,18 +465,17 @@ into implementation authorship.
 - Tags: `app_loop`, `selector`, `header`, `interaction_rhythm`
 - Provenance: `human-led method decision`, later `implementation decision`
 - Decision:
-  - keep the app loop visually staged, but still small:
-    - responsive header treatment by terminal width
-    - fixed selector first
-    - collapsed selected prompt after `enter`
-    - response rendered on its own line
-    - immediate `another question [y/n]?` follow-up
-  - keep `esc` as the explicit exit path in the selector flow
-  - keep operator subcommands and research commands separate from that user
-  loop
+  - keep the app loop staged:
+    - identity
+    - selection
+    - answer
+    - another-question prompt
+  - collapse the selector after `enter` so the chosen question and answer stay
+    together
+  - keep `esc` as the exit path in the selector flow
+  - keep operator subcommands and research commands out of the user-facing loop
 - Why: The app should feel shaped and legible without turning into a larger UI.
-  The durable interaction contract is a tiny header-plus-selector oracle loop,
-  not a relaunch-per-question CLI and not a broadened chat surface.
+  The durable interaction contract is a tiny header-plus-selector oracle loop.
 
 ## D-028: The app opens with a real banner, with narrower fallbacks
 
@@ -487,9 +484,8 @@ into implementation authorship.
 - Tags: `banner`, `header`, `cli_typography`, `responsive_fallback`
 - Provenance: `human-led method decision`, later `implementation decision`
 - Decision:
-  - keep a real Probaboracle banner at startup rather than plain whisper-text
-    heading lines
-  - treat the banner as the app's identity block:
+  - keep a real Probaboracle banner at startup
+  - use the banner as the app's identity block:
     - title
     - one-line oracle/chatbot strapline
     - repo pointer
@@ -497,8 +493,8 @@ into implementation authorship.
   - fall back to simpler stacked header forms as the terminal gets smaller,
     rather than forcing the box to wrap or squash
 - Why: The app needs a stronger opening gesture than plain text alone, but the
-  right answer is a compact CLI banner with graceful width fallback, not a
-  bigger UI surface.
+  right answer is a compact CLI banner with width-aware fallbacks, not a bigger
+  UI surface.
 
 ## D-029: The app loop uses staged CLI hierarchy and an inline wait state
 
@@ -516,14 +512,33 @@ into implementation authorship.
     leaving the whole menu on screen
   - render the answer on its own line under the selected prompt so the question
     and answer stay contextually attached without turning the selector row into
-    soup
+    a crowded output line
   - keep `esc` as the explicit secondary action in the selector:
     - visible as a soft exit hint on the active row
     - exits cleanly from the selector and follow-up prompt
   - keep the wait state inline and minimal:
     - use the spinner by itself
     - do not add extra `loading` text
-- Why: Probaboracle needs enough CLI hierarchy to feel shaped and legible, but
-  the interaction still has to stay tiny. The durable UX contract is a
-  question-first selector that collapses cleanly, waits in place, and then
-  reveals a response without smearing the layout.
+- Why: The app needs enough hierarchy to stay readable during generation. The
+  wait state and answer layout should support the tiny loop without becoming a
+  second interface.
+
+## D-030: Runtime and method changes require a tracked docs sweep
+
+- Date: `2026-05-03`
+- Category: `workflow_environment`
+- Tags: `docs_governance`, `docs_sweep`, `drift_control`
+- Provenance: `human-led method decision`, later `repo formalization`
+- Decision:
+  - sweep tracked docs before merging any change that touches:
+    - runtime shape
+    - app UX
+    - product framing
+    - research method
+    - eval interpretation
+  - keep the sweep scoped to the docs that own the changed surface
+  - do not push every detail into every doc
+- Why: Probaboracle's docs are part of the research instrument. Small runtime
+  and method changes drift quickly if only the code moves, but copying every
+  detail everywhere makes the docs heavy. The repo needs a docs sweep every
+  time, with clear ownership for where each update belongs.

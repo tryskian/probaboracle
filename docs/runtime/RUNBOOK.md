@@ -1,216 +1,168 @@
 # Runbook
 
-## When to Read This
+This is the operator guide for local setup, commands, validation, and eval work.
 
-- Startup and environment checks
-- Procedure lookup
-- Local eval workflow
+Use `docs/runtime/ARCHITECTURE.md` for system shape. Use this file when you
+need to run or check something.
 
-## Branch Policy
+## Start A Session
 
-1. Work from a feature branch, not `main`.
-2. Default branch prefix:
-   - `codex/bigbrain/<task-name>`
-3. Keep one logical change set per branch.
-
-## Startup
-
-1. Read in this order:
+1. Read the local instruction surface:
    - `README.md`
    - `docs/governance/CHARTER.md`
    - `docs/governance/DECISIONS.md`
    - `docs/runtime/ARCHITECTURE.md`
    - `docs/runtime/RUNBOOK.md`
    - `docs/governance/SESSION_HANDOFF.md`
-2. Confirm active branch:
+2. Confirm branch state:
    - `git branch --show-current`
-3. Create the local environment:
+   - work from `codex/bigbrain/<task-name>` for tracked changes
+3. Install or refresh the local environment:
    - `make install`
 4. Add live runtime credentials:
-   - put `OPENAI_API_KEY` in the repo `.env` or export it in the shell
-   - the local runtime auto-loads the repo `.env`
-5. Check live runtime prerequisites:
+   - put `OPENAI_API_KEY` in the repo `.env`
+   - or export it in the shell
+5. Check the environment:
    - `make doctor-env`
 
-## Doc Map
+## Everyday Commands
 
-- Repo framing:
-  - [README.md](../../README.md)
-- Durable rules:
-  - [docs/governance/CHARTER.md](../governance/CHARTER.md)
-- Durable decisions:
-  - [docs/governance/DECISIONS.md](../governance/DECISIONS.md)
-- Tracked beta findings:
-  - [docs/research/README.md](../research/README.md)
-- Runtime shape:
-  - [docs/runtime/ARCHITECTURE.md](./ARCHITECTURE.md)
-- Current checkpoint:
-  - [docs/governance/SESSION_HANDOFF.md](../governance/SESSION_HANDOFF.md)
-- Public diagrams:
-  - [docs/diagrams/PIPELINE.md](../diagrams/PIPELINE.md)
-  - [docs/diagrams/EVAL_CHART.md](../diagrams/EVAL_CHART.md)
+| Task | Command |
+| --- | --- |
+| open the app loop | `probaboracle` |
+| open the venv shell | `make env` |
+| check the environment | `make doctor-env` |
+| show session status | `make session-status` |
+| run tests | `make check` |
+| build the package | `make package-check` |
+| lint tracked docs | `npm run lint:docs` |
 
-## Command Surface
+The app loop is the default user-facing path. It opens the responsive header
+and fixed selector, then generates one response at a time. `enter` selects, and
+`esc` exits.
 
-- Install:
-  - `make install`
-- Codex cloud environment setup:
-  - `./scripts/cloud-setup.sh`
-  - creates a feature branch automatically when the environment starts on
-    `main`
-- Codex cloud environment maintenance:
-  - `./scripts/cloud-maintenance.sh`
-- Open the local venv shell:
-  - `make env`
-  - alias: `make venv`
-- Environment sanity:
-  - `make doctor-env`
-- Session snapshot:
-  - `make session-status`
-- Open the local app loop:
-  - `probaboracle`
-  - this is the default user-facing path
-  - opens the responsive header plus the fixed selector
-  - choose the question lane from:
-    - `where`
-    - `what`
-    - `why`
-    - `when`
-  - `enter` selects
-  - `esc` exits
-  - after `enter`, the loop collapses to the selected question only
-  - the wait state is an inline spinner with no extra `loading` text
-  - the response renders on its own line
-  - `another question [y/n]?` follows immediately after the response
-- Run one oracle lane:
-  - `make ask PROMPT=what`
-  - shortcuts:
-    - `make what`
-    - `make when`
-    - `make why`
-    - `make where`
-- Generate a five-sample eval batch quickly:
-  - `make eval-what-5`
-  - `make eval-when-5`
-  - `make eval-why-5`
-  - `make eval-where-5`
-- Create local eval storage:
-  - `make eval-init`
-- Generate local eval samples:
-  - `make sample PROMPT=when COUNT=5`
-  - reads the repo `.env` automatically when present
-- Weighted gremlin sweep:
-  - `make sweep-gremlin`
-  - optional:
-    - `make sweep-gremlin SWEEP_COUNT=3`
-- Rigorous sweep wrapper:
-  - `make sweep-rigorous`
-  - optional:
-    - `make sweep-rigorous SWEEP_COUNT=3 SWEEP_LIST_LIMIT=10`
-- List recent outputs:
-  - `make list PROMPT=when LIMIT=10`
-- Record a verdict:
-  - `make judge ID=1 VERDICT=pass NOTE="deadpan and vague"`
-- Record a coherence verdict:
-  - `.venv/bin/python -m probaboracle judge-coherence 12 pass --note "one resolved sentence"`
-- Record a prompt relevance verdict:
-  - `.venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"`
-- Record a coherent absurdity verdict:
-  - `.venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"`
-- Shortcut verdict targets:
-  - `make pass ID=1 NOTE="deadpan and vague"`
-  - `make fail ID=2 NOTE="too concrete"`
-- Run local tests:
-  - `make check`
-- Build the package locally:
-  - `make package-check`
-  - build the Python package and verify metadata still resolves.
-- Lint tracked docs:
-  - `npm run lint:docs`
-- `make render-eval-chart-deps`
-  - install the explicit Node dependencies for the static D3 renderer.
-- `make render-eval-chart`
-  - render the current PASS/FAIL/PENDING lane chart from `.local/evals.sqlite`
-    into `docs/diagrams/probaboracle-pass-fail.svg`.
+## Oracle Commands
+
+Use these when you want the operator path instead of the app loop:
+
+- `make ask PROMPT=what`
+- `make what`
+- `make when`
+- `make why`
+- `make where`
+
+## Eval Commands
+
+Storage:
+
+- `make eval-init`
+- `make list PROMPT=when LIMIT=10`
+
+Sample generation:
+
+- `make sample PROMPT=when COUNT=5`
+- `make eval-what-5`
+- `make eval-when-5`
+- `make eval-why-5`
+- `make eval-where-5`
+
+Product verdicts:
+
+- `make judge ID=1 VERDICT=pass NOTE="deadpan and vague"`
+- `make pass ID=1 NOTE="deadpan and vague"`
+- `make fail ID=2 NOTE="too concrete"`
+
+Sidecar verdicts:
+
+- `.venv/bin/python -m probaboracle judge-coherence 12 pass --note "one resolved sentence"`
+- `.venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"`
+- `.venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"`
 
 ## Eval Chart
 
-Probaboracle's primary static chart is a strict stacked bar chart:
+The primary static chart is a prompt-lane stacked bar chart:
 
-- x-axis: prompt lane (`what`, `when`, `why`, `where`)
+- x-axis: `what`, `when`, `why`, `where`
 - segments: `fail`, `pass`, `pending`
-- source of truth: `eval_outputs.current_verdict` in `.local/evals.sqlite`
+- source: `eval_outputs.current_verdict` in `.local/evals.sqlite`
 
-This chart is intentionally simple. It is the binary pulse surface first, not a
-failure-taxonomy dashboard.
+Commands:
 
-## Command Ownership Rule
+- `make render-eval-chart-deps`
+- `make render-eval-chart`
 
-1. Human lead does not run terminal work as the normal workflow.
-2. Engineer runs implementation, validation, and Git flow end to end.
-3. Human control stays on objective, scope, acceptance, and theory.
-4. Keep the local app loop separate from the operator command surface:
-   - bare `probaboracle` is the app path
-   - explicit subcommands remain the repo/operator path
+## Validation
 
-## Validation Rule
+Run the smallest check set that matches the change:
 
-1. Run `make check` for tracked logic changes.
-2. Run `make package-check` when packaging or dependency metadata changes.
-3. Run one live `make ask PROMPT=<type>` smoke if `OPENAI_API_KEY` is present.
-4. If eval persistence changes, run:
-   - `make eval-init`
-   - `make sample PROMPT=what COUNT=1`
-   - `make list PROMPT=what LIMIT=5`
+- tracked logic change:
+  - `make check`
+- docs change:
+  - `npm run lint:docs`
+  - `git diff --check`
+- packaging or dependency metadata change:
+  - `make package-check`
+- eval persistence change:
+  - `make eval-init`
+  - `make sample PROMPT=what COUNT=1`
+  - `make list PROMPT=what LIMIT=5`
+
+If `OPENAI_API_KEY` is available and runtime generation changed, run one live
+smoke:
+
+- `make ask PROMPT=what`
 
 ## Long-Run Eval Loop
 
-1. Hold the current baseline steady during the run.
-2. Generate samples in weighted batches when one lane is dragging:
-   - for example:
-     - `why x3`
-     - `what x1`
-     - `when x1`
-     - `where x1`
-3. Let new rows accumulate as `untagged`.
-4. Judge in sweeps, not one row at a time.
-5. Keep verdicts hard binary:
+Use this when broad lane pressure matters.
+
+1. Hold the current baseline steady.
+2. Generate weighted batches when one lane is dragging.
+3. Let rows accumulate as `untagged`.
+4. Judge in sweeps.
+5. Keep verdicts binary:
    - `pass`
    - `fail`
-6. Treat repeated failure clusters as the intervention signal.
-7. Do not add new prompt layers unless the failures are strong enough to earn
-   a real runtime change.
+6. Treat repeated failure clusters as the signal for intervention.
+
+Useful wrappers:
+
+- `make sweep-gremlin`
+- `make sweep-gremlin SWEEP_COUNT=3`
+- `make sweep-rigorous`
+- `make sweep-rigorous SWEEP_COUNT=3 SWEEP_LIST_LIMIT=10`
 
 ## Single-Product Signal Loop
 
-1. Use this loop when the goal is isolating the strongest per-product signal
-   for a selective downstream gate.
-2. Generate one product at a time:
-   - for example:
-     - `make sample PROMPT=what COUNT=1`
-3. Judge that one product immediately:
+Use this when isolating the strongest per-product signal for coherent
+absurdity.
+
+1. Generate one product:
+   - `make sample PROMPT=what COUNT=1`
+2. Judge it immediately:
    - coherence first
    - relevance second
    - coherent absurdity only if relevance fails after coherence passes
-4. Repeat one product at a time instead of pooling a larger batch.
-5. Treat `25+` rows as the default minimum useful chunk before stopping for a
-   summary.
-6. Treat `50-100` rows, or about one hour of serial probing, as the real
-   long-run surface.
-7. Keep extra `when` pressure in the mix when testing the current coherence
+3. Repeat one product at a time.
+4. Treat `25+` rows as the minimum useful checkpoint.
+5. Treat `50-100` rows, or about one hour, as the real long-run surface.
+6. Keep extra `when` pressure in the mix when testing the current coherence
    rule.
-8. Prefer this loop over broader sweeps when testing coherent absurdity.
 
 ## Layered Eval Lenses
 
-1. Product fit stays the stricter oracle-quality gate.
-2. Coherence is the primary experimental gate:
-   - `pass` = one resolved sentence with one dominant reasoning lane
-   - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or
-     punctuation doing the reasoning work
-   - for Probaboracle's short lines, use a hard punctuation shortcut:
-     - `0-1` comma = normal
-     - `2+` commas = fail
-3. Prompt relevance asks whether a coherence-passing line stays in-lane for the
-   selected prompt type.
-4. Coherent absurdity is only meaningful once coherence is already passing.
+- Product fit is the strict oracle-quality gate.
+- Coherence is the primary experimental gate:
+  - `pass` = one resolved sentence with one dominant reasoning lane
+  - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or
+    punctuation doing the reasoning work
+  - for short lines, `2+` commas is a hard fail shortcut
+- Prompt relevance asks whether a coherence-passing line stays in-lane.
+- Coherent absurdity is only meaningful once coherence already passes.
+
+## Command Ownership
+
+- Human lead owns objective, scope, acceptance, and theory.
+- Engineer owns implementation, validation, and Git flow.
+- Keep bare `probaboracle` as the app path.
+- Keep explicit subcommands as the operator path.

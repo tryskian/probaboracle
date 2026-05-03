@@ -2,9 +2,22 @@
 
 ![Research Beta](https://img.shields.io/badge/research_beta-4.1%20coherent%20absurdity-E15759)
 
-## An unhelpful mini chatbot that's "probably" an "oracle", which is more or less how it responds
+## probably a mini oracle. definitely a mini chatbot
 
-Probaboracle is a confidently absurd mini **[Polinko research model](https://github.com/tryskian/polinko)** and my second experiment within this ongoing research. Its prompt surface is fixed to `what`, `when`, `why`, and `where` to keep behaviour aligned with its intended shape and purpose.
+Probaboracle is a small, local, agent-backed CLI oracle in the
+**[Polinko research line](https://github.com/tryskian/polinko)**.
+
+It only accepts four question lanes:
+
+- `what`
+- `when`
+- `why`
+- `where`
+
+That narrow surface is the point. Probaboracle is not trying to be a general
+chat tool. It is a small instrument for studying whether a model can stay
+coherent, vague, answer-shaped, and product-specific inside tight interaction
+guardrails.
 
 Current tracked research beta:
 
@@ -20,32 +33,24 @@ the active method without changing the whole eval shape.
 - coherence-first evaluation instead of one overloaded product verdict
 - coherent absurdity as a small selective downstream class
 
-Read next:
+## Run It
+
+```sh
+probaboracle
+```
+
+The app opens a compact terminal loop. Choose a question lane with the arrow
+keys, press `enter`, or hit `esc` to exit.
+
+The operator commands, eval workflow, and setup checks live in the
+[runtime runbook](./docs/runtime/RUNBOOK.md).
+
+## Read Next
 
 - [docs/research/README.md](./docs/research/README.md)
-  - for the beta map and research reading path
+  - beta map and research reading path
 - [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)
-  - for durable runtime and eval changes
-
-## Get Started
-
-Run `probaboracle` to open the persistent local app loop.
-
-The app path now does this:
-
-- show a compact startup banner, with simpler fallbacks on narrower terminals
-- let you choose from the fixed selector:
-  - `where`
-  - `what`
-  - `why`
-  - `when`
-- use `enter` as the primary action and `esc` as the explicit exit path
-- after `enter`, collapse to the selected question only
-- show a minimal inline spinner wait state
-- render one response on its own line
-- immediately follow with `another question [y/n]?`
-
-[docs/runtime/RUNBOOK.md](./docs/runtime/RUNBOOK.md)
+  - durable runtime and eval decisions
 
 ---
 

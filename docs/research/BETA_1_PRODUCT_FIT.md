@@ -4,6 +4,15 @@
 
 Can a fixed-prompt oracle produce lines that feel like good Probaboracle?
 
+## Short Answer
+
+Yes, as a product-shaping pass.
+
+No, as a research architecture.
+
+The single product-fit verdict helped tune the voice, but it was carrying too
+many jobs at once.
+
 ## Eval Shape
 
 - product fit only
@@ -24,7 +33,7 @@ flowchart LR
   F --> N
 ```
 
-## What It Was Good For
+## What It Showed
 
 - pushing the tone toward deadpan, vague, and unhelpful
 - finding obvious misses quickly
@@ -35,11 +44,6 @@ flowchart LR
 - coherent sentence reasoning
 - prompt-lane relevance
 - valuable absurd drift
-
-## Main Finding
-
-This beta was useful for product shaping, but it overloaded the verdict. One
-binary gate was trying to do too many jobs at once.
 
 ## What Changed Next
 
