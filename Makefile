@@ -9,12 +9,13 @@ LIMIT ?= 20
 ID ?=
 NOTE ?=
 VERDICT ?= pass
+ARCHIVE_NOTE ?= stale pending archive
 SWEEP_COUNT ?= 1
 SWEEP_LIST_LIMIT ?= 20
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
-.PHONY: install env venv doctor-env lint format-check format check package-check ask sample eval-init list judge pass fail clean
+.PHONY: install env venv doctor-env lint format-check format check package-check ask sample eval-init list archive-pending judge pass fail clean
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
@@ -113,6 +114,9 @@ eval-init:
 
 list:
 	$(PY) -m probaboracle eval-list $(LIST_ARGS)
+
+archive-pending:
+	$(PY) -m probaboracle archive-pending --note "$(ARCHIVE_NOTE)"
 
 judge:
 	$(PY) -m probaboracle judge $(ID) $(VERDICT) --note "$(NOTE)"

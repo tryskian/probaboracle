@@ -13,8 +13,9 @@ It reads only the live eval SQLite store:
 - source table: `eval_outputs`
 - verdict field: `current_verdict`
 - lane field: `prompt_type`
+- archived rows are excluded from the active chart surface
 
-`pending` is derived from rows where `current_verdict IS NULL`.
+`pending` is derived from unarchived rows where `current_verdict IS NULL`.
 
 ## Output
 

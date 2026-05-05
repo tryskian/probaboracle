@@ -56,6 +56,9 @@ Storage:
 
 - `make eval-init`
 - `make list PROMPT=when LIMIT=10`
+- `.venv/bin/python -m probaboracle eval-list --prompt-type when --limit 10 --include-archived`
+- `make archive-pending`
+- `make archive-pending ARCHIVE_NOTE="stale pending archive before the next long run"`
 
 Sample generation:
 
@@ -64,6 +67,16 @@ Sample generation:
 - `make eval-when-5`
 - `make eval-why-5`
 - `make eval-where-5`
+
+Local notebook operator lane:
+
+- local path: `.local/notebooks/probaboracle-eval-viz.ipynb`
+- use the built-in notebook helpers for:
+  - recent active rows
+  - pass/fail stamps
+  - sidecar stamps
+  - archived-surface inspection
+  - stale pending archive operations
 
 Product verdicts:
 
@@ -83,7 +96,7 @@ The primary static chart is a prompt-lane stacked bar chart:
 
 - x-axis: `what`, `when`, `why`, `where`
 - segments: `fail`, `pass`, `pending`
-- source: `eval_outputs.current_verdict` in `.local/evals.sqlite`
+- source: active `eval_outputs.current_verdict` rows in `.local/evals.sqlite`
 
 Commands:
 
@@ -124,7 +137,8 @@ Use this when broad lane pressure matters.
 5. Keep verdicts binary:
    - `pass`
    - `fail`
-6. Treat repeated failure clusters as the signal for intervention.
+6. Treat stale unresolved product rows as archive candidates, not as live backlog forever.
+7. Treat repeated failure clusters as the signal for intervention.
 
 Useful wrappers:
 

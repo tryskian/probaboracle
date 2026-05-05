@@ -3,7 +3,12 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase
 
 from probaboracle.eval_chart import build_eval_chart_payload
-from probaboracle.eval_db import init_db, judge_output, record_output
+from probaboracle.eval_db import (
+    archive_pending_outputs,
+    init_db,
+    judge_output,
+    record_output,
+)
 
 
 class EvalChartTests(TestCase):
@@ -50,4 +55,41 @@ class EvalChartTests(TestCase):
             )
             self.assertEqual(
                 lanes["why"]["counts"], {"fail": 0, "pass": 0, "pending": 0}
+            )
+
+    def test_build_eval_chart_payload_excludes_archived_rows(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            db_path = Path(tmpdir) / "evals.sqlite"
+            init_db(db_path)
+
+            record_output(
+                db_path=db_path,
+                prompt_type="what",
+                output_text="apparently that edge again.",
+                model="gpt-5-nano",
+            )
+            active_fail_id = record_output(
+                db_path=db_path,
+                prompt_type="when",
+                output_text="probably later than that.",
+                model="gpt-5-nano",
+            )
+
+            judge_output(db_path, active_fail_id, "fail", "too settled")
+            archived_count = archive_pending_outputs(db_path, "stale pending archive")
+
+            self.assertEqual(archived_count, 1)
+
+            payload = build_eval_chart_payload(db_path)
+
+            self.assertEqual(payload["summary"]["total"], 1)
+            self.assertEqual(payload["summary"]["pass"], 0)
+            self.assertEqual(payload["summary"]["fail"], 1)
+            self.assertEqual(payload["summary"]["pending"], 0)
+            lanes = {lane["prompt_type"]: lane for lane in payload["lanes"]}
+            self.assertEqual(
+                lanes["what"]["counts"], {"fail": 0, "pass": 0, "pending": 0}
+            )
+            self.assertEqual(
+                lanes["when"]["counts"], {"fail": 1, "pass": 0, "pending": 0}
             )

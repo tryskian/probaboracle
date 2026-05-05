@@ -453,3 +453,17 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - keep the sweep scoped to the docs that own the changed surface
   - do not push every detail into every doc
 - Why: Probaboracle's docs are part of the research instrument. Small runtime and method changes drift quickly if only the code moves, but copying every detail everywhere makes the docs heavy. The repo needs a docs sweep every time, with clear ownership for where each update belongs.
+
+## D-031: Stale pending product rows are archived out of active eval surfaces
+
+- Date: `2026-05-05`
+- Category: `eval_quality`
+- Tags: `archive`, `pending`, `active_surface`, `sqlite`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - keep `pass` and `fail` as the only live product verdict states
+  - treat `pending` as temporary backlog state, not as a durable third bucket
+  - when product-pending rows become stale, archive them instead of leaving them in the active counts forever
+  - keep archived rows in `eval_outputs` with archive metadata
+  - hide archived rows from default operator listings, session counts, and the public static chart
+- Why: Old unresolved rows distort the live research pulse. Archiving preserves provenance without letting stale backlog masquerade as current eval pressure.

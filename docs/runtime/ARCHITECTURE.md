@@ -62,6 +62,12 @@ Eval data lives in `.local/evals.sqlite`.
 
 Generated rows are stored in `eval_outputs`. Human judgments are append-only history, with the current verdict mirrored onto the output row for fast listing and charting.
 
+Archived rows stay in the same SQLite store with archive metadata, but the default operator surfaces treat them as inactive:
+
+- `eval-list` hides them unless explicitly asked for
+- counts and session status exclude them
+- the public static eval chart excludes them
+
 The active binary lenses are:
 
 - product fit
