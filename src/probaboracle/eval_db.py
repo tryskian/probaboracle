@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS eval_outputs (
             OR absurdity_current_verdict IS NULL
         ),
     absurdity_current_note TEXT NOT NULL DEFAULT '',
+    archived_at TEXT DEFAULT NULL,
+    archived_note TEXT NOT NULL DEFAULT '',
     created_at TEXT NOT NULL
 );
 
@@ -122,6 +124,20 @@ SIDECAR_COLUMNS = (
         ADD COLUMN absurdity_current_note TEXT NOT NULL DEFAULT ''
         """.strip(),
     ),
+    (
+        "archived_at",
+        """
+        ALTER TABLE eval_outputs
+        ADD COLUMN archived_at TEXT DEFAULT NULL
+        """.strip(),
+    ),
+    (
+        "archived_note",
+        """
+        ALTER TABLE eval_outputs
+        ADD COLUMN archived_note TEXT NOT NULL DEFAULT ''
+        """.strip(),
+    ),
 )
 
 
@@ -175,10 +191,18 @@ def record_output(db_path: Path, prompt_type: str, output_text: str, model: str)
         return cursor.lastrowid
 
 
+def _active_filter(include_archived: bool, table_alias: str = "") -> str:
+    if include_archived:
+        return ""
+    prefix = f"{table_alias}." if table_alias else ""
+    return f"WHERE {prefix}archived_at IS NULL"
+
+
 def list_outputs(
     db_path: Path,
     prompt_type: str | None = None,
     limit: int = 20,
+    include_archived: bool = False,
 ) -> list[sqlite3.Row]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
@@ -199,13 +223,16 @@ def list_outputs(
                     relevance_current_note,
                     absurdity_current_verdict,
                     absurdity_current_note,
+                    archived_at,
+                    archived_note,
                     created_at
                 FROM eval_outputs
                 WHERE prompt_type = ?
+                  AND (? OR archived_at IS NULL)
                 ORDER BY id DESC
                 LIMIT ?
                 """,
-                (prompt_type, limit),
+                (prompt_type, int(include_archived), limit),
             )
         else:
             cursor = conn.execute(
@@ -223,12 +250,15 @@ def list_outputs(
                     relevance_current_note,
                     absurdity_current_verdict,
                     absurdity_current_note,
+                    archived_at,
+                    archived_note,
                     created_at
                 FROM eval_outputs
+                WHERE (? OR archived_at IS NULL)
                 ORDER BY id DESC
                 LIMIT ?
                 """,
-                (limit,),
+                (int(include_archived), limit),
             )
         return list(cursor.fetchall())
 
@@ -373,96 +403,52 @@ def judge_absurdity_output(
         )
 
 
-def counts(db_path: Path) -> dict[str, int]:
+def archive_pending_outputs(db_path: Path, note: str) -> int:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
-            "value"
-        ]
-        passed = conn.execute(
-            "SELECT COUNT(*) AS value FROM eval_outputs WHERE current_verdict = 'pass'"
-        ).fetchone()["value"]
-        failed = conn.execute(
-            "SELECT COUNT(*) AS value FROM eval_outputs WHERE current_verdict = 'fail'"
-        ).fetchone()["value"]
-        pending = conn.execute(
-            "SELECT COUNT(*) AS value FROM eval_outputs WHERE current_verdict IS NULL"
-        ).fetchone()["value"]
-        return {
-            "total": int(total),
-            "pass": int(passed),
-            "fail": int(failed),
-            "pending": int(pending),
-        }
+        cursor = conn.execute(
+            """
+            UPDATE eval_outputs
+            SET archived_at = ?, archived_note = ?
+            WHERE current_verdict IS NULL
+              AND archived_at IS NULL
+            """,
+            (utc_now(), note),
+        )
+        return int(cursor.rowcount)
 
 
-def structure_counts(db_path: Path) -> dict[str, int]:
+def counts(db_path: Path, include_archived: bool = False) -> dict[str, int]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
-            "value"
-        ]
+        active_filter = _active_filter(include_archived)
+        total = conn.execute(
+            f"SELECT COUNT(*) AS value FROM eval_outputs {active_filter}"
+        ).fetchone()["value"]
         passed = conn.execute(
-            """
+            f"""
             SELECT COUNT(*) AS value
             FROM eval_outputs
-            WHERE structure_current_verdict = 'pass'
+            {_active_filter(include_archived, "eval_outputs")}
+            {"AND" if not include_archived else "WHERE"} current_verdict = 'pass'
             """
         ).fetchone()["value"]
         failed = conn.execute(
-            """
+            f"""
             SELECT COUNT(*) AS value
             FROM eval_outputs
-            WHERE structure_current_verdict = 'fail'
+            {_active_filter(include_archived, "eval_outputs")}
+            {"AND" if not include_archived else "WHERE"} current_verdict = 'fail'
             """
         ).fetchone()["value"]
         pending = conn.execute(
-            """
+            f"""
             SELECT COUNT(*) AS value
             FROM eval_outputs
-            WHERE structure_current_verdict IS NULL
-            """
-        ).fetchone()["value"]
-        return {
-            "total": int(total),
-            "pass": int(passed),
-            "fail": int(failed),
-            "pending": int(pending),
-        }
-
-
-def coherence_counts(db_path: Path) -> dict[str, int]:
-    return structure_counts(db_path)
-
-
-def relevance_counts(db_path: Path) -> dict[str, int]:
-    with connect(db_path) as conn:
-        conn.executescript(SCHEMA)
-        _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
-            "value"
-        ]
-        passed = conn.execute(
-            """
-            SELECT COUNT(*) AS value
-            FROM eval_outputs
-            WHERE relevance_current_verdict = 'pass'
-            """
-        ).fetchone()["value"]
-        failed = conn.execute(
-            """
-            SELECT COUNT(*) AS value
-            FROM eval_outputs
-            WHERE relevance_current_verdict = 'fail'
-            """
-        ).fetchone()["value"]
-        pending = conn.execute(
-            """
-            SELECT COUNT(*) AS value
-            FROM eval_outputs
-            WHERE relevance_current_verdict IS NULL
+            {_active_filter(include_archived, "eval_outputs")}
+            {"AND" if not include_archived else "WHERE"} current_verdict IS NULL
             """
         ).fetchone()["value"]
         return {
@@ -473,33 +459,130 @@ def relevance_counts(db_path: Path) -> dict[str, int]:
         }
 
 
-def absurdity_counts(db_path: Path) -> dict[str, int]:
+def structure_counts(db_path: Path, include_archived: bool = False) -> dict[str, int]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
-            "value"
-        ]
+        total = conn.execute(
+            "SELECT COUNT(*) AS value "
+            f"FROM eval_outputs {_active_filter(include_archived)}"
+        ).fetchone()["value"]
         passed = conn.execute(
             """
             SELECT COUNT(*) AS value
             FROM eval_outputs
-            WHERE absurdity_current_verdict = 'pass'
             """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "structure_current_verdict = 'pass'"
         ).fetchone()["value"]
         failed = conn.execute(
             """
             SELECT COUNT(*) AS value
             FROM eval_outputs
-            WHERE absurdity_current_verdict = 'fail'
             """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "structure_current_verdict = 'fail'"
         ).fetchone()["value"]
         pending = conn.execute(
             """
             SELECT COUNT(*) AS value
             FROM eval_outputs
-            WHERE absurdity_current_verdict IS NULL
             """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "structure_current_verdict IS NULL"
+        ).fetchone()["value"]
+        return {
+            "total": int(total),
+            "pass": int(passed),
+            "fail": int(failed),
+            "pending": int(pending),
+        }
+
+
+def coherence_counts(db_path: Path, include_archived: bool = False) -> dict[str, int]:
+    return structure_counts(db_path, include_archived=include_archived)
+
+
+def relevance_counts(db_path: Path, include_archived: bool = False) -> dict[str, int]:
+    with connect(db_path) as conn:
+        conn.executescript(SCHEMA)
+        _ensure_sidecar_columns(conn)
+        total = conn.execute(
+            "SELECT COUNT(*) AS value "
+            f"FROM eval_outputs {_active_filter(include_archived)}"
+        ).fetchone()["value"]
+        passed = conn.execute(
+            """
+            SELECT COUNT(*) AS value
+            FROM eval_outputs
+            """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "relevance_current_verdict = 'pass'"
+        ).fetchone()["value"]
+        failed = conn.execute(
+            """
+            SELECT COUNT(*) AS value
+            FROM eval_outputs
+            """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "relevance_current_verdict = 'fail'"
+        ).fetchone()["value"]
+        pending = conn.execute(
+            """
+            SELECT COUNT(*) AS value
+            FROM eval_outputs
+            """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "relevance_current_verdict IS NULL"
+        ).fetchone()["value"]
+        return {
+            "total": int(total),
+            "pass": int(passed),
+            "fail": int(failed),
+            "pending": int(pending),
+        }
+
+
+def absurdity_counts(db_path: Path, include_archived: bool = False) -> dict[str, int]:
+    with connect(db_path) as conn:
+        conn.executescript(SCHEMA)
+        _ensure_sidecar_columns(conn)
+        total = conn.execute(
+            "SELECT COUNT(*) AS value "
+            f"FROM eval_outputs {_active_filter(include_archived)}"
+        ).fetchone()["value"]
+        passed = conn.execute(
+            """
+            SELECT COUNT(*) AS value
+            FROM eval_outputs
+            """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "absurdity_current_verdict = 'pass'"
+        ).fetchone()["value"]
+        failed = conn.execute(
+            """
+            SELECT COUNT(*) AS value
+            FROM eval_outputs
+            """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "absurdity_current_verdict = 'fail'"
+        ).fetchone()["value"]
+        pending = conn.execute(
+            """
+            SELECT COUNT(*) AS value
+            FROM eval_outputs
+            """
+            + _active_filter(include_archived, "eval_outputs")
+            + (" AND " if not include_archived else " WHERE ")
+            + "absurdity_current_verdict IS NULL"
         ).fetchone()["value"]
         return {
             "total": int(total),

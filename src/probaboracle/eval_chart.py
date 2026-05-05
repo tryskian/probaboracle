@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from probaboracle.config import PROMPT_TYPES
-from probaboracle.eval_db import SCHEMA, connect
+from probaboracle.eval_db import SCHEMA, connect, init_db
 
 VERDICT_ORDER: tuple[str, ...] = ("pending", "fail", "pass")
 
@@ -15,6 +15,7 @@ def _utc_now() -> str:
 
 
 def build_eval_chart_payload(db_path: Path) -> dict[str, Any]:
+    init_db(db_path)
     lane_counts = {
         prompt_type: {"fail": 0, "pass": 0, "pending": 0}
         for prompt_type in PROMPT_TYPES
@@ -30,11 +31,16 @@ def build_eval_chart_payload(db_path: Path) -> dict[str, Any]:
                 COALESCE(current_verdict, 'pending') AS verdict,
                 COUNT(*) AS value
             FROM eval_outputs
+            WHERE archived_at IS NULL
             GROUP BY prompt_type, COALESCE(current_verdict, 'pending')
             """
         ).fetchall()
         latest_created_at = conn.execute(
-            "SELECT MAX(created_at) AS value FROM eval_outputs"
+            """
+            SELECT MAX(created_at) AS value
+            FROM eval_outputs
+            WHERE archived_at IS NULL
+            """
         ).fetchone()["value"]
 
     for row in rows:

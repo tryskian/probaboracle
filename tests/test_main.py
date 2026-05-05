@@ -301,3 +301,36 @@ class MainAppLoopTests(TestCase):
         rendered = stdout.getvalue()
         self.assertEqual(exit_code, 0)
         self.assertEqual(rendered.strip(), "probably a reason, or perhaps not.")
+
+    def test_archive_pending_subcommand_uses_operator_path(self) -> None:
+        stdout = StringIO()
+        settings = Settings(
+            app_name="Probaboracle",
+            model="gpt-5-nano",
+            eval_db_path=Path("/tmp/evals.sqlite"),
+        )
+        with patch("probaboracle.main.load_settings", return_value=settings):
+            with patch("probaboracle.main.ensure_local_dirs"):
+                with patch("probaboracle.main.init_db"):
+                    with patch(
+                        "probaboracle.main.archive_pending_outputs",
+                        return_value=116,
+                    ) as archive_pending:
+                        with patch("sys.stdout", stdout):
+                            exit_code = main(
+                                [
+                                    "archive-pending",
+                                    "--note",
+                                    "stale pending archive before the next long run",
+                                ]
+                            )
+
+        self.assertEqual(exit_code, 0)
+        archive_pending.assert_called_once_with(
+            settings.eval_db_path,
+            "stale pending archive before the next long run",
+        )
+        self.assertEqual(
+            stdout.getvalue().strip(),
+            "Archived 116 pending product rows.",
+        )

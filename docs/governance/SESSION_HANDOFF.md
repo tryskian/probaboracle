@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-03
+Last updated: 2026-05-05
 
 ## Start Here
 
@@ -37,6 +37,7 @@ Operator commands remain separate:
 - `ask`
 - `sample`
 - `eval-list`
+- `archive-pending`
 - `judge`
 - sidecar judgment commands
 
@@ -50,10 +51,11 @@ Current tracked research beta:
 Current long-run checkpoint:
 
 - judged through row `913`
-- product: `398 pass / 399 fail / 116 pending`
-- coherence: `792 pass / 121 fail / 0 pending`
-- relevance: `778 pass / 135 fail / 0 pending`
-- absurdity: `5 pass / 14 fail / 894 pending`
+- active product surface: `398 pass / 399 fail / 0 pending`
+- active coherence surface: `687 pass / 110 fail / 0 pending`
+- active relevance surface: `679 pass / 118 fail / 0 pending`
+- active absurdity surface: `5 pass / 8 fail / 784 pending`
+- archived out of the active surface: `116` stale product-pending rows
 
 The active coherence rule is stricter than the early runs:
 

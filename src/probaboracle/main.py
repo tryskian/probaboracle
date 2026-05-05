@@ -21,6 +21,7 @@ from probaboracle.config import (
 )
 from probaboracle.eval_db import (
     absurdity_counts,
+    archive_pending_outputs,
     coherence_counts,
     counts,
     init_db,
@@ -152,6 +153,21 @@ def build_parser() -> argparse.ArgumentParser:
     list_parser = subparsers.add_parser("eval-list", help="List recent eval outputs.")
     list_parser.add_argument("--prompt-type", default=None)
     list_parser.add_argument("--limit", type=int, default=20)
+    list_parser.add_argument(
+        "--include-archived",
+        action="store_true",
+        help="Include archived rows in the operator listing.",
+    )
+
+    archive_pending_parser = subparsers.add_parser(
+        "archive-pending",
+        help="Archive current pending product rows out of the active eval surface.",
+    )
+    archive_pending_parser.add_argument(
+        "--note",
+        default="stale pending archive",
+        help="Archive note stored on the archived rows.",
+    )
 
     judge_parser = subparsers.add_parser(
         "judge",
@@ -197,6 +213,9 @@ def print_rows(rows: Iterable[sqlite3.Row]) -> None:
         coherence_verdict = row["structure_current_verdict"] or "pending"
         relevance_verdict = row["relevance_current_verdict"] or "pending"
         absurdity_verdict = row["absurdity_current_verdict"] or "pending"
+        output_text = row["output_text"]
+        if row["archived_at"]:
+            output_text = f"{output_text} [archived]"
         print(
             f"{row['id']:>2}  "
             f"{row['prompt_type']:<6}  "
@@ -204,7 +223,7 @@ def print_rows(rows: Iterable[sqlite3.Row]) -> None:
             f"{coherence_verdict:<10}  "
             f"{relevance_verdict:<9}  "
             f"{absurdity_verdict:<9}  "
-            f"{row['output_text']}"
+            f"{output_text}"
         )
 
 
@@ -637,17 +656,30 @@ def command_eval_init() -> int:
     return 0
 
 
-def command_eval_list(prompt_type: str | None, limit: int) -> int:
+def command_eval_list(
+    prompt_type: str | None, limit: int, include_archived: bool = False
+) -> int:
     settings = load_settings()
     ensure_local_dirs(settings)
     if prompt_type is not None:
         prompt_type = normalise_prompt_type(prompt_type)
-    rows = list_outputs(settings.eval_db_path, prompt_type=prompt_type, limit=limit)
+    rows = list_outputs(
+        settings.eval_db_path,
+        prompt_type=prompt_type,
+        limit=limit,
+        include_archived=include_archived,
+    )
     print_rows(rows)
-    product_summary = counts(settings.eval_db_path)
-    coherence_summary = coherence_counts(settings.eval_db_path)
-    relevance_summary = relevance_counts(settings.eval_db_path)
-    absurdity_summary = absurdity_counts(settings.eval_db_path)
+    product_summary = counts(settings.eval_db_path, include_archived=include_archived)
+    coherence_summary = coherence_counts(
+        settings.eval_db_path, include_archived=include_archived
+    )
+    relevance_summary = relevance_counts(
+        settings.eval_db_path, include_archived=include_archived
+    )
+    absurdity_summary = absurdity_counts(
+        settings.eval_db_path, include_archived=include_archived
+    )
     print(
         "\n"
         f"product total={product_summary['total']} "
@@ -673,6 +705,8 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
         f"fail={absurdity_summary['fail']} "
         f"pending={absurdity_summary['pending']}"
     )
+    if not include_archived:
+        print("\nArchived rows are hidden from the active operator surface.")
     print("\nPRODUCT VERDICT: PASS | FAIL [note]")
     print('Example: make judge ID=12 VERDICT=pass NOTE="deadpan and vague"')
     print("\nCOHERENCE VERDICT: PASS | FAIL [note]")
@@ -690,6 +724,15 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
         "Example: .venv/bin/python -m probaboracle judge-absurdity 12 pass "
         '--note "coherent absurdity"'
     )
+    return 0
+
+
+def command_archive_pending(note: str) -> int:
+    settings = load_settings()
+    ensure_local_dirs(settings)
+    init_db(settings.eval_db_path)
+    archived = archive_pending_outputs(settings.eval_db_path, note)
+    print(f"Archived {archived} pending product rows.")
     return 0
 
 
@@ -746,7 +789,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "eval-init":
         return command_eval_init()
     if args.command == "eval-list":
-        return command_eval_list(args.prompt_type, args.limit)
+        return command_eval_list(
+            args.prompt_type,
+            args.limit,
+            include_archived=args.include_archived,
+        )
+    if args.command == "archive-pending":
+        return command_archive_pending(args.note)
     if args.command in {"judge", "eval-judge"}:
         return command_eval_judge(args.output_id, args.verdict, args.note)
     if args.command in {"judge-coherence", "judge-structure"}:
