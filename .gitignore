@@ -18,6 +18,3 @@ dist/
 node_modules/
 docs/peanut/*
 !docs/peanut/.gitkeep
-output/jupyter-notebook/*
-!output/jupyter-notebook/.gitkeep
-AGENTS.md

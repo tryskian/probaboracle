@@ -68,6 +68,16 @@ Sample generation:
 - `make eval-why-5`
 - `make eval-where-5`
 
+Local notebook operator lane:
+
+- local path: `.local/notebooks/probaboracle-eval-viz.ipynb`
+- use the built-in notebook helpers for:
+  - recent active rows
+  - pass/fail stamps
+  - sidecar stamps
+  - archived-surface inspection
+  - stale pending archive operations
+
 Product verdicts:
 
 - `make judge ID=1 VERDICT=pass NOTE="deadpan and vague"`
