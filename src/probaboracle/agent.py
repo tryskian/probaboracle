@@ -8,9 +8,9 @@ from probaboracle.config import (
     OUTPUT_GUARDS,
     PIPELINE_STEPS,
     PROMPT_FRAMES,
-    Settings,
     STYLE_SIGNALS,
     TONE_CONTRACT,
+    Settings,
 )
 
 ORACLE_INSTRUCTIONS = """
@@ -82,7 +82,8 @@ def build_prompt(prompt_type: str) -> str:
         f"Before answering, reason silently through: {pipeline}.\n"
         f"Shared style signals: {style_signals}\n"
         f"Output guards: {output_guards}.\n"
-        "Draw from this shared signal pool where useful, while keeping the arrangement varied.\n"
+        "Draw from this shared signal pool where useful, while keeping the "
+        "arrangement varied.\n"
         "Return one short final line only. Do not reveal the hidden reasoning."
     )
 

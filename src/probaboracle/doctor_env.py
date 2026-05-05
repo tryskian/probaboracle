@@ -62,7 +62,10 @@ def _check_interpreter() -> int:
     if active_venv:
         _ok(f"VIRTUAL_ENV={active_venv}")
     else:
-        _warn("VIRTUAL_ENV is not set (ok when running via make with explicit interpreter)")
+        _warn(
+            "VIRTUAL_ENV is not set "
+            "(ok when running via make with explicit interpreter)"
+        )
 
     python_on_path = shutil.which("python")
     if python_on_path:

@@ -6,13 +6,14 @@ import re
 import sys
 from pathlib import Path
 
-
 REQUIRED_DOCS = (Path("docs/governance/SESSION_HANDOFF.md"),)
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Check that Probaboracle current-truth EOD docs were refreshed today."
+        description=(
+            "Check that Probaboracle current-truth EOD docs were refreshed today."
+        )
     )
     parser.add_argument(
         "--date",
@@ -23,7 +24,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def find_last_updated(path: Path) -> str | None:
-    match = re.search(r"^Last updated:\s*(\d{4}-\d{2}-\d{2})\s*$", path.read_text(), re.MULTILINE)
+    match = re.search(
+        r"^Last updated:\s*(\d{4}-\d{2}-\d{2})\s*$", path.read_text(), re.MULTILINE
+    )
     if match is None:
         return None
     return match.group(1)
@@ -50,7 +53,8 @@ def main() -> int:
         for failure in failures:
             print(f"- {failure}", file=sys.stderr)
         print(
-            "Update docs/governance/SESSION_HANDOFF.md before rerunning ./scripts/end_of_day_routine.sh.",
+            "Update docs/governance/SESSION_HANDOFF.md before rerunning "
+            "./scripts/end_of_day_routine.sh.",
             file=sys.stderr,
         )
         return 1

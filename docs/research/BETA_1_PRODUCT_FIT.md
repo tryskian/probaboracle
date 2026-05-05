@@ -10,8 +10,7 @@ Yes, as a product-shaping pass.
 
 No, as a research architecture.
 
-The single product-fit verdict helped tune the voice, but it was carrying too
-many jobs at once.
+The single product-fit verdict helped tune the voice, but it was carrying too many jobs at once.
 
 ## Eval Shape
 

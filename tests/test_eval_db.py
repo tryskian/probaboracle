@@ -12,8 +12,8 @@ from probaboracle.eval_db import (
     judge_relevance_output,
     judge_structure_output,
     list_outputs,
-    relevance_counts,
     record_output,
+    relevance_counts,
     structure_counts,
 )
 
@@ -67,7 +67,9 @@ class EvalDbTests(TestCase):
             self.assertEqual(absurdity_summary["fail"], 0)
             self.assertEqual(absurdity_summary["pending"], 1)
 
-    def test_structure_judgment_round_trip_is_separate_from_product_verdict(self) -> None:
+    def test_structure_judgment_round_trip_is_separate_from_product_verdict(
+        self,
+    ) -> None:
         with TemporaryDirectory() as tmpdir:
             db_path = Path(tmpdir) / "evals.sqlite"
             init_db(db_path)
@@ -106,7 +108,9 @@ class EvalDbTests(TestCase):
             absurdity_summary = absurdity_counts(db_path)
             self.assertEqual(absurdity_summary["pending"], 1)
 
-    def test_relevance_judgment_round_trip_is_separate_from_other_verdicts(self) -> None:
+    def test_relevance_judgment_round_trip_is_separate_from_other_verdicts(
+        self,
+    ) -> None:
         with TemporaryDirectory() as tmpdir:
             db_path = Path(tmpdir) / "evals.sqlite"
             init_db(db_path)
@@ -149,7 +153,10 @@ class EvalDbTests(TestCase):
             output_id = record_output(
                 db_path=db_path,
                 prompt_type="where",
-                output_text="definitely a moment elsewhere, or perhaps not, that settles nothing.",
+                output_text=(
+                    "definitely a moment elsewhere, or perhaps not, that "
+                    "settles nothing."
+                ),
                 model="gpt-5-nano",
             )
             judge_absurdity_output(db_path, output_id, "pass", "coherent absurdity")

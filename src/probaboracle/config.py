@@ -100,7 +100,10 @@ OUTPUT_GUARDS: tuple[str, ...] = (
     "use 'or perhaps not' sparingly",
     "vary openers across the signal pool",
     "use occasional first-person framing when it sharpens the line",
-    "use occasional soft trailing tags like 'i suppose' or 'i think' when they help the line collapse deadpan",
+    (
+        "use occasional soft trailing tags like 'i suppose' or 'i think' "
+        "when they help the line collapse deadpan"
+    ),
     "prefer one clean contradiction over stacked clauses",
 )
 
@@ -139,8 +142,7 @@ def normalise_verdict(verdict: str) -> str:
     value = verdict.strip().lower()
     if value not in VERDICTS:
         raise ValueError(
-            f"Unsupported verdict '{verdict}'. "
-            f"Choose one of: {', '.join(VERDICTS)}."
+            f"Unsupported verdict '{verdict}'. Choose one of: {', '.join(VERDICTS)}."
         )
     return value
 

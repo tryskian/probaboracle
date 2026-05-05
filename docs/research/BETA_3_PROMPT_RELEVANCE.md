@@ -8,8 +8,7 @@ Once a line is coherent, does it stay in-lane for the selected prompt?
 
 Usually, yes.
 
-Prompt relevance turned out to be narrower than product fit and different from
-coherence. It asks which reasoning lane is actually leading the sentence.
+Prompt relevance turned out to be narrower than product fit and different from coherence. It asks which reasoning lane is actually leading the sentence.
 
 ## Eval Shape
 
@@ -55,19 +54,14 @@ A sharper later result came from the `what` lane:
 - product fit on the same lane: `70 pass / 66 fail`
 - `57` product-fail rows still passed relevance
 
-That `what` sweep made the split plain. Most lines stayed clearly shape-led
-even when they missed the stricter Probaboracle taste gate. The real relevance
-fails were a small pocket where `here`, `there`, or `elsewhere` stopped being
-secondary texture and started steering the sentence.
+That `what` sweep made the split plain. Most lines stayed clearly shape-led even when they missed the stricter Probaboracle taste gate. The real relevance fails were a small pocket where `here`, `there`, or `elsewhere` stopped being secondary texture and started steering the sentence.
 
 The `where` lane then closed cleanly:
 
 - relevance: `109 pass / 26 fail`
 - coherence on the same lane: `109 pass / 26 fail`
 
-That mattered for a different reason. It showed that `where` was not really
-failing on lane control. Once those lines were coherent, they were already
-spatially in-lane. The drag there was sentence quality, not prompt drift.
+That mattered for a different reason. It showed that `where` was not really failing on lane control. Once those lines were coherent, they were already spatially in-lane. The drag there was sentence quality, not prompt drift.
 
 ## Why It Matters
 
@@ -80,5 +74,4 @@ That makes the research cleaner and keeps coherence as the primary question.
 
 ## What Changed Next
 
-Coherent absurdity also emerged as a separate class rather than being flattened
-into relevance failure.
+Coherent absurdity also emerged as a separate class rather than being flattened into relevance failure.

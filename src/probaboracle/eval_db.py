@@ -265,7 +265,9 @@ def judge_output(db_path: Path, output_id: int, verdict: str, note: str) -> None
         )
 
 
-def judge_structure_output(db_path: Path, output_id: int, verdict: str, note: str) -> None:
+def judge_structure_output(
+    db_path: Path, output_id: int, verdict: str, note: str
+) -> None:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
@@ -297,11 +299,15 @@ def judge_structure_output(db_path: Path, output_id: int, verdict: str, note: st
         )
 
 
-def judge_coherence_output(db_path: Path, output_id: int, verdict: str, note: str) -> None:
+def judge_coherence_output(
+    db_path: Path, output_id: int, verdict: str, note: str
+) -> None:
     judge_structure_output(db_path, output_id, verdict, note)
 
 
-def judge_relevance_output(db_path: Path, output_id: int, verdict: str, note: str) -> None:
+def judge_relevance_output(
+    db_path: Path, output_id: int, verdict: str, note: str
+) -> None:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
@@ -333,7 +339,9 @@ def judge_relevance_output(db_path: Path, output_id: int, verdict: str, note: st
         )
 
 
-def judge_absurdity_output(db_path: Path, output_id: int, verdict: str, note: str) -> None:
+def judge_absurdity_output(
+    db_path: Path, output_id: int, verdict: str, note: str
+) -> None:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
@@ -369,7 +377,9 @@ def counts(db_path: Path) -> dict[str, int]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()["value"]
+        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
+            "value"
+        ]
         passed = conn.execute(
             "SELECT COUNT(*) AS value FROM eval_outputs WHERE current_verdict = 'pass'"
         ).fetchone()["value"]
@@ -391,7 +401,9 @@ def structure_counts(db_path: Path) -> dict[str, int]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()["value"]
+        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
+            "value"
+        ]
         passed = conn.execute(
             """
             SELECT COUNT(*) AS value
@@ -429,7 +441,9 @@ def relevance_counts(db_path: Path) -> dict[str, int]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()["value"]
+        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
+            "value"
+        ]
         passed = conn.execute(
             """
             SELECT COUNT(*) AS value
@@ -463,7 +477,9 @@ def absurdity_counts(db_path: Path) -> dict[str, int]:
     with connect(db_path) as conn:
         conn.executescript(SCHEMA)
         _ensure_sidecar_columns(conn)
-        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()["value"]
+        total = conn.execute("SELECT COUNT(*) AS value FROM eval_outputs").fetchone()[
+            "value"
+        ]
         passed = conn.execute(
             """
             SELECT COUNT(*) AS value

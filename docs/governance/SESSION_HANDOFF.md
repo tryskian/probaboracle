@@ -64,8 +64,7 @@ The active coherence rule is stricter than the early runs:
 
 Useful current reads:
 
-- `when` splits between simple one-comma temporal passes and stacked temporal
-  fails
+- `when` splits between simple one-comma temporal passes and stacked temporal fails
 - `why` is still the weakest product lane, but has rare strong passes:
   - `896`: `apparently a reason, though not in any useful sense.`
   - `913`: `technically a reason, though not in any useful sense.`
@@ -83,8 +82,7 @@ Choose one lane at a time:
   - use `25+` rows as a minimum checkpoint
   - treat `50-100` rows, or about one hour, as the real long-run surface
 - docs:
-  - sweep tracked docs after every runtime, product-shape, or research-method
-    change
+  - sweep tracked docs after every runtime, product-shape, or research-method change
   - keep `docs/peanut/` as the private scratch lane
 
 ## Guardrails
