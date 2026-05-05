@@ -40,6 +40,12 @@ Use `docs/runtime/ARCHITECTURE.md` for system shape. Use this file when you need
 
 The app loop is the default user-facing path. It opens the responsive header and fixed selector, then generates one response at a time. `enter` selects, and `esc` exits.
 
+## Repo Hygiene
+
+- Dependabot-managed update PRs carry the `dependencies` label.
+- `.github/workflows/stale-dependency-prs.yml` marks dependency PRs stale after `14` idle days and closes them after `7` more.
+- The stale workflow is scoped to dependency-labelled PRs, not the normal human work queue.
+
 ## Oracle Commands
 
 Use these when you want the operator path instead of the app loop:

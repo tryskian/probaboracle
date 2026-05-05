@@ -467,3 +467,17 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - keep archived rows in `eval_outputs` with archive metadata
   - hide archived rows from default operator listings, session counts, and the public static chart
 - Why: Old unresolved rows distort the live research pulse. Archiving preserves provenance without letting stale backlog masquerade as current eval pressure.
+
+## D-032: Stale dependency PRs are auto-closed out of the active queue
+
+- Date: `2026-05-05`
+- Category: `workflow_environment`
+- Tags: `github_automation`, `dependabot`, `stale_prs`, `queue_hygiene`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - apply the `dependencies` label to repo-managed dependency bump PRs
+  - run a scheduled stale-PR workflow against dependency-labelled PRs only
+  - mark dependency PRs stale after `14` idle days
+  - close them after `7` more idle days
+  - do not use this workflow to close general human work by default
+- Why: Probaboracle is a small repo, and unattended dependency bumps can quickly dominate the open PR surface. Auto-closing stale dependency PRs keeps the queue legible without deleting the underlying history.
