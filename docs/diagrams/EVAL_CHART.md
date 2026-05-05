@@ -6,8 +6,7 @@ This is the canonical home for Probaboracle's primary static D3 chart.
 
 The chart answers one question first:
 
-How much `fail`, `pass`, and `pending` pressure is accumulating in each prompt
-lane?
+How much `fail`, `pass`, and `pending` pressure is accumulating in each prompt lane?
 
 It reads only the live eval SQLite store:
 
@@ -29,10 +28,9 @@ make render-eval-chart
 
 ## Visual Notes
 
-- `FAIL` uses the Polinko fail red.
-- `PASS` uses the Polinko pass green.
+- `FAIL` uses the softened fail red swatch.
+- `PASS` uses the softened pass amber swatch.
 - `PENDING` uses the Polinko source blue.
+- The chart avoids a harsher traffic-light red/green pairing.
 
-This is the primary static evidence surface for Probaboracle. If richer detail
-is added later, it should sit below or beside this chart rather than replace
-the binary lane view.
+This is the primary static evidence surface for Probaboracle. If richer detail is added later, it should sit below or beside this chart rather than replace the binary lane view.

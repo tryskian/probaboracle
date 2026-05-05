@@ -2,8 +2,7 @@
 
 This is the operator guide for local setup, commands, validation, and eval work.
 
-Use `docs/runtime/ARCHITECTURE.md` for system shape. Use this file when you
-need to run or check something.
+Use `docs/runtime/ARCHITECTURE.md` for system shape. Use this file when you need to run or check something.
 
 ## Start A Session
 
@@ -27,19 +26,19 @@ need to run or check something.
 
 ## Everyday Commands
 
-| Task | Command |
-| --- | --- |
-| open the app loop | `probaboracle` |
-| open the venv shell | `make env` |
-| check the environment | `make doctor-env` |
-| show session status | `make session-status` |
-| run tests | `make check` |
-| build the package | `make package-check` |
-| lint tracked docs | `npm run lint:docs` |
+| Task                    | Command               |
+| ----------------------- | --------------------- |
+| open the app loop       | `probaboracle`        |
+| open the venv shell     | `make env`            |
+| check the environment   | `make doctor-env`     |
+| show session status     | `make session-status` |
+| lint Python files       | `make lint`           |
+| check Python formatting | `make format-check`   |
+| run tests               | `make check`          |
+| build the package       | `make package-check`  |
+| lint tracked docs       | `npm run lint:docs`   |
 
-The app loop is the default user-facing path. It opens the responsive header
-and fixed selector, then generates one response at a time. `enter` selects, and
-`esc` exits.
+The app loop is the default user-facing path. It opens the responsive header and fixed selector, then generates one response at a time. `enter` selects, and `esc` exits.
 
 ## Oracle Commands
 
@@ -97,6 +96,9 @@ Run the smallest check set that matches the change:
 
 - tracked logic change:
   - `make check`
+- Python-only style change:
+  - `make format-check`
+  - `make lint`
 - docs change:
   - `npm run lint:docs`
   - `git diff --check`
@@ -107,8 +109,7 @@ Run the smallest check set that matches the change:
   - `make sample PROMPT=what COUNT=1`
   - `make list PROMPT=what LIMIT=5`
 
-If `OPENAI_API_KEY` is available and runtime generation changed, run one live
-smoke:
+If `OPENAI_API_KEY` is available and runtime generation changed, run one live smoke:
 
 - `make ask PROMPT=what`
 
@@ -134,8 +135,7 @@ Useful wrappers:
 
 ## Single-Product Signal Loop
 
-Use this when isolating the strongest per-product signal for coherent
-absurdity.
+Use this when isolating the strongest per-product signal for coherent absurdity.
 
 1. Generate one product:
    - `make sample PROMPT=what COUNT=1`
@@ -146,16 +146,14 @@ absurdity.
 3. Repeat one product at a time.
 4. Treat `25+` rows as the minimum useful checkpoint.
 5. Treat `50-100` rows, or about one hour, as the real long-run surface.
-6. Keep extra `when` pressure in the mix when testing the current coherence
-   rule.
+6. Keep extra `when` pressure in the mix when testing the current coherence rule.
 
 ## Layered Eval Lenses
 
 - Product fit is the strict oracle-quality gate.
 - Coherence is the primary experimental gate:
   - `pass` = one resolved sentence with one dominant reasoning lane
-  - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or
-    punctuation doing the reasoning work
+  - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or punctuation doing the reasoning work
   - for short lines, `2+` commas is a hard fail shortcut
 - Prompt relevance asks whether a coherence-passing line stays in-lane.
 - Coherent absurdity is only meaningful once coherence already passes.

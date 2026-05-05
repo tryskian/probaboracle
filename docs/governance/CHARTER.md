@@ -4,11 +4,9 @@
 
 Probaboracle is a small, local, agent-backed oracle runtime.
 
-It explores constrained human-AI interaction through deliberately vague,
-non-concrete responses and strict binary evaluation.
+It explores constrained human-AI interaction through deliberately vague, non-concrete responses and strict binary evaluation.
 
-Probaboracle is part of the Polinko research line. It is smaller, but it keeps
-the same discipline: narrow surface, clear scope, hard evals, and careful docs.
+Probaboracle is part of the Polinko research line. It is smaller, but it keeps the same discipline: narrow surface, clear scope, hard evals, and careful docs.
 
 ## Durable Rules
 
@@ -20,8 +18,7 @@ Runtime:
 - agent-backed through the OpenAI Agents SDK
 - one model generation path, not stitched fragment composition
 - minimal config with an explicit reasoning target
-- runtime directions that describe the target shape instead of accumulating
-  restriction piles
+- runtime directions that describe the target shape instead of accumulating restriction piles
 
 Prompt surface:
 
@@ -30,8 +27,7 @@ Prompt surface:
 - `why`
 - `where`
 
-The active runtime path does not accept freeform prompt input. The fixed prompt
-types are the interaction boundary and the reasoning boundary.
+The active runtime path does not accept freeform prompt input. The fixed prompt types are the interaction boundary and the reasoning boundary.
 
 Responses:
 
@@ -91,8 +87,7 @@ Default execution model:
 | `docs/governance/SESSION_HANDOFF.md` | current checkpoint and next slice |
 | `docs/diagrams/PIPELINE.md` | public generation and eval-shape diagrams |
 
-After runtime, product-shape, or research-method changes, sweep the tracked
-docs before merging.
+After runtime, product-shape, or research-method changes, sweep the tracked docs before merging.
 
 ## Scope
 

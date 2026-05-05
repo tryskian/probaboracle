@@ -1,11 +1,10 @@
 # Probaboracle
 
-![Research Beta](https://img.shields.io/badge/research_beta-4.1%20coherent%20absurdity-E15759)
+![Research Beta](https://img.shields.io/badge/research_beta-4.1%20coherent%20absurdity-E15759) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
 
 ## probably a mini oracle. definitely a mini chatbot
 
-Probaboracle is a small, local, agent-backed CLI oracle in the
-**[Polinko research line](https://github.com/tryskian/polinko)**.
+Probaboracle is a small, local, agent-backed CLI mini chatbot using the **[Polinko research model](https://github.com/tryskian/polinko)**.
 
 It only accepts four question lanes:
 
@@ -14,18 +13,14 @@ It only accepts four question lanes:
 - `why`
 - `where`
 
-That narrow surface is the point. Probaboracle is not trying to be a general
-chat tool. It is a small instrument for studying whether a model can stay
-coherent, vague, answer-shaped, and product-specific inside tight interaction
-guardrails.
+That narrow surface is the point. Probaboracle is not trying to be a general chat tool. It is a small instrument for studying whether a model can stay coherent, vague, answer-shaped, and product-specific inside tight interaction guardrails.
 
 Current tracked research beta:
 
 - `Research Beta 4.1`
 - `coherence + coherent absurdity`
 
-In this repo, major betas are research architectures, and minor versions tighten
-the active method without changing the whole eval shape.
+In this repo, major betas are research architectures, and minor versions tighten the active method without changing the whole eval shape.
 
 ## What This Repo Demonstrates
 
@@ -39,11 +34,9 @@ the active method without changing the whole eval shape.
 probaboracle
 ```
 
-The app opens a compact terminal loop. Choose a question lane with the arrow
-keys, press `enter`, or hit `esc` to exit.
+The app opens a compact terminal loop. Choose a question lane with the arrow keys, press `enter`, or hit `esc` to exit.
 
-The operator commands, eval workflow, and setup checks live in the
-[runtime runbook](./docs/runtime/RUNBOOK.md).
+The operator commands, eval workflow, and setup checks live in the [runtime runbook](./docs/runtime/RUNBOOK.md).
 
 ## Read Next
 

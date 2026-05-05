@@ -4,12 +4,9 @@
 
 Can a coherent out-of-lane line still be a very good Probaboracle response?
 
-Beta 4.1 keeps the Beta 4 architecture, but raises the coherence bar. A line
-only passes coherence when it resolves as one sentence with one dominant
-reasoning lane.
+Beta 4.1 keeps the Beta 4 architecture, but raises the coherence bar. A line only passes coherence when it resolves as one sentence with one dominant reasoning lane.
 
-For short Probaboracle lines, this version also uses a hard punctuation
-shortcut:
+For short Probaboracle lines, this version also uses a hard punctuation shortcut:
 
 - `0-1` comma = normal
 - `2+` commas = fail
@@ -18,12 +15,9 @@ shortcut:
 
 Yes, but rarely.
 
-Some prompt-irrelevant lines are still valuable. They are coherent,
-interesting, and recognisably Probaboracle. That makes coherent absurdity a
-real product signal.
+Some prompt-irrelevant lines are still valuable. They are coherent, interesting, and recognisably Probaboracle. That makes coherent absurdity a real product signal.
 
-It is also a selective signal. Most coherent relevance fails are still weak
-blur, not missed value.
+It is also a selective signal. Most coherent relevance fails are still weak blur, not missed value.
 
 ## Eval Shape
 
@@ -74,9 +68,7 @@ The broader absurdity table is larger:
 
 - `5 pass / 14 fail / 894 pending`
 
-but that broader table is not the main instrument for this beta. Outside the
-coherence-pass relevance-fail pocket, absurdity is usually not the question
-being asked.
+but that broader table is not the main instrument for this beta. Outside the coherence-pass relevance-fail pocket, absurdity is usually not the question being asked.
 
 The two strongest early passes were rare enough to matter:
 
@@ -95,8 +87,7 @@ Small taste checks are not enough. Under Beta 4.1:
 
 - `25+` rows is the minimum useful checkpoint
 - `50-100` rows, or about one hour, is the real long-run surface
-- extra `when` pressure should stay in the mix because it stress-tests the
-  current coherence rule
+- extra `when` pressure should stay in the mix because it stress-tests the current coherence rule
 
 The current tracked long run is judged through row `913`:
 
@@ -107,10 +98,8 @@ The current tracked long run is judged through row `913`:
 
 That longer run sharpened two lane reads:
 
-- `when` splits between simple one-comma temporal passes and stacked temporal
-  fails
-- `why` is still usually the weakest product lane, but it surfaced two strong
-  in-lane exceptions:
+- `when` splits between simple one-comma temporal passes and stacked temporal fails
+- `why` is still usually the weakest product lane, but it surfaced two strong in-lane exceptions:
   - `896`: `apparently a reason, though not in any useful sense.`
   - `913`: `technically a reason, though not in any useful sense.`
 
@@ -122,14 +111,10 @@ This beta separates three things that were easy to blur together:
 - prompt drift
 - valuable coherent drift
 
-That distinction matters because out-of-lane is not automatically low-value.
-Probaboracle can sometimes miss the selected lane and still produce a strong
-oracle response.
+That distinction matters because out-of-lane is not automatically low-value. Probaboracle can sometimes miss the selected lane and still produce a strong oracle response.
 
-The inverse is just as important: coherence does not rescue everything.
-Coherent absurdity earns its own lane because it is rare.
+The inverse is just as important: coherence does not rescue everything. Coherent absurdity earns its own lane because it is rare.
 
 ## What Changed Next
 
-Product fit now sits downstream of coherence, relevance, and coherent
-absurdity rather than trying to stand in for all of them at once.
+Product fit now sits downstream of coherence, relevance, and coherent absurdity rather than trying to stand in for all of them at once.

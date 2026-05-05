@@ -2,11 +2,9 @@
 
 Probaboracle keeps the tracked research lane small on purpose.
 
-Each beta is a distinct eval approach. This folder preserves the method shifts
-that changed what the evidence means.
+Each beta is a distinct eval approach. This folder preserves the method shifts that changed what the evidence means.
 
-Raw run notes, operator poking, and private scratch material stay in the local
-`docs/peanut/` lane.
+Raw run notes, operator poking, and private scratch material stay in the local `docs/peanut/` lane.
 
 ## Current Beta
 
@@ -21,17 +19,13 @@ Can a coherent out-of-lane line still count as strong oracle behaviour?
 
 Current finding:
 
-- one-node constrained generation can hold sentence coherence under the fixed
-  prompt surface
+- one-node constrained generation can hold sentence coherence under the fixed prompt surface
 - prompt relevance is a downstream lens, not a proxy for sentence quality
 - coherent absurdity is a small selective class:
   - `2 pass / 13 fail` in the meaningful coherence-pass relevance-fail pocket
-- the long serial run through row `913` strengthened the stricter coherence
-  rule
-- `when` now splits between simple one-comma temporal passes and stacked
-  temporal fails
-- `why` remains the weakest product lane overall, but surfaced rare novel
-  passes:
+- the long serial run through row `913` strengthened the stricter coherence rule
+- `when` now splits between simple one-comma temporal passes and stacked temporal fails
+- `why` remains the weakest product lane overall, but surfaced rare novel passes:
   - `896`: `apparently a reason, though not in any useful sense.`
   - `913`: `technically a reason, though not in any useful sense.`
 
@@ -60,19 +54,16 @@ Read in order:
 
 ## How To Read The Betas
 
-These betas are research architectures. They are not app release versions,
-package versions, branch names, or one more sweep.
+These betas are research architectures. They are not app release versions, package versions, branch names, or one more sweep.
 
 Each beta marks a real change in what the evaluation is asking:
 
 - `Research Beta 1.0` shaped the product voice
 - `Research Beta 2.0` established the core experimental gate
 - `Research Beta 3.0` separated lane control from sentence coherence
-- `Research Beta 4.1` preserves the selective value of coherent drift while
-  holding coherence to a stricter sentence-resolution bar
+- `Research Beta 4.1` preserves the selective value of coherent drift while holding coherence to a stricter sentence-resolution bar
 
-Later betas do not erase earlier ones. They narrow what each verdict is allowed
-to mean.
+Later betas do not erase earlier ones. They narrow what each verdict is allowed to mean.
 
 ## Cross-Beta Flow
 
@@ -93,8 +84,7 @@ flowchart LR
 
 ## Plans
 
-Plans are useful, but they are not evidence. They do not become active method
-until the repo earns them.
+Plans are useful, but they are not evidence. They do not become active method until the repo earns them.
 
 Parked lanes:
 
@@ -110,8 +100,7 @@ Parked lanes:
 
 ## Polinko Contrast
 
-Probaboracle is part of the same line of work as Polinko, but it is a smaller
-instrument.
+Probaboracle is part of the same line of work as Polinko, but it is a smaller instrument.
 
 ```mermaid
 flowchart LR

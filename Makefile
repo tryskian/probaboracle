@@ -14,7 +14,7 @@ SWEEP_LIST_LIMIT ?= 20
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
-.PHONY: install env venv doctor-env check package-check ask sample eval-init list judge pass fail clean
+.PHONY: install env venv doctor-env lint format-check format check package-check ask sample eval-init list judge pass fail clean
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
@@ -36,6 +36,15 @@ doctor-env:
 	ACTIVE_VENV="$$(cd "$$(dirname "$(PY)")/.." && pwd)"; \
 	VIRTUAL_ENV="$$ACTIVE_VENV" PATH="$$ACTIVE_VENV/bin:$$PATH" "$(PY)" -m probaboracle.doctor_env
 
+lint:
+	$(PY) -m ruff check scripts src tests
+
+format-check:
+	$(PY) -m ruff format --check scripts src tests
+
+format:
+	$(PY) -m ruff format scripts src tests
+
 session-status:
 	@set -eu; \
 	ACTIVE_VENV="$$(cd "$$(dirname "$(PY)")/.." && pwd)"; \
@@ -55,6 +64,8 @@ session-status:
 	fi
 
 check:
+	$(MAKE) --no-print-directory format-check
+	$(MAKE) --no-print-directory lint
 	$(PY) -m unittest discover -s tests -p 'test_*.py'
 
 package-check:

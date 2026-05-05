@@ -67,7 +67,9 @@ def build_eval_chart_payload(db_path: Path) -> dict[str, Any]:
 
     return {
         "title": "probaboracle eval lanes",
-        "subtitle": "strict pass/fail/pending counts by prompt lane from the live eval db",
+        "subtitle": (
+            "strict pass/fail/pending counts by prompt lane from the live eval db"
+        ),
         "generated_at": _utc_now(),
         "latest_created_at": latest_created_at,
         "series_order": list(VERDICT_ORDER),

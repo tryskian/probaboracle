@@ -22,7 +22,9 @@ class MainAppLoopTests(TestCase):
     def test_choose_banner_lines_uses_box_when_wide(self) -> None:
         lines = choose_banner_lines(terminal_width=80)
 
-        self.assertEqual(lines[0], "┌──────────────────────────────────────────────────────────────┐")
+        self.assertEqual(
+            lines[0], "┌──────────────────────────────────────────────────────────────┐"
+        )
         self.assertIn("PROBABORACLE BETA 4.1", lines[1])
 
     def test_choose_banner_lines_uses_stacked_header_when_mid_width(self) -> None:
@@ -88,7 +90,11 @@ class MainAppLoopTests(TestCase):
         )
         self.assertIn("\x1b[38;5;245m  when\x1b[0m", rendered)
         self.assertIn(
-            "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m hit esc to exit\x1b[0m",
+            (
+                "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K"
+                "\x1b[1m> where? [enter]\x1b[0m\x1b[38;5;245m hit esc to exit"
+                "\x1b[0m"
+            ),
             rendered,
         )
 
@@ -176,7 +182,9 @@ class MainAppLoopTests(TestCase):
 
         rendered = stdout.getvalue()
         self.assertEqual(exit_code, 0)
-        self.assertIn("┌──────────────────────────────────────────────────────────────┐", rendered)
+        self.assertIn(
+            "┌──────────────────────────────────────────────────────────────┐", rendered
+        )
         self.assertIn("PROBABORACLE", rendered)
         self.assertIn(
             "probably a mini oracle. definitely a mini chatbot.",
@@ -233,8 +241,11 @@ class MainAppLoopTests(TestCase):
                         "probaboracle.main.generate_response",
                         return_value="probably the unclaimed edge of it.",
                     ):
+
                         def fake_continue_selector(*, output_stream):
-                            output_stream.write("another question [y/n]? y\n────────────\n")
+                            output_stream.write(
+                                "another question [y/n]? y\n────────────\n"
+                            )
                             return False
 
                         with patch(
@@ -256,7 +267,10 @@ class MainAppLoopTests(TestCase):
         rendered = stdout.getvalue()
         self.assertIn("⊹˙⋆ ask probaboracle [arrow keys]:", rendered)
         self.assertIn(
-            "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K\n\r\x1b[0m\x1b[2K\x1b[1m> where:\x1b[0m",
+            (
+                "⊹˙⋆ ask probaboracle [arrow keys]:\n\r\x1b[0m\x1b[2K\n\r"
+                "\x1b[0m\x1b[2K\x1b[1m> where:\x1b[0m"
+            ),
             rendered,
         )
         self.assertIn("\x1b[1m> where:\x1b[0m", rendered)

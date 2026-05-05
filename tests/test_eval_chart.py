@@ -42,6 +42,12 @@ class EvalChartTests(TestCase):
             self.assertEqual(payload["summary"]["pending"], 1)
 
             lanes = {lane["prompt_type"]: lane for lane in payload["lanes"]}
-            self.assertEqual(lanes["what"]["counts"], {"fail": 0, "pass": 1, "pending": 0})
-            self.assertEqual(lanes["when"]["counts"], {"fail": 1, "pass": 0, "pending": 1})
-            self.assertEqual(lanes["why"]["counts"], {"fail": 0, "pass": 0, "pending": 0})
+            self.assertEqual(
+                lanes["what"]["counts"], {"fail": 0, "pass": 1, "pending": 0}
+            )
+            self.assertEqual(
+                lanes["when"]["counts"], {"fail": 1, "pass": 0, "pending": 1}
+            )
+            self.assertEqual(
+                lanes["why"]["counts"], {"fail": 0, "pass": 0, "pending": 0}
+            )

@@ -8,7 +8,8 @@ import termios
 import threading
 import time
 import tty
-from typing import Callable, Iterable, TextIO
+from collections.abc import Callable, Iterable
+from typing import TextIO
 
 from probaboracle.agent import generate_response
 from probaboracle.config import (
@@ -24,12 +25,12 @@ from probaboracle.eval_db import (
     counts,
     init_db,
     judge_absurdity_output,
+    judge_coherence_output,
     judge_output,
     judge_relevance_output,
-    judge_coherence_output,
     list_outputs,
-    relevance_counts,
     record_output,
+    relevance_counts,
 )
 
 APP_BANNER_INNER_WIDTH = 62
@@ -77,13 +78,7 @@ def build_banner_lines(style_active: bool = False) -> tuple[str, ...]:
 
         left_padding = max(0, (APP_BANNER_INNER_WIDTH - len(text)) // 2)
         right_padding = max(0, APP_BANNER_INNER_WIDTH - len(text) - left_padding)
-        return (
-            f"│"
-            f"{' ' * left_padding}"
-            f"{hyperlink(text, link_url)}"
-            f"{' ' * right_padding}"
-            f"│"
-        )
+        return f"│{' ' * left_padding}{hyperlink(text, link_url)}{' ' * right_padding}│"
 
     return (
         f"┌{'─' * APP_BANNER_INNER_WIDTH}┐",
@@ -98,7 +93,9 @@ def build_banner_lines(style_active: bool = False) -> tuple[str, ...]:
 def build_stacked_banner_lines(style_active: bool = False) -> tuple[str, ...]:
     repo_line = APP_BANNER_REPO
     if style_active:
-        repo_line = f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+        repo_line = (
+            f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+        )
     return (
         APP_BANNER_TITLE,
         APP_BANNER_TAGLINE,
@@ -109,7 +106,9 @@ def build_stacked_banner_lines(style_active: bool = False) -> tuple[str, ...]:
 def build_minimal_banner_lines(style_active: bool = False) -> tuple[str, ...]:
     repo_line = APP_BANNER_REPO
     if style_active:
-        repo_line = f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+        repo_line = (
+            f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+        )
     return (
         APP_BANNER_MINIMAL_TITLE,
         *APP_BANNER_MINIMAL_TAGLINE_LINES,
@@ -142,7 +141,9 @@ def build_parser() -> argparse.ArgumentParser:
     ask_parser = subparsers.add_parser("ask", help="Generate one oracle response.")
     ask_parser.add_argument("prompt_type")
 
-    sample_parser = subparsers.add_parser("sample", help="Generate stored eval samples.")
+    sample_parser = subparsers.add_parser(
+        "sample", help="Generate stored eval samples."
+    )
     sample_parser.add_argument("prompt_type")
     sample_parser.add_argument("--count", type=int, default=5)
 
@@ -211,7 +212,9 @@ def print_app_header(output_fn: Callable[[str], None] = print) -> None:
     style_active = hasattr(sys.stdout, "isatty") and sys.stdout.isatty()
     terminal_width: int | None = None
     if style_active:
-        terminal_width = shutil.get_terminal_size(fallback=(APP_BANNER_BOX_WIDTH, 24)).columns
+        terminal_width = shutil.get_terminal_size(
+            fallback=(APP_BANNER_BOX_WIDTH, 24)
+        ).columns
     for line in choose_banner_lines(terminal_width, style_active=style_active):
         output_fn(line)
     output_fn("")
@@ -280,7 +283,9 @@ def build_selector_lines(
                 prompt_type,
                 index == selected_index,
                 style_active=style_active,
-                trailing_text=selected_trailing_text if index == selected_index else None,
+                trailing_text=selected_trailing_text
+                if index == selected_index
+                else None,
             )
         )
     lines.extend("" for _ in range(APP_SELECTOR_BOTTOM_PADDING_LINES))
@@ -398,11 +403,15 @@ def prompt_for_question_selector(
             key = read_key_fn()
             if key == "up":
                 selected_index = (selected_index - 1) % len(APP_QUESTION_OPTIONS)
-                render_question_selector(selected_index, output_stream=output_stream, redraw=True)
+                render_question_selector(
+                    selected_index, output_stream=output_stream, redraw=True
+                )
                 continue
             if key == "down":
                 selected_index = (selected_index + 1) % len(APP_QUESTION_OPTIONS)
-                render_question_selector(selected_index, output_stream=output_stream, redraw=True)
+                render_question_selector(
+                    selected_index, output_stream=output_stream, redraw=True
+                )
                 continue
             if key == "enter":
                 return selected_index, APP_QUESTION_OPTIONS[selected_index][1]
@@ -545,6 +554,7 @@ def command_app(
     ensure_local_dirs(settings)
     require_openai_api_key()
     print_app_header(output_fn)
+    response_generator = generate_response
 
     keep_running = True
     while keep_running:
@@ -556,14 +566,20 @@ def command_app(
         else:
             prompt_type = prompt_for_question_fallback(input_fn, output_fn)
         if use_selector:
+            assert selected_index is not None
             response = run_with_loading(
-                lambda: generate_response(settings, prompt_type),
+                lambda prompt_type=prompt_type: response_generator(
+                    settings,
+                    prompt_type,
+                ),
                 output_stream=sys.stdout,
-                render_frame=lambda frame: render_selected_prompt(
-                    selected_index,
-                    output_stream=sys.stdout,
-                    redraw=True,
-                    selected_trailing_text=frame,
+                render_frame=lambda frame, selected_index=selected_index: (
+                    render_selected_prompt(
+                        selected_index,
+                        output_stream=sys.stdout,
+                        redraw=True,
+                        selected_trailing_text=frame,
+                    )
                 ),
             )
             reveal_response_inline(
@@ -606,7 +622,9 @@ def command_sample(prompt_type: str, count: int) -> int:
     init_db(settings.eval_db_path)
     for _ in range(count):
         response = generate_response(settings, prompt_type)
-        output_id = record_output(settings.eval_db_path, prompt_type, response, settings.model)
+        output_id = record_output(
+            settings.eval_db_path, prompt_type, response, settings.model
+        )
         print(f"{output_id}\t{response}")
     return 0
 
@@ -658,11 +676,20 @@ def command_eval_list(prompt_type: str | None, limit: int) -> int:
     print("\nPRODUCT VERDICT: PASS | FAIL [note]")
     print('Example: make judge ID=12 VERDICT=pass NOTE="deadpan and vague"')
     print("\nCOHERENCE VERDICT: PASS | FAIL [note]")
-    print('Example: .venv/bin/python -m probaboracle judge-coherence 12 pass --note "one resolved sentence"')
+    print(
+        "Example: .venv/bin/python -m probaboracle judge-coherence 12 pass "
+        '--note "one resolved sentence"'
+    )
     print("\nPROMPT RELEVANCE VERDICT: PASS | FAIL [note]")
-    print('Example: .venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"')
+    print(
+        "Example: .venv/bin/python -m probaboracle judge-relevance 12 pass "
+        '--note "coherent and in-lane"'
+    )
     print("\nCOHERENT ABSURDITY VERDICT: PASS | FAIL [note]")
-    print('Example: .venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"')
+    print(
+        "Example: .venv/bin/python -m probaboracle judge-absurdity 12 pass "
+        '--note "coherent absurdity"'
+    )
     return 0
 
 
