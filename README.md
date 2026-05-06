@@ -47,4 +47,4 @@ The operator commands, eval workflow, and setup checks live in the [runtime runb
 
 ---
 
-*Probaboracle is not a resource for advice, guidance, help, reassurance, or understanding.*
+*Probaboracle is not a resource for yes, no, or maybe.*

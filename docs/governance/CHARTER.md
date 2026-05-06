@@ -35,7 +35,7 @@ Responses:
 - vague
 - answer-shaped
 - non-concrete
-- not advice, guidance, help, reassurance, or understanding
+- not a resource for yes, no, or maybe
 
 Eval:
 
