@@ -29,7 +29,7 @@ Current finding:
   - `896`: `apparently a reason, though not in any useful sense.`
   - `913`: `technically a reason, though not in any useful sense.`
 
-Current clean probe:
+Current clean lane:
 
 - long serial single-product runs
 - `25+` rows as the minimum useful checkpoint
