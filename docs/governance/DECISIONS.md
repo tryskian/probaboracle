@@ -481,3 +481,15 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - close them after `7` more idle days
   - do not use this workflow to close general human work by default
 - Why: Probaboracle is a small repo, and unattended dependency bumps can quickly dominate the open PR surface. Auto-closing stale dependency PRs keeps the queue legible without deleting the underlying history.
+
+## D-033: The OpenAI Python SDK is pinned directly, not only through Agents
+
+- Date: `2026-05-06`
+- Category: `runtime_engineering`
+- Tags: `openai_sdk`, `dependency_pin`, `runtime_contract`
+- Provenance: `implementation decision`
+- Decision:
+  - pin the official `openai` Python SDK directly in `pyproject.toml`
+  - do not leave the runtime depending on `openai` only as a transitive dependency of `openai-agents`
+  - keep the direct SDK pin current alongside the Agents SDK pin
+- Why: Probaboracle is agent-backed, but its OpenAI runtime dependency should still be explicit. A direct pin makes upgrades and compatibility checks legible instead of leaving the effective SDK version to transitively drift underneath the repo.
