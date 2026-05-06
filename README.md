@@ -31,6 +31,7 @@ In this repo, major betas are research architectures, and minor versions tighten
 ## Run It
 
 ```sh
+make install
 probaboracle
 ```
 
@@ -44,6 +45,10 @@ The operator commands, eval workflow, and setup checks live in the [runtime runb
   - beta map and research reading path
 - [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)
   - durable runtime and eval decisions
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
 
 ---
 
