@@ -12,6 +12,9 @@ VERDICT ?= pass
 ARCHIVE_NOTE ?= stale pending archive
 SWEEP_COUNT ?= 1
 SWEEP_LIST_LIMIT ?= 20
+OPENAI_LIMITS_URL ?= https://platform.openai.com/settings/organization/limits
+OPENAI_USAGE_URL ?= https://platform.openai.com/settings/organization/usage
+OPENAI_BILLING_URL ?= https://platform.openai.com/settings/organization/billing/overview
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
@@ -21,6 +24,7 @@ LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
 .PHONY: sweep-gremlin sweep-rigorous
 .PHONY: session-status
+.PHONY: open-limits open-usage open-billing open-cost-console
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -63,6 +67,48 @@ session-status:
 	else \
 		echo "eval db: missing"; \
 	fi
+
+open-limits:
+	@set -eu; \
+	URL="$(OPENAI_LIMITS_URL)"; \
+	if command -v open >/dev/null 2>&1; then \
+		open "$$URL"; \
+	elif command -v xdg-open >/dev/null 2>&1; then \
+		xdg-open "$$URL" >/dev/null 2>&1 || true; \
+	else \
+		echo "Open this URL in your browser: $$URL"; \
+	fi; \
+	echo "OpenAI limits URL: $$URL"
+
+open-usage:
+	@set -eu; \
+	URL="$(OPENAI_USAGE_URL)"; \
+	if command -v open >/dev/null 2>&1; then \
+		open "$$URL"; \
+	elif command -v xdg-open >/dev/null 2>&1; then \
+		xdg-open "$$URL" >/dev/null 2>&1 || true; \
+	else \
+		echo "Open this URL in your browser: $$URL"; \
+	fi; \
+	echo "OpenAI usage URL: $$URL"
+
+open-billing:
+	@set -eu; \
+	URL="$(OPENAI_BILLING_URL)"; \
+	if command -v open >/dev/null 2>&1; then \
+		open "$$URL"; \
+	elif command -v xdg-open >/dev/null 2>&1; then \
+		xdg-open "$$URL" >/dev/null 2>&1 || true; \
+	else \
+		echo "Open this URL in your browser: $$URL"; \
+	fi; \
+	echo "OpenAI billing URL: $$URL"
+
+open-cost-console:
+	@set -eu; \
+	$(MAKE) --no-print-directory open-limits; \
+	$(MAKE) --no-print-directory open-usage; \
+	$(MAKE) --no-print-directory open-billing
 
 check:
 	$(MAKE) --no-print-directory format-check

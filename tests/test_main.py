@@ -27,6 +27,19 @@ class MainAppLoopTests(TestCase):
         )
         self.assertIn("PROBABORACLE BETA 4.1", lines[1])
 
+    def test_choose_banner_lines_styles_title_and_repo_link_in_tty_mode(self) -> None:
+        lines = choose_banner_lines(terminal_width=80, style_active=True)
+
+        self.assertIn("\x1b[38;5;216m\x1b[1mPROBABORACLE BETA 4.1\x1b[0m", lines[1])
+        self.assertIn(
+            (
+                "\x1b]8;;https://github.com/tryskian/probaboracle\x1b\\"
+                "\x1b[1mgithub.com/tryskian/probaboracle\x1b[0m"
+                "\x1b]8;;\x1b\\"
+            ),
+            lines[4],
+        )
+
     def test_choose_banner_lines_uses_stacked_header_when_mid_width(self) -> None:
         lines = choose_banner_lines(terminal_width=56)
 
@@ -38,6 +51,12 @@ class MainAppLoopTests(TestCase):
                 "github.com/tryskian/probaboracle",
             ),
         )
+
+    def test_choose_banner_lines_styles_stacked_header_in_tty_mode(self) -> None:
+        lines = choose_banner_lines(terminal_width=56, style_active=True)
+
+        self.assertEqual(lines[0], "\x1b[38;5;216m\x1b[1mPROBABORACLE BETA 4.1\x1b[0m")
+        self.assertIn("\x1b[1mgithub.com/tryskian/probaboracle\x1b[0m", lines[2])
 
     def test_choose_banner_lines_uses_minimal_header_when_narrow(self) -> None:
         lines = choose_banner_lines(terminal_width=40)
