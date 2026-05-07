@@ -64,6 +64,7 @@ APP_RESPONSE_SUFFIX = " ⋆˙⊹"
 APP_CONTINUE_DELAY_SECONDS = 0.25
 ANSI_RESET = "\x1b[0m"
 ANSI_BOLD = "\x1b[1m"
+ANSI_ACCENT = "\x1b[38;5;216m"
 ANSI_MUTED = "\x1b[38;5;245m"
 ANSI_CURSOR_HIDE = "\x1b[?25l"
 ANSI_CURSOR_SHOW = "\x1b[?25h"
@@ -73,45 +74,68 @@ def build_banner_lines(style_active: bool = False) -> tuple[str, ...]:
     def hyperlink(text: str, url: str) -> str:
         return f"\033]8;;{url}\033\\{text}\033]8;;\033\\"
 
-    def boxed(text: str = "", *, link_url: str | None = None) -> str:
-        if link_url is None or not style_active:
+    def boxed(
+        text: str = "",
+        *,
+        rendered_text: str | None = None,
+        link_url: str | None = None,
+    ) -> str:
+        if not style_active:
             return f"│{text.center(APP_BANNER_INNER_WIDTH)}│"
 
         left_padding = max(0, (APP_BANNER_INNER_WIDTH - len(text)) // 2)
         right_padding = max(0, APP_BANNER_INNER_WIDTH - len(text) - left_padding)
-        return f"│{' ' * left_padding}{hyperlink(text, link_url)}{' ' * right_padding}│"
+        inner_text = text if rendered_text is None else rendered_text
+        if link_url is not None:
+            inner_text = hyperlink(inner_text, link_url)
+        return f"│{' ' * left_padding}{inner_text}{' ' * right_padding}│"
 
     return (
         f"┌{'─' * APP_BANNER_INNER_WIDTH}┐",
-        boxed(APP_BANNER_TITLE),
+        boxed(
+            APP_BANNER_TITLE,
+            rendered_text=f"{ANSI_ACCENT}{ANSI_BOLD}{APP_BANNER_TITLE}{ANSI_RESET}",
+        ),
         boxed(APP_BANNER_TAGLINE),
         boxed(),
-        boxed(APP_BANNER_REPO, link_url=APP_BANNER_REPO_URL),
+        boxed(
+            APP_BANNER_REPO,
+            rendered_text=f"{ANSI_BOLD}{APP_BANNER_REPO}{ANSI_RESET}",
+            link_url=APP_BANNER_REPO_URL,
+        ),
         f"└{'─' * APP_BANNER_INNER_WIDTH}┘",
     )
 
 
 def build_stacked_banner_lines(style_active: bool = False) -> tuple[str, ...]:
+    title_line = APP_BANNER_TITLE
     repo_line = APP_BANNER_REPO
     if style_active:
+        title_line = f"{ANSI_ACCENT}{ANSI_BOLD}{APP_BANNER_TITLE}{ANSI_RESET}"
         repo_line = (
-            f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+            f"\033]8;;{APP_BANNER_REPO_URL}\033\\"
+            f"{ANSI_BOLD}{APP_BANNER_REPO}{ANSI_RESET}"
+            f"\033]8;;\033\\"
         )
     return (
-        APP_BANNER_TITLE,
+        title_line,
         APP_BANNER_TAGLINE,
         repo_line,
     )
 
 
 def build_minimal_banner_lines(style_active: bool = False) -> tuple[str, ...]:
+    title_line = APP_BANNER_MINIMAL_TITLE
     repo_line = APP_BANNER_REPO
     if style_active:
+        title_line = f"{ANSI_ACCENT}{ANSI_BOLD}{APP_BANNER_MINIMAL_TITLE}{ANSI_RESET}"
         repo_line = (
-            f"\033]8;;{APP_BANNER_REPO_URL}\033\\{APP_BANNER_REPO}\033]8;;\033\\"
+            f"\033]8;;{APP_BANNER_REPO_URL}\033\\"
+            f"{ANSI_BOLD}{APP_BANNER_REPO}{ANSI_RESET}"
+            f"\033]8;;\033\\"
         )
     return (
-        APP_BANNER_MINIMAL_TITLE,
+        title_line,
         *APP_BANNER_MINIMAL_TAGLINE_LINES,
         repo_line,
     )

@@ -493,3 +493,20 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - do not leave the runtime depending on `openai` only as a transitive dependency of `openai-agents`
   - keep the direct SDK pin current alongside the Agents SDK pin
 - Why: Probaboracle is agent-backed, but its OpenAI runtime dependency should still be explicit. A direct pin makes upgrades and compatibility checks legible instead of leaving the effective SDK version to transitively drift underneath the repo.
+
+## D-034: Live eval work follows the token management protocol
+
+- Date: `2026-05-07`
+- Category: `runtime_engineering`
+- Tags: `token_management`, `cost_console`, `live_eval`, `operator_posture`
+- Provenance: `human-led runtime suggestion with implementation decision`
+- Decision:
+  - treat throughput limits and spend as separate operator control planes
+  - keep one-off live checks small
+  - treat extended serial runs as explicit batch work
+  - add quick operator shortcuts for visibility:
+    - `make open-limits`
+    - `make open-usage`
+    - `make open-billing`
+    - `make open-cost-console`
+- Why: Probaboracle's live lane is small, but the same drift applies here as in the wider research line: a quiet serial run can still consume budget or hit limits while looking harmless. The cost console keeps the live path visible without widening the app surface or turning the operator lane into an unbounded token sink.

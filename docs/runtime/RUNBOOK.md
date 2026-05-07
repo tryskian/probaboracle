@@ -21,24 +21,53 @@ Use `docs/runtime/ARCHITECTURE.md` for system shape. Use this file when you need
 4. Add live runtime credentials:
    - put `OPENAI_API_KEY` in the repo `.env`
    - or export it in the shell
-5. Check the environment:
+5. For any live API work, keep the token monitoring dashboard available:
+   - `make open-cost-console`
+   - use `make open-limits` or `make open-usage` directly when a tighter check is enough
+6. Check the environment:
    - `make doctor-env`
 
 ## Everyday Commands
 
-| Task                    | Command               |
-| ----------------------- | --------------------- |
-| open the app loop       | `probaboracle`        |
-| open the venv shell     | `make env`            |
-| check the environment   | `make doctor-env`     |
-| show session status     | `make session-status` |
-| lint Python files       | `make lint`           |
-| check Python formatting | `make format-check`   |
-| run tests               | `make check`          |
-| build the package       | `make package-check`  |
-| lint tracked docs       | `npm run lint:docs`   |
+| Task | Command |
+| --- | --- |
+| open the app loop | `probaboracle` |
+| open the venv shell | `make env` |
+| check the environment | `make doctor-env` |
+| show session status | `make session-status` |
+| lint Python files | `make lint` |
+| check Python formatting | `make format-check` |
+| run tests | `make check` |
+| build the package | `make package-check` |
+| lint tracked docs | `npm run lint:docs` |
+| open the OpenAI limits page | `make open-limits` |
+| open the OpenAI usage page | `make open-usage` |
+| open the OpenAI billing page | `make open-billing` |
+| open all three OpenAI cost pages | `make open-cost-console` |
 
 The app loop is the default user-facing path. It opens the responsive header and fixed selector, then generates one response at a time. `enter` selects, and `esc` exits.
+
+## Rate And Credit Operator Guardrails
+
+1. Treat throughput and spend as separate control planes:
+   - rate limits (`RPM`, `TPM`, queue limits)
+   - usage/billing (token burn, budget, credits)
+2. Cost posture:
+   - keep one-off checks small
+   - use short judged batches by default
+   - treat extended serial runs as explicit batch work
+3. Watch dashboards as part of normal operation:
+   - `make open-limits`
+   - `make open-usage`
+   - `make open-billing`
+   - or one-shot: `make open-cost-console`
+4. Live API rule:
+   - keep the token monitoring dashboard open or immediately reachable during live eval work
+   - recheck it before widening a batch or starting an extended run
+5. Efficiency defaults:
+   - keep the prompt surface narrow
+   - keep one response per command path
+   - keep the live eval lens narrow before widening
 
 ## Repo Hygiene
 
