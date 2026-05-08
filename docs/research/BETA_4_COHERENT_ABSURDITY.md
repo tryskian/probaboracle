@@ -60,28 +60,31 @@ The primary Beta 4.1 pocket is:
 - `coherence = pass`
 - `relevance = fail`
 
-That pocket is fully swept:
+That pocket is still the main Beta 4.1 instrument, but the latest tandem rerun did not enter it at all:
 
-- `2 pass / 13 fail / 0 pending`
+- `0 pass / 0 fail / 0 pending` in the fresh rerun slice
 
-The broader absurdity table is larger:
+So the latest useful signal is not about new coherent-absurdity wins. It is about lane stability under the stricter coherence rule.
 
-- `5 pass / 14 fail / 894 pending`
+Fresh tandem rerun (`1763-2268`) product surface:
 
-but that broader table is not the main instrument for this beta. Outside the coherence-pass relevance-fail pocket, absurdity is usually not the question being asked.
+- `347 pass / 159 fail / 0 pending`
 
-The two strongest early passes were rare enough to matter:
+Fresh lane split:
 
-- `There, or neither here nor there; perhaps a silhouette, perhaps not.`
-- `it's probably the edge case, or perhaps not, which settles nothing.`
+- `what`: `81 pass / 3 fail`
+- `when`: `107 pass / 146 fail`
+- `where`: `84 pass / 0 fail`
+- `why`: `75 pass / 10 fail`
 
 ## Long-Run Read
 
-The cleanest follow-up method is serial:
+The cleanest follow-up method is still serial, but extended reruns now work best as a tandem pair:
 
 - one product
-- immediate judgment
+- immediate tandem judgment
 - next product
+- stale product backlog archived out of the active surface first
 
 Small taste checks are not enough. Under Beta 4.1:
 
@@ -89,19 +92,21 @@ Small taste checks are not enough. Under Beta 4.1:
 - `50-100` rows, or about one hour, is the real long-run surface
 - extra `when` pressure should stay in the mix because it stress-tests the current coherence rule
 
-The current tracked long run is judged through row `913`:
+The current tracked long run is now judged through row `2268`.
 
-- product: `398 pass / 399 fail / 116 pending`
-- coherence: `792 pass / 121 fail / 0 pending`
-- relevance: `778 pass / 135 fail / 0 pending`
-- absurdity: `5 pass / 14 fail / 894 pending`
+The latest tandem rerun archived `385` stale product-pending rows before relaunch, then kept the fresh product queue at `0` all the way through the run.
 
-That longer run sharpened two lane reads:
+That rerun sharpened three lane reads:
 
-- `when` splits between simple one-comma temporal passes and stacked temporal fails
-- `why` is still usually the weakest product lane, but it surfaced two strong in-lane exceptions:
-  - `896`: `apparently a reason, though not in any useful sense.`
-  - `913`: `technically a reason, though not in any useful sense.`
+- `when` is still the main drag lane:
+  - `113` failures from `stacked timing fragments`
+  - `33` failures from semicolon-led timing drift
+- `why` mostly works when it stays plain:
+  - pass example: `probably a reason, or something adjacent to one.`
+  - fail example: `probably a reason, or perhaps not; i'm saying it resembles a reason without settling anything.`
+- `where` is now the cleanest lane, and `what` is close behind:
+  - `where` pass example: `probably the unclaimed edge of it, though not where you could keep it.`
+  - `what` pass example: `probably a curve that hints at a shape without ever becoming one.`
 
 ## Why It Matters
 

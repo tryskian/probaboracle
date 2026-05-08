@@ -196,6 +196,15 @@ Use this when isolating the strongest per-product signal for coherent absurdity.
 4. Treat `25+` rows as the minimum useful checkpoint.
 5. Treat `50-100` rows, or about one hour, as the real long-run surface.
 6. Keep extra `when` pressure in the mix when testing the current coherence rule.
+7. Before an extended rerun, archive stale product-pending rows out of the active surface:
+   - `make archive-pending ARCHIVE_NOTE="stale pending archive before tandem rerun"`
+8. For an extended rerun, pair one generator with one tandem judge:
+   - generator creates fresh rows only
+   - tandem judge stamps product immediately, plus coherence and relevance on passes
+   - keep the tandem judge scoped to the fresh run ids
+9. Let the tandem judge stop only after:
+   - the generator is done
+   - the fresh product queue is empty
 
 ## Layered Eval Lenses
 
