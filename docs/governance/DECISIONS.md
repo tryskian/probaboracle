@@ -523,3 +523,15 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - stamp coherence and prompt relevance alongside each product pass during that tandem pass
   - keep fresh product pending at `0` whenever the tandem judge can hold the edge
 - Why: A long serial rerun becomes unreadable when stale backlog and fresh backlog share the same active surface. Clearing the old tail first, then stamping rows during generation, keeps the live signal honest and the end-of-run review legible.
+
+## D-036: Hold the baseline and brute-force the failing lane before intervention
+
+- Date: `2026-05-08`
+- Category: `eval_quality`
+- Tags: `when_lane`, `baseline_hold`, `brute_eval`, `sidecar_archive`
+- Provenance: `human-led runtime correction`, later `implementation decision`
+- Decision:
+  - when one lane is still the clear failure cluster, keep the runtime baseline fixed and push longer single-lane eval pressure before changing the rule
+  - do not treat one long run plus a repeated fail shape as enough reason to intervene if the active method is still brute-force characterization
+  - if an older pre-sidecar judgment pocket is only historical residue and no longer a live queue, archive it out of the active surface instead of fabricating retrospective sidecar verdicts
+- Why: The `when` lane still needed more pressure under the same rule before any runtime or prompt intervention could mean anything. Premature tweaking would blur the evidence instead of sharpening it. The older `914-1277` pre-sidecar rows were not a real active backlog anymore, so archiving them preserved a legible active surface without pretending late sidecar judgments were current research signal.
