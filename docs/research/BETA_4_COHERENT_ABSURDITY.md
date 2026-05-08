@@ -60,11 +60,13 @@ The primary Beta 4.1 pocket is:
 - `coherence = pass`
 - `relevance = fail`
 
-That pocket is still the main Beta 4.1 instrument, but the latest tandem rerun did not enter it at all:
+That pocket is still the main Beta 4.1 instrument, but the closing `when`
+stress rerun did not enter it at all:
 
-- `0 pass / 0 fail / 0 pending` in the fresh rerun slice
+- `0 pass / 0 fail / 0 pending` in the fresh coherence-pass relevance-fail slice
 
-So the latest useful signal is not about new coherent-absurdity wins. It is about lane stability under the stricter coherence rule.
+So the latest useful signal is not about new coherent-absurdity wins. It is
+about lane stability under the stricter coherence rule.
 
 Fresh tandem rerun (`1763-2268`) product surface:
 
@@ -108,6 +110,20 @@ That rerun sharpened three lane reads:
   - `where` pass example: `probably the unclaimed edge of it, though not where you could keep it.`
   - `what` pass example: `probably a curve that hints at a shape without ever becoming one.`
 
+The closing dedicated `when` rerun used rows `2737-3391`:
+
+- `655` rows total
+- `286 pass / 369 fail / 0 pending`
+- fail clusters stayed narrow:
+  - `266` `stacked timing fragments`
+  - `102` `semicolon pile and unresolved timing drift`
+  - `1` `awkward temporal phrasing`
+
+That closing slice did not change the Beta `4.1` answer. It closed it.
+Coherent absurdity remained real but sparse; the active open problem had
+shifted to what to do with one stable fail family once it had been characterized
+hard enough.
+
 ## Why It Matters
 
 This beta separates three things that were easy to blur together:
@@ -122,4 +138,12 @@ The inverse is just as important: coherence does not rescue everything. Coherent
 
 ## What Changed Next
 
-Product fit now sits downstream of coherence, relevance, and coherent absurdity rather than trying to stand in for all of them at once.
+Product fit now sits downstream of coherence, relevance, and coherent absurdity
+rather than trying to stand in for all of them at once.
+
+The next architecture change is Beta `5.0`:
+
+- `pass / fail`
+- if `fail`, decide `retain / evict`
+- rerun
+- `pass / fail`

@@ -172,8 +172,16 @@ Use this when broad lane pressure matters.
 5. Keep verdicts binary:
    - `pass`
    - `fail`
-6. Treat stale unresolved product rows as archive candidates, not as live backlog forever.
-7. Treat repeated failure clusters as the signal for intervention.
+6. If a row or family fails, decide the lane state:
+   - `retain`
+   - `evict`
+7. `retain` means keep the current rule and keep taking pressure.
+8. `evict` means the family has earned an upstream correction and should stop
+   clogging the active queue.
+9. Treat stale unresolved product rows as archive candidates, not as live
+   backlog forever.
+10. Treat repeated failure clusters as the evidence surface for the
+    `retain / evict` decision, not as automatic intervention.
 
 Useful wrappers:
 
@@ -205,6 +213,11 @@ Use this when isolating the strongest per-product signal for coherent absurdity.
 9. Let the tandem judge stop only after:
    - the generator is done
    - the fresh product queue is empty
+10. After the run, decide whether the dominant fail family is still:
+    - `retain`
+    - `evict`
+11. Only reroute or tighten the runtime after the family has actually earned
+    `evict`.
 
 ## Layered Eval Lenses
 

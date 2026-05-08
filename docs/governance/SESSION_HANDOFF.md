@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 ## Start Here
 
@@ -45,17 +45,19 @@ Operator commands remain separate:
 
 Current tracked research beta:
 
-- `Research Beta 4.1`
-- `coherence + coherent absurdity`
+- `Research Beta 5.0`
+- `retain + evict`
 
 Current long-run checkpoint:
 
-- judged through row `2268`
-- active product surface: `972 pass / 795 fail / 0 pending`
-- active coherence surface: `1100 pass / 303 fail / 364 pending`
-- active relevance surface: `1092 pass / 118 fail / 557 pending`
-- active absurdity surface: `5 pass / 8 fail / 1754 pending`
-- archived out of the active product surface: `501` stale product-pending rows
+- judged through row `3391`
+- active product surface: `1290 pass / 1236 fail / 0 pending`
+- active coherence surface: `1581 pass / 945 fail / 0 pending`
+- active relevance surface: `1573 pass / 118 fail / 835 pending`
+- active absurdity surface: `5 pass / 8 fail / 2513 pending`
+- archived out of the active surface:
+  - `501` stale product-pending rows
+  - `364` pre-sidecar rows with no live coherence lane
 
 The active coherence rule is stricter than the early runs:
 
@@ -66,11 +68,14 @@ The active coherence rule is stricter than the early runs:
 
 Useful current reads:
 
-- latest tandem serial rerun used rows `1763-2268` after archiving stale product backlog
-- fresh tandem rerun surface: `347 pass / 159 fail / 0 pending`
-- `when` is still the drag lane:
-  - `107 pass / 146 fail`
-  - failures are mostly `stacked timing fragments` (`113`) and `semicolon pile and unresolved timing drift` (`33`)
+- closing Beta `4.1` `when` rerun used rows `2737-3391`
+- fresh closing surface: `286 pass / 369 fail / 0 pending`
+- `when` is still the drag lane, but now under the `retain / evict` lens:
+  - `266` `stacked timing fragments`
+  - `102` `semicolon pile and unresolved timing drift`
+  - `1` `awkward temporal phrasing`
+- the coherent-absurdity pocket stayed closed in that slice:
+  - `0 pass / 0 fail / 0 pending`
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
@@ -88,9 +93,11 @@ Choose one lane at a time:
   - do not widen the prompt surface
   - keep the user loop separate from operator commands
 - research:
-  - keep pushing the tandem serial lane when product pending needs to stay at `0`
-  - keep extra `when` pressure in the mix
-  - use the next pass to decide whether `when` needs a tighter runtime cue or just more baseline evidence
+  - keep the tandem serial lane when product pending needs to stay at `0`
+  - use the next pass to decide whether `when` is still `retain` or has
+    finally earned `evict`
+  - do not smuggle the correction in early; earn it through the Beta `5.0`
+    lane
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
   - keep `docs/peanut/` as the private scratch lane
@@ -105,6 +112,10 @@ Choose one lane at a time:
 - Keep eval verdicts binary only.
 - Keep style signals as reasoning cues, not as a hard word bank.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
+- Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,
+  then rerun and judge `pass / fail` again.
+- Do not claim a `when` eviction fix while Beta `4.1` is still in `retain`
+  mode under the fixed rule.
 
 ## Close A Session
 
