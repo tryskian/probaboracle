@@ -535,3 +535,51 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - do not treat one long run plus a repeated fail shape as enough reason to intervene if the active method is still brute-force characterization
   - if an older pre-sidecar judgment pocket is only historical residue and no longer a live queue, archive it out of the active surface instead of fabricating retrospective sidecar verdicts
 - Why: The `when` lane still needed more pressure under the same rule before any runtime or prompt intervention could mean anything. Premature tweaking would blur the evidence instead of sharpening it. The older `914-1277` pre-sidecar rows were not a real active backlog anymore, so archiving them preserved a legible active surface without pretending late sidecar judgments were current research signal.
+
+## D-037: Fail is evidence and evict is the later runtime correction
+
+- Date: `2026-05-08`
+- Category: `eval_quality`
+- Tags: `fail_vs_evict`, `retain_vs_evict`, `when_lane`, `queue_discipline`, `runtime_correction`
+- Provenance: `human-led method import`, later `repo formalization`
+- Decision:
+  - treat the eval loop as:
+    - `pass / fail`
+    - if `fail`, decide `retain / evict`
+    - rerun under the resulting lane
+    - judge `pass / fail` again
+  - `retain` means the failure family stays in the active lane while the fixed
+    rule keeps taking pressure
+  - reserve `evict` for the later upstream runtime or boundary correction made
+    because that evidence has stabilized into one known bad family
+  - do not keep re-judging a family forever once it has clearly moved from
+    active evidence into known residue
+  - do not claim a `when` eviction fix yet while the current Beta `4.1` lane is
+    still in brute-force characterization mode
+- Why: Probaboracle needed the same distinction Hue formalized. `Fail` should
+  tell us where the current lane breaks. `Retain` keeps us honest about when
+  more baseline pressure is still the right move. `Evict` should only appear
+  once the evidence is strong enough that the recurring family has earned
+  removal or upstream correction. That keeps the queue honest and stops
+  premature runtime meddling from masquerading as research progress.
+
+## D-038: Beta 5.0 promotes retain versus evict as a tracked research layer
+
+- Date: `2026-05-08`
+- Category: `eval_quality`
+- Tags: `beta_5`, `retain_vs_evict`, `when_lane`, `research_architecture`
+- Provenance: `human-led method decision`, later `repo formalization`
+- Decision:
+  - close Beta `4.1` after the dedicated `when` rerun rather than stretching
+    coherent absurdity to cover a queue-posture question it does not answer
+  - promote Beta `5.0` once the `when` fail family has been characterized under
+    the fixed rule
+  - track `retain / evict` as the new post-fail decision layer
+  - open Beta `5.0` with `when` still in `retain`, not with a pre-claimed
+    eviction fix
+- Why: The closing Beta `4.1` `when` rerun stayed narrow and repetitive:
+  `266` `stacked timing fragments`, `102` semicolon-led timing drift, and no
+  coherent-absurdity pocket at all. That did not create a new coherent
+  absurdity finding. It created a new architecture question about when repeated
+  failure remains live evidence and when it has finally earned an upstream
+  correction.

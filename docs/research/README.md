@@ -10,36 +10,41 @@ Raw run notes, operator poking, and private scratch material stay in the local `
 
 Current tracked research beta:
 
-- `Research Beta 4.1`
-- `coherence + coherent absurdity`
+- `Research Beta 5.0`
+- `retain + evict`
 
 Current question:
 
-Can a coherent out-of-lane line still count as strong oracle behaviour?
+When does a recurring fail family stay active evidence versus earn eviction?
 
 Current finding:
 
-- one-node constrained generation can hold sentence coherence under the fixed prompt surface
-- prompt relevance is a downstream lens, not a proxy for sentence quality
-- coherent absurdity is still a small selective class, but the latest tandem rerun did not open that pocket at all:
-  - `0 pass / 0 fail / 0 pending` in the fresh coherence-pass relevance-fail slice
-- the latest tandem serial rerun covered rows `1763-2268` with `347 pass / 159 fail / 0 pending`
-- `where` is fully stable in that fresh surface:
-  - `84 pass / 0 fail`
-- `what` is highly stable:
-  - `81 pass / 3 fail`
-- `why` now mostly passes when it stays plain:
-  - `75 pass / 10 fail`
-- `when` remains the main stress lane:
-  - `107 pass / 146 fail`
-  - failures cluster around `stacked timing fragments` and `semicolon` drift
+- the closing Beta `4.1` `when` rerun covered rows `2737-3391` with
+  `286 pass / 369 fail / 0 pending`
+- the fail family stayed narrow:
+  - `266` `stacked timing fragments`
+  - `102` `semicolon pile and unresolved timing drift`
+  - `1` `awkward temporal phrasing`
+- the coherent-absurdity pocket stayed empty in that closing slice:
+  - `0 pass / 0 fail / 0 pending`
+- the useful open question has now shifted:
+  - not whether `when` still fails
+  - but whether the recurring `when` family should stay in `retain` or earn
+    `evict`
 
 Current clean lane:
 
-- tandem serial single-product runs after stale product archive reset
+- treat the loop as:
+  - `pass / fail`
+  - if `fail`, decide `retain / evict`
+  - rerun
+  - `pass / fail`
+- keep tandem serial single-product runs with the queue held at `0`
 - `25+` rows as the minimum useful checkpoint
 - `50-100` rows, or about one hour, as the real long-run surface
-- extra `when` pressure while testing the current coherence rule
+- current state:
+  - `retain`
+  - no `when` eviction fix is active yet
 
 ## Beta Map
 
@@ -49,6 +54,7 @@ Current clean lane:
 | `Research Beta 2.0` | Is the sentence coherent? | Coherence became the primary experimental gate. |
 | `Research Beta 3.0` | Is a coherent line in-lane? | Prompt relevance separated lane control from sentence quality. |
 | `Research Beta 4.1` | Can coherent drift still be valuable? | Coherent absurdity became a small selective class. |
+| `Research Beta 5.0` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` became the new post-fail decision layer. |
 
 Read in order:
 
@@ -56,6 +62,7 @@ Read in order:
 2. [Research Beta 2.0: Coherence First](./BETA_2_COHERENCE_FIRST.md)
 3. [Research Beta 3.0: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
 4. [Research Beta 4.1: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
+5. [Research Beta 5.0: Retain + Evict](./BETA_5_RETAIN_OR_EVICT.md)
 
 ## How To Read The Betas
 
@@ -67,6 +74,7 @@ Each beta marks a real change in what the evaluation is asking:
 - `Research Beta 2.0` established the core experimental gate
 - `Research Beta 3.0` separated lane control from sentence coherence
 - `Research Beta 4.1` preserves the selective value of coherent drift while holding coherence to a stricter sentence-resolution bar
+- `Research Beta 5.0` separates failure evidence from later runtime correction
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed to mean.
 
@@ -78,13 +86,15 @@ flowchart LR
   B2["Research Beta 2.0<br/>coherence first"]
   B3["Research Beta 3.0<br/>coherence + prompt relevance"]
   B4["Research Beta 4.1<br/>coherence + coherent absurdity"]
+  B5["Research Beta 5.0<br/>retain + evict"]
 
   S1["one verdict overloaded tone,<br/>sentence quality, and lane control"]
   S2["coherence pulled out as the<br/>primary experimental gate"]
   S3["lane control separated from<br/>sentence coherence"]
   S4["valuable coherent drift preserved<br/>as a selective class"]
+  S5["failure evidence separated from<br/>later runtime correction"]
 
-  B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4
+  B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4 --> B5 --> S5
 ```
 
 ## Plans
