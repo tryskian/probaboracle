@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-05
+Last updated: 2026-05-07
 
 ## Start Here
 
@@ -50,12 +50,12 @@ Current tracked research beta:
 
 Current long-run checkpoint:
 
-- judged through row `913`
-- active product surface: `398 pass / 399 fail / 0 pending`
-- active coherence surface: `687 pass / 110 fail / 0 pending`
-- active relevance surface: `679 pass / 118 fail / 0 pending`
-- active absurdity surface: `5 pass / 8 fail / 784 pending`
-- archived out of the active surface: `116` stale product-pending rows
+- judged through row `2268`
+- active product surface: `972 pass / 795 fail / 0 pending`
+- active coherence surface: `1100 pass / 303 fail / 364 pending`
+- active relevance surface: `1092 pass / 118 fail / 557 pending`
+- active absurdity surface: `5 pass / 8 fail / 1754 pending`
+- archived out of the active product surface: `501` stale product-pending rows
 
 The active coherence rule is stricter than the early runs:
 
@@ -66,10 +66,18 @@ The active coherence rule is stricter than the early runs:
 
 Useful current reads:
 
-- `when` splits between simple one-comma temporal passes and stacked temporal fails
-- `why` is still the weakest product lane, but has rare strong passes:
-  - `896`: `apparently a reason, though not in any useful sense.`
-  - `913`: `technically a reason, though not in any useful sense.`
+- latest tandem serial rerun used rows `1763-2268` after archiving stale product backlog
+- fresh tandem rerun surface: `347 pass / 159 fail / 0 pending`
+- `when` is still the drag lane:
+  - `107 pass / 146 fail`
+  - failures are mostly `stacked timing fragments` (`113`) and `semicolon pile and unresolved timing drift` (`33`)
+- `where` is fully stable in the current surface:
+  - `84 pass / 0 fail`
+- `what` is close behind:
+  - `81 pass / 3 fail`
+- `why` now mostly passes when it stays plain:
+  - `75 pass / 10 fail`
+  - failures cluster around `stacked hinge accumulation`
 
 ## Next Kernel
 
@@ -80,9 +88,9 @@ Choose one lane at a time:
   - do not widen the prompt surface
   - keep the user loop separate from operator commands
 - research:
-  - continue the Beta 4.1 serial run
-  - use `25+` rows as a minimum checkpoint
-  - treat `50-100` rows, or about one hour, as the real long-run surface
+  - keep pushing the tandem serial lane when product pending needs to stay at `0`
+  - keep extra `when` pressure in the mix
+  - use the next pass to decide whether `when` needs a tighter runtime cue or just more baseline evidence
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
   - keep `docs/peanut/` as the private scratch lane

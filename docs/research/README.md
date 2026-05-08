@@ -21,17 +21,22 @@ Current finding:
 
 - one-node constrained generation can hold sentence coherence under the fixed prompt surface
 - prompt relevance is a downstream lens, not a proxy for sentence quality
-- coherent absurdity is a small selective class:
-  - `2 pass / 13 fail` in the meaningful coherence-pass relevance-fail pocket
-- the long serial run through row `913` strengthened the stricter coherence rule
-- `when` now splits between simple one-comma temporal passes and stacked temporal fails
-- `why` remains the weakest product lane overall, but surfaced rare novel passes:
-  - `896`: `apparently a reason, though not in any useful sense.`
-  - `913`: `technically a reason, though not in any useful sense.`
+- coherent absurdity is still a small selective class, but the latest tandem rerun did not open that pocket at all:
+  - `0 pass / 0 fail / 0 pending` in the fresh coherence-pass relevance-fail slice
+- the latest tandem serial rerun covered rows `1763-2268` with `347 pass / 159 fail / 0 pending`
+- `where` is fully stable in that fresh surface:
+  - `84 pass / 0 fail`
+- `what` is highly stable:
+  - `81 pass / 3 fail`
+- `why` now mostly passes when it stays plain:
+  - `75 pass / 10 fail`
+- `when` remains the main stress lane:
+  - `107 pass / 146 fail`
+  - failures cluster around `stacked timing fragments` and `semicolon` drift
 
 Current clean lane:
 
-- long serial single-product runs
+- tandem serial single-product runs after stale product archive reset
 - `25+` rows as the minimum useful checkpoint
 - `50-100` rows, or about one hour, as the real long-run surface
 - extra `when` pressure while testing the current coherence rule

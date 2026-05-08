@@ -510,3 +510,16 @@ If a decision crosses layers, say so plainly instead of flattening the method in
     - `make open-billing`
     - `make open-cost-console`
 - Why: Probaboracle's live lane is small, but the same drift applies here as in the wider research line: a quiet serial run can still consume budget or hit limits while looking harmless. The cost console keeps the live path visible without widening the app surface or turning the operator lane into an unbounded token sink.
+
+## D-035: Extended serial reruns clear stale product backlog and judge in tandem
+
+- Date: `2026-05-07`
+- Category: `eval_quality`
+- Tags: `serial_lane`, `tandem_judging`, `archive_reset`, `live_operator`
+- Provenance: `human-led runtime correction`, later `implementation decision`
+- Decision:
+  - before relaunching an extended serial rerun, archive stale product-pending rows out of the active surface
+  - for long serial reruns, pair one generator loop with one tandem product judge scoped to the fresh run ids
+  - stamp coherence and prompt relevance alongside each product pass during that tandem pass
+  - keep fresh product pending at `0` whenever the tandem judge can hold the edge
+- Why: A long serial rerun becomes unreadable when stale backlog and fresh backlog share the same active surface. Clearing the old tail first, then stamping rows during generation, keeps the live signal honest and the end-of-run review legible.
