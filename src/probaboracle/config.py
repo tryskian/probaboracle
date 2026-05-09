@@ -21,8 +21,9 @@ PROMPT_FRAMES: dict[str, str] = {
 LANE_GUARDS: dict[str, str] = {
     "what": "Keep spatial language sparse; this lane hints at shape, not location.",
     "when": (
-        "Prefer timing uncertainty with moment, timing, arrival, delay, soon, "
-        "late, or not-yet language."
+        "Use one plain timing cue only. Prefer a single moment, arrival, or "
+        "not-yet frame, avoid semicolons, and keep the line as one resolved "
+        "sentence that denies schedule usefulness once."
     ),
     "why": (
         "Stay deadpan and causal-adjacent; use plain contradiction over ornate "

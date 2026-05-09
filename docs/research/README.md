@@ -21,14 +21,15 @@ Current finding:
 
 - the long `when` retain rerun covered rows `3392-4097` with
   `317 pass / 389 fail / 0 pending`
-- the fail family stayed narrow again:
-  - `272` `stacked timing fragments`
-  - `85` `semicolon pile and unresolved timing drift`
-  - `32` `awkward temporal phrasing`
 - that repeat surface was enough to answer the Beta `5.0` question:
-  - `when` has now earned `evict`
-  - but the runtime correction and post-evict confirmation rerun are still the
-    next slice
+  - `when` earned `evict`
+- the post-evict confirmation rerun then covered rows `4098-4197` with
+  `97 pass / 3 fail / 0 pending`
+- the old fail family collapsed sharply:
+  - `semicolon pile and unresolved timing drift`: `0`
+  - `stacked timing fragments`: `1`
+- the remaining misses are now smaller:
+  - `awkward temporal phrasing`: `2`
 
 Current clean lane:
 
@@ -42,7 +43,7 @@ Current clean lane:
 - `50-100` rows, or about one hour, as the real long-run surface
 - current state:
   - `evict`
-  - no `when` eviction fix is active yet
+  - one narrow `when` eviction fix is confirmed
 
 ## Beta Map
 
