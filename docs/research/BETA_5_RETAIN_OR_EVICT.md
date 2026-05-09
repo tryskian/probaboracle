@@ -133,6 +133,19 @@ to:
 
 - `evict`
 
+The first narrow `why` post-evict attempt then covered rows `4643-4723`:
+
+- `81` rows total
+- `81 pass / 0 fail / 0 pending`
+
+The old failure family disappeared, but the new pass surface overcollapsed:
+
+- `66` `good useless reason`
+- `15` `strong why lane`
+
+That means the attempted fix did remove the old duplicate-fallback rut, but it
+replaced it with one dominant pass shape rather than a healthy lane.
+
 ## Why It Matters
 
 This beta separates three things that are easy to blur together:
@@ -154,7 +167,8 @@ It also creates a cleaner threshold question for the next slice:
 - and not whether the first correction works at all
 - and not whether `why` actually has a repeat problem
 - but what the smallest correct `why` correction is now that the product-level
-  fallback family has earned removal
+  fallback family has earned removal without collapsing the lane into one pass
+  rut
 
 ## What Changed Next
 
@@ -163,6 +177,6 @@ closes with `when` earning `evict`, confirms the first narrow `when`
 correction under the same Beta `5.0` frame, and then shows that `why` can
 also earn `evict` for a different reason: product-level duplicate fallback.
 
-The next architecture change is not a new beta yet. The open question is just
-what the smallest correct `why` eviction fix is now that the duplicate
-fallback family has stabilized into known residue.
+The next architecture change is not a new beta yet. The open question is now
+how to keep the `why` lane shape-first without letting the first successful
+correction collapse into one repeated pass family.
