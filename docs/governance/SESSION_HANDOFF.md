@@ -114,8 +114,8 @@ Choose one lane at a time:
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
 - Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,
   then rerun and judge `pass / fail` again.
-- Do not claim a `when` eviction fix while Beta `4.1` is still in `retain`
-  mode under the fixed rule.
+- Do not claim a `when` eviction fix before the lane actually earns `evict`
+  under the fixed rule.
 
 ## Close A Session
 

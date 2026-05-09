@@ -1,6 +1,6 @@
 # Probaboracle
 
-![Research Beta](https://img.shields.io/badge/research_beta-4.1%20coherent%20absurdity-E15759) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
+![Research Beta](https://img.shields.io/badge/research_beta-5.0%20retain%20%2B%20evict-E15759) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
 
 ## probably a mini oracle. definitely a mini chatbot
 
@@ -17,8 +17,8 @@ That narrow surface is the point. Probaboracle is not trying to be a general cha
 
 Current tracked research beta:
 
-- `Research Beta 4.1`
-- `coherence + coherent absurdity`
+- `Research Beta 5.0`
+- `retain + evict`
 
 In this repo, major betas are research architectures, and minor versions tighten the active method without changing the whole eval shape.
 
@@ -26,7 +26,8 @@ In this repo, major betas are research architectures, and minor versions tighten
 
 - constrained one-node generation through a fixed prompt surface
 - coherence-first evaluation instead of one overloaded product verdict
-- coherent absurdity as a small selective downstream class
+- recurring failure as evidence before it earns runtime correction
+- `retain / evict` as an explicit post-fail research decision
 
 ## Run It
 
