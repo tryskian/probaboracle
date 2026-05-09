@@ -50,11 +50,11 @@ Current tracked research beta:
 
 Current long-run checkpoint:
 
-- judged through row `4642`
-- active product surface: `1781 pass / 1996 fail / 0 pending`
-- active coherence surface: `2378 pass / 1010 fail / 389 pending`
-- active relevance surface: `2370 pass / 118 fail / 1289 pending`
-- active absurdity surface: `5 pass / 8 fail / 3764 pending`
+- judged through row `4723`
+- active product surface: `1543 pass / 1439 fail / 0 pending`
+- active coherence surface: `1670 pass / 923 fail / 389 pending`
+- active relevance surface: `1663 pass / 113 fail / 1206 pending`
+- active absurdity surface: `4 pass / 8 fail / 2970 pending`
 - archived out of the active surface:
   - `501` stale product-pending rows
   - `364` pre-sidecar rows with no live coherence lane
@@ -91,6 +91,12 @@ Useful current reads:
   - relevance: `380 pass / 0 fail`
 - that active `why` surface is now saturated enough to count as bad
   post-fix comparison data
+- the first narrow `why` fix attempt then used rows `4643-4723`
+- fresh `why` post-fix surface: `81 pass / 0 fail / 0 pending`
+- the old fail family disappeared, but the pass surface overcollapsed:
+  - `66` `good useless reason`
+  - `15` `strong why lane`
+- that first `why` fix was not promoted
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
@@ -106,10 +112,9 @@ Choose one lane at a time:
   - keep the user loop separate from operator commands
 - research:
   - keep the tandem serial lane when product pending needs to stay at `0`
-  - archive the current active `why` residue before the next fix pass
-  - implement one narrow `why` eviction correction
-  - target duplicate fallback first and keep `stacked hinge accumulation` as
-    the secondary check
+  - keep the archived pre-fix `why` residue out of the active denominator
+  - design a second narrow `why` fix that preserves shape without collapsing
+    into one repeated pass family
   - rerun `why` under the same Beta `5.0` frame with fresh rows only
   - if touching `when` again later, keep it to one tiny phrasing fix only
   - do not widen the prompt surface or stack multiple runtime tweaks at once
@@ -126,13 +131,16 @@ Choose one lane at a time:
 - Do not add freeform input while the constrained interaction theory is active.
 - Keep eval verdicts binary only.
 - Keep style signals as reasoning cues, not as a hard word bank.
+- Keep lane configs shape-first; content-led cues invite repetition and drift.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
 - Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,
   then rerun and judge `pass / fail` again.
 - `when` has earned `evict`, and the first narrow fix is now confirmed.
-- `why` has now earned `evict`, but no `why` fix is active yet.
+- `why` has now earned `evict`, but the first fix attempt overcollapsed and
+  was not promoted.
 - Do not use the saturated pre-fix `why` residue as the live post-fix
   denominator.
+- Do not count one repeated pass family as a healthy `why` lane.
 - Do not stack a new `why` fix with unrelated `when` or `where` tinkering.
 
 ## Close A Session

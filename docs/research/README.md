@@ -41,6 +41,13 @@ Current finding:
 - the sidecar surface mostly held:
   - coherence: `380 pass / 65 fail`
   - relevance: `380 pass / 0 fail`
+- the first narrow `why` fix attempt then covered rows `4643-4723` with
+  `81 pass / 0 fail / 0 pending`
+- that slice removed the old fail family, but collapsed into a new pass rut:
+  - `good useless reason`: `66`
+  - `strong why lane`: `15`
+- because the pass surface narrowed into one repeated answer shape, the fix was
+  not promoted
 
 Current clean lane:
 
@@ -54,7 +61,7 @@ Current clean lane:
 - `50-100` rows, or about one hour, as the real long-run surface
 - current state:
   - `when`: `evict`, with one narrow fix confirmed
-  - `why`: `evict`, with no fix active yet
+  - `why`: `evict`, with no confirmed fix yet
 
 ## Beta Map
 
