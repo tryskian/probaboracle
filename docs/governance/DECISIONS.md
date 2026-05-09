@@ -602,3 +602,21 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   `85` `semicolon pile and unresolved timing drift`, and `32` `awkward
   temporal phrasing`, with `317 pass / 389 fail / 0 pending`. That is no
   longer live ambiguity. It is a stable enough family to earn correction.
+
+## D-040: The first `when` eviction fix should be one plain timing cue
+
+- Date: `2026-05-09`
+- Category: `runtime_shape`
+- Tags: `when_lane`, `evict_fix`, `timing_cue`, `confirmation_rerun`
+- Provenance: `human-led narrow-fix decision`, later `confirmed runtime change`
+- Decision:
+  - tighten the `when` lane guard to one plain timing cue only
+  - prefer a single moment, arrival, or not-yet frame
+  - avoid semicolons
+  - keep the line as one resolved sentence that denies schedule usefulness once
+  - confirm the change with a `100`-row `when` rerun before claiming improvement
+- Why: The confirmation rerun (`4098-4197`) came back `97 pass / 3 fail / 0
+  pending`. The old failure surface collapsed: `semicolon pile and unresolved
+  timing drift` dropped to `0`, `stacked timing fragments` dropped to `1`, and
+  only `2` `awkward temporal phrasing` misses remained. That is enough to
+  confirm the narrow fix was pointed at the right family.
