@@ -641,3 +641,21 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   The sidecar signal mostly held (`380` coherence passes, `380` relevance
   passes), so the main live problem is repetitive product fallback rather than
   lane loss. That is stable enough to earn correction.
+
+## D-042: Saturated post-evict `why` residue should be archived before the next fix
+
+- Date: `2026-05-09`
+- Category: `eval_quality`
+- Tags: `why_lane`, `archive_before_fix`, `bad_denominator`, `post_evict_residue`
+- Provenance: `human-led cleanup decision`, later `repo formalization`
+- Decision:
+  - archive the current active `why` residue before the next narrow `why` fix
+  - do not carry the `4198-4642` `why` surface forward as the live comparison
+    denominator for the post-fix rerun
+  - treat the next `why` slice as fresh evidence only
+- Why: Once `why` had already earned `evict`, the continued active surface
+  (`77 pass / 368 fail / 0 pending`) stopped being useful post-fix comparison
+  data. It mostly records how much room the old duplicate-fallback family had
+  to breed before correction, not how good the lane could be after a narrow
+  fix. Keeping that residue active would poison the denominator and blur the
+  next read.
