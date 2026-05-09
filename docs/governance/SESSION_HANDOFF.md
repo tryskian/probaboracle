@@ -89,6 +89,8 @@ Useful current reads:
 - the `why` sidecar surface mostly held:
   - coherence: `380 pass / 65 fail`
   - relevance: `380 pass / 0 fail`
+- that active `why` surface is now saturated enough to count as bad
+  post-fix comparison data
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
@@ -104,10 +106,11 @@ Choose one lane at a time:
   - keep the user loop separate from operator commands
 - research:
   - keep the tandem serial lane when product pending needs to stay at `0`
+  - archive the current active `why` residue before the next fix pass
   - implement one narrow `why` eviction correction
   - target duplicate fallback first and keep `stacked hinge accumulation` as
     the secondary check
-  - rerun `why` under the same Beta `5.0` frame
+  - rerun `why` under the same Beta `5.0` frame with fresh rows only
   - if touching `when` again later, keep it to one tiny phrasing fix only
   - do not widen the prompt surface or stack multiple runtime tweaks at once
 - docs:
@@ -128,6 +131,8 @@ Choose one lane at a time:
   then rerun and judge `pass / fail` again.
 - `when` has earned `evict`, and the first narrow fix is now confirmed.
 - `why` has now earned `evict`, but no `why` fix is active yet.
+- Do not use the saturated pre-fix `why` residue as the live post-fix
+  denominator.
 - Do not stack a new `why` fix with unrelated `when` or `where` tinkering.
 
 ## Close A Session
