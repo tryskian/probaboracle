@@ -19,18 +19,16 @@ When does a recurring fail family stay active evidence versus earn eviction?
 
 Current finding:
 
-- the closing Beta `4.1` `when` rerun covered rows `2737-3391` with
-  `286 pass / 369 fail / 0 pending`
-- the fail family stayed narrow:
-  - `266` `stacked timing fragments`
-  - `102` `semicolon pile and unresolved timing drift`
-  - `1` `awkward temporal phrasing`
-- the coherent-absurdity pocket stayed empty in that closing slice:
-  - `0 pass / 0 fail / 0 pending`
-- the useful open question has now shifted:
-  - not whether `when` still fails
-  - but whether the recurring `when` family should stay in `retain` or earn
-    `evict`
+- the long `when` retain rerun covered rows `3392-4097` with
+  `317 pass / 389 fail / 0 pending`
+- the fail family stayed narrow again:
+  - `272` `stacked timing fragments`
+  - `85` `semicolon pile and unresolved timing drift`
+  - `32` `awkward temporal phrasing`
+- that repeat surface was enough to answer the Beta `5.0` question:
+  - `when` has now earned `evict`
+  - but the runtime correction and post-evict confirmation rerun are still the
+    next slice
 
 Current clean lane:
 
@@ -43,7 +41,7 @@ Current clean lane:
 - `25+` rows as the minimum useful checkpoint
 - `50-100` rows, or about one hour, as the real long-run surface
 - current state:
-  - `retain`
+  - `evict`
   - no `when` eviction fix is active yet
 
 ## Beta Map

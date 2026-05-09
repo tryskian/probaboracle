@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-08
+Last updated: 2026-05-09
 
 ## Start Here
 
@@ -50,11 +50,11 @@ Current tracked research beta:
 
 Current long-run checkpoint:
 
-- judged through row `3391`
-- active product surface: `1290 pass / 1236 fail / 0 pending`
-- active coherence surface: `1581 pass / 945 fail / 0 pending`
-- active relevance surface: `1573 pass / 118 fail / 835 pending`
-- active absurdity surface: `5 pass / 8 fail / 2513 pending`
+- judged through row `4097`
+- active product surface: `1607 pass / 1625 fail / 0 pending`
+- active coherence surface: `1898 pass / 945 fail / 389 pending`
+- active relevance surface: `1890 pass / 118 fail / 1224 pending`
+- active absurdity surface: `5 pass / 8 fail / 3219 pending`
 - archived out of the active surface:
   - `501` stale product-pending rows
   - `364` pre-sidecar rows with no live coherence lane
@@ -68,14 +68,14 @@ The active coherence rule is stricter than the early runs:
 
 Useful current reads:
 
-- closing Beta `4.1` `when` rerun used rows `2737-3391`
-- fresh closing surface: `286 pass / 369 fail / 0 pending`
-- `when` is still the drag lane, but now under the `retain / evict` lens:
-  - `266` `stacked timing fragments`
-  - `102` `semicolon pile and unresolved timing drift`
-  - `1` `awkward temporal phrasing`
-- the coherent-absurdity pocket stayed closed in that slice:
-  - `0 pass / 0 fail / 0 pending`
+- the deciding Beta `5.0` `when` retain rerun used rows `3392-4097`
+- fresh deciding surface: `317 pass / 389 fail / 0 pending`
+- `when` has now earned `evict`:
+  - `272` `stacked timing fragments`
+  - `85` `semicolon pile and unresolved timing drift`
+  - `32` `awkward temporal phrasing`
+- the lane no longer needs more baseline pressure under `retain`
+- the next move is one narrow upstream correction plus a confirmation rerun
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
@@ -94,10 +94,9 @@ Choose one lane at a time:
   - keep the user loop separate from operator commands
 - research:
   - keep the tandem serial lane when product pending needs to stay at `0`
-  - use the next pass to decide whether `when` is still `retain` or has
-    finally earned `evict`
-  - do not smuggle the correction in early; earn it through the Beta `5.0`
-    lane
+  - implement one narrow `when` eviction correction
+  - rerun `when` under the same Beta `5.0` frame
+  - do not widen the prompt surface or stack multiple runtime tweaks at once
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
   - keep `docs/peanut/` as the private scratch lane
@@ -114,8 +113,8 @@ Choose one lane at a time:
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
 - Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,
   then rerun and judge `pass / fail` again.
-- Do not claim a `when` eviction fix before the lane actually earns `evict`
-  under the fixed rule.
+- `when` has earned `evict`, but no post-evict runtime fix is active yet.
+- Do not claim improvement until the post-evict rerun actually shifts the fail family.
 
 ## Close A Session
 

@@ -89,6 +89,10 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
 - Eval verdicts stay binary:
   - `pass`
   - `fail`
+- Post-fail handling stays explicit:
+  - if `fail`, decide `retain / evict`
+  - rerun
+  - judge `pass / fail` again
 - Runtime directions describe the target reasoning shape rather than accumulating long restriction lists.
 
 ## Docs Ownership
