@@ -50,11 +50,11 @@ Current tracked research beta:
 
 Current long-run checkpoint:
 
-- judged through row `4197`
-- active product surface: `1704 pass / 1628 fail / 0 pending`
-- active coherence surface: `1998 pass / 945 fail / 389 pending`
-- active relevance surface: `1990 pass / 118 fail / 1224 pending`
-- active absurdity surface: `5 pass / 8 fail / 3319 pending`
+- judged through row `4642`
+- active product surface: `1781 pass / 1996 fail / 0 pending`
+- active coherence surface: `2378 pass / 1010 fail / 389 pending`
+- active relevance surface: `2370 pass / 118 fail / 1289 pending`
+- active absurdity surface: `5 pass / 8 fail / 3764 pending`
 - archived out of the active surface:
   - `501` stale product-pending rows
   - `364` pre-sidecar rows with no live coherence lane
@@ -80,13 +80,19 @@ Useful current reads:
   - `semicolon pile and unresolved timing drift`: `0`
   - `stacked timing fragments`: `1`
   - `awkward temporal phrasing`: `2`
+- the first long `why` retain rerun used rows `4198-4642`
+- fresh `why` surface: `77 pass / 368 fail / 0 pending`
+- `why` has now earned `evict`:
+  - `292` `duplicate why fallback`
+  - `65` `stacked hinge accumulation`
+  - `11` `too fallback-bare for product pass`
+- the `why` sidecar surface mostly held:
+  - coherence: `380 pass / 65 fail`
+  - relevance: `380 pass / 0 fail`
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
   - `81 pass / 3 fail`
-- `why` now mostly passes when it stays plain:
-  - `75 pass / 10 fail`
-  - failures cluster around `stacked hinge accumulation`
 
 ## Next Kernel
 
@@ -98,9 +104,11 @@ Choose one lane at a time:
   - keep the user loop separate from operator commands
 - research:
   - keep the tandem serial lane when product pending needs to stay at `0`
-  - decide whether the remaining `when` misses deserve one more narrow cleanup
-    or are already good enough to leave alone
-  - if touching `when` again, keep it to one tiny phrasing fix only
+  - implement one narrow `why` eviction correction
+  - target duplicate fallback first and keep `stacked hinge accumulation` as
+    the secondary check
+  - rerun `why` under the same Beta `5.0` frame
+  - if touching `when` again later, keep it to one tiny phrasing fix only
   - do not widen the prompt surface or stack multiple runtime tweaks at once
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
@@ -119,7 +127,8 @@ Choose one lane at a time:
 - Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,
   then rerun and judge `pass / fail` again.
 - `when` has earned `evict`, and the first narrow fix is now confirmed.
-- Do not widen the fix stack while the remaining misses are only narrow phrasing wobble.
+- `why` has now earned `evict`, but no `why` fix is active yet.
+- Do not stack a new `why` fix with unrelated `when` or `where` tinkering.
 
 ## Close A Session
 

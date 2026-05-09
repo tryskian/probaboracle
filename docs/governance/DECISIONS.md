@@ -620,3 +620,24 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   timing drift` dropped to `0`, `stacked timing fragments` dropped to `1`, and
   only `2` `awkward temporal phrasing` misses remained. That is enough to
   confirm the narrow fix was pointed at the right family.
+
+## D-041: The first long `why` retain rerun earns eviction
+
+- Date: `2026-05-09`
+- Category: `eval_quality`
+- Tags: `why_lane`, `beta_5`, `retain_vs_evict`, `duplicate_fallback`
+- Provenance: `long-run evidence`, later `human-led decision`
+- Decision:
+  - treat the first long `why` retain rerun as the deciding Beta `5.0`
+    evidence slice for the `why` lane
+  - mark `why` as `evict` after rows `4198-4642`
+  - keep the runtime unchanged until the next slice implements one narrow
+    `why` eviction correction on a fresh branch
+  - target the product-level duplicate fallback family first, not a broad lane
+    rewrite
+- Why: The rerun closed at `77 pass / 368 fail / 0 pending`, with the fail
+  surface dominated by `292` `duplicate why fallback` rows, then `65`
+  `stacked hinge accumulation` and `11` `too fallback-bare for product pass`.
+  The sidecar signal mostly held (`380` coherence passes, `380` relevance
+  passes), so the main live problem is repetitive product fallback rather than
+  lane loss. That is stable enough to earn correction.

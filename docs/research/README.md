@@ -30,6 +30,17 @@ Current finding:
   - `stacked timing fragments`: `1`
 - the remaining misses are now smaller:
   - `awkward temporal phrasing`: `2`
+- the first long `why` retain rerun then covered rows `4198-4642` with
+  `77 pass / 368 fail / 0 pending`
+- that repeat surface was enough to answer the next Beta `5.0` question:
+  - `why` earned `evict`
+- the dominant `why` fail family is product-level fallback repetition, not lane loss:
+  - `duplicate why fallback`: `292`
+  - `stacked hinge accumulation`: `65`
+  - `too fallback-bare for product pass`: `11`
+- the sidecar surface mostly held:
+  - coherence: `380 pass / 65 fail`
+  - relevance: `380 pass / 0 fail`
 
 Current clean lane:
 
@@ -42,8 +53,8 @@ Current clean lane:
 - `25+` rows as the minimum useful checkpoint
 - `50-100` rows, or about one hour, as the real long-run surface
 - current state:
-  - `evict`
-  - one narrow `when` eviction fix is confirmed
+  - `when`: `evict`, with one narrow fix confirmed
+  - `why`: `evict`, with no fix active yet
 
 ## Beta Map
 

@@ -13,9 +13,12 @@ This beta separates evidence from correction.
 longer only "does this row fail?" It is also "does this family stay active
 under the current rule, or has it earned eviction?"
 
-Beta `5.0` now closes with the dominant `when` fail family earning `evict`,
-and a narrow post-evict rerun confirms that the correction materially improves
-the lane.
+Beta `5.0` now shows two distinct eviction shapes:
+
+- the dominant `when` fail family earned `evict`, and a narrow post-evict
+  rerun confirmed the correction materially improved the lane
+- the dominant `why` fail family also earned `evict`, but at the product layer
+  rather than through lane loss
 
 ## Eval Shape
 
@@ -106,6 +109,30 @@ The old dominant failures collapsed:
 - `semicolon pile and unresolved timing drift`: `0`
 - `stacked timing fragments`: `1`
 
+The first long `why` retain rerun then covered rows `4198-4642`:
+
+- `445` rows total
+- `77 pass / 368 fail / 0 pending`
+
+The dominant `why` failures stayed narrow:
+
+- `292` `duplicate why fallback`
+- `65` `stacked hinge accumulation`
+- `11` `too fallback-bare for product pass`
+
+The sidecar surface mostly held:
+
+- coherence: `380 pass / 65 fail`
+- relevance: `380 pass / 0 fail`
+
+That was enough to move `why` from:
+
+- `retain`
+
+to:
+
+- `evict`
+
 ## Why It Matters
 
 This beta separates three things that are easy to blur together:
@@ -125,15 +152,17 @@ It also creates a cleaner threshold question for the next slice:
 
 - not whether `when` earned `evict`
 - and not whether the first correction works at all
-- but whether the remaining awkward phrasing misses deserve one more narrow
-  cleanup or are already good enough to leave alone
+- and not whether `why` actually has a repeat problem
+- but what the smallest correct `why` correction is now that the product-level
+  fallback family has earned removal
 
 ## What Changed Next
 
 This beta promotes `retain / evict` into the tracked research architecture,
-closes with `when` earning `evict`, and confirms the first narrow correction
-under the same Beta `5.0` frame.
+closes with `when` earning `evict`, confirms the first narrow `when`
+correction under the same Beta `5.0` frame, and then shows that `why` can
+also earn `evict` for a different reason: product-level duplicate fallback.
 
 The next architecture change is not a new beta yet. The open question is just
-how much more cleanup the `when` lane actually needs now that the old fail
-family has collapsed.
+what the smallest correct `why` eviction fix is now that the duplicate
+fallback family has stabilized into known residue.
