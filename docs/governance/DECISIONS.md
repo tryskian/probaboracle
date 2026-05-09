@@ -583,3 +583,22 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   absurdity finding. It created a new architecture question about when repeated
   failure remains live evidence and when it has finally earned an upstream
   correction.
+
+## D-039: The second long `when` retain rerun earns eviction
+
+- Date: `2026-05-09`
+- Category: `eval_quality`
+- Tags: `when_lane`, `beta_5`, `retain_vs_evict`, `eviction_threshold`
+- Provenance: `long-run evidence`, later `human-led decision`
+- Decision:
+  - treat the second long `when` retain rerun as the deciding Beta `5.0`
+    evidence slice
+  - mark `when` as `evict` after rows `3392-4097`
+  - keep the runtime unchanged until the next slice implements one narrow
+    eviction correction on a fresh branch
+  - require a post-evict confirmation rerun before claiming improvement
+- Why: The second long retain pass did not widen the failure story. It
+  repeated the same narrow family at scale: `272` `stacked timing fragments`,
+  `85` `semicolon pile and unresolved timing drift`, and `32` `awkward
+  temporal phrasing`, with `317 pass / 389 fail / 0 pending`. That is no
+  longer live ambiguity. It is a stable enough family to earn correction.

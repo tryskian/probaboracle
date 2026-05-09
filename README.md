@@ -27,7 +27,11 @@ In this repo, major betas are research architectures, and minor versions tighten
 - constrained one-node generation through a fixed prompt surface
 - coherence-first evaluation instead of one overloaded product verdict
 - recurring failure as evidence before it earns runtime correction
-- `retain / evict` as an explicit post-fail research decision
+- explicit post-fail gate stack:
+  - `PASS / FAIL`
+  - if `FAIL`, then `RETAIN / EVICT`
+  - rerun
+  - `PASS / FAIL`
 
 ## Run It
 

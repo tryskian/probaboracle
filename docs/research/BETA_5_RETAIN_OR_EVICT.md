@@ -13,8 +13,7 @@ This beta separates evidence from correction.
 longer only "does this row fail?" It is also "does this family stay active
 under the current rule, or has it earned eviction?"
 
-Beta `5.0` opens with the dominant `when` fail family still in `retain`, not
-`evict`.
+Beta `5.0` now closes with the dominant `when` fail family earning `evict`.
 
 ## Eval Shape
 
@@ -69,6 +68,25 @@ decision boundary between:
 - repeated failure as active evidence
 - repeated failure as a family that has earned upstream removal or correction
 
+The deciding rerun under Beta `5.0` then covered rows `3392-4097`:
+
+- `706` rows total
+- `317 pass / 389 fail / 0 pending`
+
+The fail family stayed narrow again:
+
+- `272` `stacked timing fragments`
+- `85` `semicolon pile and unresolved timing drift`
+- `32` `awkward temporal phrasing`
+
+That was enough to move the lane from:
+
+- `retain`
+
+to:
+
+- `evict`
+
 ## Why It Matters
 
 This beta separates three things that are easy to blur together:
@@ -86,9 +104,14 @@ It stops two bad habits:
 
 It also creates a cleaner threshold question for the next slice:
 
-- is `when` still teaching us something under `retain`
-- or has the family stabilized enough to earn `evict`
+- not whether `when` earned `evict`
+- but what the smallest correct upstream correction is
+- and whether the post-evict rerun actually improves the fail family
 
 ## What Changed Next
 
-This beta promotes `retain / evict` into the tracked research architecture.
+This beta promotes `retain / evict` into the tracked research architecture and
+closes with `when` earning `evict`.
+
+The next architecture change is not a new beta yet. It is the runtime
+correction plus a confirmation rerun under the existing Beta `5.0` frame.

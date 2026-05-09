@@ -172,15 +172,20 @@ Use this when broad lane pressure matters.
 5. Keep verdicts binary:
    - `pass`
    - `fail`
-6. If a row or family fails, decide the lane state:
+6. Treat the loop explicitly as:
+   - `pass / fail`
+   - if `fail`, decide `retain / evict`
+   - rerun
+   - `pass / fail`
+7. If a row or family fails, decide the lane state:
    - `retain`
    - `evict`
-7. `retain` means keep the current rule and keep taking pressure.
-8. `evict` means the family has earned an upstream correction and should stop
+8. `retain` means keep the current rule and keep taking pressure.
+9. `evict` means the family has earned an upstream correction and should stop
    clogging the active queue.
-9. Treat stale unresolved product rows as archive candidates, not as live
+10. Treat stale unresolved product rows as archive candidates, not as live
    backlog forever.
-10. Treat repeated failure clusters as the evidence surface for the
+11. Treat repeated failure clusters as the evidence surface for the
     `retain / evict` decision, not as automatic intervention.
 
 Useful wrappers:

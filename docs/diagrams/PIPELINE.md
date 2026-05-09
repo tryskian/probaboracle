@@ -60,6 +60,22 @@ flowchart TD
   M --> J
 ```
 
+## Post-Fail Gate Stack
+
+```mermaid
+flowchart LR
+  A["Generated line"] --> B{"PASS / FAIL"}
+  B -->|"PASS"| C["Keep confidence in active lane"]
+  B -->|"FAIL"| D["Failure evidence"]
+  D --> E{"RETAIN / EVICT"}
+  E -->|"RETAIN"| F["Keep family in active lane"]
+  F --> G["Accumulate more judged signal"]
+  G --> A
+  E -->|"EVICT"| H["Upstream runtime or boundary correction"]
+  H --> I["Rerun corrected lane"]
+  I --> A
+```
+
 ## Eval Shape Reading Note
 
 The generation pipeline stays the same. This public diagram only shows the high-level relationship between the eval lenses that sit downstream of the generated line.
@@ -75,3 +91,10 @@ Product fit sits downstream of those two lenses:
 
 - coherent and in-lane lines can satisfy product fit directly
 - coherent but out-of-lane lines can still satisfy product fit when they land as strong coherent absurdity
+
+That gate stack stays explicit:
+
+- `PASS / FAIL`
+- if `FAIL`, then `RETAIN / EVICT`
+- rerun
+- `PASS / FAIL`
