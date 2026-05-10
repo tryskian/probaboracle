@@ -35,14 +35,14 @@ from probaboracle.eval_db import (
 )
 
 APP_BANNER_INNER_WIDTH = 62
-APP_BANNER_TITLE = "PROBABORACLE BETA 4.1"
+APP_BANNER_TITLE = "PROBABORACLE BETA 5.0"
 APP_BANNER_TAGLINE = "probably a mini oracle. definitely a mini chatbot."
 APP_BANNER_REPO = "github.com/tryskian/probaboracle"
 APP_BANNER_REPO_URL = "https://github.com/tryskian/probaboracle"
 APP_BANNER_BOX_WIDTH = APP_BANNER_INNER_WIDTH + 2
 APP_BANNER_STACKED_WIDTH = len(APP_BANNER_TAGLINE)
 APP_BANNER_MINIMAL_WIDTH = len(APP_BANNER_REPO)
-APP_BANNER_MINIMAL_TITLE = "probaboracle beta 4.1"
+APP_BANNER_MINIMAL_TITLE = "probaboracle beta 5.0"
 APP_BANNER_MINIMAL_TAGLINE_LINES: tuple[str, ...] = (
     "probably a mini oracle.",
     "definitely a mini chatbot.",
