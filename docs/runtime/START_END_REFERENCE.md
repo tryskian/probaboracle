@@ -1,0 +1,65 @@
+<!-- @format -->
+
+# Start / End Reference
+
+This is the compact operator sheet for the canonical day-open/day-close
+commands.
+
+## Start
+
+Command:
+
+```bash
+make start
+```
+
+Sequence:
+
+1. Print the canonical docs to read:
+   - `README.md`
+   - `docs/governance/CHARTER.md`
+   - `docs/governance/DECISIONS.md`
+   - `docs/runtime/ARCHITECTURE.md`
+   - `docs/runtime/RUNBOOK.md`
+   - `docs/governance/SESSION_HANDOFF.md`
+2. Print workspace context:
+   - repo root
+   - active branch
+   - `git status --short --branch`
+3. Run the generic startup safety path:
+   - `make doctor-env`
+   - `make session-status`
+
+Source of truth:
+
+- [tools/start_of_day_routine.sh](../../tools/start_of_day_routine.sh)
+
+## End
+
+Command:
+
+```bash
+make end
+```
+
+Sequence:
+
+1. Run the generic closeout safety path:
+   - `make doctor-env`
+   - `npm run lint:docs`
+   - `make check`
+   - `git diff --check`
+2. Final shutdown command:
+   - `make end-stop`
+
+`make end-stop` then runs:
+
+- `make session-status`
+
+Probaboracle does not keep a long-lived local daemon or caffeinate process, so
+the final stop path is intentionally small.
+
+Source of truth:
+
+- [tools/end_of_day_routine.sh](../../tools/end_of_day_routine.sh)
+- [Makefile](../../Makefile)

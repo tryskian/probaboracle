@@ -25,6 +25,7 @@ LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 .PHONY: sweep-gremlin sweep-rigorous
 .PHONY: session-status
 .PHONY: open-limits open-usage open-billing open-cost-console
+.PHONY: start end end-stop rituals
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -109,6 +110,19 @@ open-cost-console:
 	$(MAKE) --no-print-directory open-limits; \
 	$(MAKE) --no-print-directory open-usage; \
 	$(MAKE) --no-print-directory open-billing
+
+start:
+	bash ./tools/start_of_day_routine.sh
+
+end:
+	bash ./tools/end_of_day_routine.sh
+
+end-stop:
+	@set -eu; \
+	$(MAKE) --no-print-directory session-status || true
+
+rituals:
+	@cat docs/runtime/START_END_REFERENCE.md
 
 check:
 	$(MAKE) --no-print-directory format-check
