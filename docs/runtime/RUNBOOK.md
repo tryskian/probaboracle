@@ -6,6 +6,11 @@ Use `docs/runtime/ARCHITECTURE.md` for system shape. Use this file when you need
 
 ## Start A Session
 
+Use the compact operator path when you want the canonical morning check:
+
+- `make start`
+- quick operator sheet: [Start / End Reference](./START_END_REFERENCE.md)
+
 1. Read the local instruction surface:
    - `README.md`
    - `docs/governance/CHARTER.md`
@@ -31,6 +36,9 @@ Use `docs/runtime/ARCHITECTURE.md` for system shape. Use this file when you need
 
 | Task | Command |
 | --- | --- |
+| run the startup routine | `make start` |
+| run the closeout routine | `make end` |
+| show the compact start/end sheet | `make rituals` |
 | open the app loop | `probaboracle` |
 | open the venv shell | `make env` |
 | check the environment | `make doctor-env` |
@@ -160,6 +168,23 @@ Run the smallest check set that matches the change:
 If `OPENAI_API_KEY` is available and runtime generation changed, run one live smoke:
 
 - `make ask PROMPT=what`
+
+## End A Session
+
+Use the canonical closeout path when you want the small end-of-day safety pass:
+
+- `make end`
+
+That routine runs:
+
+- `make doctor-env`
+- `npm run lint:docs`
+- `make check`
+- `git diff --check`
+- `make end-stop`
+
+Use `make end-stop` by itself only when you want the final shutdown/status step
+without the full validation pass.
 
 ## Long-Run Eval Loop
 

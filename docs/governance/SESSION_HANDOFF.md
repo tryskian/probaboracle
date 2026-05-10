@@ -147,6 +147,11 @@ Choose one lane at a time:
 
 Follow `docs/runtime/RUNBOOK.md`.
 
+Compact operator path:
+
+- `make end`
+- quick operator sheet: `docs/runtime/START_END_REFERENCE.md`
+
 At minimum:
 
 - validate the active branch

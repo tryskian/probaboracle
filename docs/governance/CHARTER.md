@@ -96,6 +96,7 @@ Default execution model:
 | `docs/research/README.md` | beta map and tracked findings |
 | `docs/runtime/ARCHITECTURE.md` | stable system shape |
 | `docs/runtime/RUNBOOK.md` | operator procedure and commands |
+| `docs/runtime/START_END_REFERENCE.md` | compact day-open/day-close operator sheet |
 | `docs/governance/SESSION_HANDOFF.md` | current checkpoint and next slice |
 | `docs/diagrams/PIPELINE.md` | public generation and eval-shape diagrams |
 
