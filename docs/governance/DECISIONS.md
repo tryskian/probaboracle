@@ -659,3 +659,26 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   to breed before correction, not how good the lane could be after a narrow
   fix. Keeping that residue active would poison the denominator and blur the
   next read.
+
+## D-043: Dependency and security checks are first-class default-branch gates
+
+- Date: `2026-05-12`
+- Category: `workflow_environment`
+- Tags: `github_actions`, `dependabot`, `dependency_review`, `security_gates`
+- Provenance: `implementation decision`
+- Decision:
+  - keep the default-branch required checks to:
+    - `markdownlint`
+    - `test`
+    - `dependency-review`
+    - `python-security`
+    - `node-security`
+  - keep Dependabot version updates active for:
+    - `github-actions`
+    - `pip`
+    - `npm`
+  - treat GitHub secret scanning and Dependabot security updates as part of the
+    repo baseline
+- Why: Probaboracle now has both Python and Node dependency surfaces, so the
+  repo should gate dependency changes explicitly instead of relying on a lighter
+  CI-only posture or the retired stale-PR cleanup lane.

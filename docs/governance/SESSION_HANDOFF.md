@@ -1,19 +1,19 @@
 # Session Handoff
 
-Last updated: 2026-05-09
+Last updated: 2026-05-`
 
 ## Start Here
 
 1. Read:
-   - `README.md`
-   - `docs/governance/CHARTER.md`
-   - `docs/governance/DECISIONS.md`
-   - `docs/runtime/ARCHITECTURE.md`
-   - `docs/runtime/RUNBOOK.md`
-   - this file
+  - `README.md`
+  - `docs/governance/CHARTER.md`
+  - `docs/governance/DECISIONS.md`
+  - `docs/runtime/ARCHITECTURE.md`
+  - `docs/runtime/RUNBOOK.md`
+  - this file
 2. Confirm repo and branch:
-   - `/Users/tryskian/Github/probaboracle`
-   - feature branch for tracked changes
+  - `/Users/tryskian/Github/probaboracle`
+  - feature branch for tracked changes
 3. If the checkout is on `main`, cut a task branch before editing.
 4. State the active kernel before changing files.
 
@@ -89,8 +89,8 @@ Useful current reads:
 - the `why` sidecar surface mostly held:
   - coherence: `380 pass / 65 fail`
   - relevance: `380 pass / 0 fail`
-- that active `why` surface is now saturated enough to count as bad
-  post-fix comparison data
+- that active `why` surface is now saturated enough to count as bad  
+post-fix comparison data
 - the first narrow `why` fix attempt then used rows `4643-4723`
 - fresh `why` post-fix surface: `81 pass / 0 fail / 0 pending`
 - the old fail family disappeared, but the pass surface overcollapsed:
@@ -113,8 +113,8 @@ Choose one lane at a time:
 - research:
   - keep the tandem serial lane when product pending needs to stay at `0`
   - keep the archived pre-fix `why` residue out of the active denominator
-  - design a second narrow `why` fix that preserves shape without collapsing
-    into one repeated pass family
+  - design a second narrow `why` fix that preserves shape without collapsing  
+  into one repeated pass family
   - rerun `why` under the same Beta `5.0` frame with fresh rows only
   - if touching `when` again later, keep it to one tiny phrasing fix only
   - do not widen the prompt surface or stack multiple runtime tweaks at once
@@ -133,13 +133,13 @@ Choose one lane at a time:
 - Keep style signals as reasoning cues, not as a hard word bank.
 - Keep lane configs shape-first; content-led cues invite repetition and drift.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
-- Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,
-  then rerun and judge `pass / fail` again.
+- Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,  
+then rerun and judge `pass / fail` again.
 - `when` has earned `evict`, and the first narrow fix is now confirmed.
-- `why` has now earned `evict`, but the first fix attempt overcollapsed and
-  was not promoted.
-- Do not use the saturated pre-fix `why` residue as the live post-fix
-  denominator.
+- `why` has now earned `evict`, but the first fix attempt overcollapsed and  
+was not promoted.
+- Do not use the saturated pre-fix `why` residue as the live post-fix  
+denominator.
 - Do not count one repeated pass family as a healthy `why` lane.
 - Do not stack a new `why` fix with unrelated `when` or `where` tinkering.
 

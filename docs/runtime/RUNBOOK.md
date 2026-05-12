@@ -12,76 +12,85 @@ Use the compact operator path when you want the canonical morning check:
 - quick operator sheet: [Start / End Reference](./START_END_REFERENCE.md)
 
 1. Read the local instruction surface:
-   - `README.md`
-   - `docs/governance/CHARTER.md`
-   - `docs/governance/DECISIONS.md`
-   - `docs/runtime/ARCHITECTURE.md`
-   - `docs/runtime/RUNBOOK.md`
-   - `docs/governance/SESSION_HANDOFF.md`
+  - `README.md`
+  - `docs/governance/CHARTER.md`
+  - `docs/governance/DECISIONS.md`
+  - `docs/runtime/ARCHITECTURE.md`
+  - `docs/runtime/RUNBOOK.md`
+  - `docs/governance/SESSION_HANDOFF.md`
 2. Confirm branch state:
-   - `git branch --show-current`
-   - work from `codex/bigbrain/<task-name>` for tracked changes
+  - `git branch --show-current`
+  - work from `codex/bigbrain/<task-name>` for tracked changes
 3. Install or refresh the local environment:
-   - `make install`
+  - `make install`
 4. Add live runtime credentials:
-   - put `OPENAI_API_KEY` in the repo `.env`
-   - or export it in the shell
+  - put `OPENAI_API_KEY` in the repo `.env`
+  - or export it in the shell
 5. For any live API work, keep the token monitoring dashboard available:
-   - `make open-cost-console`
-   - use `make open-limits` or `make open-usage` directly when a tighter check is enough
+  - `make open-cost-console`
+  - use `make open-limits` or `make open-usage` directly when a tighter check is enough
 6. Check the environment:
-   - `make doctor-env`
+  - `make doctor-env`
 
 ## Everyday Commands
 
-| Task | Command |
-| --- | --- |
-| run the startup routine | `make start` |
-| run the closeout routine | `make end` |
-| show the compact start/end sheet | `make rituals` |
-| open the app loop | `probaboracle` |
-| open the venv shell | `make env` |
-| check the environment | `make doctor-env` |
-| show session status | `make session-status` |
-| lint Python files | `make lint` |
-| check Python formatting | `make format-check` |
-| run tests | `make check` |
-| build the package | `make package-check` |
-| lint tracked docs | `npm run lint:docs` |
-| open the OpenAI limits page | `make open-limits` |
-| open the OpenAI usage page | `make open-usage` |
-| open the OpenAI billing page | `make open-billing` |
+
+| Task                             | Command                  |
+| -------------------------------- | ------------------------ |
+| run the startup routine          | `make start`             |
+| run the closeout routine         | `make end`               |
+| show the compact start/end sheet | `make rituals`           |
+| open the app loop                | `probaboracle`           |
+| open the venv shell              | `make env`               |
+| check the environment            | `make doctor-env`        |
+| show session status              | `make session-status`    |
+| lint Python files                | `make lint`              |
+| check Python formatting          | `make format-check`      |
+| run tests                        | `make check`             |
+| build the package                | `make package-check`     |
+| lint tracked docs                | `npm run lint:docs`      |
+| open the OpenAI limits page      | `make open-limits`       |
+| open the OpenAI usage page       | `make open-usage`        |
+| open the OpenAI billing page     | `make open-billing`      |
 | open all three OpenAI cost pages | `make open-cost-console` |
+
 
 The app loop is the default user-facing path. It opens the responsive header and fixed selector, then generates one response at a time. `enter` selects, and `esc` exits.
 
 ## Rate And Credit Operator Guardrails
 
 1. Treat throughput and spend as separate control planes:
-   - rate limits (`RPM`, `TPM`, queue limits)
-   - usage/billing (token burn, budget, credits)
+  - rate limits (`RPM`, `TPM`, queue limits)
+  - usage/billing (token burn, budget, credits)
 2. Cost posture:
-   - keep one-off checks small
-   - use short judged batches by default
-   - treat extended serial runs as explicit batch work
+  - keep one-off checks small
+  - use short judged batches by default
+  - treat extended serial runs as explicit batch work
 3. Watch dashboards as part of normal operation:
-   - `make open-limits`
-   - `make open-usage`
-   - `make open-billing`
-   - or one-shot: `make open-cost-console`
+  - `make open-limits`
+  - `make open-usage`
+  - `make open-billing`
+  - or one-shot: `make open-cost-console`
 4. Live API rule:
-   - keep the token monitoring dashboard open or immediately reachable during live eval work
-   - recheck it before widening a batch or starting an extended run
+  - keep the token monitoring dashboard open or immediately reachable during live eval work
+  - recheck it before widening a batch or starting an extended run
 5. Efficiency defaults:
-   - keep the prompt surface narrow
-   - keep one response per command path
-   - keep the live eval lens narrow before widening
+  - keep the prompt surface narrow
+  - keep one response per command path
+  - keep the live eval lens narrow before widening
 
 ## Repo Hygiene
 
-- Dependabot-managed update PRs carry the `dependencies` label.
-- `.github/workflows/stale-dependency-prs.yml` marks dependency PRs stale after `14` idle days and closes them after `7` more.
-- The stale workflow is scoped to dependency-labelled PRs, not the normal human work queue.
+- default-branch PRs are gated by:
+  - `markdownlint`
+  - `test`
+  - `dependency-review`
+  - `python-security`
+  - `node-security`
+- Dependabot version updates are configured for:
+  - `github-actions`
+  - `pip`
+  - `npm`
 
 ## Oracle Commands
 
@@ -181,10 +190,6 @@ That routine runs:
 - `npm run lint:docs`
 - `make check`
 - `git diff --check`
-- `make end-stop`
-
-Use `make end-stop` by itself only when you want the final shutdown/status step
-without the full validation pass.
 
 ## Long-Run Eval Loop
 
@@ -195,23 +200,23 @@ Use this when broad lane pressure matters.
 3. Let rows accumulate as `untagged`.
 4. Judge in sweeps.
 5. Keep verdicts binary:
-   - `pass`
-   - `fail`
+  - `pass`
+  - `fail`
 6. Treat the loop explicitly as:
-   - `pass / fail`
-   - if `fail`, decide `retain / evict`
-   - rerun
-   - `pass / fail`
+  - `pass / fail`
+  - if `fail`, decide `retain / evict`
+  - rerun
+  - `pass / fail`
 7. If a row or family fails, decide the lane state:
-   - `retain`
-   - `evict`
+  - `retain`
+  - `evict`
 8. `retain` means keep the current rule and keep taking pressure.
 9. `evict` means the family has earned an upstream correction and should stop
-   clogging the active queue.
+  clogging the active queue.
 10. Treat stale unresolved product rows as archive candidates, not as live
-   backlog forever.
+  backlog forever.
 11. Treat repeated failure clusters as the evidence surface for the
-    `retain / evict` decision, not as automatic intervention.
+  `retain / evict` decision, not as automatic intervention.
 
 Useful wrappers:
 
@@ -225,29 +230,29 @@ Useful wrappers:
 Use this when isolating the strongest per-product signal for coherent absurdity.
 
 1. Generate one product:
-   - `make sample PROMPT=what COUNT=1`
+  - `make sample PROMPT=what COUNT=1`
 2. Judge it immediately:
-   - coherence first
-   - relevance second
-   - coherent absurdity only if relevance fails after coherence passes
+  - coherence first
+  - relevance second
+  - coherent absurdity only if relevance fails after coherence passes
 3. Repeat one product at a time.
 4. Treat `25+` rows as the minimum useful checkpoint.
 5. Treat `50-100` rows, or about one hour, as the real long-run surface.
 6. Keep extra `when` pressure in the mix when testing the current coherence rule.
 7. Before an extended rerun, archive stale product-pending rows out of the active surface:
-   - `make archive-pending ARCHIVE_NOTE="stale pending archive before tandem rerun"`
+  - `make archive-pending ARCHIVE_NOTE="stale pending archive before tandem rerun"`
 8. For an extended rerun, pair one generator with one tandem judge:
-   - generator creates fresh rows only
-   - tandem judge stamps product immediately, plus coherence and relevance on passes
-   - keep the tandem judge scoped to the fresh run ids
+  - generator creates fresh rows only
+  - tandem judge stamps product immediately, plus coherence and relevance on passes
+  - keep the tandem judge scoped to the fresh run ids
 9. Let the tandem judge stop only after:
-   - the generator is done
-   - the fresh product queue is empty
+  - the generator is done
+  - the fresh product queue is empty
 10. After the run, decide whether the dominant fail family is still:
-    - `retain`
+  - `retain`
     - `evict`
 11. Only reroute or tighten the runtime after the family has actually earned
-    `evict`.
+  `evict`.
 
 ## Layered Eval Lenses
 

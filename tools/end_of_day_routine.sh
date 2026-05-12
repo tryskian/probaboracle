@@ -19,6 +19,5 @@ echo "[end] 4/5 git diff --check"
 git diff --check
 
 echo "[end] 5/5 stop background tasks"
-make --no-print-directory end-stop
 
 echo "[end] done"
