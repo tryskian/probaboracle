@@ -34,7 +34,6 @@ Use the compact operator path when you want the canonical morning check:
 
 ## Everyday Commands
 
-
 | Task                             | Command                  |
 | -------------------------------- | ------------------------ |
 | run the startup routine          | `make start`             |
@@ -53,7 +52,6 @@ Use the compact operator path when you want the canonical morning check:
 | open the OpenAI usage page       | `make open-usage`        |
 | open the OpenAI billing page     | `make open-billing`      |
 | open all three OpenAI cost pages | `make open-cost-console` |
-
 
 The app loop is the default user-facing path. It opens the responsive header and fixed selector, then generates one response at a time. `enter` selects, and `esc` exits.
 
