@@ -682,3 +682,29 @@ If a decision crosses layers, say so plainly instead of flattening the method in
 - Why: Probaboracle now has both Python and Node dependency surfaces, so the
   repo should gate dependency changes explicitly instead of relying on a lighter
   CI-only posture or the retired stale-PR cleanup lane.
+
+## D-044: Track repo-native pre-commit hooks and typecheck as baseline hygiene
+
+- Date: `2026-05-13`
+- Category: `workflow_environment`
+- Tags: `pre_commit`, `pre_push`, `typecheck`, `repo_hygiene`
+- Provenance: `human-led method decision with implementation decision`
+- Decision:
+  - treat this hook-surface addition as human-led:
+    - the human lead set the direction for the standards pass
+    - Codex executed, formalized, and validated the repo-facing update
+  - add tracked `pre-commit` and `pre-push` hooks as part of the local repo
+    baseline
+  - expose first-class `make` targets for:
+    - `typecheck`
+    - `test`
+    - `precommit-install`
+    - `precommit-run`
+    - `prepush-run`
+  - keep hook execution routed through native repo commands instead of ad hoc
+    editor or shell assumptions
+- Why: Probaboracle already had the underlying lint, format, and unittest
+  surfaces, plus a configured mypy toolchain in `pyproject.toml`. The missing
+  piece was a tracked repo-native hook surface and a first-class typecheck
+  command. Adding them closes the standards gap without changing the app or
+  eval contract.

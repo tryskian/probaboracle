@@ -610,20 +610,33 @@ def command_app(
             prompt_type = prompt_for_question_fallback(input_fn, output_fn)
         if use_selector:
             assert selected_index is not None
-            response = run_with_loading(
-                lambda prompt_type=prompt_type: response_generator(
+            assert prompt_type is not None
+            selected_index_for_render = selected_index
+            prompt_type_for_response = prompt_type
+
+            def render_loading_frame(
+                frame: str,
+                selected_index_for_render: int = selected_index_for_render,
+            ) -> None:
+                render_selected_prompt(
+                    selected_index_for_render,
+                    output_stream=sys.stdout,
+                    redraw=True,
+                    selected_trailing_text=frame,
+                )
+
+            def generate_selected_response(
+                prompt_type_for_response: str = prompt_type_for_response,
+            ) -> str:
+                return response_generator(
                     settings,
-                    prompt_type,
-                ),
+                    prompt_type_for_response,
+                )
+
+            response = run_with_loading(
+                generate_selected_response,
                 output_stream=sys.stdout,
-                render_frame=lambda frame, selected_index=selected_index: (
-                    render_selected_prompt(
-                        selected_index,
-                        output_stream=sys.stdout,
-                        redraw=True,
-                        selected_trailing_text=frame,
-                    )
-                ),
+                render_frame=render_loading_frame,
             )
             reveal_response_inline(
                 response,

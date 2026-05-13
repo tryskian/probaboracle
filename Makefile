@@ -18,7 +18,7 @@ OPENAI_BILLING_URL ?= https://platform.openai.com/settings/organization/billing/
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
-.PHONY: install env venv doctor-env lint format-check format check package-check ask sample eval-init list archive-pending judge pass fail clean
+.PHONY: install env venv doctor-env test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check ask sample eval-init list archive-pending judge pass fail clean
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
@@ -50,6 +50,21 @@ format-check:
 
 format:
 	$(PY) -m ruff format scripts src tests
+
+test:
+	$(PY) -m unittest discover -s tests -p 'test_*.py'
+
+typecheck:
+	PYTHONPATH=src $(PY) -m mypy src tests scripts
+
+precommit-install:
+	$(PY) -m pre_commit install --install-hooks --hook-type pre-commit --hook-type pre-push
+
+precommit-run:
+	$(PY) -m pre_commit run --all-files
+
+prepush-run:
+	$(PY) -m pre_commit run --all-files --hook-stage pre-push
 
 session-status:
 	@set -eu; \
@@ -123,7 +138,8 @@ rituals:
 check:
 	$(MAKE) --no-print-directory format-check
 	$(MAKE) --no-print-directory lint
-	$(PY) -m unittest discover -s tests -p 'test_*.py'
+	$(MAKE) --no-print-directory typecheck
+	$(MAKE) --no-print-directory test
 
 package-check:
 	$(PY) -m build

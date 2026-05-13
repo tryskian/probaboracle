@@ -45,7 +45,12 @@ Use the compact operator path when you want the canonical morning check:
 | show session status              | `make session-status`    |
 | lint Python files                | `make lint`              |
 | check Python formatting          | `make format-check`      |
-| run tests                        | `make check`             |
+| run static typing                | `make typecheck`         |
+| run tests                        | `make test`              |
+| install git hooks                | `make precommit-install` |
+| run pre-commit hooks on all files| `make precommit-run`     |
+| run pre-push hooks on all files  | `make prepush-run`       |
+| run the current baseline checks  | `make check`             |
 | build the package                | `make package-check`     |
 | lint tracked docs                | `npm run lint:docs`      |
 | open the OpenAI limits page      | `make open-limits`       |

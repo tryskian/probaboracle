@@ -89,7 +89,7 @@ Useful current reads:
 - the `why` sidecar surface mostly held:
   - coherence: `380 pass / 65 fail`
   - relevance: `380 pass / 0 fail`
-- that active `why` surface is now saturated enough to count as bad  
+- that active `why` surface is now saturated enough to count as bad
 post-fix comparison data
 - the first narrow `why` fix attempt then used rows `4643-4723`
 - fresh `why` post-fix surface: `81 pass / 0 fail / 0 pending`
@@ -113,7 +113,7 @@ Choose one lane at a time:
 - research:
   - keep the tandem serial lane when product pending needs to stay at `0`
   - keep the archived pre-fix `why` residue out of the active denominator
-  - design a second narrow `why` fix that preserves shape without collapsing  
+  - design a second narrow `why` fix that preserves shape without collapsing
   into one repeated pass family
   - rerun `why` under the same Beta `5.0` frame with fresh rows only
   - if touching `when` again later, keep it to one tiny phrasing fix only
@@ -133,12 +133,12 @@ Choose one lane at a time:
 - Keep style signals as reasoning cues, not as a hard word bank.
 - Keep lane configs shape-first; content-led cues invite repetition and drift.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
-- Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,  
+- Treat the loop as `pass / fail`, then on `fail` decide `retain / evict`,
 then rerun and judge `pass / fail` again.
 - `when` has earned `evict`, and the first narrow fix is now confirmed.
-- `why` has now earned `evict`, but the first fix attempt overcollapsed and  
+- `why` has now earned `evict`, but the first fix attempt overcollapsed and
 was not promoted.
-- Do not use the saturated pre-fix `why` residue as the live post-fix  
+- Do not use the saturated pre-fix `why` residue as the live post-fix
 denominator.
 - Do not count one repeated pass family as a healthy `why` lane.
 - Do not stack a new `why` fix with unrelated `when` or `where` tinkering.
