@@ -12,6 +12,7 @@ Use the compact operator path when you want the canonical morning check:
 - quick operator sheet: [Start / End Reference](./START_END_REFERENCE.md)
 
 1. Read the local instruction surface:
+  - from the final `STOP` block in `make start`
   - `README.md`
   - `docs/governance/CHARTER.md`
   - `docs/governance/DECISIONS.md`
