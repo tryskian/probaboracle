@@ -708,3 +708,32 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   piece was a tracked repo-native hook surface and a first-class typecheck
   command. Adding them closes the standards gap without changing the app or
   eval contract.
+
+## D-045: Put the startup reading cue in the final `STOP` block
+
+- Date: `2026-05-13`
+- Category: `workflow_environment`
+- Tags: `operator_surface`, `startup`, `session_ops`, `repo_hygiene`
+- Provenance: `human-led operator decision with implementation decision`
+- Decision:
+  - treat this startup-ritual refinement as human-led:
+    - the human lead set the operator expectation
+    - Codex executed, formalized, and validated the repo-facing update
+  - keep `make start` in two explicit phases:
+    - machine context and startup safety checks first
+    - docs read, startup read, and kernel declaration in the final `STOP`
+      block
+  - keep the canonical docs list inside the final `STOP` block instead of
+    front-loading it before the machine checks
+  - when the start routine changes, sync all three surfaces in the same kernel:
+    - `tools/start_of_day_routine.sh`
+    - `docs/runtime/START_END_REFERENCE.md`
+    - `docs/runtime/RUNBOOK.md`
+- Validation:
+  - `make start`
+  - `bash -n tools/start_of_day_routine.sh`
+  - `git diff --check`
+- Why: Probaboracle's startup ritual should end with the same explicit operator
+  pause as the rest of the toy family. The docs list matters most at the final
+  stop sign, where the next instance has to read, summarize, and name exactly
+  one active kernel before doing repo work.

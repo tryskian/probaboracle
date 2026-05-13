@@ -13,20 +13,24 @@ make start
 
 Sequence:
 
-1. Print the canonical docs to read:
-  - `README.md`
-  - `docs/governance/CHARTER.md`
-  - `docs/governance/DECISIONS.md`
-  - `docs/runtime/ARCHITECTURE.md`
-  - `docs/runtime/RUNBOOK.md`
-  - `docs/governance/SESSION_HANDOFF.md`
-2. Print workspace context:
+1. Print workspace context:
   - repo root
   - active branch
   - `git status --short --branch`
-3. Run the generic startup safety path:
+2. Run the generic startup safety path:
   - `make doctor-env`
   - `make session-status`
+3. Stop before repo action:
+  - print the canonical docs to read:
+    - `README.md`
+    - `docs/governance/CHARTER.md`
+    - `docs/governance/DECISIONS.md`
+    - `docs/runtime/ARCHITECTURE.md`
+    - `docs/runtime/RUNBOOK.md`
+    - `docs/governance/SESSION_HANDOFF.md`
+  - give the startup read
+  - name exactly one active kernel
+  - do not branch, search, or edit until that is stated
 
 Source of truth:
 
