@@ -53,6 +53,8 @@ Sequence:
   - `git diff --check`
 2. Print the final repo state:
   - `make session-status`
+3. After merge and sync, verify the canonical stop state:
+  - `make end-git-check`
 
 Probaboracle does not keep a long-lived local daemon or caffeinate process, so
 the final stop path is intentionally small.
