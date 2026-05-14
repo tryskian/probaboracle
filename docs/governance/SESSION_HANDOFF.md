@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-`
+Last updated: 2026-05-14
 
 ## Start Here
 
@@ -10,6 +10,7 @@ Last updated: 2026-05-`
   - `docs/governance/DECISIONS.md`
   - `docs/runtime/ARCHITECTURE.md`
   - `docs/runtime/RUNBOOK.md`
+  - `docs/runtime/START_END_REFERENCE.md`
   - this file
 2. Confirm repo and branch:
   - `/Users/tryskian/Github/probaboracle`
@@ -34,6 +35,14 @@ The default app path is bare `probaboracle`:
 
 Operator commands remain separate:
 
+- `make start`
+- `make end-preflight`
+- `make end-git-check`
+- `make caffeinate`
+- `make caffeinate-status`
+- `make decaffeinate-status`
+- `make decaffeinate`
+- `make rituals`
 - `ask`
 - `sample`
 - `eval-list`
@@ -149,7 +158,9 @@ Follow `docs/runtime/RUNBOOK.md`.
 
 Compact operator path:
 
+- `make end-preflight` before merge
 - `make end`
+- `make end-git-check` after merge/sync
 - quick operator sheet: `docs/runtime/START_END_REFERENCE.md`
 
 At minimum:

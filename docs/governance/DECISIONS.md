@@ -737,3 +737,39 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   pause as the rest of the toy family. The docs list matters most at the final
   stop sign, where the next instance has to read, summarize, and name exactly
   one active kernel before doing repo work.
+
+## D-046: Align the full start/end operator surface with the repo family
+
+- Date: `2026-05-14`
+- Category: `workflow_environment`
+- Tags: `operator_surface`, `start_end`, `wake_lock`, `repo_family`
+- Provenance: `human-led operator decision with implementation decision`
+- Decision:
+  - align Probaboracle with the shared repo-family operator target contract:
+    - `make start`
+    - `make end`
+    - `make end-preflight`
+    - `make end-git-check`
+    - `make caffeinate`
+    - `make caffeinate-status`
+    - `make decaffeinate-status`
+    - `make decaffeinate`
+    - `make doctor-env`
+    - `make session-status`
+    - `make rituals`
+  - keep `make end` as the strict clean-main closeout command
+  - keep `make end-preflight` for branch-local validation before clean-main
+    enforcement
+  - make wake-lock ownership PID-scoped:
+    - repo-managed PIDs may be stopped by the repo
+    - unmanaged `caffeinate` processes are reported but not adopted or stopped
+- Validation:
+  - shared target matrix check
+  - `bash -n tools/start_of_day_routine.sh tools/end_of_day_routine.sh`
+  - `make doctor-env`
+  - `npm run lint:docs`
+  - `make check`
+  - `make end-git-check` on synced `main`
+- Why: Probaboracle had caught up to the toy-family closeout contract, but its
+  docs still needed a durable current-truth entry for the full shared operator
+  surface and safer wake-lock ownership model.

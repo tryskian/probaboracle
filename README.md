@@ -44,6 +44,17 @@ The app opens a compact terminal loop. Choose a question lane with the arrow key
 
 The operator commands, eval workflow, and setup checks live in the [runtime runbook](./docs/runtime/RUNBOOK.md).
 
+Core operator commands:
+
+```sh
+make start
+make end-preflight
+make end-git-check
+make caffeinate-status
+make decaffeinate
+make check
+```
+
 ## Read Next
 
 - [docs/research/README.md](./docs/research/README.md)
