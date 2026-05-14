@@ -39,7 +39,11 @@ Use the compact operator path when you want the canonical morning check:
 | -------------------------------- | ------------------------ |
 | run the startup routine          | `make start`             |
 | run the closeout routine         | `make end`               |
+| run closeout before merge        | `make end-preflight`     |
 | verify clean synced main         | `make end-git-check`     |
+| start managed caffeinate         | `make caffeinate`        |
+| stop managed caffeinate          | `make decaffeinate`      |
+| check managed caffeinate         | `make caffeinate-status` |
 | show the compact start/end sheet | `make rituals`           |
 | open the app loop                | `probaboracle`           |
 | open the venv shell              | `make env`               |

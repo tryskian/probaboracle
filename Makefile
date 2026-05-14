@@ -15,6 +15,9 @@ SWEEP_LIST_LIMIT ?= 20
 OPENAI_LIMITS_URL ?= https://platform.openai.com/settings/organization/limits
 OPENAI_USAGE_URL ?= https://platform.openai.com/settings/organization/usage
 OPENAI_BILLING_URL ?= https://platform.openai.com/settings/organization/billing/overview
+CAFFEINATE_PID_FILE ?= /tmp/probaboracle-caffeinate.pid
+CAFFEINATE_LOG ?= /tmp/probaboracle-caffeinate.log
+CAFFEINATE_CMD ?= /usr/bin/caffeinate -d -i -m
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
@@ -25,7 +28,8 @@ LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 .PHONY: sweep-gremlin sweep-rigorous
 .PHONY: session-status
 .PHONY: open-limits open-usage open-billing open-cost-console
-.PHONY: start end end-git-check rituals
+.PHONY: caffeinate decaffeinate caffeinate-status decaffeinate-status
+.PHONY: start end end-preflight end-git-check rituals
 
 install:
 	$(PYTHON) -m venv $(VENV)
@@ -126,11 +130,83 @@ open-cost-console:
 	$(MAKE) --no-print-directory open-usage; \
 	$(MAKE) --no-print-directory open-billing
 
+caffeinate:
+	@set -eu; \
+	if [ "$$(uname -s)" != "Darwin" ]; then \
+		echo "caffeinate is macOS-only; skipping."; \
+		exit 0; \
+	fi; \
+	if [ -f "$(CAFFEINATE_PID_FILE)" ]; then \
+		PID=$$(cat "$(CAFFEINATE_PID_FILE)" 2>/dev/null || true); \
+		if [ -n "$$PID" ] && kill -0 "$$PID" 2>/dev/null; then \
+			echo "caffeinate already running (PID $$PID)."; \
+			exit 0; \
+		fi; \
+		rm -f "$(CAFFEINATE_PID_FILE)"; \
+	fi; \
+	nohup $(CAFFEINATE_CMD) >"$(CAFFEINATE_LOG)" 2>&1 & \
+	PID=$$!; \
+	echo "$$PID" >"$(CAFFEINATE_PID_FILE)"; \
+	sleep 0.1; \
+	if kill -0 "$$PID" 2>/dev/null; then \
+		echo "caffeinate started (PID $$PID)."; \
+	else \
+		rm -f "$(CAFFEINATE_PID_FILE)"; \
+		echo "Failed to start caffeinate."; \
+		exit 1; \
+	fi
+
+decaffeinate:
+	@set -eu; \
+	if [ "$$(uname -s)" != "Darwin" ]; then \
+		echo "caffeinate is macOS-only; skipping."; \
+		exit 0; \
+	fi; \
+	if [ ! -f "$(CAFFEINATE_PID_FILE)" ]; then \
+		echo "No managed caffeinate PID file found."; \
+		exit 0; \
+	fi; \
+	PID=$$(cat "$(CAFFEINATE_PID_FILE)" 2>/dev/null || true); \
+	if [ -n "$$PID" ] && kill -0 "$$PID" 2>/dev/null; then \
+		kill "$$PID"; \
+		sleep 0.1; \
+		echo "caffeinate stopped (PID $$PID)."; \
+	else \
+		echo "Stale PID file found; cleaning up."; \
+	fi; \
+	rm -f "$(CAFFEINATE_PID_FILE)"
+
+caffeinate-status:
+	@set -eu; \
+	if [ "$$(uname -s)" != "Darwin" ]; then \
+		echo "caffeinate status is only available on macOS."; \
+		exit 0; \
+	fi; \
+	if [ -f "$(CAFFEINATE_PID_FILE)" ]; then \
+		PID=$$(cat "$(CAFFEINATE_PID_FILE)" 2>/dev/null || true); \
+		if [ -n "$$PID" ] && kill -0 "$$PID" 2>/dev/null; then \
+			echo "Managed caffeinate: RUNNING (PID $$PID)."; \
+		else \
+			echo "Managed caffeinate: STALE PID file."; \
+		fi; \
+	else \
+		echo "Managed caffeinate: OFF."; \
+		EXISTING_PID=$$(pgrep -f "^/usr/bin/caffeinate -d -i -m( |$$)" | head -n 1 || true); \
+		if [ -n "$$EXISTING_PID" ]; then \
+			echo "Unmanaged caffeinate detected (PID $$EXISTING_PID); not owned by this repo."; \
+		fi; \
+	fi
+
+decaffeinate-status: caffeinate-status
+
 start:
 	bash ./tools/start_of_day_routine.sh
 
 end:
 	bash ./tools/end_of_day_routine.sh
+
+end-preflight:
+	end_SKIP_GIT_CHECK=1 bash ./tools/end_of_day_routine.sh
 
 end-git-check:
 	bash ./scripts/check_end_git_clean.sh
