@@ -95,6 +95,21 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
   - judge `pass / fail` again
 - Runtime directions describe the target reasoning shape rather than accumulating long restriction lists.
 
+## Operator Surface
+
+- Startup ritual: `make start`
+- Day-close routine: `make end`
+- Branch-local closeout validation: `make end-preflight`
+- Clean-main closeout gate: `make end-git-check`
+- Managed wake lock:
+  - `make caffeinate`
+  - `make caffeinate-status`
+  - `make decaffeinate-status`
+  - `make decaffeinate`
+- Baseline validation: `make check`
+- Environment sanity: `make doctor-env`
+- Compact operator sheet: `make rituals`
+
 ## Docs Ownership
 
 | Doc | Job |

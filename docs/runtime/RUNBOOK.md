@@ -35,34 +35,35 @@ Use the compact operator path when you want the canonical morning check:
 
 ## Everyday Commands
 
-| Task                             | Command                  |
-| -------------------------------- | ------------------------ |
-| run the startup routine          | `make start`             |
-| run the closeout routine         | `make end`               |
-| run closeout before merge        | `make end-preflight`     |
-| verify clean synced main         | `make end-git-check`     |
-| start managed caffeinate         | `make caffeinate`        |
-| stop managed caffeinate          | `make decaffeinate`      |
-| check managed caffeinate         | `make caffeinate-status` |
-| show the compact start/end sheet | `make rituals`           |
-| open the app loop                | `probaboracle`           |
-| open the venv shell              | `make env`               |
-| check the environment            | `make doctor-env`        |
-| show session status              | `make session-status`    |
-| lint Python files                | `make lint`              |
-| check Python formatting          | `make format-check`      |
-| run static typing                | `make typecheck`         |
-| run tests                        | `make test`              |
-| install git hooks                | `make precommit-install` |
-| run pre-commit hooks on all files| `make precommit-run`     |
-| run pre-push hooks on all files  | `make prepush-run`       |
-| run the current baseline checks  | `make check`             |
-| build the package                | `make package-check`     |
-| lint tracked docs                | `npm run lint:docs`      |
-| open the OpenAI limits page      | `make open-limits`       |
-| open the OpenAI usage page       | `make open-usage`        |
-| open the OpenAI billing page     | `make open-billing`      |
-| open all three OpenAI cost pages | `make open-cost-console` |
+| Task                                         | Command                       |
+| -------------------------------------------- | ----------------------------- |
+| run the startup routine                      | `make start`                  |
+| run the closeout routine                     | `make end`                    |
+| run closeout before merge                    | `make end-preflight`          |
+| verify clean synced main                     | `make end-git-check`          |
+| start managed caffeinate                     | `make caffeinate`             |
+| stop managed caffeinate                      | `make decaffeinate`           |
+| check managed caffeinate                     | `make caffeinate-status`      |
+| alias wake-lock status for closeout language | `make decaffeinate-status`    |
+| show the compact start/end sheet             | `make rituals`                |
+| open the app loop                            | `probaboracle`                |
+| open the venv shell                          | `make env`                    |
+| check the environment                        | `make doctor-env`             |
+| show session status                          | `make session-status`         |
+| lint Python files                            | `make lint`                   |
+| check Python formatting                      | `make format-check`           |
+| run static typing                            | `make typecheck`              |
+| run tests                                    | `make test`                   |
+| install git hooks                            | `make precommit-install`      |
+| run pre-commit hooks on all files            | `make precommit-run`          |
+| run pre-push hooks on all files              | `make prepush-run`            |
+| run the current baseline checks              | `make check`                  |
+| build the package                            | `make package-check`          |
+| lint tracked docs                            | `npm run lint:docs`           |
+| open the OpenAI limits page                  | `make open-limits`            |
+| open the OpenAI usage page                   | `make open-usage`             |
+| open the OpenAI billing page                 | `make open-billing`           |
+| open all three OpenAI cost pages             | `make open-cost-console`      |
 
 The app loop is the default user-facing path. It opens the responsive header and fixed selector, then generates one response at a time. `enter` selects, and `esc` exits.
 
