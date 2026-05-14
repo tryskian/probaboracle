@@ -19,6 +19,8 @@ Sequence:
   - `git status --short --branch`
 2. Run the generic startup safety path:
   - `make doctor-env`
+  - `make caffeinate`
+  - `make caffeinate-status`
   - `make session-status`
 3. Stop before repo action:
   - print the canonical docs to read:
@@ -36,6 +38,11 @@ Source of truth:
 
 - [tools/start_of_day_routine.sh](../../tools/start_of_day_routine.sh)
 
+Wake-lock rule:
+
+- `make caffeinate` records only this repo's managed PID
+- unmanaged `caffeinate` processes are reported but never adopted or stopped
+
 ## End
 
 Command:
@@ -51,13 +58,17 @@ Sequence:
   - `npm run lint:docs`
   - `make check`
   - `git diff --check`
+  - `make decaffeinate`
 2. Print the final repo state:
   - `make session-status`
-3. After merge and sync, verify the canonical stop state:
+3. Enforce the final git state:
   - `make end-git-check`
 
-Probaboracle does not keep a long-lived local daemon or caffeinate process, so
-the final stop path is intentionally small.
+Preflight:
+
+- `make end-preflight`
+- runs the validation and background-stop path without requiring clean synced
+  `main`
 
 Source of truth:
 
