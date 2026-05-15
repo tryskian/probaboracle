@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-14
+Last updated: 2026-05-15
 
 ## Start Here
 
@@ -13,7 +13,7 @@ Last updated: 2026-05-14
   - `docs/runtime/START_END_REFERENCE.md`
   - this file
 2. Confirm repo and branch:
-  - `/Users/tryskian/Github/probaboracle`
+  - `/abs/path/to/probaboracle`
   - feature branch for tracked changes
 3. If the checkout is on `main`, cut a task branch before editing.
 4. State the active kernel before changing files.
@@ -171,4 +171,4 @@ At minimum:
 
 ## Copy/Paste Refresh Prompt
 
-`Read README.md, docs/governance/CHARTER.md, docs/governance/DECISIONS.md, docs/runtime/ARCHITECTURE.md, docs/runtime/RUNBOOK.md, and docs/governance/SESSION_HANDOFF.md. In 5 bullets: current state, risks, and next kernel. Confirm the repo path is /Users/tryskian/Github/probaboracle, confirm the active git branch, and say whether the thread is on clean main or a feature branch. Then execute the Next Slice with minimal drift and full validation.`
+`Read README.md, docs/governance/CHARTER.md, docs/governance/DECISIONS.md, docs/runtime/ARCHITECTURE.md, docs/runtime/RUNBOOK.md, and docs/governance/SESSION_HANDOFF.md. In 5 bullets: current state, risks, and next kernel. Before starting implementation, confirm environment/workspace context: canonical repo path is /abs/path/to/probaboracle, confirm host vs devcontainer mode, confirm active git branch, and say whether the thread is on clean main or a feature branch. Apply no-guessing controls: prefer repo-scoped edits and do not modify user shell profile file or global VS Code settings unless explicitly approved in-chat. Run in one active kernel at a time. Then execute the Next Slice from SESSION_HANDOFF with minimal behavior drift and full validation.`

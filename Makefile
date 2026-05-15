@@ -21,7 +21,7 @@ CAFFEINATE_CMD ?= /usr/bin/caffeinate -d -i -m
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
-.PHONY: install env venv doctor-env test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check ask sample eval-init list archive-pending judge pass fail clean
+.PHONY: install env venv doctor-env path-leak-check path-leak-audit-local test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check ask sample eval-init list archive-pending judge pass fail clean
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
@@ -45,6 +45,12 @@ doctor-env:
 	@set -eu; \
 	ACTIVE_VENV="$$(cd "$$(dirname "$(PY)")/.." && pwd)"; \
 	VIRTUAL_ENV="$$ACTIVE_VENV" PATH="$$ACTIVE_VENV/bin:$$PATH" "$(PY)" -m probaboracle.doctor_env
+
+path-leak-check:
+	$(PY) ./scripts/path_leak_check.py --scope tracked
+
+path-leak-audit-local:
+	$(PY) ./scripts/path_leak_check.py --scope local
 
 lint:
 	$(PY) -m ruff check scripts src tests
