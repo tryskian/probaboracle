@@ -12,7 +12,7 @@ Use the compact operator path when you want the canonical morning check:
 - quick operator sheet: [Start / End Reference](./START_END_REFERENCE.md)
 
 1. Read the local instruction surface:
-  - from the final `STOP` block in `make start`
+  - from the final rehydrate prompt in `make start`
   - `README.md`
   - `docs/governance/CHARTER.md`
   - `docs/governance/DECISIONS.md`
@@ -32,6 +32,11 @@ Use the compact operator path when you want the canonical morning check:
   - use `make open-limits` or `make open-usage` directly when a tighter check is enough
 6. Check the environment:
   - `make doctor-env`
+7. Apply the no-guessing controls:
+  - prefer repo-scoped edits
+  - do not modify user shell profile files or global VS Code settings without explicit approval in-chat
+8. Run one active kernel at a time.
+9. Then execute the `Next Slice` from `SESSION_HANDOFF` with full validation.
 
 ## Everyday Commands
 
