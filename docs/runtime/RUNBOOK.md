@@ -64,6 +64,7 @@ Use the compact operator path when you want the canonical morning check:
 | run pre-push hooks on all files              | `make prepush-run`            |
 | run the current baseline checks              | `make check`                  |
 | build the package                            | `make package-check`          |
+| fail closeout if product pending is not zero | `make end-pending-check`      |
 | lint tracked docs                            | `npm run lint:docs`           |
 | open the OpenAI limits page                  | `make open-limits`            |
 | open the OpenAI usage page                   | `make open-usage`             |
@@ -201,10 +202,16 @@ Use the canonical closeout path when you want the small end-of-day safety pass:
 
 That routine runs:
 
+- `make path-leak-check`
+- `make path-leak-audit-local`
 - `make doctor-env`
 - `npm run lint:docs`
 - `make check`
 - `git diff --check`
+- `make end-pending-check`
+- `make decaffeinate`
+- `make session-status`
+- `make end-git-check`
 
 ## Long-Run Eval Loop
 
@@ -268,6 +275,16 @@ Use this when isolating the strongest per-product signal for coherent absurdity.
     - `evict`
 11. Only reroute or tighten the runtime after the family has actually earned
   `evict`.
+
+## Closeout Rule
+
+1. `make end` is not complete while active product pending is above `0`.
+2. The stop-state pending gate is:
+  - `make end-pending-check`
+3. Clear the gate by:
+  - judging fresh product rows
+  - or archiving stale product-pending rows
+4. Sidecar lens backlog does not replace the product gate in this closeout rule.
 
 ## Layered Eval Lenses
 
