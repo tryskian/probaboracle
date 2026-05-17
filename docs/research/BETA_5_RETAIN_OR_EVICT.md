@@ -185,6 +185,6 @@ closes with `when` earning `evict`, confirms the first narrow `when`
 correction under the same Beta `5.0` frame, and then shows that `why` can
 also earn `evict` for a different reason: product-level duplicate fallback.
 
-The next architecture change is not a new beta yet. The open question is now
-how to keep the `why` lane shape-first without letting the next successful
-correction collapse into one repeated pass family.
+`pre-Beta 6.0` now stages the next method question without promoting it early:
+how to judge bounded non-OCR runs once run-level seam density matters more than
+single-row replay.

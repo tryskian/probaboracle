@@ -1,6 +1,6 @@
 # Probaboracle
 
-![Research Beta](https://img.shields.io/badge/research_beta-5.1%20retain%20%2B%20evict-E15759) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
+[![Research Stage](https://img.shields.io/badge/research_stage-pre--Beta%206.0%20fail--pressure%20pulse-E15759)](./docs/research/README.md) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
 
 ## probably a mini oracle. definitely a mini chatbot
 
@@ -15,12 +15,22 @@ It only accepts four question lanes:
 
 That narrow surface is the point. Probaboracle is not trying to be a general chat tool. It is a small instrument for studying whether a model can stay coherent, vague, answer-shaped, and product-specific inside tight interaction guardrails.
 
-Current tracked research beta:
+Current staged research lane:
+
+- `pre-Beta 6.0`
+- `fail-pressure pulse`
+
+Most recently closed beta:
 
 - `Research Beta 5.1`
 - `retain + evict`
 
-In this repo, major betas are research architectures, and minor versions tighten the active method without changing the whole eval shape.
+In this repo, a new beta gets pinned when the method change alters what the
+evidence means, not just when wording or procedure gets tidier. Pre-beta
+staging notes can hold the next method boundary before the first real evidence
+run starts.
+
+`Beta 6.0` does not begin until the first real fail-pressure pulse run starts.
 
 ## What This Repo Demonstrates
 

@@ -875,15 +875,14 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   lane. `5.1` is the right label for "same retain-evict frame, cleaner
   instruction contract."
 
-## D-050: Track fail-pressure pulse as the next candidate phase for non-OCR evals
+## D-050: Stage pre-Beta 6.0 fail-pressure pulse for non-OCR evals
 
 - Date: `2026-05-16`
 - Category: `eval_quality`
-- Tags: `candidate_phase`, `fail_pressure_pulse`, `non_ocr`, `pulse_judgment`
+- Tags: `pre_beta_6`, `fail_pressure_pulse`, `non_ocr`, `pulse_judgment`
 - Provenance: `human-led hypothesis import`, pending later `repo formalization`
 - Decision:
-  - track fail-pressure pulse as the next candidate phase after the current
-    `5.1` line
+  - stage fail-pressure pulse as `pre-Beta 6.0` after the closed `5.1` line
   - keep its scope broader than language-only:
     - non-OCR evals
     - language and logic-heavy runs where run-level shape matters more than
@@ -900,13 +899,14 @@ If a decision crosses layers, say so plainly instead of flattening the method in
     - counted pulse count visible
     - every exclusion gets a narrow reason
   - do not treat this as the active Probaboracle method yet
-  - keep the current active line unchanged until the repo is explicitly updated
-    to support pulse-level judgment rather than row-level judgment
+  - keep `Research Beta 5.1` as the most recently closed row-level baseline
+    until the repo is explicitly updated to support pulse-level judgment
+  - promote to `Beta 6.0` only when the first real fail-pressure pulse run
+    starts
 - Why: The upstream Polinko hypothesis is no longer just a small first-batch
   fail heuristic. It proposes a different binary unit for bounded non-OCR
   runs: the pulse passes or fails, while rows act as evidence inside that
   pulse. That is substantial enough to count as a real candidate next phase for
   Probaboracle, but it should not be smuggled in as if the repo already
-  supports it. The current `5.1` line remains active until the runtime, eval
-  surfaces, and research docs are intentionally reshaped around pulse
-  judgment.
+  supports it. Pre-beta staging keeps the next phase explicit without claiming
+  that `Beta 6.0` has already started.

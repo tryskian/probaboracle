@@ -2,71 +2,64 @@
 
 Probaboracle keeps the tracked research lane small on purpose.
 
-Each beta is a distinct eval approach. This folder preserves the method shifts that changed what the evidence means.
+Each beta or staged note is a distinct eval approach. This folder preserves the
+method shifts that changed what the evidence means.
 
 Raw run notes, operator poking, and private scratch material stay in the local `docs/peanut/` lane.
 
-## Current Beta
+## Current Stage
 
-Current tracked research beta:
+Current staged research lane:
+
+- `pre-Beta 6.0`
+- `fail-pressure pulse`
+
+Most recently closed beta:
 
 - `Research Beta 5.1`
 - `retain + evict`
 
-Current question:
+Current staging question:
 
-When does a recurring fail family stay active evidence versus earn eviction?
+Should Probaboracle move bounded non-OCR judgment from the row to the pulse,
+so seam density matters more than single-row replay?
 
 Current finding:
 
-- the long `when` retain rerun covered rows `3392-4097` with
-  `317 pass / 389 fail / 0 pending`
-- that repeat surface was enough to answer the Beta `5.0` question:
-  - `when` earned `evict`
-- the post-evict confirmation rerun then covered rows `4098-4197` with
-  `97 pass / 3 fail / 0 pending`
-- the old fail family collapsed sharply:
-  - `semicolon pile and unresolved timing drift`: `0`
-  - `stacked timing fragments`: `1`
-- the remaining misses are now smaller:
-  - `awkward temporal phrasing`: `2`
-- the first long `why` retain rerun then covered rows `4198-4642` with
-  `77 pass / 368 fail / 0 pending`
-- that repeat surface was enough to answer the next Beta `5.0` question:
-  - `why` earned `evict`
-- the dominant `why` fail family is product-level fallback repetition, not lane loss:
-  - `duplicate why fallback`: `292`
-  - `stacked hinge accumulation`: `65`
-  - `too fallback-bare for product pass`: `11`
-- the sidecar surface mostly held:
-  - coherence: `380 pass / 65 fail`
-  - relevance: `380 pass / 0 fail`
-- the first narrow `why` fix attempt then covered rows `4643-4723` with
-  `81 pass / 0 fail / 0 pending`
-- that slice removed the old fail family, but collapsed into a new pass rut:
-  - `good useless reason`: `66`
-  - `strong why lane`: `15`
-- because the pass surface narrowed into one repeated answer shape, the fix was
-  not promoted
-- Beta `5.1` keeps the same retain-evict question, but cleans the live
-  instruction surface before the next `why` rerun:
-  - hard-coded phrase scaffolds were removed
-  - shape-first lane control stays active
-  - the next fresh `why` slice now belongs to `5.1`, not `5.0`
+- `Research Beta 5.1` proved the row-level retain-evict architecture under the
+  cleaned instruction surface
+- `when` earned `evict`, and the first narrow post-evict correction held:
+  - deciding rerun: `317 pass / 389 fail / 0 pending`
+  - confirmation rerun: `97 pass / 3 fail / 0 pending`
+  - old dominant failures collapsed to:
+    - `semicolon pile and unresolved timing drift`: `0`
+    - `stacked timing fragments`: `1`
+    - `awkward temporal phrasing`: `2`
+- `why` also earned `evict`, but the first post-evict fix overcollapsed:
+  - deciding rerun: `77 pass / 368 fail / 0 pending`
+  - dominant fail mix:
+    - `duplicate why fallback`: `292`
+    - `stacked hinge accumulation`: `65`
+    - `too fallback-bare for product pass`: `11`
+  - first post-evict rerun: `81 pass / 0 fail / 0 pending`
+  - new pass rut:
+    - `good useless reason`: `66`
+    - `strong why lane`: `15`
+- the next method question is no longer whether `retain / evict` belongs in
+  the active line
+- the next method question is whether bounded non-OCR runs should move from
+  row verdicts to pulse verdicts
 
 Current clean lane:
 
-- treat the loop as:
-  - `pass / fail`
-  - if `fail`, decide `retain / evict`
-  - rerun
-  - `pass / fail`
-- keep tandem serial single-product runs with the queue held at `0`
-- `25+` rows as the minimum useful checkpoint
-- `50-100` rows, or about one hour, as the real long-run surface
-- current state:
-  - `when`: `evict`, with one narrow fix confirmed
-  - `why`: `evict`, with no confirmed fix yet
+- `Research Beta 5.1` is closed as the row-level `retain / evict` baseline
+- `pre-Beta 6.0` is the active staged lane
+- keep tandem serial single-product runs with the queue held at `0` while
+  pulse judgment stays staged
+- keep row-level `PASS / FAIL` plus `RETAIN / EVICT` as the closed `5.1`
+  comparison surface
+- promote to `Beta 6.0` only when the first real fail-pressure pulse run
+  starts
 
 ## Beta Map
 
@@ -78,6 +71,12 @@ Current clean lane:
 | `Research Beta 4.1` | Can coherent drift still be valuable? | Coherent absurdity became a small selective class. |
 | `Research Beta 5.1` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` stays active, with the instruction surface tightened to preserve shape-first lane control. |
 
+Staged next lane:
+
+- `pre-Beta 6.0`
+- [Fail-Pressure Pulse](./PRE_BETA_6_FAIL_PRESSURE_PULSE.md)
+- bounded non-OCR runs stay in staging until the first real pulse run starts
+
 Read in order:
 
 1. [Research Beta 1.0: Product Fit Only](./BETA_1_PRODUCT_FIT.md)
@@ -85,17 +84,12 @@ Read in order:
 3. [Research Beta 3.0: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
 4. [Research Beta 4.1: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
 5. [Research Beta 5.1: Retain + Evict](./BETA_5_RETAIN_OR_EVICT.md)
+6. [Pre-Beta 6.0: Fail-Pressure Pulse](./PRE_BETA_6_FAIL_PRESSURE_PULSE.md)
 
-## Method Notes
+## How To Read The Betas And Stages
 
-These notes are smaller than betas. They capture research-method rules that can
-travel across runs without pretending to be a new research architecture.
-
-- [Method Note: Diagnostic Fail Surface](./METHOD_NOTE_DIAGNOSTIC_FAIL_SURFACE.md)
-
-## How To Read The Betas
-
-These betas are research architectures. They are not app release versions, package versions, branch names, or one more sweep.
+These betas and staged notes are research architectures. They are not app
+release versions, package versions, branch names, or one more sweep.
 
 Each beta marks a real change in what the evaluation is asking:
 
@@ -104,6 +98,8 @@ Each beta marks a real change in what the evaluation is asking:
 - `Research Beta 3.0` separated lane control from sentence coherence
 - `Research Beta 4.1` preserves the selective value of coherent drift while holding coherence to a stricter sentence-resolution bar
 - `Research Beta 5.1` separates failure evidence from later runtime correction while keeping the live instruction path shape-first
+- `pre-Beta 6.0` is a staging surface, not an active beta; it defines the
+  fail-pressure pulse contract without claiming pulse evidence yet
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed to mean.
 

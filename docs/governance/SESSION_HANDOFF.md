@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-15
+Last updated: 2026-05-16
 
 ## Start Here
 
@@ -52,10 +52,19 @@ Operator commands remain separate:
 
 ## Research Snapshot
 
-Current tracked research beta:
+Most recently closed beta:
 
 - `Research Beta 5.1`
 - `retain + evict`
+
+Current staged next lane:
+
+- `pre-Beta 6.0`
+- `fail-pressure pulse`
+- status:
+  - staged only
+  - not promoted to `Beta 6.0`
+  - no pulse run started yet
 
 Current long-run checkpoint:
 
@@ -106,9 +115,10 @@ post-fix comparison data
   - `66` `good useless reason`
   - `15` `strong why lane`
 - that first `why` fix was not promoted
-- Beta `5.1` now keeps the same retain-evict architecture but with the
-  instruction surface cleaned of hard-coded phrase scaffolds before the next
-  `why` rerun
+- Beta `5.1` is now the most recently closed row-level baseline:
+  - retain-evict stays closed there
+  - hard-coded phrase scaffolds are removed
+  - the next method boundary is staged separately as pre-`Beta 6.0`
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
@@ -123,13 +133,15 @@ Choose one lane at a time:
   - do not widen the prompt surface
   - keep the user loop separate from operator commands
 - research:
-  - keep the tandem serial lane when product pending needs to stay at `0`
-  - keep the archived pre-fix `why` residue out of the active denominator
-  - design a second narrow `why` fix that preserves shape without collapsing
-  into one repeated pass family
-  - rerun `why` under the cleaned Beta `5.1` frame with fresh rows only
-  - if touching `when` again later, keep it to one tiny phrasing fix only
-  - do not widen the prompt surface or stack multiple runtime tweaks at once
+  - keep `Beta 5.1` frozen as the most recently closed beta
+  - keep `pre-Beta 6.0` staged without calling it active evidence yet
+  - preserve the explicit comparison boundary:
+    - row-level `5.1`
+    - staged pulse-level pre-`6.0`
+  - promote to `Beta 6.0` only when the first real fail-pressure pulse run
+    starts
+  - if the next run stays row-level, keep it inside the closed `5.1`
+    comparison surface instead of inflating the staged lane early
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
   - keep `docs/peanut/` as the private scratch lane
