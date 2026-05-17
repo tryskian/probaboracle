@@ -910,3 +910,16 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   Probaboracle, but it should not be smuggled in as if the repo already
   supports it. Pre-beta staging keeps the next phase explicit without claiming
   that `Beta 6.0` has already started.
+
+## D-051: Closeout only finishes when active product pending is zero
+
+- Date: `2026-05-17`
+- Category: `workflow_environment`
+- Tags: `closeout_gate`, `pending_zero`, `product_surface`
+- Decision:
+  - `make end` must fail while active product rows are still pending
+  - use the product verdict surface in `eval_outputs.current_verdict` as the
+    closeout pending gate
+  - keep sidecar lens backlog out of this specific stop-state gate
+- Why: Product fit is the canonical top-level oracle gate in this repo. Day
+  close should not pass while that active product surface is still unresolved.

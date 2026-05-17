@@ -52,12 +52,13 @@ make end
 Sequence:
 
 1. Run the generic closeout safety path:
+  - `make doctor-env`
   - tracked path leak check
   - local path leak audit
-  - `make doctor-env`
   - `npm run lint:docs`
   - `make check`
   - `git diff --check`
+  - `make end-pending-check`
   - `make decaffeinate`
 2. Print the final repo state:
   - `make session-status`
