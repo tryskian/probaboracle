@@ -25,12 +25,12 @@ class MainAppLoopTests(TestCase):
         self.assertEqual(
             lines[0], "┌──────────────────────────────────────────────────────────────┐"
         )
-        self.assertIn("PROBABORACLE BETA 5.0", lines[1])
+        self.assertIn("PROBABORACLE BETA 5.1", lines[1])
 
     def test_choose_banner_lines_styles_title_and_repo_link_in_tty_mode(self) -> None:
         lines = choose_banner_lines(terminal_width=80, style_active=True)
 
-        self.assertIn("\x1b[38;5;216m\x1b[1mPROBABORACLE BETA 5.0\x1b[0m", lines[1])
+        self.assertIn("\x1b[38;5;216m\x1b[1mPROBABORACLE BETA 5.1\x1b[0m", lines[1])
         self.assertIn(
             (
                 "\x1b]8;;https://github.com/tryskian/probaboracle\x1b\\"
@@ -46,7 +46,7 @@ class MainAppLoopTests(TestCase):
         self.assertEqual(
             lines,
             (
-                "PROBABORACLE BETA 5.0",
+                "PROBABORACLE BETA 5.1",
                 "probably a mini oracle. definitely a mini chatbot.",
                 "github.com/tryskian/probaboracle",
             ),
@@ -55,7 +55,7 @@ class MainAppLoopTests(TestCase):
     def test_choose_banner_lines_styles_stacked_header_in_tty_mode(self) -> None:
         lines = choose_banner_lines(terminal_width=56, style_active=True)
 
-        self.assertEqual(lines[0], "\x1b[38;5;216m\x1b[1mPROBABORACLE BETA 5.0\x1b[0m")
+        self.assertEqual(lines[0], "\x1b[38;5;216m\x1b[1mPROBABORACLE BETA 5.1\x1b[0m")
         self.assertIn("\x1b[1mgithub.com/tryskian/probaboracle\x1b[0m", lines[2])
 
     def test_choose_banner_lines_uses_minimal_header_when_narrow(self) -> None:
@@ -64,7 +64,7 @@ class MainAppLoopTests(TestCase):
         self.assertEqual(
             lines,
             (
-                "probaboracle beta 5.0",
+                "probaboracle beta 5.1",
                 "probably a mini oracle.",
                 "definitely a mini chatbot.",
                 "github.com/tryskian/probaboracle",
@@ -77,7 +77,7 @@ class MainAppLoopTests(TestCase):
         self.assertEqual(
             lines,
             (
-                "probaboracle beta 5.0",
+                "probaboracle beta 5.1",
                 "probably a mini oracle.",
                 "definitely a mini chatbot.",
             ),

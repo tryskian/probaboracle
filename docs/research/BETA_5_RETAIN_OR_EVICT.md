@@ -1,4 +1,4 @@
-# Research Beta 5.0: Retain + Evict
+# Research Beta 5.1: Retain + Evict
 
 ## What This Beta Asked
 
@@ -13,7 +13,8 @@ This beta separates evidence from correction.
 longer only "does this row fail?" It is also "does this family stay active
 under the current rule, or has it earned eviction?"
 
-Beta `5.0` now shows two distinct eviction shapes:
+Beta `5.1` keeps the same retain-evict question and now shows two distinct
+eviction shapes:
 
 - the dominant `when` fail family earned `evict`, and a narrow post-evict
   rerun confirmed the correction materially improved the lane
@@ -146,6 +147,13 @@ The old failure family disappeared, but the new pass surface overcollapsed:
 That means the attempted fix did remove the old duplicate-fallback rut, but it
 replaced it with one dominant pass shape rather than a healthy lane.
 
+Beta `5.1` keeps that same architecture question active, but tightens the live
+instruction surface before the next `why` rerun:
+
+- hard-coded phrase scaffolds are removed
+- the instruction path stays shape-first
+- the next fresh `why` evidence slice belongs to `5.1`, not `5.0`
+
 ## Why It Matters
 
 This beta separates three things that are easy to blur together:
@@ -177,6 +185,6 @@ closes with `when` earning `evict`, confirms the first narrow `when`
 correction under the same Beta `5.0` frame, and then shows that `why` can
 also earn `evict` for a different reason: product-level duplicate fallback.
 
-The next architecture change is not a new beta yet. The open question is now
-how to keep the `why` lane shape-first without letting the first successful
-correction collapse into one repeated pass family.
+`pre-Beta 6.0` now stages the next method question without promoting it early:
+how to judge bounded non-OCR runs once run-level seam density matters more than
+single-row replay.
