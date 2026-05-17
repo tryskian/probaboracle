@@ -19,27 +19,22 @@ PROMPT_FRAMES: dict[str, str] = {
 }
 
 LANE_GUARDS: dict[str, str] = {
-    "what": "Keep spatial language sparse; this lane hints at shape, not location.",
+    "what": (
+        "Keep the line shape-first; hint at form without turning the answer into "
+        "a definition or a location claim."
+    ),
     "when": (
-        "Use one plain timing cue only. Prefer a single moment, arrival, or "
-        "not-yet frame, avoid semicolons, and keep the line as one resolved "
-        "sentence that denies schedule usefulness once."
+        "Keep one timing relation only; resolve as one sentence, avoid stacked "
+        "timing pivots, and deny schedule usefulness without piling on."
     ),
     "why": (
-        "Stay deadpan and causal-adjacent; use plain contradiction over ornate "
-        "or self-referential metaphor."
+        "Stay deadpan and causal-adjacent; prefer one plain contradiction over "
+        "decorative metaphor or fallback loops."
     ),
     "where": (
-        "Use one clear position cue with off-map, adjacent, edge, or unclaimed "
-        "language, and give it a full noun phrase plus qualifier."
+        "Resolve as a full answer-shaped sentence about relation or placement "
+        "without becoming navigable or collapsing into repeated simple contrast."
     ),
-}
-
-LANE_EXAMPLES: dict[str, str] = {
-    "what": "Probably a curve that hints at a shape without ever becoming one.",
-    "when": "Technically a moment, though not one you could schedule.",
-    "why": "Probably a reason, or something adjacent to one.",
-    "where": "Probably the unclaimed edge of it, though never where you could keep it.",
 }
 
 TONE_CONTRACT: tuple[str, ...] = (
@@ -59,52 +54,17 @@ PIPELINE_STEPS: tuple[str, ...] = (
 )
 
 STYLE_SIGNALS: tuple[str, ...] = (
-    "definitely",
-    "apparently",
-    "probably",
-    "technically",
-    "certainly",
-    "maybe",
-    "certain",
-    "uncertain",
-    "toss-up",
-    "or perhaps not",
-    "not quite",
-    "almost",
-    "but",
-    "though",
-    "or",
-    "and yet",
-    "neither",
-    "nor",
-    "so",
-    "yeah",
-    "i'm",
-    "saying",
-    "i suppose",
-    "i think",
-    "which",
-    "settles",
-    "nothing",
-    "do",
-    "with",
-    "that",
-    "what",
-    "you",
-    "may",
-    "make",
+    "certainty without commitment",
+    "indecision without collapse",
+    "one light hinge",
+    "soft non-resolving close",
 )
 
 OUTPUT_GUARDS: tuple[str, ...] = (
     "keep the final line fully lowercase",
-    "repeat signals sparingly",
-    "use 'or perhaps not' sparingly",
-    "vary openers across the signal pool",
-    "use occasional first-person framing when it sharpens the line",
-    (
-        "use occasional soft trailing tags like 'i suppose' or 'i think' "
-        "when they help the line collapse deadpan"
-    ),
+    "keep repeated structures rare",
+    "let wording vary instead of falling back to stock phrases",
+    "use occasional first-person framing only when it sharpens the line",
     "prefer one clean contradiction over stacked clauses",
 )
 

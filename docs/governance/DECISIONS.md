@@ -811,3 +811,102 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   repo still carried hardcoded local paths in tracked operator surfaces.
   Probaboracle needed the same fail-closed path hygiene and the same readable
   rehydrate contract that now exists in the stricter repo-family standard.
+
+## D-048: Remove hard-coded phrase scaffolds from the runtime instruction surface
+
+- Date: `2026-05-16`
+- Category: `runtime_engineering`
+- Tags: `instruction_surface`, `shape_first`, `drift_control`, `why_lane`
+- Provenance: `human-led method decision with implementation decision`
+- Decision:
+  - treat this correction as a human-led method decision:
+    - the human lead identified the drift through runtime audit
+    - Codex formalized the repo-facing decision and will execute the cleanup
+  - treat explicit phrase pools, stock opener lists, and hard-coded good-example
+    lines in the active runtime instructions as drift from the durable contract
+  - keep the instruction surface shape-first:
+    - reasoning lane
+    - tone contract
+    - output constraints
+    - lane guardrails
+  - remove content-led scaffolds that oversteer the line toward repeated wording
+    or stock closures
+  - do not reintroduce a disguised word bank through examples, favourite
+    closers, or preferred stock phrases
+  - before the next promoted `why` fix, audit the live instruction path and
+    strip any remaining hard-coded phrase scaffolds from:
+    - `src/probaboracle/config.py`
+    - `src/probaboracle/agent.py`
+- Validation:
+  - repo audit against:
+    - `D-008`
+    - `D-010`
+    - `docs/governance/SESSION_HANDOFF.md`
+  - confirm the live instruction path no longer hard-codes phrase examples as
+    favored output content
+- Why: The durable repo rules already say that style signals are cues, not a
+  word bank, and that content-led cues invite repetition and drift. The live
+  runtime surface had not fully caught up: it still carried explicit phrase
+  pools, stock openers, and example lines that can collapse generation into
+  repeated wording. Probaboracle needs the narrower shape-first contract before
+  the next real `why` correction work, or the runtime will keep smuggling the
+  same drift back in through the instruction layer.
+
+## D-049: Beta 5.1 keeps the retain-evict architecture but tightens the instruction surface
+
+- Date: `2026-05-16`
+- Category: `eval_quality`
+- Tags: `beta_5_1`, `retain_vs_evict`, `instruction_surface`, `shape_first`
+- Provenance: `human-led method decision with implementation decision`
+- Decision:
+  - promote the current tracked beta from `5.0` to `5.1`
+  - keep the beta question and architecture unchanged:
+    - `retain / evict` remains the active post-fail research layer
+  - use the `.1` bump to mark a method-tightening inside the same beta:
+    - remove hard-coded phrase scaffolds
+    - keep the live instruction path shape-first
+    - preserve wording variation instead of steering the model through stock
+      openers or closers
+  - treat the next fresh `why` rerun as operating under the cleaned `5.1`
+    instruction surface, not as one more `5.0` slice
+- Why: This change does not ask a new architecture question, so it is not a
+  full new beta. But it does materially tighten the live method by removing
+  instruction-layer drift that was still feeding repeated wording back into the
+  lane. `5.1` is the right label for "same retain-evict frame, cleaner
+  instruction contract."
+
+## D-050: Track fail-pressure pulse as the next candidate phase for non-OCR evals
+
+- Date: `2026-05-16`
+- Category: `eval_quality`
+- Tags: `candidate_phase`, `fail_pressure_pulse`, `non_ocr`, `pulse_judgment`
+- Provenance: `human-led hypothesis import`, pending later `repo formalization`
+- Decision:
+  - track fail-pressure pulse as the next candidate phase after the current
+    `5.1` line
+  - keep its scope broader than language-only:
+    - non-OCR evals
+    - language and logic-heavy runs where run-level shape matters more than
+      isolated row replay
+  - if later promoted, the binary unit would change from the row to the pulse:
+    - the run carries `PASS / FAIL`
+    - the items become evidence inside the run
+  - if later promoted, item evidence would be judged inside the pulse as:
+    - `anchor`
+    - `counted seam`
+    - `excluded noise`
+  - if later promoted, excluded-noise cleanup must stay auditable:
+    - raw pulse count visible
+    - counted pulse count visible
+    - every exclusion gets a narrow reason
+  - do not treat this as the active Probaboracle method yet
+  - keep the current active line unchanged until the repo is explicitly updated
+    to support pulse-level judgment rather than row-level judgment
+- Why: The upstream Polinko hypothesis is no longer just a small first-batch
+  fail heuristic. It proposes a different binary unit for bounded non-OCR
+  runs: the pulse passes or fails, while rows act as evidence inside that
+  pulse. That is substantial enough to count as a real candidate next phase for
+  Probaboracle, but it should not be smuggled in as if the repo already
+  supports it. The current `5.1` line remains active until the runtime, eval
+  surfaces, and research docs are intentionally reshaped around pulse
+  judgment.

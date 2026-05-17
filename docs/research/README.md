@@ -10,7 +10,7 @@ Raw run notes, operator poking, and private scratch material stay in the local `
 
 Current tracked research beta:
 
-- `Research Beta 5.0`
+- `Research Beta 5.1`
 - `retain + evict`
 
 Current question:
@@ -48,6 +48,11 @@ Current finding:
   - `strong why lane`: `15`
 - because the pass surface narrowed into one repeated answer shape, the fix was
   not promoted
+- Beta `5.1` keeps the same retain-evict question, but cleans the live
+  instruction surface before the next `why` rerun:
+  - hard-coded phrase scaffolds were removed
+  - shape-first lane control stays active
+  - the next fresh `why` slice now belongs to `5.1`, not `5.0`
 
 Current clean lane:
 
@@ -71,7 +76,7 @@ Current clean lane:
 | `Research Beta 2.0` | Is the sentence coherent? | Coherence became the primary experimental gate. |
 | `Research Beta 3.0` | Is a coherent line in-lane? | Prompt relevance separated lane control from sentence quality. |
 | `Research Beta 4.1` | Can coherent drift still be valuable? | Coherent absurdity became a small selective class. |
-| `Research Beta 5.0` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` became the new post-fail decision layer. |
+| `Research Beta 5.1` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` stays active, with the instruction surface tightened to preserve shape-first lane control. |
 
 Read in order:
 
@@ -79,7 +84,14 @@ Read in order:
 2. [Research Beta 2.0: Coherence First](./BETA_2_COHERENCE_FIRST.md)
 3. [Research Beta 3.0: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
 4. [Research Beta 4.1: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
-5. [Research Beta 5.0: Retain + Evict](./BETA_5_RETAIN_OR_EVICT.md)
+5. [Research Beta 5.1: Retain + Evict](./BETA_5_RETAIN_OR_EVICT.md)
+
+## Method Notes
+
+These notes are smaller than betas. They capture research-method rules that can
+travel across runs without pretending to be a new research architecture.
+
+- [Method Note: Diagnostic Fail Surface](./METHOD_NOTE_DIAGNOSTIC_FAIL_SURFACE.md)
 
 ## How To Read The Betas
 
@@ -91,7 +103,7 @@ Each beta marks a real change in what the evaluation is asking:
 - `Research Beta 2.0` established the core experimental gate
 - `Research Beta 3.0` separated lane control from sentence coherence
 - `Research Beta 4.1` preserves the selective value of coherent drift while holding coherence to a stricter sentence-resolution bar
-- `Research Beta 5.0` separates failure evidence from later runtime correction
+- `Research Beta 5.1` separates failure evidence from later runtime correction while keeping the live instruction path shape-first
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed to mean.
 
@@ -103,7 +115,7 @@ flowchart LR
   B2["Research Beta 2.0<br/>coherence first"]
   B3["Research Beta 3.0<br/>coherence + prompt relevance"]
   B4["Research Beta 4.1<br/>coherence + coherent absurdity"]
-  B5["Research Beta 5.0<br/>retain + evict"]
+  B5["Research Beta 5.1<br/>retain + evict"]
 
   S1["one verdict overloaded tone,<br/>sentence quality, and lane control"]
   S2["coherence pulled out as the<br/>primary experimental gate"]

@@ -1,6 +1,6 @@
 # Probaboracle
 
-![Research Beta](https://img.shields.io/badge/research_beta-5.0%20retain%20%2B%20evict-E15759) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
+![Research Beta](https://img.shields.io/badge/research_beta-5.1%20retain%20%2B%20evict-E15759) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
 
 ## probably a mini oracle. definitely a mini chatbot
 
@@ -17,7 +17,7 @@ That narrow surface is the point. Probaboracle is not trying to be a general cha
 
 Current tracked research beta:
 
-- `Research Beta 5.0`
+- `Research Beta 5.1`
 - `retain + evict`
 
 In this repo, major betas are research architectures, and minor versions tighten the active method without changing the whole eval shape.
