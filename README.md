@@ -1,6 +1,10 @@
 # Probaboracle
 
 [![Research Stage](https://img.shields.io/badge/research_stage-pre--Beta%206.0%20fail--pressure%20pulse-E15759)](./docs/research/README.md) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
+![Maintenance](https://img.shields.io/badge/maintenance-in%20progress-F28E2B)
+
+> **Maintenance in progress.** Documentation and research surfaces are being
+> standardised before this repo is shared as a stable reference.
 
 ## probably a mini oracle. definitely a mini chatbot
 
