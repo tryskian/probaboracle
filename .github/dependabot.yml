@@ -17,6 +17,10 @@ updates:
       time: "09:00"
       timezone: "America/Toronto"
     open-pull-requests-limit: 5
+    groups:
+      python-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: "npm"
     directory: "/"
@@ -26,3 +30,7 @@ updates:
       time: "09:00"
       timezone: "America/Toronto"
     open-pull-requests-limit: 5
+    groups:
+      npm-dependencies:
+        patterns:
+          - "*"
