@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-17
+Last updated: 2026-05-21
 
 ## Start Here
 
@@ -38,6 +38,9 @@ Operator commands remain separate:
 - `make start`
 - `make end-preflight`
 - `make end-git-check`
+- `make lint-docs`
+- `make package-install-check`
+- `make security-checks`
 - `make caffeinate`
 - `make caffeinate-status`
 - `make decaffeinate-status`
@@ -69,7 +72,7 @@ Current staged next lane:
 Current long-run checkpoint:
 
 - judged through row `4723`
-- active product surface: `1543 pass / 1439 fail / 0 pending`
+- active product surface: `1543 pass / 1459 fail / 0 pending`
 - active coherence surface: `1670 pass / 923 fail / 389 pending`
 - active relevance surface: `1663 pass / 113 fail / 1206 pending`
 - active absurdity surface: `4 pass / 8 fail / 2970 pending`

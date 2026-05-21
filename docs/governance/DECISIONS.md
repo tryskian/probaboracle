@@ -923,3 +923,39 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - keep sidecar lens backlog out of this specific stop-state gate
 - Why: Product fit is the canonical top-level oracle gate in this repo. Day
   close should not pass while that active product surface is still unresolved.
+
+## D-052: Local tooling targets mirror closeout and CI gates
+
+- Date: `2026-05-21`
+- Category: `workflow_environment`
+- Tags: `tooling_baseline`, `closeout`, `security_gates`, `operator_surface`
+- Provenance: `human-led tooling hygiene decision with implementation decision`
+- Decision:
+  - keep `Makefile` as the operator command surface for local validation
+  - expose first-class Make targets for:
+    - `make lint-docs`
+    - `make end-docs-check`
+    - `make package-install-check`
+    - `make security-checks`
+  - keep package build and editable-install import checks separate:
+    - `make package-check` proves the distribution can build
+    - `make package-install-check` proves the local editable import surface is
+      intact
+  - make the active closeout script call Make targets instead of hidden npm
+    commands or direct Python script paths
+  - keep `scripts/end_of_day_routine.sh` only as a compatibility shim to the
+    active `tools/end_of_day_routine.sh`
+  - include `pip-audit` in the dev dependency surface so local security checks
+    do not depend on ad hoc global tooling
+- Validation:
+  - `make check`
+  - `make lint-docs`
+  - `make package-check`
+  - `make package-install-check`
+  - `make security-checks`
+  - `bash -n tools/end_of_day_routine.sh scripts/end_of_day_routine.sh`
+- Why: Probaboracle already had CI security gates and closeout scripts, but the
+  local operator surface hid some checks behind npm commands and carried a
+  stale duplicate end routine. The repo family needs a compact, explicit
+  tooling surface that can be mirrored by the other toys without widening
+  runtime or eval behavior.

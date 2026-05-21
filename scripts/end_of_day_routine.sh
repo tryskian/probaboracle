@@ -2,34 +2,4 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT_DIR"
-TOTAL_STEPS=6
-
-if [ "${end_SKIP_GIT_CHECK:-}" = "1" ]; then
-	TOTAL_STEPS=5
-fi
-
-echo "[end] starting end-of-day routine in: $ROOT_DIR"
-echo "[end] 1/$TOTAL_STEPS end-docs-check"
-"$ROOT_DIR/.venv/bin/python" ./scripts/check_end_docs.py
-
-echo "[end] 2/$TOTAL_STEPS doctor-env"
-make --no-print-directory doctor-env
-
-echo "[end] 3/$TOTAL_STEPS check"
-make --no-print-directory check
-
-echo "[end] 4/$TOTAL_STEPS package-check"
-make --no-print-directory package-check
-
-echo "[end] 5/$TOTAL_STEPS session snapshot"
-make --no-print-directory session-status || true
-
-if [ "${end_SKIP_GIT_CHECK:-}" = "1" ]; then
-	echo "[end] git closeout skipped (preflight only)"
-else
-	echo "[end] 6/$TOTAL_STEPS git closeout"
-	bash ./scripts/check_end_git_clean.sh
-fi
-
-echo "[end] done"
+exec "$ROOT_DIR/tools/end_of_day_routine.sh" "$@"

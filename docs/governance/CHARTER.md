@@ -134,4 +134,6 @@ Out of scope:
   - `dependency-review`
   - `python-security`
   - `node-security`
+- Local validation should expose matching Make targets for docs linting,
+  package checks, and dependency security checks.
 - Dependabot and GitHub secret scanning are part of the tracked repo baseline.
