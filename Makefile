@@ -18,10 +18,12 @@ OPENAI_BILLING_URL ?= https://platform.openai.com/settings/organization/billing/
 CAFFEINATE_PID_FILE ?= /tmp/probaboracle-caffeinate.pid
 CAFFEINATE_LOG ?= /tmp/probaboracle-caffeinate.log
 CAFFEINATE_CMD ?= /usr/bin/caffeinate -d -i -m
+PIP_AUDIT_ARGS ?=
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
 .PHONY: install env venv doctor-env path-leak-check path-leak-audit-local test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check end-pending-check ask sample eval-init list archive-pending judge pass fail clean
+.PHONY: lint-docs end-docs-check package-install-check python-security-check node-security-check security-checks
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
@@ -66,6 +68,9 @@ test:
 
 typecheck:
 	PYTHONPATH=src $(PY) -m mypy src tests scripts
+
+lint-docs:
+	npm run lint:docs
 
 precommit-install:
 	$(PY) -m pre_commit install --install-hooks --hook-type pre-commit --hook-type pre-push
@@ -231,6 +236,21 @@ check:
 
 package-check:
 	$(PY) -m build
+
+package-install-check:
+	$(PY) -m pip install --no-deps -e .
+	$(PY) -c "import importlib; importlib.import_module('probaboracle'); importlib.import_module('probaboracle.main')"
+
+python-security-check:
+	$(PY) -m pip_audit $(PIP_AUDIT_ARGS)
+
+node-security-check:
+	npm audit --audit-level=moderate
+
+security-checks: python-security-check node-security-check
+
+end-docs-check:
+	$(PY) ./scripts/check_end_docs.py
 
 render-eval-chart-deps:
 	npm install

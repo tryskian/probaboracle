@@ -3,45 +3,57 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
-TOTAL_STEPS=10
+TOTAL_STEPS=14
 
 if [ "${end_SKIP_GIT_CHECK:-}" = "1" ]; then
-  TOTAL_STEPS=9
+  TOTAL_STEPS=13
 fi
 
 echo "[end] starting closeout routine in: $ROOT_DIR"
 
-echo "[end] 1/$TOTAL_STEPS doctor-env"
+echo "[end] 1/$TOTAL_STEPS end-docs-check"
+make --no-print-directory end-docs-check
+
+echo "[end] 2/$TOTAL_STEPS doctor-env"
 make --no-print-directory doctor-env
 
-echo "[end] 2/$TOTAL_STEPS tracked path leak check"
+echo "[end] 3/$TOTAL_STEPS tracked path leak check"
 make --no-print-directory path-leak-check
 
-echo "[end] 3/$TOTAL_STEPS local path leak audit"
+echo "[end] 4/$TOTAL_STEPS local path leak audit"
 make --no-print-directory path-leak-audit-local
 
-echo "[end] 4/$TOTAL_STEPS lint:docs"
-npm run lint:docs
+echo "[end] 5/$TOTAL_STEPS lint-docs"
+make --no-print-directory lint-docs
 
-echo "[end] 5/$TOTAL_STEPS check"
+echo "[end] 6/$TOTAL_STEPS check"
 make --no-print-directory check
 
-echo "[end] 6/$TOTAL_STEPS git diff --check"
+echo "[end] 7/$TOTAL_STEPS package-check"
+make --no-print-directory package-check
+
+echo "[end] 8/$TOTAL_STEPS package-install-check"
+make --no-print-directory package-install-check
+
+echo "[end] 9/$TOTAL_STEPS git diff --check"
 git diff --check
 
-echo "[end] 7/$TOTAL_STEPS end-pending-check"
+echo "[end] 10/$TOTAL_STEPS end-pending-check"
 make --no-print-directory end-pending-check
 
-echo "[end] 8/$TOTAL_STEPS stop background tasks"
+echo "[end] 11/$TOTAL_STEPS security-checks"
+make --no-print-directory security-checks
+
+echo "[end] 12/$TOTAL_STEPS stop background tasks"
 make --no-print-directory decaffeinate || true
 
-echo "[end] 9/$TOTAL_STEPS session snapshot"
+echo "[end] 13/$TOTAL_STEPS session snapshot"
 make --no-print-directory session-status || true
 
 if [ "${end_SKIP_GIT_CHECK:-}" = "1" ]; then
   echo "[end] git closeout skipped (preflight only)"
 else
-  echo "[end] 10/$TOTAL_STEPS git closeout"
+  echo "[end] 14/$TOTAL_STEPS git closeout"
   bash ./scripts/check_end_git_clean.sh
 fi
 

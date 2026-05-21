@@ -64,8 +64,10 @@ Use the compact operator path when you want the canonical morning check:
 | run pre-push hooks on all files              | `make prepush-run`            |
 | run the current baseline checks              | `make check`                  |
 | build the package                            | `make package-check`          |
+| smoke-test editable package import           | `make package-install-check`  |
 | fail closeout if product pending is not zero | `make end-pending-check`      |
-| lint tracked docs                            | `npm run lint:docs`           |
+| lint tracked docs                            | `make lint-docs`              |
+| run local dependency security checks         | `make security-checks`        |
 | open the OpenAI limits page                  | `make open-limits`            |
 | open the OpenAI usage page                   | `make open-usage`             |
 | open the OpenAI billing page                 | `make open-billing`           |
@@ -103,6 +105,11 @@ The app loop is the default user-facing path. It opens the responsive header and
   - `dependency-review`
   - `python-security`
   - `node-security`
+- local closeout exposes matching operator targets:
+  - `make lint-docs`
+  - `make package-check`
+  - `make package-install-check`
+  - `make security-checks`
 - Dependabot version updates are configured for:
   - `github-actions`
   - `pip`
