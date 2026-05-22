@@ -12,7 +12,10 @@ from probaboracle.eval_db import (
     judge_output,
     judge_relevance_output,
     judge_structure_output,
+    label_pulse_row,
     list_outputs,
+    pending_debt_counts,
+    pulse_summary,
     record_output,
     relevance_counts,
     structure_counts,
@@ -226,3 +229,101 @@ class EvalDbTests(TestCase):
             self.assertEqual(absurdity_summary["pass"], 1)
             self.assertEqual(absurdity_summary["fail"], 0)
             self.assertEqual(absurdity_summary["pending"], 0)
+
+    def test_pulse_labels_compute_run_verdict_without_product_judgment(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            db_path = Path(tmpdir) / "evals.sqlite"
+            init_db(db_path)
+
+            anchor_id = record_output(
+                db_path=db_path,
+                prompt_type="why",
+                output_text="a compact line holds without giving much away.",
+                model="gpt-5-nano",
+            )
+            seam_id = record_output(
+                db_path=db_path,
+                prompt_type="why",
+                output_text="a repeated seam drifts back into the same rut.",
+                model="gpt-5-nano",
+            )
+            noise_id = record_output(
+                db_path=db_path,
+                prompt_type="why",
+                output_text="malformed operator residue",
+                model="gpt-5-nano",
+            )
+
+            label_pulse_row(db_path, anchor_id, "anchor")
+            label_pulse_row(db_path, seam_id, "counted_seam")
+            label_pulse_row(db_path, noise_id, "excluded_noise", "operator_artifact")
+
+            summary = pulse_summary(db_path, anchor_id, noise_id)
+            self.assertEqual(summary.raw_rows, 3)
+            self.assertEqual(summary.anchors, 1)
+            self.assertEqual(summary.counted_seams, 1)
+            self.assertEqual(summary.excluded_noise, 1)
+            self.assertEqual(summary.excluded_by_reason["operator_artifact"], 1)
+            self.assertEqual(summary.unlabeled_rows, 0)
+            self.assertEqual(summary.counted_total, 2)
+            self.assertEqual(summary.verdict, "fail")
+
+            product_summary = counts(db_path)
+            self.assertEqual(product_summary["pending"], 3)
+
+    def test_pulse_summary_stays_incomplete_until_all_rows_labeled(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            db_path = Path(tmpdir) / "evals.sqlite"
+            init_db(db_path)
+
+            first_id = record_output(
+                db_path=db_path,
+                prompt_type="why",
+                output_text="one line",
+                model="gpt-5-nano",
+            )
+            second_id = record_output(
+                db_path=db_path,
+                prompt_type="why",
+                output_text="another line",
+                model="gpt-5-nano",
+            )
+
+            label_pulse_row(db_path, first_id, "anchor")
+
+            summary = pulse_summary(db_path, first_id, second_id)
+            self.assertEqual(summary.unlabeled_rows, 1)
+            self.assertIsNone(summary.verdict)
+
+    def test_pending_debt_excludes_pulse_labeled_rows(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            db_path = Path(tmpdir) / "evals.sqlite"
+            init_db(db_path)
+
+            unlabeled_id = record_output(
+                db_path=db_path,
+                prompt_type="why",
+                output_text="one line",
+                model="gpt-5-nano",
+            )
+            pulse_id = record_output(
+                db_path=db_path,
+                prompt_type="why",
+                output_text="another line",
+                model="gpt-5-nano",
+            )
+            label_pulse_row(db_path, pulse_id, "anchor")
+
+            debt = pending_debt_counts(db_path)
+            self.assertEqual(debt["product_pending"], 2)
+            self.assertEqual(debt["unlabeled_product_pending"], 1)
+            self.assertEqual(debt["pulse_labeled_pending"], 1)
+
+            archived = archive_pending_outputs(db_path, "stale pending")
+            self.assertEqual(archived, 1)
+
+            rows = list_outputs(db_path, limit=5, include_archived=True)
+            archived_row = next(row for row in rows if row["id"] == unlabeled_id)
+            pulse_row = next(row for row in rows if row["id"] == pulse_id)
+            self.assertIsNotNone(archived_row["archived_at"])
+            self.assertIsNone(pulse_row["archived_at"])

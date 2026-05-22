@@ -65,7 +65,7 @@ Use the compact operator path when you want the canonical morning check:
 | run the current baseline checks              | `make check`                  |
 | build the package                            | `make package-check`          |
 | smoke-test editable package import           | `make package-install-check`  |
-| fail closeout if product pending is not zero | `make end-pending-check`      |
+| fail closeout if unresolved pending remains  | `make end-pending-check`      |
 | lint tracked docs                            | `make lint-docs`              |
 | run local dependency security checks         | `make security-checks`        |
 | open the OpenAI limits page                  | `make open-limits`            |
@@ -92,6 +92,8 @@ The app loop is the default user-facing path. It opens the responsive header and
 4. Live API rule:
   - keep the token monitoring dashboard open or immediately reachable during live eval work
   - recheck it before widening a batch or starting an extended run
+  - when rate limits or prepaid credits become the stop condition, pause live
+    evals and document the boundary in `SESSION_HANDOFF.md`
 5. Efficiency defaults:
   - keep the prompt surface narrow
   - keep one response per command path
@@ -135,6 +137,9 @@ Storage:
 - `make archive-pending`
 - `make archive-pending ARCHIVE_NOTE="stale pending archive before the next long run"`
 
+`archive-pending` only archives unlabeled product-pending rows. Pulse-labeled
+rows stay visible as evidence for the bounded run.
+
 Sample generation:
 
 - `make sample PROMPT=when COUNT=5`
@@ -164,6 +169,19 @@ Sidecar verdicts:
 - `.venv/bin/python -m probaboracle judge-coherence 12 pass --note "one resolved sentence"`
 - `.venv/bin/python -m probaboracle judge-relevance 12 pass --note "coherent and in-lane"`
 - `.venv/bin/python -m probaboracle judge-absurdity 12 pass --note "coherent absurdity"`
+
+Pulse evidence:
+
+- `make eval-pulse-start PROMPT=why PULSE_MINUTES=15`
+  - run one prompt lane for a time-boxed pulse and print the generated id range
+  - default pacing is one sample per minute
+- `make eval-pulse-label ID=12 PULSE_LABEL=anchor`
+- `make eval-pulse-label ID=13 PULSE_LABEL=counted_seam`
+- `make eval-pulse-label ID=14 PULSE_LABEL=excluded_noise PULSE_REASON=operator_artifact`
+- `make eval-pulse-report PULSE_START_ID=12 PULSE_END_ID=26`
+
+Pulse labels are evidence labels for a bounded run. They are not product
+verdicts and do not update `eval_outputs.current_verdict`.
 
 ## Eval Chart
 
@@ -285,13 +303,16 @@ Use this when isolating the strongest per-product signal for coherent absurdity.
 
 ## Closeout Rule
 
-1. `make end` is not complete while active product pending is above `0`.
+1. `make end` is not complete while unlabeled product-pending rows remain.
 2. The stop-state pending gate is:
   - `make end-pending-check`
 3. Clear the gate by:
   - judging fresh product rows
+  - pulse-labeling rows that belong to a Beta `6.0` run
   - or archiving stale product-pending rows
-4. Sidecar lens backlog does not replace the product gate in this closeout rule.
+4. Pulse-labeled rows may keep `current_verdict` empty because the verdict
+   belongs to the bounded run.
+5. Sidecar lens backlog does not replace the product gate in this closeout rule.
 
 ## Layered Eval Lenses
 

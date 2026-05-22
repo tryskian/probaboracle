@@ -12,60 +12,58 @@ PROMPT_TYPES: tuple[str, ...] = ("what", "when", "why", "where")
 VERDICTS: tuple[str, ...] = ("pass", "fail")
 
 PROMPT_FRAMES: dict[str, str] = {
-    "what": "hint at the shape of a thing without actually defining it",
-    "when": "gesture at timing without giving any usable date or schedule",
-    "why": "suggest a reason without becoming a real explanation",
-    "where": "gesture at position without becoming navigable",
+    "what": "slot a",
+    "when": "slot b",
+    "why": "slot c",
+    "where": "slot d",
 }
 
 LANE_GUARDS: dict[str, str] = {
     "what": (
-        "Keep the line shape-first; hint at form without turning the answer into "
-        "a definition or a location claim."
+        "Use the slot internally only; write one complete line and do not name "
+        "the slot."
     ),
     "when": (
-        "Keep one timing relation only; resolve as one sentence, avoid stacked "
-        "timing pivots, and deny schedule usefulness without piling on."
+        "Use the slot internally only; write one complete line and do not name "
+        "the slot."
     ),
     "why": (
-        "Stay deadpan and causal-adjacent; prefer one plain contradiction over "
-        "decorative metaphor or fallback loops."
+        "Use the slot internally only; write one complete line and do not name "
+        "the slot."
     ),
     "where": (
-        "Resolve as a full answer-shaped sentence about relation or placement "
-        "without becoming navigable or collapsing into repeated simple contrast."
+        "Use the slot internally only; write one complete line and do not name "
+        "the slot."
     ),
 }
 
 TONE_CONTRACT: tuple[str, ...] = (
-    "answer-shaped non-answer",
-    "deadpan but slightly pseudo-mystical",
-    "confident and indecisive at the same time",
-    "resolved in grammar but unresolved in meaning",
-    "non-concrete and unhelpful",
-    "clean contradiction over florid vagueness",
+    "short line",
+    "answer-like",
+    "plain",
+    "non-concrete",
+    "not useful",
 )
 
 PIPELINE_STEPS: tuple[str, ...] = (
-    "certainty signal",
-    "indecision signal",
-    "connective or hinge",
-    "soft conclusion",
+    "read slot",
+    "compose one line",
+    "remove useful detail",
 )
 
 STYLE_SIGNALS: tuple[str, ...] = (
-    "certainty without commitment",
-    "indecision without collapse",
-    "one light hinge",
-    "soft non-resolving close",
+    "compact",
+    "varied",
+    "complete",
 )
 
 OUTPUT_GUARDS: tuple[str, ...] = (
     "keep the final line fully lowercase",
     "keep repeated structures rare",
-    "let wording vary instead of falling back to stock phrases",
-    "use occasional first-person framing only when it sharpens the line",
-    "prefer one clean contradiction over stacked clauses",
+    "avoid stock openers and closers",
+    "do not echo slot labels",
+    "do not reuse task words as answer content",
+    "prefer one resolved sentence over stacked clauses",
 )
 
 

@@ -321,6 +321,54 @@ class MainAppLoopTests(TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(rendered.strip(), "probably a reason, or perhaps not.")
 
+    def test_eval_pulse_start_runs_timeboxed_prompt(self) -> None:
+        stdout = StringIO()
+        settings = Settings(
+            app_name="Probaboracle",
+            model="gpt-5-nano",
+            eval_db_path=Path("/tmp/evals.sqlite"),
+        )
+        with patch("probaboracle.main.load_settings", return_value=settings):
+            with patch("probaboracle.main.ensure_local_dirs"):
+                with patch("probaboracle.main.require_openai_api_key"):
+                    with patch("probaboracle.main.init_db"):
+                        with patch(
+                            "probaboracle.main.time.monotonic",
+                            side_effect=[0.0, 1.0, 2.0, 31.0, 60.5],
+                        ):
+                            with patch("probaboracle.main.time.sleep") as sleep:
+                                with patch(
+                                    "probaboracle.main.generate_response",
+                                    side_effect=["one line", "another line"],
+                                ) as generate:
+                                    with patch(
+                                        "probaboracle.main.record_output",
+                                        side_effect=[20, 21],
+                                    ) as record:
+                                        with patch("sys.stdout", stdout):
+                                            exit_code = main(
+                                                [
+                                                    "eval-pulse-start",
+                                                    "why",
+                                                    "--minutes",
+                                                    "1",
+                                                    "--interval-seconds",
+                                                    "30",
+                                                ]
+                                            )
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(generate.call_count, 2)
+        self.assertEqual(record.call_count, 2)
+        sleep.assert_called_once_with(30.0)
+        rendered = stdout.getvalue()
+        self.assertIn("20\tone line", rendered)
+        self.assertIn("21\tanother line", rendered)
+        self.assertIn(
+            "pulse generated: prompt=why minutes=1 rows=2 ids=20-21",
+            rendered,
+        )
+
     def test_archive_pending_subcommand_uses_operator_path(self) -> None:
         stdout = StringIO()
         settings = Settings(
@@ -351,5 +399,81 @@ class MainAppLoopTests(TestCase):
         )
         self.assertEqual(
             stdout.getvalue().strip(),
-            "Archived 116 pending product rows.",
+            "Archived 116 unlabeled pending product rows.",
         )
+
+    def test_eval_pulse_label_uses_pulse_surface(self) -> None:
+        stdout = StringIO()
+        settings = Settings(
+            app_name="Probaboracle",
+            model="gpt-5-nano",
+            eval_db_path=Path("/tmp/evals.sqlite"),
+        )
+        with patch("probaboracle.main.load_settings", return_value=settings):
+            with patch("probaboracle.main.ensure_local_dirs"):
+                with patch("probaboracle.main.init_db"):
+                    with patch("probaboracle.main.label_pulse_row") as label_row:
+                        with patch("sys.stdout", stdout):
+                            exit_code = main(
+                                [
+                                    "eval-pulse-label",
+                                    "12",
+                                    "excluded_noise",
+                                    "--reason",
+                                    "operator_artifact",
+                                ]
+                            )
+
+        self.assertEqual(exit_code, 0)
+        label_row.assert_called_once_with(
+            settings.eval_db_path,
+            12,
+            "excluded_noise",
+            "operator_artifact",
+        )
+        self.assertIn("Pulse-labeled output 12 as excluded_noise.", stdout.getvalue())
+
+    def test_eval_pulse_report_prints_run_level_verdict(self) -> None:
+        stdout = StringIO()
+        settings = Settings(
+            app_name="Probaboracle",
+            model="gpt-5-nano",
+            eval_db_path=Path("/tmp/evals.sqlite"),
+        )
+        summary = {
+            "start_output_id": 20,
+            "end_output_id": 34,
+            "raw_rows": 15,
+            "anchors": 8,
+            "counted_seams": 5,
+            "excluded_noise": 2,
+            "excluded_by_reason": {
+                "operator_artifact": 1,
+                "off_target_failure": 1,
+            },
+            "unlabeled_rows": 0,
+            "counted_total": 13,
+            "verdict": "pass",
+        }
+
+        class PulseSummaryStub:
+            def __init__(self, values):
+                self.__dict__.update(values)
+
+        with patch("probaboracle.main.load_settings", return_value=settings):
+            with patch("probaboracle.main.ensure_local_dirs"):
+                with patch("probaboracle.main.init_db"):
+                    with patch(
+                        "probaboracle.main.pulse_summary",
+                        return_value=PulseSummaryStub(summary),
+                    ):
+                        with patch("sys.stdout", stdout):
+                            exit_code = main(["eval-pulse-report", "20", "34"])
+
+        self.assertEqual(exit_code, 0)
+        rendered = stdout.getvalue()
+        self.assertIn("pulse ids: 20-34", rendered)
+        self.assertIn("raw rows: 15", rendered)
+        self.assertIn("anchors: 8", rendered)
+        self.assertIn("counted seams: 5", rendered)
+        self.assertIn("pulse verdict: pass", rendered)

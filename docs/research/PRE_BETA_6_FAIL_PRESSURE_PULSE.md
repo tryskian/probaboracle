@@ -1,131 +1,51 @@
 # Pre-Beta 6.0: Fail-Pressure Pulse
 
-## What This Pre-Beta Asks
+> Historical staging note. The active contract now lives in
+> [Research Beta 6.0: Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md).
 
-Should Probaboracle treat a bounded non-OCR run as the real binary unit once
-seam density matters more than single-row replay?
+## What This Pre-Beta Asked
+
+Should Probaboracle treat a bounded eval run as the real binary unit once
+run-level shape matters more than single-row replay?
 
 ## Status
 
-Maybe, and the current `5.1` line is strong enough to make the question worth
-staging explicitly.
+Promoted into active `Research Beta 6.0`.
 
-`Research Beta 5.1` proved that row-level `retain / evict` can separate
-evidence from correction without letting the instruction surface collapse into
-hard-coded phrase scaffolds. This pre-beta note asks whether the next method
-step should move the binary judgment up one level:
+The staging question was valid, but its first draft was too row-shaped. The
+active method now separates evidence labels from the verdict:
 
-- the pulse becomes the binary unit
-- the rows become evidence inside the pulse
-
-## Eval Shape
-
-This is not `Research Beta 6.0` yet.
-
-It is the staging contract for a possible `6.0` promotion.
-
-The proposed pulse shape for Probaboracle is:
-
-- bounded non-OCR run
-- start small:
-  - around `15` rows
-- row evidence is judged first as:
+- one prompt lane
+- one `15` minute eval run
+- row labels as pulse evidence only:
   - `anchor`
-  - `counted seam`
-  - `excluded noise`
-- the pulse verdict is binary:
-  - `PASS`
-  - `FAIL`
+  - `counted_seam`
+  - `excluded_noise`
+- one `PASS / FAIL` verdict for the whole run
+- no row-level product judgments for Beta `6.0`
 
-Counted pulse rules:
+## What Changed
 
-- more anchors than counted seams: `PASS`
-- more counted seams than anchors: `FAIL`
-- tie: `FAIL`
+`Research Beta 5.1` keeps the row-level baseline:
 
-Exclusion rules:
+- row-level `PASS / FAIL`
+- row-level `RETAIN / EVICT`
 
-- raw pulse size stays visible
-- counted pulse size stays visible
-- every excluded row needs a narrow reason
-- excluded rows stay reviewable after the pulse
+`Research Beta 6.0` changes the evidence unit:
 
-## Diagram
+- the eval run is the binary unit
+- generated rows are the transcript of that run
+- row labels explain the transcript without judging rows as products
+- the whole run passes or fails once
 
-```mermaid
-flowchart LR
-  P["bounded pulse"]
-  R["rows inside pulse"]
-  A["anchor"]
-  C["counted seam"]
-  E["excluded noise"]
-  V["pulse verdict<br/>PASS or FAIL"]
+## Promotion Boundary
 
-  P --> R
-  R --> A
-  R --> C
-  R --> E
-  A --> V
-  C --> V
-```
+This became active once Probaboracle accepted the run-level contract as the
+next method:
 
-## What This Would Change
+1. choose one prompt lane
+2. run for `15` minutes
+3. label rows as pulse evidence
+4. judge the whole run `PASS` or `FAIL`
 
-If this graduates into `Research Beta 6.0`, Probaboracle would change the unit
-of judgment for bounded non-OCR runs:
-
-- `Beta 5.1`:
-  - row-level `PASS / FAIL`
-  - row-level `RETAIN / EVICT`
-- `Beta 6.0` candidate:
-  - row-level evidence labeling inside the pulse
-  - pulse-level `PASS / FAIL`
-
-That would make run-level shape harder to fake:
-
-- one lucky row could not make the whole run look healthy
-- seam density would matter more than isolated wins
-- exclusion review would become part of pulse hygiene
-
-## Why It Matters
-
-The closed `5.1` line already showed a result that invites pulse judgment:
-
-- `why` earned `evict`
-- the first post-evict rerun removed the old fail family
-- but the rerun collapsed into one dominant pass rut:
-  - `good useless reason`: `66`
-  - `strong why lane`: `15`
-
-That is exactly the kind of result that makes run-level density interesting.
-
-The row-level method already proved the seam is real. Pulse judgment would ask
-a stricter question:
-
-- does this bounded run actually pass under fail pressure
-- or does counted seam density still outweigh the anchors
-
-## What It Still Needs
-
-Before this becomes `Research Beta 6.0`, Probaboracle still needs:
-
-- a tight evidence taxonomy for:
-  - `anchor`
-  - `counted seam`
-  - `excluded noise`
-- a narrow exclusion reason set
-- one first promoted pulse target:
-  - likely a fresh bounded `why` run
-- explicit raw-count and counted-count reporting in the research surface
-
-## What Would Promote It
-
-This becomes `Research Beta 6.0` only when Probaboracle starts the first real
-fail-pressure pulse run.
-
-Promotion boundary:
-
-1. pulse contract is accepted as the next eval unit
-2. the first bounded pulse is launched
-3. the research index flips from closed `5.1` to active `6.0`
-4. pulse evidence, not just staging text, becomes the current method
+The first valid run is still pending.
