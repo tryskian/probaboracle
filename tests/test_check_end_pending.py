@@ -37,14 +37,51 @@ class CheckEndPendingTests(unittest.TestCase):
                 "counts",
                 return_value={"total": 12, "pass": 5, "fail": 4, "pending": 3},
             ):
-                with mock.patch.object(Path, "exists", return_value=True):
-                    stderr = io.StringIO()
-                    with contextlib.redirect_stderr(stderr):
-                        status = check_end_pending.main()
+                with mock.patch.object(
+                    check_end_pending,
+                    "pending_debt_counts",
+                    return_value={
+                        "product_pending": 3,
+                        "unlabeled_product_pending": 3,
+                        "pulse_labeled_pending": 0,
+                    },
+                ):
+                    with mock.patch.object(Path, "exists", return_value=True):
+                        stderr = io.StringIO()
+                        with contextlib.redirect_stderr(stderr):
+                            status = check_end_pending.main()
 
         self.assertEqual(status, 1)
         self.assertIn("end-pending-check: FAIL", stderr.getvalue())
         self.assertIn("pending=3", stderr.getvalue())
+
+    def test_main_passes_when_pending_rows_are_pulse_labeled(self) -> None:
+        settings = mock.Mock(eval_db_path=Path("/tmp/evals.sqlite"))
+        with mock.patch.object(
+            check_end_pending, "load_settings", return_value=settings
+        ):
+            with mock.patch.object(
+                check_end_pending,
+                "counts",
+                return_value={"total": 12, "pass": 5, "fail": 4, "pending": 3},
+            ):
+                with mock.patch.object(
+                    check_end_pending,
+                    "pending_debt_counts",
+                    return_value={
+                        "product_pending": 3,
+                        "unlabeled_product_pending": 0,
+                        "pulse_labeled_pending": 3,
+                    },
+                ):
+                    with mock.patch.object(Path, "exists", return_value=True):
+                        stdout = io.StringIO()
+                        with contextlib.redirect_stdout(stdout):
+                            status = check_end_pending.main()
+
+        self.assertEqual(status, 0)
+        self.assertIn("end-pending-check: PASS", stdout.getvalue())
+        self.assertIn("pulse_labeled_pending=3", stdout.getvalue())
 
 
 if __name__ == "__main__":

@@ -10,6 +10,12 @@ ID ?=
 NOTE ?=
 VERDICT ?= pass
 ARCHIVE_NOTE ?= stale pending archive
+PULSE_LABEL ?= anchor
+PULSE_REASON ?=
+PULSE_START_ID ?=
+PULSE_END_ID ?=
+PULSE_MINUTES ?= 15
+PULSE_INTERVAL_SECONDS ?= 60
 SWEEP_COUNT ?= 1
 SWEEP_LIST_LIMIT ?= 20
 OPENAI_LIMITS_URL ?= https://platform.openai.com/settings/organization/limits
@@ -22,7 +28,7 @@ PIP_AUDIT_ARGS ?=
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
-.PHONY: install env venv doctor-env path-leak-check path-leak-audit-local test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check end-pending-check ask sample eval-init list archive-pending judge pass fail clean
+.PHONY: install env venv doctor-env path-leak-check path-leak-audit-local test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check end-pending-check ask sample eval-init list archive-pending judge pass fail eval-pulse-start eval-pulse-label eval-pulse-report clean
 .PHONY: lint-docs end-docs-check package-install-check python-security-check node-security-check security-checks
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
@@ -306,6 +312,15 @@ pass:
 
 fail:
 	$(PY) -m probaboracle judge $(ID) fail --note "$(NOTE)"
+
+eval-pulse-start:
+	$(PY) -m probaboracle eval-pulse-start $(PROMPT) --minutes $(PULSE_MINUTES) --interval-seconds $(PULSE_INTERVAL_SECONDS)
+
+eval-pulse-label:
+	$(PY) -m probaboracle eval-pulse-label $(ID) $(PULSE_LABEL) $(if $(PULSE_REASON),--reason "$(PULSE_REASON)",)
+
+eval-pulse-report:
+	$(PY) -m probaboracle eval-pulse-report $(PULSE_START_ID) $(PULSE_END_ID)
 
 sweep-gremlin:
 	@set -eu; \

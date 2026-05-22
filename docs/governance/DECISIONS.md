@@ -959,3 +959,76 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   stale duplicate end routine. The repo family needs a compact, explicit
   tooling surface that can be mirrored by the other toys without widening
   runtime or eval behavior.
+
+## D-053: Beta 6.0 judges the whole eval run
+
+- Date: `2026-05-21`
+- Category: `eval_quality`
+- Tags: `beta_6`, `fail_pressure_pulse`, `run_level_verdict`, `why_lane`
+- Provenance: `human-led method decision with implementation decision`
+- Decision:
+  - promote `pre-Beta 6.0` to active `Research Beta 6.0`
+  - use the eval run, not the individual row, as the next binary evidence unit
+  - run one fixed prompt lane for `15` minutes
+  - default to one sample per minute inside that run
+  - assign one `PASS / FAIL` verdict to the entire run
+  - do not assign Beta `6.0` row-level product judgments
+  - allow pulse evidence labels inside the run:
+    - `anchor`
+    - `counted_seam`
+    - `excluded_noise`
+  - keep pulse labels separate from `eval_outputs.current_verdict`
+  - let pulse-labeled rows keep `current_verdict` empty without blocking
+    closeout
+  - keep `archive-pending` scoped to unlabeled product-pending rows
+  - treat the earlier false-start batches as invalid protocol data, not Beta `6.0`
+    evidence
+  - keep `Research Beta 5.1` as the closed row-level comparison baseline
+  - do not treat the first pulse as judged until a valid 15-minute run gets a
+    run-level verdict
+- Why: The staged fail-pressure hypothesis is now active, but the binary unit
+  is the bounded eval run. Row-level product verdicts would collapse the
+  method back into the `5.1` architecture, so rows can only serve as pulse
+  evidence and the first valid `6.0` result must be judged as one whole run.
+
+## D-054: First Beta 6.0 fail-pressure pulse failed on soft-drift collapse
+
+- Date: `2026-05-21`
+- Category: `eval_quality`
+- Tags: `beta_6`, `fail_pressure_pulse`, `why_lane`, `counted_seam`
+- Provenance: `live eval result`
+- Result:
+  - first valid pulse ids: `4850-4863`
+  - prompt lane: `why`
+  - duration: `15` minute paced pulse
+  - raw rows: `14`
+  - anchors: `1`
+  - counted seams: `13`
+  - excluded noise: `0`
+  - pulse verdict: `FAIL`
+- Decision:
+  - keep rows `4850-4863` as pulse-labeled evidence
+  - do not product-judge those rows through `eval_outputs.current_verdict`
+  - treat the repeated soft-drift surface as the first active Beta `6.0`
+    failure family
+  - make the next correction shape-based, not phrase-bank-based
+- Why: The run remained grammatically answer-shaped, but almost every row
+  reused the same vague motion family: quiet / soft / whisper, drift / edge,
+  meaning / certainty, and land / arrive / settle. That is exactly the
+  run-level seam Beta `6.0` was created to catch.
+
+## D-055: Pause live Beta 6.0 reruns on rate-limit and prepaid-credit boundary
+
+- Date: `2026-05-21`
+- Category: `operations`
+- Tags: `beta_6`, `rate_limit`, `prepaid_credits`, `live_eval_pause`
+- Provenance: `human operator stop condition`
+- Decision:
+  - pause additional live Beta `6.0` eval runs for the day
+  - do not start another live pulse until rate limits and prepaid credits are
+    confirmed healthy
+  - use the failed `4850-4863` pulse as the next planning surface
+  - keep the next correction shape-based and avoid hard-coded phrase banks
+- Why: The first valid pulse already produced enough evidence to plan the next
+  method slice. More live generation would spend limited prepaid credits while
+  adding pressure before the failure family has been digested.

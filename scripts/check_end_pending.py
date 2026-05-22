@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 
 from probaboracle.config import load_settings
-from probaboracle.eval_db import counts
+from probaboracle.eval_db import counts, pending_debt_counts
 
 
 def main() -> int:
@@ -16,10 +16,17 @@ def main() -> int:
         return 0
 
     summary = counts(settings.eval_db_path)
-    if summary["pending"] != 0:
+    debt = pending_debt_counts(settings.eval_db_path)
+    if debt["unlabeled_product_pending"] != 0:
         print("end-pending-check: FAIL", file=sys.stderr)
         print(
-            f"- active product pending count is {summary['pending']}", file=sys.stderr
+            f"- unlabeled product-pending count is {debt['unlabeled_product_pending']}",
+            file=sys.stderr,
+        )
+        print(
+            "- pulse-labeled pending rows are allowed here: "
+            f"{debt['pulse_labeled_pending']}",
+            file=sys.stderr,
         )
         print(
             f"- totals: total={summary['total']} pass={summary['pass']} "
@@ -27,7 +34,8 @@ def main() -> int:
             file=sys.stderr,
         )
         print(
-            "Judge or archive stale product-pending rows before rerunning make end.",
+            "Judge, pulse-label, or archive stale product-pending rows before "
+            "rerunning make end.",
             file=sys.stderr,
         )
         return 1
@@ -35,7 +43,8 @@ def main() -> int:
     print(
         "end-pending-check: PASS "
         f"(total={summary['total']} pass={summary['pass']} "
-        f"fail={summary['fail']} pending={summary['pending']})"
+        f"fail={summary['fail']} pending={summary['pending']} "
+        f"pulse_labeled_pending={debt['pulse_labeled_pending']})"
     )
     return 0
 

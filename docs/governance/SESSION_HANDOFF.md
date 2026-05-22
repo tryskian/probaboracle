@@ -60,19 +60,21 @@ Most recently closed beta:
 - `Research Beta 5.1`
 - `retain + evict`
 
-Current staged next lane:
+Current active lane:
 
-- `pre-Beta 6.0`
+- `Research Beta 6.0`
 - `fail-pressure pulse`
 - status:
-  - staged only
-  - not promoted to `Beta 6.0`
-  - no pulse run started yet
+  - active method
+  - first valid bounded one-prompt pulse failed
+  - live eval work paused on rate-limit / prepaid-credit boundary
+  - invalid false starts discarded
 
 Current long-run checkpoint:
 
-- judged through row `4723`
-- active product surface: `1543 pass / 1459 fail / 0 pending`
+- product-judged through row `4723`
+- pulse-labeled through row `4863`
+- active product surface: `1543 pass / 1459 fail / 14 pulse-labeled pending`
 - active coherence surface: `1670 pass / 923 fail / 389 pending`
 - active relevance surface: `1663 pass / 113 fail / 1206 pending`
 - active absurdity surface: `4 pass / 8 fail / 2970 pending`
@@ -110,8 +112,8 @@ Useful current reads:
 - the `why` sidecar surface mostly held:
   - coherence: `380 pass / 65 fail`
   - relevance: `380 pass / 0 fail`
-- that active `why` surface is now saturated enough to count as bad
-post-fix comparison data
+- that active `why` surface is now saturated enough to count as bad post-fix
+  comparison data
 - the first narrow `why` fix attempt then used rows `4643-4723`
 - fresh `why` post-fix surface: `81 pass / 0 fail / 0 pending`
 - the old fail family disappeared, but the pass surface overcollapsed:
@@ -121,7 +123,28 @@ post-fix comparison data
 - Beta `5.1` is now the most recently closed row-level baseline:
   - retain-evict stays closed there
   - hard-coded phrase scaffolds are removed
-  - the next method boundary is staged separately as pre-`Beta 6.0`
+- Beta `6.0` has started as the active pulse-level lane:
+  - one prompt lane per run
+  - run duration: `15` minutes
+  - default pacing: about one sample per minute
+  - row labels are pulse evidence only:
+    - `anchor`
+    - `counted_seam`
+    - `excluded_noise`
+  - one `PASS / FAIL` verdict for the whole run
+  - no row-level Beta `6.0` product judgments
+  - first valid run failed:
+    - ids: `4850-4863`
+    - prompt lane: `why`
+    - anchors: `1`
+    - counted seams: `13`
+    - excluded noise: `0`
+  - false-start batches `4790-4804`, `4805-4819`, and `4820-4849` were
+    discarded from the active eval surface
+- Stop condition for the next session:
+  - do not start another live pulse until rate limits and prepaid credits are
+    confirmed healthy
+  - use the existing failed pulse as the planning surface first
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
@@ -136,15 +159,19 @@ Choose one lane at a time:
   - do not widen the prompt surface
   - keep the user loop separate from operator commands
 - research:
-  - keep `Beta 5.1` frozen as the most recently closed beta
-  - keep `pre-Beta 6.0` staged without calling it active evidence yet
+  - keep `Beta 5.1` frozen as the most recently closed row-level beta
+  - treat `Beta 6.0` as the active run-level lane
   - preserve the explicit comparison boundary:
     - row-level `5.1`
-    - staged pulse-level pre-`6.0`
-  - promote to `Beta 6.0` only when the first real fail-pressure pulse run
-    starts
-  - if the next run stays row-level, keep it inside the closed `5.1`
-    comparison surface instead of inflating the staged lane early
+    - run-level `6.0`
+  - run one prompt lane for `15` minutes
+  - use the one-sample-per-minute pulse default unless the method changes
+  - label rows as pulse evidence only
+  - treat the first valid pulse verdict as `FAIL`
+  - decide the smallest correction that breaks the repeated soft-drift family
+    without reintroducing phrase pools
+  - do not run another live eval until the rate-limit / prepaid-credit boundary
+    is cleared
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
   - keep `docs/peanut/` as the private scratch lane

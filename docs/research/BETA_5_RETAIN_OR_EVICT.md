@@ -185,6 +185,5 @@ closes with `when` earning `evict`, confirms the first narrow `when`
 correction under the same Beta `5.0` frame, and then shows that `why` can
 also earn `evict` for a different reason: product-level duplicate fallback.
 
-`pre-Beta 6.0` now stages the next method question without promoting it early:
-how to judge bounded non-OCR runs once run-level seam density matters more than
-single-row replay.
+`Research Beta 6.0` now carries the next method question: how to judge bounded
+non-OCR runs once run-level seam density matters more than single-row replay.

@@ -9,9 +9,9 @@ Raw run notes, operator poking, and private scratch material stay in the local `
 
 ## Current Stage
 
-Current staged research lane:
+Current research lane:
 
-- `pre-Beta 6.0`
+- `Research Beta 6.0`
 - `fail-pressure pulse`
 
 Most recently closed beta:
@@ -19,10 +19,9 @@ Most recently closed beta:
 - `Research Beta 5.1`
 - `retain + evict`
 
-Current staging question:
+Current pulse question:
 
-Should Probaboracle move bounded non-OCR judgment from the row to the pulse,
-so seam density matters more than single-row replay?
+Can Probaboracle hold its shape across a bounded one-prompt eval run?
 
 Current finding:
 
@@ -47,19 +46,28 @@ Current finding:
     - `strong why lane`: `15`
 - the next method question is no longer whether `retain / evict` belongs in
   the active line
-- the next method question is whether bounded non-OCR runs should move from
-  row verdicts to pulse verdicts
+- `Research Beta 6.0` is active as the next method:
+  - run duration: `15` minutes
+  - one prompt lane per run
+  - default pacing: about one sample per minute
+  - row labels are pulse evidence only
+  - one `PASS / FAIL` verdict for the whole run
+  - first valid run failed:
+    - ids: `4850-4863`
+    - `1` anchor
+    - `13` counted seams
+    - `0` excluded
+- live reruns are paused until rate limits and prepaid credits are healthy
+  again
 
-Current clean lane:
+Current active lane:
 
 - `Research Beta 5.1` is closed as the row-level `retain / evict` baseline
-- `pre-Beta 6.0` is the active staged lane
-- keep tandem serial single-product runs with the queue held at `0` while
-  pulse judgment stays staged
-- keep row-level `PASS / FAIL` plus `RETAIN / EVICT` as the closed `5.1`
-  comparison surface
-- promote to `Beta 6.0` only when the first real fail-pressure pulse run
-  starts
+- `Research Beta 6.0` is the active run-level lane
+- label rows as `anchor`, `counted_seam`, or `excluded_noise`
+- first run verdict: `FAIL`
+- next work is planning from the failed pulse, not another live run yet
+- keep row-level `5.1` as the comparison surface, not the active method
 
 ## Beta Map
 
@@ -70,12 +78,13 @@ Current clean lane:
 | `Research Beta 3.0` | Is a coherent line in-lane? | Prompt relevance separated lane control from sentence quality. |
 | `Research Beta 4.1` | Can coherent drift still be valuable? | Coherent absurdity became a small selective class. |
 | `Research Beta 5.1` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` stays active, with the instruction surface tightened to preserve shape-first lane control. |
+| `Research Beta 6.0` | Can a bounded one-prompt run hold shape? | The eval run becomes the binary unit. |
 
-Staged next lane:
+Active pulse lane:
 
-- `pre-Beta 6.0`
-- [Fail-Pressure Pulse](./PRE_BETA_6_FAIL_PRESSURE_PULSE.md)
-- bounded non-OCR runs stay in staging until the first real pulse run starts
+- `Research Beta 6.0`
+- [Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md)
+- staging note: [Pre-Beta 6.0](./PRE_BETA_6_FAIL_PRESSURE_PULSE.md)
 
 Read in order:
 
@@ -84,7 +93,7 @@ Read in order:
 3. [Research Beta 3.0: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
 4. [Research Beta 4.1: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
 5. [Research Beta 5.1: Retain + Evict](./BETA_5_RETAIN_OR_EVICT.md)
-6. [Pre-Beta 6.0: Fail-Pressure Pulse](./PRE_BETA_6_FAIL_PRESSURE_PULSE.md)
+6. [Research Beta 6.0: Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md)
 
 ## How To Read The Betas And Stages
 
@@ -98,8 +107,8 @@ Each beta marks a real change in what the evaluation is asking:
 - `Research Beta 3.0` separated lane control from sentence coherence
 - `Research Beta 4.1` preserves the selective value of coherent drift while holding coherence to a stricter sentence-resolution bar
 - `Research Beta 5.1` separates failure evidence from later runtime correction while keeping the live instruction path shape-first
-- `pre-Beta 6.0` is a staging surface, not an active beta; it defines the
-  fail-pressure pulse contract without claiming pulse evidence yet
+- `Research Beta 6.0` moves bounded non-OCR runs from row-level product
+  verdicts to row evidence labels plus one run-level verdict
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed to mean.
 
@@ -112,14 +121,16 @@ flowchart LR
   B3["Research Beta 3.0<br/>coherence + prompt relevance"]
   B4["Research Beta 4.1<br/>coherence + coherent absurdity"]
   B5["Research Beta 5.1<br/>retain + evict"]
+  B6["Research Beta 6.0<br/>bounded fail-pressure pulse"]
 
   S1["one verdict overloaded tone,<br/>sentence quality, and lane control"]
   S2["coherence pulled out as the<br/>primary experimental gate"]
   S3["lane control separated from<br/>sentence coherence"]
   S4["valuable coherent drift preserved<br/>as a selective class"]
   S5["failure evidence separated from<br/>later runtime correction"]
+  S6["row evidence labels feed<br/>one run verdict"]
 
-  B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4 --> B5 --> S5
+  B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4 --> B5 --> S5 --> B6 --> S6
 ```
 
 ## Plans

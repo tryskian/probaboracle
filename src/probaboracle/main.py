@@ -29,7 +29,9 @@ from probaboracle.eval_db import (
     judge_coherence_output,
     judge_output,
     judge_relevance_output,
+    label_pulse_row,
     list_outputs,
+    pulse_summary,
     record_output,
     relevance_counts,
 )
@@ -172,6 +174,14 @@ def build_parser() -> argparse.ArgumentParser:
     sample_parser.add_argument("prompt_type")
     sample_parser.add_argument("--count", type=int, default=5)
 
+    pulse_start_parser = subparsers.add_parser(
+        "eval-pulse-start",
+        help="Generate a time-boxed one-prompt pulse and print the output range.",
+    )
+    pulse_start_parser.add_argument("prompt_type")
+    pulse_start_parser.add_argument("--minutes", type=float, default=15.0)
+    pulse_start_parser.add_argument("--interval-seconds", type=float, default=60.0)
+
     subparsers.add_parser("eval-init", help="Initialise the local eval database.")
 
     list_parser = subparsers.add_parser("eval-list", help="List recent eval outputs.")
@@ -185,7 +195,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     archive_pending_parser = subparsers.add_parser(
         "archive-pending",
-        help="Archive current pending product rows out of the active eval surface.",
+        help="Archive unlabeled pending product rows out of the active eval surface.",
     )
     archive_pending_parser.add_argument(
         "--note",
@@ -226,6 +236,23 @@ def build_parser() -> argparse.ArgumentParser:
     absurdity_judge_parser.add_argument("output_id", type=int)
     absurdity_judge_parser.add_argument("verdict")
     absurdity_judge_parser.add_argument("--note", default="")
+
+    pulse_label_parser = subparsers.add_parser(
+        "eval-pulse-label",
+        help="Label one row inside a pulse as anchor, counted_seam, or excluded_noise.",
+    )
+    pulse_label_parser.add_argument("output_id", type=int)
+    pulse_label_parser.add_argument(
+        "label", choices=("anchor", "counted_seam", "excluded_noise")
+    )
+    pulse_label_parser.add_argument("--reason", default="")
+
+    pulse_report_parser = subparsers.add_parser(
+        "eval-pulse-report",
+        help="Summarize one bounded pulse by output-id range.",
+    )
+    pulse_report_parser.add_argument("start_output_id", type=int)
+    pulse_report_parser.add_argument("end_output_id", type=int)
 
     return parser
 
@@ -685,6 +712,50 @@ def command_sample(prompt_type: str, count: int) -> int:
     return 0
 
 
+def command_eval_pulse_start(
+    prompt_type: str,
+    minutes: float,
+    interval_seconds: float,
+) -> int:
+    if minutes <= 0:
+        raise ValueError("Pulse minutes must be greater than 0.")
+    if interval_seconds < 0:
+        raise ValueError("Pulse interval seconds must be greater than or equal to 0.")
+
+    settings = load_settings()
+    ensure_local_dirs(settings)
+    require_openai_api_key()
+    prompt_type = normalise_prompt_type(prompt_type)
+    init_db(settings.eval_db_path)
+
+    deadline = time.monotonic() + (minutes * 60)
+    output_ids: list[int] = []
+    while time.monotonic() < deadline or not output_ids:
+        response = generate_response(settings, prompt_type)
+        output_id = record_output(
+            settings.eval_db_path,
+            prompt_type,
+            response,
+            settings.model,
+        )
+        output_ids.append(output_id)
+        print(f"{output_id}\t{response}", flush=True)
+        remaining_seconds = deadline - time.monotonic()
+        if remaining_seconds <= 0:
+            break
+        sleep_seconds = min(interval_seconds, remaining_seconds)
+        if sleep_seconds > 0:
+            time.sleep(sleep_seconds)
+
+    print(
+        "\npulse generated: "
+        f"prompt={prompt_type} minutes={minutes:g} rows={len(output_ids)} "
+        f"ids={output_ids[0]}-{output_ids[-1]}",
+        flush=True,
+    )
+    return 0
+
+
 def command_eval_init() -> int:
     settings = load_settings()
     ensure_local_dirs(settings)
@@ -769,7 +840,7 @@ def command_archive_pending(note: str) -> int:
     ensure_local_dirs(settings)
     init_db(settings.eval_db_path)
     archived = archive_pending_outputs(settings.eval_db_path, note)
-    print(f"Archived {archived} pending product rows.")
+    print(f"Archived {archived} unlabeled pending product rows.")
     return 0
 
 
@@ -813,6 +884,39 @@ def command_absurdity_judge(output_id: int, verdict: str, note: str) -> int:
     return 0
 
 
+def command_eval_pulse_label(output_id: int, label: str, reason: str) -> int:
+    settings = load_settings()
+    ensure_local_dirs(settings)
+    init_db(settings.eval_db_path)
+    label_pulse_row(settings.eval_db_path, output_id, label, reason)
+    print(f"Pulse-labeled output {output_id} as {label}.")
+    if reason:
+        print(f"reason: {reason}")
+    return 0
+
+
+def command_eval_pulse_report(start_output_id: int, end_output_id: int) -> int:
+    settings = load_settings()
+    ensure_local_dirs(settings)
+    init_db(settings.eval_db_path)
+    summary = pulse_summary(settings.eval_db_path, start_output_id, end_output_id)
+    verdict = "incomplete" if summary.verdict is None else summary.verdict
+    print(f"pulse ids: {summary.start_output_id}-{summary.end_output_id}")
+    print(f"raw rows: {summary.raw_rows}")
+    print(f"anchors: {summary.anchors}")
+    print(f"counted seams: {summary.counted_seams}")
+    print(f"excluded noise: {summary.excluded_noise}")
+    print(
+        "excluded by reason: "
+        f"operator_artifact={summary.excluded_by_reason['operator_artifact']} "
+        f"off_target_failure={summary.excluded_by_reason['off_target_failure']}"
+    )
+    print(f"unlabeled rows: {summary.unlabeled_rows}")
+    print(f"counted total: {summary.counted_total}")
+    print(f"pulse verdict: {verdict}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -823,6 +927,12 @@ def main(argv: list[str] | None = None) -> int:
         return command_ask(args.prompt_type)
     if args.command == "sample":
         return command_sample(args.prompt_type, args.count)
+    if args.command == "eval-pulse-start":
+        return command_eval_pulse_start(
+            args.prompt_type,
+            args.minutes,
+            args.interval_seconds,
+        )
     if args.command == "eval-init":
         return command_eval_init()
     if args.command == "eval-list":
@@ -841,6 +951,10 @@ def main(argv: list[str] | None = None) -> int:
         return command_relevance_judge(args.output_id, args.verdict, args.note)
     if args.command == "judge-absurdity":
         return command_absurdity_judge(args.output_id, args.verdict, args.note)
+    if args.command == "eval-pulse-label":
+        return command_eval_pulse_label(args.output_id, args.label, args.reason)
+    if args.command == "eval-pulse-report":
+        return command_eval_pulse_report(args.start_output_id, args.end_output_id)
 
     parser.error("Unknown command.")
     return 2
