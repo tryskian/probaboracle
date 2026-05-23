@@ -2,7 +2,8 @@
 
 ## Status
 
-Active method, first valid pulse failed.
+Active method; first valid pulse failed; current line is a snapshot for
+clean-baseline planning.
 
 `Research Beta 6.0` uses a fixed-prompt pulse as the binary unit:
 
@@ -115,6 +116,25 @@ Runtime pressure now asks each response to:
 That correction targets the repeated soft-drift family while keeping the
 fixed-prompt pulse method unchanged. The next live pulse should wait until the
 rate-limit / prepaid-credit boundary is healthy.
+
+## Clean-Baseline Reset Question
+
+The first correction is not a clean comparable baseline yet.
+
+Earlier hard-coded prompt scaffolds were removed from the runtime surface, but
+the current Beta `6.0` evidence may still be shaped by that prior config
+history. Treat the failed pulse and the grammar-led correction as diagnostic
+surfaces. Do not fold the next run into the same line until the baseline
+question is settled.
+
+Next research slice:
+
+- define a clean baseline candidate from the proper cleaned config
+- keep the fixed-prompt pulse method unchanged
+- compare the Beta `6.0` snapshot against the clean baseline line
+- use a diagram to make the comparison boundary explicit
+- only then decide whether the clean baseline is a new beta boundary or a
+  reset inside Beta `6.0`
 
 ## Relationship To Beta 5.1
 

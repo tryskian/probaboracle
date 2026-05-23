@@ -67,6 +67,7 @@ Current active method:
 - status:
   - active method
   - first valid fixed-prompt pulse failed
+  - snapshot for clean-baseline planning
   - live eval work paused on rate-limit / prepaid-credit boundary
   - invalid false starts discarded
 
@@ -147,10 +148,18 @@ Useful current reads:
   - prefer one clear subject and finite verb
   - keep imagery secondary to the sentence claim
   - vary sentence openings across samples
+- baseline reset note:
+  - do not treat that first correction as a clean comparable baseline yet
+  - prior hard-coded prompt scaffolds may have contaminated the current logic
+    line even after removal
+  - the next research slice should define a clean baseline from the proper
+    config before spending more live API calls
+  - compare the Beta `6.0` snapshot against that clean baseline as a
+    separate line, preferably with a diagram
 - Stop condition for the next session:
   - do not start another live pulse until rate limits and prepaid credits are
     confirmed healthy
-  - use the existing failed pulse as the planning surface first
+  - use the existing failed pulse and first correction as planning surfaces only
 - `where` is fully stable in the current surface:
   - `84 pass / 0 fail`
 - `what` is close behind:
@@ -166,16 +175,25 @@ Choose one lane at a time:
   - keep the user loop separate from operator commands
 - research:
   - keep `Beta 5.1` frozen as the most recently closed row-level beta
-  - treat `Beta 6.0` as the active pulse-level method
+  - treat `Beta 6.0` as the active pulse-level method, but snapshot the current
+    evidence line before rerunning it
   - preserve the explicit comparison boundary:
     - row-level `5.1`
     - pulse-level `6.0`
-  - run one fixed-prompt pulse for `15` minutes
+  - define the clean baseline candidate from the proper config before running
+    another live pulse
+  - diagram the comparison:
+    - Beta `6.0` snapshot
+    - clean baseline candidate
+    - shared fixed-prompt pulse method
+  - once the baseline question is settled, run one fixed-prompt pulse for `15`
+    minutes
   - keep each fixed prompt in its own pulse
   - use the one-sample-per-minute pulse default unless the method changes
   - label rows as pulse evidence only
   - treat the first valid pulse verdict as `FAIL`
-  - validate the first grammar-led correction before any live rerun
+  - do not validate the first grammar-led correction as if it were already a
+    clean baseline
   - do not start another live pulse until the rate-limit / prepaid-credit boundary
     is cleared
 - docs:

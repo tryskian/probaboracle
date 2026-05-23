@@ -1065,3 +1065,27 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   with repeated soft abstraction. The smallest correction is to make the
   sentence grammar carry more of the shape while still preserving the fixed
   prompt surface and non-concrete oracle contract.
+
+## D-057: Snapshot Beta 6.0 for clean-baseline planning
+
+- Date: `2026-05-22`
+- Category: `eval_quality`
+- Tags: `beta_6`, `baseline_reset`, `config_contamination`, `comparison_diagram`
+- Provenance: `human-led method decision with repo formalization`
+- Decision:
+  - snapshot the current Beta `6.0` correction before running another live pulse
+  - treat the failed pulse and first correction as diagnostic evidence, not a
+    clean comparable baseline
+  - explicitly account for the risk that earlier hard-coded phrase scaffolds
+    contaminated the logic surface even after those scaffolds were removed
+  - make the next research slice define a clean baseline from the proper config
+    before spending more live API calls
+  - compare the Beta `6.0` snapshot against the clean baseline with a
+    diagram and the same fixed-prompt pulse method
+  - keep the rate-limit / prepaid-credit pause in force until that baseline
+    question is settled
+- Why: A prompt cleanup can remove the obvious phrase bank without making the
+  evidence line clean. If the prior config history shaped the failure surface,
+  then another small correction would be hard to interpret. The next useful
+  move is a new clean baseline candidate that can be compared against the
+  Beta `6.0` snapshot rather than folded into it.
