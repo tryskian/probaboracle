@@ -141,6 +141,12 @@ Useful current reads:
     - excluded noise: `0`
   - false-start batches `4790-4804`, `4805-4819`, and `4820-4849` were
     discarded from the active eval surface
+- first correction after the failed pulse is shape-first and grammar-led:
+  - choose one plain sentence claim
+  - make grammar carry the answer shape
+  - prefer one clear subject and finite verb
+  - keep imagery secondary to the sentence claim
+  - vary sentence openings across samples
 - Stop condition for the next session:
   - do not start another live pulse until rate limits and prepaid credits are
     confirmed healthy
@@ -169,8 +175,7 @@ Choose one lane at a time:
   - use the one-sample-per-minute pulse default unless the method changes
   - label rows as pulse evidence only
   - treat the first valid pulse verdict as `FAIL`
-  - decide the smallest correction that breaks the repeated soft-drift family
-    without reintroducing phrase pools
+  - validate the first grammar-led correction before any live rerun
   - do not start another live pulse until the rate-limit / prepaid-credit boundary
     is cleared
 - docs:

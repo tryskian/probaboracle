@@ -47,7 +47,8 @@ TONE_CONTRACT: tuple[str, ...] = (
 
 PIPELINE_STEPS: tuple[str, ...] = (
     "read slot",
-    "compose one line",
+    "choose one plain sentence claim",
+    "compose one complete line",
     "remove useful detail",
 )
 
@@ -59,6 +60,10 @@ STYLE_SIGNALS: tuple[str, ...] = (
 
 OUTPUT_GUARDS: tuple[str, ...] = (
     "keep the final line fully lowercase",
+    "make grammar carry the answer shape",
+    "prefer one clear subject and finite verb",
+    "keep imagery secondary to the sentence claim",
+    "vary sentence openings across samples",
     "keep repeated structures rare",
     "avoid stock openers and closers",
     "do not echo slot labels",
