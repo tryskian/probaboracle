@@ -1038,3 +1038,30 @@ If a decision crosses layers, say so plainly instead of flattening the method in
 - Why: The first valid pulse already produced enough evidence to plan the next
   method slice. More live generation would spend limited prepaid credits while
   adding pressure before the failure family has been digested.
+
+## D-056: First Beta 6.0 correction adds grammatical-shape pressure
+
+- Date: `2026-05-22`
+- Category: `runtime_engineering`
+- Tags: `beta_6`, `why_prompt`, `shape_first`, `soft_drift`
+- Provenance: `failed pulse planning surface with implementation decision`
+- Decision:
+  - use failed pulse rows `4850-4863` as the correction surface
+  - keep the prompt surface fixed and do not add a phrase bank
+  - keep the correction grammatical and shape-first:
+    - choose one plain sentence claim
+    - make grammar carry the answer shape
+    - prefer one clear subject and finite verb
+    - keep imagery secondary to the sentence claim
+    - vary sentence openings across samples
+  - do not run another live pulse until the rate-limit / prepaid-credit boundary
+    is cleared
+- Validation:
+  - `make lint-docs`
+  - `git diff --check`
+  - `make check`
+- Why: The first valid `why` pulse did not fail because the prompt needed
+  content examples. It failed because the model kept replacing the answer shape
+  with repeated soft abstraction. The smallest correction is to make the
+  sentence grammar carry more of the shape while still preserving the fixed
+  prompt surface and non-concrete oracle contract.

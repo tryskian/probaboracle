@@ -50,9 +50,13 @@ Explicit subcommands such as `ask`, `sample`, `eval-list`, and `judge` remain av
    - indecision
    - connective hinges
    - soft conclusions
-5. `agent.py` runs one OpenAI Agents SDK generation node.
-6. The model resolves the final sentence structure inside that node.
-7. The CLI prints the final response.
+5. The runtime asks grammar to carry the answer shape:
+   - one plain sentence claim
+   - one clear subject and finite verb
+   - imagery secondary to the sentence claim
+6. `agent.py` runs one OpenAI Agents SDK generation node.
+7. The model resolves the final sentence structure inside that node.
+8. The CLI prints the final response.
 
 The runtime is not stitched from static fragments. The shared style signals are cues for synthesis, not a fixed word bank.
 

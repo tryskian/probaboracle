@@ -99,6 +99,23 @@ soft-drift family without returning to hard-coded phrase scaffolds.
 
 Live reruns are paused until rate limits and prepaid credits are healthy again.
 
+## First Correction Surface
+
+The first correction is shape-first and grammar-led. It does not add prompt
+examples or a phrase bank.
+
+Runtime pressure now asks each response to:
+
+- choose one plain sentence claim
+- make grammar carry the answer shape
+- prefer one clear subject and finite verb
+- keep imagery secondary to the sentence claim
+- vary sentence openings across samples
+
+That correction targets the repeated soft-drift family while keeping the
+fixed-prompt pulse method unchanged. The next live pulse should wait until the
+rate-limit / prepaid-credit boundary is healthy.
+
 ## Relationship To Beta 5.1
 
 `Research Beta 5.1` remains the closed row-level baseline:
