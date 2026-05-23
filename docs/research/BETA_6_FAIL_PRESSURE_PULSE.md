@@ -4,29 +4,34 @@
 
 Active method, first valid pulse failed.
 
-`Research Beta 6.0` uses a bounded eval run as the binary unit:
+`Research Beta 6.0` uses a fixed-prompt pulse as the binary unit:
 
 - duration: `15` minutes
-- prompt lane: one fixed prompt for the whole run
+- fixed prompt: one prompt type
 - default pacing: about one sample per minute
-- run verdict: `PASS` or `FAIL`
+- pulse verdict: `PASS` or `FAIL`
 - row product verdicts: not part of this beta
 - row pulse labels: evidence only
 
+This beta is run like the earlier beta tests: use the active eval method,
+collect comparable evidence, and assign one binary verdict. The method changes
+to `eval-pulse`; the pulse is the tested object.
+
 ## What This Beta Asks
 
-Can Probaboracle hold its shape across a time-bounded run?
+Can Probaboracle hold its shape across a time-bounded fixed-prompt pulse?
 
-The unit of judgment is the eval run, not an individual row. Rows may be
-labeled as evidence inside the run, but those labels are not product judgments
-and do not touch `eval_outputs.current_verdict`.
+The unit of judgment is the fixed-prompt pulse, not an individual row. Each
+pulse uses one fixed prompt. Different prompts get separate pulses. Rows may be
+labeled as evidence inside that pulse, but those labels are not product
+judgments and do not touch `eval_outputs.current_verdict`.
 
 ## Eval Shape
 
-The run protocol is:
+The `eval-pulse` protocol is:
 
-1. Choose one prompt lane.
-2. Run generation for `15` minutes.
+1. Choose one fixed prompt.
+2. Run generation for that prompt for `15` minutes.
 3. Label each row as pulse evidence:
    - `anchor`
    - `counted_seam`
@@ -34,14 +39,14 @@ The run protocol is:
 4. Give each `excluded_noise` row one narrow reason:
    - `operator_artifact`
    - `off_target_failure`
-5. Report the bounded run:
+5. Report the fixed-prompt pulse:
    - raw rows
    - anchors
    - counted seams
    - excluded noise by reason
    - counted total
    - pulse verdict
-6. Assign one verdict to the run:
+6. Assign one verdict to the pulse:
    - `PASS`
    - `FAIL`
 
@@ -54,10 +59,10 @@ Counted pulse rules:
 
 ## Current State
 
-First valid `Research Beta 6.0` eval run:
+First valid `Research Beta 6.0` fixed-prompt pulse:
 
 - ids: `4850-4863`
-- prompt lane: `why`
+- fixed prompt: `why`
 - duration: `15` minute paced pulse
 - raw rows: `14`
 - anchors: `1`
@@ -72,7 +77,7 @@ Dominant counted seam:
   - drift / edge
   - meaning / certainty
   - land / arrive / settle
-- the run stayed answer-shaped, but the surface collapsed into one repeated
+- the pulse stayed answer-shaped, but the surface collapsed into one repeated
   vague motion family
 
 Invalidated false starts:
@@ -104,10 +109,9 @@ Live reruns are paused until rate limits and prepaid credits are healthy again.
 
 `Research Beta 6.0` changes the binary unit:
 
-- one time-bounded eval run
-- one prompt lane
-- pulse evidence labels inside the run
-- one run-level `PASS / FAIL`
+- one fixed-prompt pulse at a time
+- pulse evidence labels inside that pulse
+- one pulse-level `PASS / FAIL`
 
 That change is methodological. The row-level store may still hold generated
-outputs as a transcript, but the beta verdict belongs to the run.
+outputs as a transcript, but the beta verdict belongs to the pulse.

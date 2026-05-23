@@ -9,7 +9,7 @@ Raw run notes, operator poking, and private scratch material stay in the local `
 
 ## Current Stage
 
-Current research lane:
+Current research stage:
 
 - `Research Beta 6.0`
 - `fail-pressure pulse`
@@ -21,7 +21,7 @@ Most recently closed beta:
 
 Current pulse question:
 
-Can Probaboracle hold its shape across a bounded one-prompt eval run?
+Can Probaboracle hold its shape across a bounded fixed-prompt pulse?
 
 Current finding:
 
@@ -47,12 +47,13 @@ Current finding:
 - the next method question is no longer whether `retain / evict` belongs in
   the active line
 - `Research Beta 6.0` is active as the next method:
-  - run duration: `15` minutes
-  - one prompt lane per run
+  - pulse duration: `15` minutes
+  - each pulse uses one fixed prompt
+  - beta tests use the `eval-pulse` method
   - default pacing: about one sample per minute
   - row labels are pulse evidence only
-  - one `PASS / FAIL` verdict for the whole run
-  - first valid run failed:
+  - one `PASS / FAIL` verdict for the pulse
+  - first valid pulse failed:
     - ids: `4850-4863`
     - `1` anchor
     - `13` counted seams
@@ -60,12 +61,13 @@ Current finding:
 - live reruns are paused until rate limits and prepaid credits are healthy
   again
 
-Current active lane:
+Current active method:
 
 - `Research Beta 5.1` is closed as the row-level `retain / evict` baseline
-- `Research Beta 6.0` is the active run-level lane
+- `Research Beta 6.0` is the active pulse-level method
+- one fixed-prompt pulse is judged at a time
 - label rows as `anchor`, `counted_seam`, or `excluded_noise`
-- first run verdict: `FAIL`
+- first pulse verdict: `FAIL`
 - next work is planning from the failed pulse, not another live run yet
 - keep row-level `5.1` as the comparison surface, not the active method
 
@@ -78,9 +80,9 @@ Current active lane:
 | `Research Beta 3.0` | Is a coherent line in-lane? | Prompt relevance separated lane control from sentence quality. |
 | `Research Beta 4.1` | Can coherent drift still be valuable? | Coherent absurdity became a small selective class. |
 | `Research Beta 5.1` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` stays active, with the instruction surface tightened to preserve shape-first lane control. |
-| `Research Beta 6.0` | Can a bounded one-prompt run hold shape? | The eval run becomes the binary unit. |
+| `Research Beta 6.0` | Can Probaboracle hold shape across a bounded fixed-prompt pulse? | The fixed-prompt pulse becomes the binary unit. |
 
-Active pulse lane:
+Active pulse method:
 
 - `Research Beta 6.0`
 - [Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md)
@@ -107,8 +109,8 @@ Each beta marks a real change in what the evaluation is asking:
 - `Research Beta 3.0` separated lane control from sentence coherence
 - `Research Beta 4.1` preserves the selective value of coherent drift while holding coherence to a stricter sentence-resolution bar
 - `Research Beta 5.1` separates failure evidence from later runtime correction while keeping the live instruction path shape-first
-- `Research Beta 6.0` moves bounded non-OCR runs from row-level product
-  verdicts to row evidence labels plus one run-level verdict
+- `Research Beta 6.0` moves bounded non-OCR work from row-level product
+  verdicts to pulse evidence plus one pulse-level verdict
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed to mean.
 
@@ -128,7 +130,7 @@ flowchart LR
   S3["lane control separated from<br/>sentence coherence"]
   S4["valuable coherent drift preserved<br/>as a selective class"]
   S5["failure evidence separated from<br/>later runtime correction"]
-  S6["row evidence labels feed<br/>one run verdict"]
+  S6["row evidence labels feed<br/>one pulse verdict"]
 
   B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4 --> B5 --> S5 --> B6 --> S6
 ```

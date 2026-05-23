@@ -43,7 +43,16 @@ Eval:
 - `pass`
 - `fail`
 - no `mixed` state
-- after `fail`, decide:
+- the active beta defines the unit of judgment:
+  - row-level baselines judge rows
+  - Beta `6.0` judges fixed-prompt pulses
+- Beta `6.0` runs one fixed-prompt pulse at a time:
+  - different prompts get separate pulses
+- Beta `6.0` rows are pulse evidence only inside that pulse:
+  - `anchor`
+  - `counted_seam`
+  - `excluded_noise`
+- after a row-level baseline `fail`, decide:
   - `retain`
   - `evict`
 - `retain` means keep the family in the active lane and keep gathering baseline
