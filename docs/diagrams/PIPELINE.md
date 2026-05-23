@@ -77,6 +77,26 @@ flowchart LR
   I --> J["Rerun one fixed-prompt pulse"]
 ```
 
+## Clean-Baseline Comparison Plan
+
+```mermaid
+flowchart LR
+  A["Beta 6.0 snapshot"]
+  B["failed why pulse<br/>ids 4850-4863"]
+  C["grammar-led correction<br/>not clean-baseline proof"]
+  D["config-history contamination risk"]
+
+  E["Clean baseline candidate"]
+  F["proper cleaned config"]
+  G["same fixed-prompt pulse method"]
+  H["compare verdicts and seam families"]
+  I["decide reset inside Beta 6.0<br/>or new beta boundary"]
+
+  A --> B --> C --> D
+  E --> F --> G --> H --> I
+  D -. "reference line" .-> H
+```
+
 ## Closed Row-Level Gate Stack
 
 ```mermaid
@@ -124,3 +144,7 @@ The active `Beta 6.0` gate is different:
 - rows become evidence inside that pulse
 - pulse evidence is `anchor`, `counted_seam`, or `excluded_noise`
 - the pulse receives one `PASS / FAIL` verdict
+
+The clean-baseline comparison is not another eval gate yet. It is a planning
+boundary that keeps the current Beta `6.0` snapshot separate from the next
+proper-config baseline candidate.

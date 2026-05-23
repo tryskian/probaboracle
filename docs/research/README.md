@@ -13,6 +13,7 @@ Current research stage:
 
 - `Research Beta 6.0`
 - `fail-pressure pulse`
+- snapshot for clean-baseline planning
 
 Most recently closed beta:
 
@@ -60,6 +61,8 @@ Current finding:
     - `0` excluded
 - live reruns are paused until rate limits and prepaid credits are healthy
   again
+- the current Beta `6.0` line should be treated as diagnostic rather than clean
+  comparison evidence until a proper-config baseline is defined
 
 Current active method:
 
@@ -68,7 +71,8 @@ Current active method:
 - one fixed-prompt pulse is judged at a time
 - label rows as `anchor`, `counted_seam`, or `excluded_noise`
 - first pulse verdict: `FAIL`
-- next work is planning from the failed pulse, not another live run yet
+- next work is defining a clean baseline candidate from the proper config, not
+  another live run yet
 - keep row-level `5.1` as the comparison surface, not the active method
 
 ## Beta Map
@@ -80,7 +84,7 @@ Current active method:
 | `Research Beta 3.0` | Is a coherent line in-lane? | Prompt relevance separated lane control from sentence quality. |
 | `Research Beta 4.1` | Can coherent drift still be valuable? | Coherent absurdity became a small selective class. |
 | `Research Beta 5.1` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` stays active, with the instruction surface tightened to preserve shape-first lane control. |
-| `Research Beta 6.0` | Can Probaboracle hold shape across a bounded fixed-prompt pulse? | The fixed-prompt pulse becomes the binary unit. |
+| `Research Beta 6.0` | Can Probaboracle hold shape across a bounded fixed-prompt pulse? | The fixed-prompt pulse becomes the binary unit, but the first line is held as a snapshot until a clean proper-config baseline is defined. |
 
 Active pulse method:
 
@@ -139,8 +143,13 @@ flowchart LR
 
 Plans are useful, but they are not evidence. They do not become active method until the repo earns them.
 
-Parked lanes:
+Planning lanes:
 
+- clean baseline reset:
+  - compare the Beta `6.0` snapshot against a proper-config
+    baseline
+  - keep the comparison diagram explicit before deciding whether this becomes a
+    new beta boundary or a reset inside Beta `6.0`
 - provider portability:
   - keep OpenAI-native behaviour stable if the runtime surface later widens
   - leave room for an Azure-compatible path if it becomes necessary

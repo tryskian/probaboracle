@@ -21,6 +21,7 @@ Current research stage:
 - `fail-pressure pulse`
 - first fixed-prompt pulse: `FAIL`
 - result: `1` anchor / `13` counted seams / `0` excluded
+- status: snapshot for clean-baseline planning
 
 Most recently closed beta:
 
@@ -33,6 +34,12 @@ still follows the normal beta-test discipline: run the active eval method,
 collect comparable evidence, and assign one binary verdict. Its active method
 is `eval-pulse`: one fixed-prompt pulse receives rows as evidence, and the
 pulse earns one `PASS` or `FAIL` verdict.
+
+The next research slice should not treat the first Beta `6.0` correction as a
+clean comparable baseline. Earlier hard-coded prompt scaffolds were removed,
+but their history may still contaminate the interpretation of the current
+logic. The next baseline should start from the proper cleaned config and be
+compared against this Beta `6.0` snapshot as a separate line.
 
 ## What This Repo Demonstrates
 
