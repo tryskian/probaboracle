@@ -6,7 +6,7 @@
 
 Probaboracle is a small, local, agent-backed CLI mini chatbot using the **[Polinko research model](https://github.com/tryskian/polinko)**.
 
-It only accepts four question lanes:
+It only accepts four question types:
 
 - `what`
 - `when`
@@ -15,11 +15,11 @@ It only accepts four question lanes:
 
 That narrow surface is the point. Probaboracle is not trying to be a general chat tool. It is a small instrument for studying whether a model can stay coherent, vague, answer-shaped, and product-specific inside tight interaction guardrails.
 
-Current research lane:
+Current research stage:
 
 - `Research Beta 6.0`
 - `fail-pressure pulse`
-- first bounded one-prompt eval run: `FAIL`
+- first fixed-prompt pulse: `FAIL`
 - result: `1` anchor / `13` counted seams / `0` excluded
 
 Most recently closed beta:
@@ -29,19 +29,24 @@ Most recently closed beta:
 
 In this repo, a new beta gets pinned when the method change alters what the
 evidence means, not just when wording or procedure gets tidier. `Beta 6.0`
-opens the fail-pressure pulse lane: rows become evidence inside one bounded
-eval run, and the run earns one `PASS` or `FAIL` verdict.
+still follows the normal beta-test discipline: run the active eval method,
+collect comparable evidence, and assign one binary verdict. Its active method
+is `eval-pulse`: one fixed-prompt pulse receives rows as evidence, and the
+pulse earns one `PASS` or `FAIL` verdict.
 
 ## What This Repo Demonstrates
 
 - constrained one-node generation through a fixed prompt surface
 - coherence-first evaluation instead of one overloaded product verdict
-- recurring failure as evidence before it earns runtime correction
-- explicit post-fail gate stack:
-  - `PASS / FAIL`
-  - if `FAIL`, then `RETAIN / EVICT`
-  - rerun
-  - `PASS / FAIL`
+- beta-specific evidence gates:
+  - row-level baselines use `PASS / FAIL`
+  - closed `Beta 5.1` failures can then earn `RETAIN / EVICT`
+  - active `Beta 6.0` judges one fixed-prompt pulse at a time
+  - active `Beta 6.0` rows are only pulse evidence inside that pulse:
+    - `anchor`
+    - `counted_seam`
+    - `excluded_noise`
+  - active `Beta 6.0` assigns one `PASS / FAIL` verdict to the pulse
 
 ## Run It
 
@@ -50,7 +55,7 @@ make install
 probaboracle
 ```
 
-The app opens a compact terminal loop. Choose a question lane with the arrow keys, press `enter`, or hit `esc` to exit.
+The app opens a compact terminal loop. Choose a question type with the arrow keys, press `enter`, or hit `esc` to exit.
 
 The operator commands, eval workflow, and setup checks live in the [runtime runbook](./docs/runtime/RUNBOOK.md).
 

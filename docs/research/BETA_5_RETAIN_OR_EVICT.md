@@ -186,4 +186,5 @@ correction under the same Beta `5.0` frame, and then shows that `why` can
 also earn `evict` for a different reason: product-level duplicate fallback.
 
 `Research Beta 6.0` now carries the next method question: how to judge bounded
-non-OCR runs once run-level seam density matters more than single-row replay.
+non-OCR pulses once pulse-level seam density matters more than single-row
+replay.

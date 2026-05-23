@@ -60,7 +60,9 @@ The runtime is not stitched from static fragments. The shared style signals are 
 
 Eval data lives in `.local/evals.sqlite`.
 
-Generated rows are stored in `eval_outputs`. Human judgments are append-only history, with the current verdict mirrored onto the output row for fast listing and charting.
+Generated rows are stored in `eval_outputs`. Human judgments are append-only
+history, with the current verdict mirrored onto the output row for fast listing
+and charting.
 
 Archived rows stay in the same SQLite store with archive metadata, but the default operator surfaces treat them as inactive:
 
@@ -68,7 +70,7 @@ Archived rows stay in the same SQLite store with archive metadata, but the defau
 - counts and session status exclude them
 - the public static eval chart excludes them
 
-The active binary lenses are:
+The row-level binary lenses are:
 
 - product fit
 - coherence
@@ -76,6 +78,20 @@ The active binary lenses are:
 - coherent absurdity
 
 Coherence is the primary experimental gate. It only passes when the line resolves as one sentence with one dominant reasoning lane.
+
+The active Beta `6.0` gate is pulse-level:
+
+- each pulse uses one fixed prompt
+- one fixed-prompt pulse
+- row labels as evidence only:
+  - `anchor`
+  - `counted_seam`
+  - `excluded_noise`
+- one pulse-level `pass` or `fail`
+
+Beta `6.0` pulse labels do not update `eval_outputs.current_verdict`.
+Row-level product verdicts remain the `Beta 5.1` comparison surface and the
+operator chart source, not the active Beta `6.0` verdict unit.
 
 The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md`. The more detailed stop/pass/fail operator flow stays in local/private `docs/peanut/` notes.
 
@@ -86,13 +102,13 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
 - The prompt surface stays fixed to `what`, `when`, `why`, and `where`.
 - The default user path does not accept freeform input.
 - Operator commands stay separate from the app loop.
-- Eval verdicts stay binary:
+- Eval verdicts stay binary, but the active beta owns the unit:
   - `pass`
   - `fail`
-- Post-fail handling stays explicit:
-  - if `fail`, decide `retain / evict`
-  - rerun
-  - judge `pass / fail` again
+- Row-level baselines may decide `retain / evict` after a failure family
+  stabilizes.
+- Beta `6.0` rows are not product-judged; they feed one fixed-prompt pulse
+  verdict.
 - Runtime directions describe the target reasoning shape rather than accumulating long restriction lists.
 
 ## Operator Surface

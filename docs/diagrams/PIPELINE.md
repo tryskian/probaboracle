@@ -60,7 +60,24 @@ flowchart TD
   M --> J
 ```
 
-## Post-Fail Gate Stack
+## Active Beta 6.0 Pulse Gate
+
+```mermaid
+flowchart LR
+  A["Fixed prompt"] --> B["Fixed-prompt pulse"]
+  B --> C["Row evidence labels"]
+  C --> D["anchor"]
+  C --> E["counted_seam"]
+  C --> F["excluded_noise"]
+  D --> G{"Pulse PASS / FAIL"}
+  E --> G
+  F --> G
+  G -->|"PASS"| H["Keep confidence in prompt shape"]
+  G -->|"FAIL"| I["Plan the smallest shape correction"]
+  I --> J["Rerun one fixed-prompt pulse"]
+```
+
+## Closed Row-Level Gate Stack
 
 ```mermaid
 flowchart LR
@@ -92,9 +109,18 @@ Product fit sits downstream of those two lenses:
 - coherent and in-lane lines can satisfy product fit directly
 - coherent but out-of-lane lines can still satisfy product fit when they land as strong coherent absurdity
 
-That gate stack stays explicit:
+The closed row-level gate stack stays explicit for the `Beta 5.1` comparison
+surface:
 
 - `PASS / FAIL`
 - if `FAIL`, then `RETAIN / EVICT`
 - rerun
 - `PASS / FAIL`
+
+The active `Beta 6.0` gate is different:
+
+- one fixed prompt feeds one fixed-prompt pulse
+- different prompts get separate pulses
+- rows become evidence inside that pulse
+- pulse evidence is `anchor`, `counted_seam`, or `excluded_noise`
+- the pulse receives one `PASS / FAIL` verdict

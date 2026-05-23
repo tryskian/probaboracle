@@ -138,7 +138,7 @@ Storage:
 - `make archive-pending ARCHIVE_NOTE="stale pending archive before the next long run"`
 
 `archive-pending` only archives unlabeled product-pending rows. Pulse-labeled
-rows stay visible as evidence for the bounded run.
+rows stay visible as evidence for the fixed-prompt pulse.
 
 Sample generation:
 
@@ -173,14 +173,14 @@ Sidecar verdicts:
 Pulse evidence:
 
 - `make eval-pulse-start PROMPT=why PULSE_MINUTES=15`
-  - run one prompt lane for a time-boxed pulse and print the generated id range
+  - run one fixed-prompt pulse and print the generated id range
   - default pacing is one sample per minute
 - `make eval-pulse-label ID=12 PULSE_LABEL=anchor`
 - `make eval-pulse-label ID=13 PULSE_LABEL=counted_seam`
 - `make eval-pulse-label ID=14 PULSE_LABEL=excluded_noise PULSE_REASON=operator_artifact`
 - `make eval-pulse-report PULSE_START_ID=12 PULSE_END_ID=26`
 
-Pulse labels are evidence labels for a bounded run. They are not product
+Pulse labels are evidence labels for a fixed-prompt pulse. They are not product
 verdicts and do not update `eval_outputs.current_verdict`.
 
 ## Eval Chart
@@ -238,9 +238,9 @@ That routine runs:
 - `make session-status`
 - `make end-git-check`
 
-## Long-Run Eval Loop
+## Row-Level Eval Loop
 
-Use this when broad lane pressure matters.
+Use this for closed row-level baselines such as `Research Beta 5.1`.
 
 1. Hold the current baseline steady.
 2. Generate weighted batches when one lane is dragging.
@@ -265,16 +265,46 @@ Use this when broad lane pressure matters.
 11. Treat repeated failure clusters as the evidence surface for the
   `retain / evict` decision, not as automatic intervention.
 
-Useful wrappers:
+Row-level useful wrappers:
 
 - `make sweep-gremlin`
 - `make sweep-gremlin SWEEP_COUNT=3`
 - `make sweep-rigorous`
 - `make sweep-rigorous SWEEP_COUNT=3 SWEEP_LIST_LIMIT=10`
 
-## Single-Product Signal Loop
+Do not use this loop as the active `Research Beta 6.0` verdict unit.
 
-Use this when isolating the strongest per-product signal for coherent absurdity.
+## Beta 6.0 Pulse Loop
+
+Use this as the active `Research Beta 6.0` beta-test loop. It follows the same
+beta discipline as earlier loops, but uses `eval-pulse` because the
+fixed-prompt pulse, not the row, is the binary unit.
+
+1. Choose one fixed prompt.
+2. Run one fixed-prompt pulse:
+  - `make eval-pulse-start PROMPT=why PULSE_MINUTES=15`
+3. Label every row as pulse evidence:
+  - `anchor`
+  - `counted_seam`
+  - `excluded_noise`
+4. Give each `excluded_noise` row one reason:
+  - `operator_artifact`
+  - `off_target_failure`
+5. Report the fixed-prompt pulse:
+  - `make eval-pulse-report PULSE_START_ID=12 PULSE_END_ID=26`
+  - the reported range should come from one fixed prompt
+6. Assign one verdict to the pulse:
+  - `pass`
+  - `fail`
+
+Pulse labels do not update `eval_outputs.current_verdict`. A pulse-labeled row
+may stay product-pending because it is evidence inside the pulse, not a
+row-level Beta `6.0` product judgment.
+
+## Single-Product Row-Level Signal Loop
+
+Use this when isolating the strongest per-product row signal for coherent
+absurdity.
 
 1. Generate one product:
   - `make sample PROMPT=what COUNT=1`
@@ -297,7 +327,7 @@ Use this when isolating the strongest per-product signal for coherent absurdity.
   - the fresh product queue is empty
 10. After the run, decide whether the dominant fail family is still:
   - `retain`
-    - `evict`
+  - `evict`
 11. Only reroute or tighten the runtime after the family has actually earned
   `evict`.
 
@@ -308,21 +338,23 @@ Use this when isolating the strongest per-product signal for coherent absurdity.
   - `make end-pending-check`
 3. Clear the gate by:
   - judging fresh product rows
-  - pulse-labeling rows that belong to a Beta `6.0` run
+  - pulse-labeling rows that belong to a Beta `6.0` pulse
   - or archiving stale product-pending rows
 4. Pulse-labeled rows may keep `current_verdict` empty because the verdict
-   belongs to the bounded run.
+   belongs to the fixed-prompt pulse.
 5. Sidecar lens backlog does not replace the product gate in this closeout rule.
 
 ## Layered Eval Lenses
 
-- Product fit is the strict oracle-quality gate.
+- Product fit is the strict row-level oracle-quality gate.
 - Coherence is the primary experimental gate:
   - `pass` = one resolved sentence with one dominant reasoning lane
   - `fail` = fragment stacking, one-line-list rhythm, hinge accumulation, or punctuation doing the reasoning work
   - for short lines, `2+` commas is a hard fail shortcut
 - Prompt relevance asks whether a coherence-passing line stays in-lane.
 - Coherent absurdity is only meaningful once coherence already passes.
+- Beta `6.0` uses those row reads only as evidence inside the fixed-prompt pulse;
+  the pulse itself receives one `pass` or `fail`.
 
 ## Command Ownership
 
