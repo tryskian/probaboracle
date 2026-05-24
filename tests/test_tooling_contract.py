@@ -67,6 +67,18 @@ class ToolingContractTests(unittest.TestCase):
         ):
             self.assertIn(command, docs)
 
+    def test_import_sorting_is_owned_by_ruff_not_isort_extension(self) -> None:
+        pyproject = read("pyproject.toml")
+        doctor = read("src/probaboracle/doctor_env.py")
+
+        self.assertIn('select = ["E", "F", "I", "UP", "B"]', pyproject)
+        self.assertIn("ruff check scripts src tests", read("Makefile"))
+        self.assertIn("ruff format --check scripts src tests", read("Makefile"))
+
+        self.assertNotIn('"isort', pyproject)
+        self.assertNotIn("[tool.isort]", pyproject)
+        self.assertNotIn('"isort"', doctor)
+
 
 if __name__ == "__main__":
     unittest.main()
