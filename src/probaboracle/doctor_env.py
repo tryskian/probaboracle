@@ -92,7 +92,6 @@ def _check_imports() -> int:
 
     optional_dev_modules = [
         "build",
-        "isort",
         "mypy",
     ]
     for name in optional_dev_modules:

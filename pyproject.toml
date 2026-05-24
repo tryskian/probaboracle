@@ -21,7 +21,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "build==1.5.0",
-  "isort==8.0.1",
   "mypy==2.1.0",
   "pip-audit==2.10.0",
   "pre-commit==4.6.0",
@@ -44,12 +43,6 @@ src = ["src", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
-
-[tool.isort]
-profile = "black"
-line_length = 88
-src_paths = ["src", "tests"]
-known_first_party = ["probaboracle"]
 
 [tool.mypy]
 python_version = "3.10"
