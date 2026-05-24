@@ -1089,3 +1089,39 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   then another small correction would be hard to interpret. The next useful
   move is a new clean baseline candidate that can be compared against the
   Beta `6.0` snapshot rather than folded into it.
+
+## D-058: Public licence surface follows Polinko style
+
+- Date: `2026-05-24`
+- Category: `workflow_environment`
+- Tags: `licence`, `package_metadata`, `polinko_lineage`
+- Provenance: `repo formalization`
+- Decision:
+  - present the README licence section with the same `Licence` heading and link
+    phrasing used by Polinko
+  - declare `license = "Apache-2.0"` in package metadata
+  - leave the Apache `LICENSE` legal text unchanged
+- Why: The repo should expose the same public licence style as the surrounding
+  Polinko toy-factory repos while keeping legal text distinct from presentation
+  and package metadata.
+
+## D-059: Ruff owns import sorting
+
+- Date: `2026-05-24`
+- Category: `workflow_environment`
+- Tags: `tooling_baseline`, `ruff`, `import_sorting`, `maintenance`
+- Provenance: `implementation decision`
+- Decision:
+  - use Ruff for linting, formatting checks, and import sorting
+  - keep import sorting under the existing `make lint` and `make format-check`
+    operator path
+  - do not carry a separate isort dependency, isort config block, or doctor-env
+    optional import check
+- Validation:
+  - `make check`
+  - `make lint-docs`
+  - `make package-check`
+  - `make end-preflight`
+- Why: Probaboracle does not need two import-order authorities. Keeping import
+  sorting in Ruff reduces maintenance surface area while preserving the same
+  local and CI validation path.
