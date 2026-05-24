@@ -112,6 +112,10 @@ The app loop is the default user-facing path. It opens the responsive header and
   - `make package-check`
   - `make package-install-check`
   - `make security-checks`
+- Python style and import ordering are owned by Ruff:
+  - `make lint`
+  - `make format-check`
+  - no separate isort dependency or config
 - Dependabot version updates are configured for:
   - `github-actions`
   - `pip`
@@ -206,10 +210,11 @@ Run the smallest check set that matches the change:
   - `make format-check`
   - `make lint`
 - docs change:
-  - `npm run lint:docs`
+  - `make lint-docs`
   - `git diff --check`
 - packaging or dependency metadata change:
   - `make package-check`
+  - `make package-install-check`
 - eval persistence change:
   - `make eval-init`
   - `make sample PROMPT=what COUNT=1`

@@ -39,6 +39,7 @@ Operator commands remain separate:
 - `make end-preflight`
 - `make end-git-check`
 - `make lint-docs`
+- `make package-check`
 - `make package-install-check`
 - `make security-checks`
 - `make caffeinate`
@@ -52,6 +53,17 @@ Operator commands remain separate:
 - `archive-pending`
 - `judge`
 - sidecar judgment commands
+
+Current maintenance surface:
+
+- public licence presentation follows Polinko style:
+  - README heading and link text use `Licence`
+  - package metadata declares `license = "Apache-2.0"`
+  - the Apache `LICENSE` legal text is unchanged
+- Ruff owns Python linting, formatting checks, and import sorting:
+  - no separate isort dependency
+  - no `[tool.isort]` block
+  - no doctor-env isort import check
 
 ## Research Snapshot
 
@@ -230,9 +242,9 @@ Follow `docs/runtime/RUNBOOK.md`.
 
 Compact operator path:
 
-- `make end-preflight` before merge
-- `make end`
-- `make end-git-check` after merge/sync
+- `make end-preflight` before merge while still on the feature branch
+- after merge, sync clean `main`
+- `make end` on clean synced `main`
 - quick operator sheet: `docs/runtime/START_END_REFERENCE.md`
 
 At minimum:
