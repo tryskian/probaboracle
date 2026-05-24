@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Unhelpful local CLI mini oracle within Polinko with a constrained reasoning surface."
 readme = "README.md"
 requires-python = ">=3.10"
+license = "Apache-2.0"
 dependencies = [
   "idna==3.15",
   "openai==2.38.0",

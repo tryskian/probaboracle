@@ -84,9 +84,9 @@ make check
 - [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)
   - durable runtime and eval decisions
 
-## License
+## Licence
 
-Apache-2.0. See [LICENSE](LICENSE).
+Apache-2.0. See [licence](LICENSE).
 
 ---
 
