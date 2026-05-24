@@ -58,7 +58,7 @@ Eval:
 - `retain` means keep the family in the active lane and keep gathering baseline
   evidence under the current rule
 - `evict` means make the later upstream runtime correction because the failure
-  family has stabilized enough to earn removal
+  family has stabilised enough to earn removal
 - do not keep re-judging a known bad family forever once it has earned
   eviction
 - one eval focus at a time

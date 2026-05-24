@@ -132,9 +132,9 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - use one shared style-signal resource across all prompt types
   - let prompt type control the reasoning lane, not the flavour pool
   - treat the style signals as compositional cues rather than as a fixed lexical pool
-  - keep the model free to synthesize beyond the literal words provided
+  - keep the model free to synthesise beyond the literal words provided
   - this shape was explicitly clarified through human direction during the tone pass
-- Why: The prompt type should control the reasoning lane, while the model remains free to synthesize beyond the literal words provided.
+- Why: The prompt type should control the reasoning lane, while the model remains free to synthesise beyond the literal words provided.
 
 ## D-009: Hold the baseline and learn from failures
 
@@ -363,7 +363,7 @@ If a decision crosses layers, say so plainly instead of flattening the method in
     - immediate judgment
     - next product
   - but treat a longer serial chunk as the minimum useful surface for a live checkpoint
-  - use `25+` rows as the default minimum useful chunk before summarizing progress
+  - use `25+` rows as the default minimum useful chunk before summarising progress
   - treat `50-100` rows, or about one hour of serial lane work, as the real long-run surface
   - keep extra `when` pressure in the mix because that lane is the most useful stress test for the current coherence rule
 - Why: The value is in the data. Tiny taste-check runs make the method look cleaner than it really is and do not produce enough pressure to learn from the current coherence threshold.
@@ -551,7 +551,7 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - `retain` means the failure family stays in the active lane while the fixed
     rule keeps taking pressure
   - reserve `evict` for the later upstream runtime or boundary correction made
-    because that evidence has stabilized into one known bad family
+    because that evidence has stabilised into one known bad family
   - do not keep re-judging a family forever once it has clearly moved from
     active evidence into known residue
   - do not claim a `when` eviction fix yet while the current Beta `4.1` lane is
@@ -735,7 +735,7 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - `git diff --check`
 - Why: Probaboracle's startup ritual should end with the same explicit operator
   pause as the rest of the toy family. The docs list matters most at the final
-  stop sign, where the next instance has to read, summarize, and name exactly
+  stop sign, where the next instance has to read, summarise, and name exactly
   one active kernel before doing repo work.
 
 ## D-046: Align the full start/end operator surface with the repo family
@@ -829,7 +829,7 @@ If a decision crosses layers, say so plainly instead of flattening the method in
     - tone contract
     - output constraints
     - lane guardrails
-  - remove content-led scaffolds that oversteer the line toward repeated wording
+  - remove content-led scaffolds that oversteer the line towards repeated wording
     or stock closures
   - do not reintroduce a disguised word bank through examples, favourite
     closers, or preferred stock phrases
@@ -843,7 +843,7 @@ If a decision crosses layers, say so plainly instead of flattening the method in
     - `D-010`
     - `docs/governance/SESSION_HANDOFF.md`
   - confirm the live instruction path no longer hard-codes phrase examples as
-    favored output content
+    favoured output content
 - Why: The durable repo rules already say that style signals are cues, not a
   word bank, and that content-led cues invite repetition and drift. The live
   runtime surface had not fully caught up: it still carried explicit phrase
@@ -959,7 +959,7 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   local operator surface hid some checks behind npm commands and carried a
   stale duplicate end routine. The repo family needs a compact, explicit
   tooling surface that can be mirrored by the other toys without widening
-  runtime or eval behavior.
+  runtime or eval behaviour.
 
 ## D-053: Beta 6.0 judges one fixed-prompt pulse
 
