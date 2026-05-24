@@ -110,7 +110,7 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
   - `pass`
   - `fail`
 - Row-level baselines may decide `retain / evict` after a failure family
-  stabilizes.
+  stabilises.
 - Beta `6.0` rows are not product-judged; they feed one fixed-prompt pulse
   verdict.
 - Runtime directions describe the target reasoning shape rather than accumulating long restriction lists.

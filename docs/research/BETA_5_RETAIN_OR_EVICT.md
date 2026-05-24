@@ -98,7 +98,7 @@ The post-evict confirmation rerun then covered rows `4098-4197`:
 - `100` rows total
 - `97 pass / 3 fail / 0 pending`
 
-The note mix shifted hard toward clean passes:
+The note mix shifted hard towards clean passes:
 
 - `83` `good scheduling refusal`
 - `14` `plain when line`

@@ -34,7 +34,7 @@ flowchart LR
 
 ## What It Showed
 
-- pushing the tone toward deadpan, vague, and unhelpful
+- pushing the tone towards deadpan, vague, and unhelpful
 - finding obvious misses quickly
 - shaping the product voice
 
