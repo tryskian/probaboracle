@@ -1,13 +1,12 @@
 # Probaboracle
 
-[![Research Stage](https://img.shields.io/badge/research_stage-clean%20baseline%20reset-4C956C)](./docs/research/README.md) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
+[![Research Stage](https://img.shields.io/badge/research_stage-clean%20baseline%20reset-4C956C)](./docs/research/README.md) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C) ![Refactor](https://img.shields.io/badge/refactor-in%20progress-F28E2B)
 
 ## probably a mini oracle. definitely a mini chatbot
 
-> **Current refactor:** Probaboracle is in a clean-baseline refactor. The
-> Beta `6.0` pulse is preserved as a diagnostic snapshot, not active baseline
-> proof. The next comparable evidence gate is a new fixed-prompt `eval-pulse`
-> from the proper-config candidate.
+> **Refactor in progress.** Probaboracle is in a clean-baseline refactor.
+> The Beta `6.0` pulse is preserved as a diagnostic snapshot before the next
+> fixed-prompt `eval-pulse` is cut from the proper-config candidate.
 
 Probaboracle is a small, local, agent-backed CLI mini chatbot using the **[Polinko research model](https://github.com/tryskian/polinko)**.
 
