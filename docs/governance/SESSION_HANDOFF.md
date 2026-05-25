@@ -84,10 +84,16 @@ Current reset state:
   - proper-config candidate
   - structural config only
   - minimal routing prompt in `agent.py`
+- current kernel:
+  - docs cleanup before local evidence collection
 - next eval gate:
   - `eval-pulse`
   - one fixed prompt per pulse
   - one pulse-level `PASS / FAIL`
+- first clean-baseline pulse plan:
+  - fixed prompt `why`
+  - fresh local eval DB boundary
+  - compare against the Beta `6.0` `why` snapshot
 - status:
   - first valid Beta `6.0` fixed-prompt pulse failed
   - that line is now a diagnostic snapshot
@@ -158,7 +164,7 @@ Useful current reads:
     - `counted_seam`
     - `excluded_noise`
   - one `PASS / FAIL` verdict for the pulse
-  - no row-level Beta `6.0` product judgments
+  - no row-level product judgments inside that pulse
   - first valid pulse failed:
     - ids: `4850-4863`
     - fixed prompt: `why`
@@ -201,11 +207,17 @@ Choose one lane at a time:
 - research:
   - keep `Beta 5.1` frozen as the most recently closed row-level beta
   - treat `Beta 6.0` as the latest pulse-level diagnostic snapshot
-  - validate the clean baseline source reset before rerunning live evals
+  - finish docs cleanup and validate the clean baseline reset before running
+    local evals
   - preserve the explicit comparison boundary:
     - row-level `5.1`
     - pulse-level `6.0` snapshot
     - clean baseline candidate
+  - first clean-baseline pulse target is `why` because it directly compares
+    against the Beta `6.0` diagnostic `why` pulse
+  - start from a fresh local eval store:
+    - `make eval-init`
+    - `make eval-pulse-start PROMPT=why PULSE_MINUTES=15`
   - diagram the comparison:
     - Beta `6.0` snapshot
     - clean baseline candidate
@@ -222,6 +234,10 @@ Choose one lane at a time:
     is cleared
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
+  - current cleanup should remove stale "active Beta `6.0`" framing from
+    stable docs while preserving historical decision entries
+  - use `docs/runtime/templates/` for new public research docs and pulse
+    reports
   - keep `docs/peanut/` as the private scratch lane
 
 ## Guardrails
@@ -232,14 +248,15 @@ Choose one lane at a time:
 - Keep prompt types fixed to `what`, `when`, `why`, and `where`.
 - Do not add freeform input while the constrained interaction theory is active.
 - Keep eval verdicts binary only.
-- Keep the active beta's verdict unit explicit:
+- Keep the current verdict unit explicit:
   - row-level `5.1`
-  - pulse-level `6.0`
+  - pulse-level `6.0` snapshot
+  - clean-baseline pulse candidate
 - Keep config structural; prompt phrase banks do not belong there.
 - Keep prompt routing minimal; content-led cues invite repetition and drift.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
 - Treat `retain / evict` as the closed row-level failure-family layer, not as
-  the active `Beta 6.0` row gate.
+  the pulse-level row gate.
 - `when` has earned `evict`, and the first narrow fix is now confirmed.
 - `why` has now earned `evict`, but the first fix attempt overcollapsed and
 was not promoted.

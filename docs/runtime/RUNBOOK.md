@@ -308,7 +308,7 @@ source reset.
 
 Pulse labels do not update `eval_outputs.current_verdict`. A pulse-labeled row
 may stay product-pending because it is evidence inside the pulse, not a
-row-level Beta `6.0` product judgment.
+row-level product judgment.
 
 ## Single-Product Row-Level Signal Loop
 

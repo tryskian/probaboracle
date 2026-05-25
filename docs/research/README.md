@@ -7,12 +7,25 @@ method shifts that changed what the evidence means.
 
 Raw run notes, operator poking, and private scratch material stay in the local `docs/peanut/` lane.
 
+Public research-doc templates live in
+[docs/runtime/templates/](../runtime/templates/README.md). Use them when a
+planned note graduates from scratch work into tracked docs.
+
+Current public research surface:
+
+| Surface | Role | Status |
+| --- | --- | --- |
+| [Research Beta 6.0](./BETA_6_FAIL_PRESSURE_PULSE.md) | latest pulse-method evidence | diagnostic snapshot |
+| [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md) | proper-config comparison plan | active reset |
+| [Runtime templates](../runtime/templates/README.md) | reusable public doc shapes | ready |
+
 ## Current Stage
 
 Current research stage:
 
 - `clean baseline reset`
 - source state: proper-config candidate
+- current kernel: docs cleanup before local evidence collection
 - next eval gate: `eval-pulse`
 
 Most recent diagnostic snapshot:
@@ -77,11 +90,11 @@ Current reset method:
 - `Research Beta 5.1` is closed as the row-level `retain / evict` baseline
 - `Research Beta 6.0` is the latest pulse-level diagnostic snapshot
 - the clean-baseline candidate keeps the same pulse-level method
+- first clean-baseline pulse target: fixed prompt `why`
 - one fixed-prompt pulse is judged at a time
 - label rows as `anchor`, `counted_seam`, or `excluded_noise`
 - first pulse verdict: `FAIL`
-- next work is validating the clean baseline source reset before another live
-  run
+- next work is docs cleanup and validation before the local run
 - keep row-level `5.1` as the comparison surface, not the active method
 
 ## Beta Map
@@ -99,7 +112,11 @@ Current reset:
 
 - [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md)
 - proper-config candidate
+- first planned comparison: `why` pulse against the Beta `6.0` `why` snapshot
 - same fixed-prompt pulse method before the next boundary decision
+- future promoted pulse reports should start from the public validation
+  template:
+  - [Validation Template](../runtime/templates/validation.md)
 
 Pulse method reference:
 
@@ -166,13 +183,17 @@ Plans are useful, but they are not evidence. They do not become active method un
 Active reset lane:
 
 - clean baseline reset:
+  - finish tracked docs cleanup before local evidence collection
   - keep `config.py` structural
   - keep prompt phrase banks and slot scaffolds out of the source surface
   - compare the Beta `6.0` snapshot against the next proper-config pulse
+  - use the public runtime templates when the next pulse report or seam case is
+    promoted into tracked docs
   - keep the comparison diagram explicit before deciding whether this becomes
     a new beta boundary or a reset inside Beta `6.0`
 
 Planning lanes:
+
 - provider portability:
   - keep OpenAI-native behaviour stable if the runtime surface later widens
   - leave room for an Azure-compatible path if it becomes necessary

@@ -44,12 +44,12 @@ Eval:
 - `pass`
 - `fail`
 - no `mixed` state
-- the active beta defines the unit of judgment:
+- the research method defines the unit of judgment:
   - row-level baselines judge rows
-  - Beta `6.0` judges fixed-prompt pulses
-- Beta `6.0` runs one fixed-prompt pulse at a time:
+  - pulse-level baselines judge fixed-prompt pulses
+- pulse-level work runs one fixed-prompt pulse at a time:
   - different prompts get separate pulses
-- Beta `6.0` rows are pulse evidence only inside that pulse:
+- pulse rows are evidence only inside that pulse:
   - `anchor`
   - `counted_seam`
   - `excluded_noise`
@@ -107,6 +107,7 @@ Default execution model:
 | `docs/runtime/ARCHITECTURE.md` | stable system shape |
 | `docs/runtime/RUNBOOK.md` | operator procedure and commands |
 | `docs/runtime/START_END_REFERENCE.md` | compact day-open/day-close operator sheet |
+| `docs/runtime/templates/` | public templates for research docs and pulse reports |
 | `docs/governance/SESSION_HANDOFF.md` | current checkpoint and next slice |
 | `docs/diagrams/PIPELINE.md` | public generation and eval-shape diagrams |
 

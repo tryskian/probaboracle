@@ -90,7 +90,9 @@ make check
 - [docs/research/README.md](./docs/research/README.md)
   - beta map and research reading path
 - [docs/research/CLEAN_BASELINE_RESET.md](./docs/research/CLEAN_BASELINE_RESET.md)
-  - current reset boundary before the next live pulse
+  - current reset boundary, docs cleanup, and first local pulse plan
+- [docs/runtime/templates/README.md](./docs/runtime/templates/README.md)
+  - public templates for future research docs and pulse reports
 - [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)
   - durable runtime and eval decisions
 
