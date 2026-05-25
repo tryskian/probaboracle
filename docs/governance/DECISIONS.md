@@ -1181,3 +1181,35 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   scratch material or older row-level wording. Putting the templates under
   runtime docs keeps the process discoverable while preserving the public
   research lane for actual findings.
+
+## D-062: Probsie chart types follow eval shape first
+
+- Date: `2026-05-25`
+- Category: `eval_quality`, `workflow_environment`
+- Tags: `data_viz`, `observable_plot`, `pulse_method`, `chart_types`
+- Provenance: `human-led visualisation planning with Codex chart-type review`
+- Decision:
+  - choose chart types from Probsie's eval data shape before aligning with
+    neighbouring toy repos
+  - use shared chart families only when the data shape naturally matches:
+    - bars for counts
+    - stacked bars for part-to-whole eval labels
+    - table heatmaps for matrix-style lens/status reads
+    - slope charts only for real before/after correction pairs
+  - keep the initial Probsie chart set focused on:
+    - `eval-pulse-stack`: stacked horizontal bar chart
+    - `pulse-comparison`: grouped or faceted stacked horizontal bars
+    - `eval-detail-table`: detail table below the chart
+    - `row-verdict-stack`: stacked bar chart by prompt type
+    - `lens-table-heatmap`: table heatmap
+    - `fail-family-bars`: horizontal bar chart
+    - `correction-slope`: optional slope chart when correction pairs exist
+  - treat small multiples as a layout choice inside comparison views, not as a
+    standalone chart family
+  - treat lollipop styling as an option inside `fail-family-bars`, not as a
+    separate chart family
+  - keep Sankey-style method storytelling out of the initial eval-data set
+- Why: Probsie's data is primarily an eval-method surface: row-level verdicts,
+  sidecar lenses, fixed-prompt pulse labels, and pulse-level verdicts. The
+  chart set should make that method legible without forcing another toy's
+  shape onto Probsie.

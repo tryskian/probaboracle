@@ -4,6 +4,11 @@
 
 ## probably a mini oracle. definitely a mini chatbot
 
+> **Current refactor:** Probaboracle is in a clean-baseline refactor. The
+> Beta `6.0` pulse is preserved as a diagnostic snapshot, not active baseline
+> proof. The next comparable evidence gate is a new fixed-prompt `eval-pulse`
+> from the proper-config candidate.
+
 Probaboracle is a small, local, agent-backed CLI mini chatbot using the **[Polinko research model](https://github.com/tryskian/polinko)**.
 
 It only accepts four question types:
@@ -63,6 +68,24 @@ healthy.
   - the clean-baseline candidate keeps the same pulse method before the next
     beta-boundary decision
 
+## Data Viz Direction
+
+Probsie charts follow the eval shape first. Shared chart families are useful
+only when the data shape naturally matches.
+
+The initial visualisation set is:
+
+- pulse charts:
+  - stacked horizontal bars for `anchor`, `counted_seam`, and `excluded_noise`
+  - grouped or faceted pulse comparison for snapshot versus clean baseline
+- detail table:
+  - row id, prompt, output, pulse label, reason, and seam note below the chart
+- row and lens charts:
+  - row-level `pass / fail / pending` stack by prompt type
+  - prompt-by-lens table heatmap
+  - fail-family horizontal bars
+  - correction slope only when true before/after pairs exist
+
 ## Run It
 
 ```sh
@@ -91,6 +114,10 @@ make check
   - beta map and research reading path
 - [docs/research/070_CB-CLEAN_BASELINE_RESET.md](./docs/research/070_CB-CLEAN_BASELINE_RESET.md)
   - current reset boundary, docs cleanup, and first local pulse plan
+- [docs/diagrams/EVAL_CHART.md](./docs/diagrams/EVAL_CHART.md)
+  - current static eval chart contract
+- [docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md)
+  - public generation and eval-shape diagrams
 - [docs/runtime/templates/README.md](./docs/runtime/templates/README.md)
   - public templates for future research docs and pulse reports
 - [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)
