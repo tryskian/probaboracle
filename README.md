@@ -1,6 +1,6 @@
 # Probaboracle
 
-[![Research Stage](https://img.shields.io/badge/research_stage-Research%20Beta%206.0%20fail--pressure%20pulse-E15759)](./docs/research/README.md) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
+[![Research Stage](https://img.shields.io/badge/research_stage-clean%20baseline%20reset-4C956C)](./docs/research/README.md) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
 
 ## probably a mini oracle. definitely a mini chatbot
 
@@ -17,11 +17,17 @@ That narrow surface is the point. Probaboracle is not trying to be a general cha
 
 Current research stage:
 
+- `clean baseline reset`
+- source state: proper-config candidate
+- next eval gate: `eval-pulse`
+
+Most recent diagnostic snapshot:
+
 - `Research Beta 6.0`
-- `fail-pressure pulse`
+- method: `fail-pressure pulse`
 - first fixed-prompt pulse: `FAIL`
 - result: `1` anchor / `13` counted seams / `0` excluded
-- status: snapshot for clean-baseline planning
+- status: diagnostic snapshot, not a clean baseline
 
 Most recently closed beta:
 
@@ -29,31 +35,33 @@ Most recently closed beta:
 - `retain + evict`
 
 In this repo, a new beta gets pinned when the method change alters what the
-evidence means, not just when wording or procedure gets tidier. `Beta 6.0`
-still follows the normal beta-test discipline: run the active eval method,
-collect comparable evidence, and assign one binary verdict. Its active method
-is `eval-pulse`: one fixed-prompt pulse receives rows as evidence, and the
-pulse earns one `PASS` or `FAIL` verdict.
+evidence means, not just when wording or procedure gets tidier. The current
+reset keeps the `eval-pulse` method but stops treating the first Beta `6.0`
+line as live baseline proof.
 
-The next research slice should not treat the first Beta `6.0` correction as a
-clean comparable baseline. Earlier hard-coded prompt scaffolds were removed,
-but their history may still contaminate the interpretation of the current
-logic. The next baseline should start from the proper cleaned config and be
-compared against this Beta `6.0` snapshot as a separate line.
+The next baseline starts from structural config only: fixed prompt types,
+binary verdicts, runtime settings, and a minimal routing prompt in the agent
+path. Earlier prompt scaffolds and config-level word lists are kept out of the
+fresh line. The next comparable evidence should be a new fixed-prompt pulse,
+run one prompt at a time after the rate-limit / prepaid-credit boundary is
+healthy.
 
 ## What This Repo Demonstrates
 
 - constrained one-node generation through a fixed prompt surface
+- structural config without prompt phrase banks
 - coherence-first evaluation instead of one overloaded product verdict
 - beta-specific evidence gates:
   - row-level baselines use `PASS / FAIL`
   - closed `Beta 5.1` failures can then earn `RETAIN / EVICT`
-  - active `Beta 6.0` judges one fixed-prompt pulse at a time
-  - active `Beta 6.0` rows are only pulse evidence inside that pulse:
+  - the Beta `6.0` snapshot judged one fixed-prompt pulse at a time
+  - pulse rows are only evidence inside that pulse:
     - `anchor`
     - `counted_seam`
     - `excluded_noise`
-  - active `Beta 6.0` assigns one `PASS / FAIL` verdict to the pulse
+  - the pulse receives one `PASS / FAIL` verdict
+  - the clean-baseline candidate keeps the same pulse method before the next
+    beta-boundary decision
 
 ## Run It
 
@@ -81,6 +89,8 @@ make check
 
 - [docs/research/README.md](./docs/research/README.md)
   - beta map and research reading path
+- [docs/research/CLEAN_BASELINE_RESET.md](./docs/research/CLEAN_BASELINE_RESET.md)
+  - current reset boundary before the next live pulse
 - [docs/governance/DECISIONS.md](./docs/governance/DECISIONS.md)
   - durable runtime and eval decisions
 

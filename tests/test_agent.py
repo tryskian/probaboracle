@@ -25,6 +25,8 @@ class AgentPromptContractTests(TestCase):
     def test_oracle_instructions_do_not_embed_stock_phrase_lists_or_examples(
         self,
     ) -> None:
+        self.assertNotIn("Shared style signals:", ORACLE_INSTRUCTIONS)
+        self.assertNotIn("Treat signal lists", ORACLE_INSTRUCTIONS)
         self.assertNotIn("Vary the opener across signals like", ORACLE_INSTRUCTIONS)
         self.assertNotIn("Good lane examples:", ORACLE_INSTRUCTIONS)
         self.assertNotIn("Bad lane examples:", ORACLE_INSTRUCTIONS)
@@ -32,21 +34,21 @@ class AgentPromptContractTests(TestCase):
         self.assertNotIn("Prefer clean contradiction", ORACLE_INSTRUCTIONS)
         self.assertNotIn("reasoning lane", ORACLE_INSTRUCTIONS)
         self.assertNotIn("flavour pool", ORACLE_INSTRUCTIONS)
+        self.assertNotIn("slot", ORACLE_INSTRUCTIONS.lower())
 
-    def test_build_prompt_uses_shape_contract_without_lane_examples(self) -> None:
+    def test_build_prompt_uses_minimal_routing_contract(self) -> None:
         prompt = build_prompt("why")
 
-        self.assertIn("Shared style signals:", prompt)
-        self.assertIn("compact", prompt)
-        self.assertIn("slot c", prompt)
-        self.assertIn("choose one plain sentence claim", prompt)
-        self.assertIn("make grammar carry the answer shape", prompt)
-        self.assertIn("prefer one clear subject and finite verb", prompt)
-        self.assertIn("keep imagery secondary to the sentence claim", prompt)
-        self.assertIn("vary sentence openings across samples", prompt)
+        self.assertIn("Selected prompt type: why.", prompt)
+        self.assertIn("Fixed prompt position: 3 of 4.", prompt)
+        self.assertIn("private routing context", prompt)
+        self.assertIn("Return only the final line.", prompt)
+        self.assertNotIn("Shared style signals:", prompt)
+        self.assertNotIn("Shape contract:", prompt)
+        self.assertNotIn("Private steps:", prompt)
+        self.assertNotIn("Output guards:", prompt)
+        self.assertNotIn("slot", prompt.lower())
         self.assertNotIn("Lane example:", prompt)
-        self.assertNotIn("Selected prompt type:", prompt)
-        self.assertNotIn("why", prompt.lower())
         self.assertNotIn("reason", prompt.lower())
         self.assertNotIn("causal", prompt.lower())
         self.assertNotIn("cause", prompt.lower())
@@ -74,3 +76,7 @@ class AgentPromptContractTests(TestCase):
         self.assertNotIn("decorative metaphor", prompt)
         self.assertNotIn("fallback loops", prompt)
         self.assertNotIn("reason without becoming a real explanation", prompt)
+
+    def test_build_prompt_rejects_unknown_prompt_type(self) -> None:
+        with self.assertRaises(ValueError):
+            build_prompt("how")

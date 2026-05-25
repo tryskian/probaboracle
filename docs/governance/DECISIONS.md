@@ -1125,3 +1125,37 @@ If a decision crosses layers, say so plainly instead of flattening the method in
 - Why: Probaboracle does not need two import-order authorities. Keeping import
   sorting in Ruff reduces maintenance surface area while preserving the same
   local and CI validation path.
+
+## D-060: Clean baseline reset removes config prompt banks
+
+- Date: `2026-05-25`
+- Category: `runtime_engineering`, `eval_quality`
+- Tags: `clean_baseline`, `prompt_surface`, `config`, `beta_6_snapshot`
+- Provenance: `human-led method decision with implementation decision`
+- Decision:
+  - keep the eval machinery, tests, and tracked beta history
+  - treat the first Beta `6.0` pulse and its first correction as a diagnostic
+    snapshot, not as clean baseline proof
+  - keep `config.py` structural:
+    - fixed prompt types
+    - binary verdicts
+    - settings
+    - environment loading
+  - remove prompt phrase banks, style-signal lists, pipeline-step lists, and
+    hidden slot scaffolds from config
+  - keep the generation path agent-backed through one minimal routing prompt
+  - remove the research beta label from the user-facing CLI banner because
+    research betas are method eras, not app versions
+  - keep the fixed-prompt pulse method for the next comparable run
+  - start the next live pulse from a fresh local eval store after validation
+- Validation:
+  - `make test TEST_ARGS="tests/test_agent.py tests/test_config.py tests/test_main.py"`
+  - `make format-check`
+  - `make lint-docs`
+  - `git diff --check`
+  - `make check`
+- Why: The repo already had enough evidence that previous prompt scaffolding
+  could contaminate the interpretation of the Beta `6.0` line. Deleting the
+  eval tools would lose the lab bench; keeping phrase-bank config would make
+  the next pulse hard to trust. The clean reset keeps the measurement system
+  and strips the live prompt surface back to a proper-config candidate.

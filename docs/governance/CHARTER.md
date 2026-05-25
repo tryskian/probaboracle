@@ -17,7 +17,8 @@ Runtime:
 - local and CLI-first
 - agent-backed through the OpenAI Agents SDK
 - one model generation path, not stitched fragment composition
-- minimal config with an explicit reasoning target
+- minimal structural config
+- no config-level prompt phrase banks
 - runtime directions that describe the target shape instead of accumulating restriction piles
 
 Prompt surface:
@@ -118,7 +119,7 @@ In scope:
 - local CLI runtime
 - fixed prompt selection
 - agent-backed generation
-- one-node model generation with shared vocabulary
+- one-node model generation without configured phrase banks
 - local SQLite eval storage
 - binary human judgment
 - diagram-backed runtime explanation

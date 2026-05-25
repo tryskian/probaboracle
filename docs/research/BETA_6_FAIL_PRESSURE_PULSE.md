@@ -2,8 +2,8 @@
 
 ## Status
 
-Active method; first valid pulse failed; current line is a snapshot for
-clean-baseline planning.
+Diagnostic snapshot. The first valid pulse failed, and the current line is held
+for clean-baseline comparison rather than treated as live baseline proof.
 
 `Research Beta 6.0` uses a fixed-prompt pulse as the binary unit:
 
@@ -14,9 +14,9 @@ clean-baseline planning.
 - row product verdicts: not part of this beta
 - row pulse labels: evidence only
 
-This beta is run like the earlier beta tests: use the active eval method,
-collect comparable evidence, and assign one binary verdict. The method changes
-to `eval-pulse`; the pulse is the tested object.
+This beta was run like the earlier beta tests: use the active eval method,
+collect comparable evidence, and assign one binary verdict. The method changed
+to `eval-pulse`; the pulse became the tested object.
 
 ## What This Beta Asks
 
@@ -95,14 +95,15 @@ Invalidated false starts:
   - rows were exported to the local undo lane before deletion
   - rows were discarded from the active eval surface
 
-The next work is to decide the smallest correction that breaks the repeated
-soft-drift family without returning to hard-coded phrase scaffolds.
+The next work is no longer another small correction on this same line. It is a
+clean-baseline reset that starts from structural config and compares the next
+proper-config pulse against this snapshot.
 
 Live reruns are paused until rate limits and prepaid credits are healthy again.
 
 ## First Correction Surface
 
-The first correction is shape-first and grammar-led. It does not add prompt
+The first correction was shape-first and grammar-led. It did not add prompt
 examples or a phrase bank.
 
 Runtime pressure now asks each response to:
@@ -113,19 +114,21 @@ Runtime pressure now asks each response to:
 - keep imagery secondary to the sentence claim
 - vary sentence openings across samples
 
-That correction targets the repeated soft-drift family while keeping the
-fixed-prompt pulse method unchanged. The next live pulse should wait until the
-rate-limit / prepaid-credit boundary is healthy.
+That correction targeted the repeated soft-drift family while keeping the
+fixed-prompt pulse method unchanged. It is now part of the diagnostic snapshot,
+not the clean comparable baseline.
 
 ## Clean-Baseline Reset Question
 
-The first correction is not a clean comparable baseline yet.
+The first correction is not a clean comparable baseline.
 
 Earlier hard-coded prompt scaffolds were removed from the runtime surface, but
 the current Beta `6.0` evidence may still be shaped by that prior config
 history. Treat the failed pulse and the grammar-led correction as diagnostic
 surfaces. Do not fold the next run into the same line until the baseline
 question is settled.
+
+The active reset note is [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md).
 
 Next research slice:
 

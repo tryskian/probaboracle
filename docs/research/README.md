@@ -11,18 +11,26 @@ Raw run notes, operator poking, and private scratch material stay in the local `
 
 Current research stage:
 
+- `clean baseline reset`
+- source state: proper-config candidate
+- next eval gate: `eval-pulse`
+
+Most recent diagnostic snapshot:
+
 - `Research Beta 6.0`
 - `fail-pressure pulse`
-- snapshot for clean-baseline planning
+- first pulse verdict: `FAIL`
+- snapshot held for comparison only
 
 Most recently closed beta:
 
 - `Research Beta 5.1`
 - `retain + evict`
 
-Current pulse question:
+Clean-baseline question:
 
-Can Probaboracle hold its shape across a bounded fixed-prompt pulse?
+Can Probaboracle produce a comparable fixed-prompt pulse from structural config
+alone, without carrying forward prompt phrase banks or slot scaffolds?
 
 Current finding:
 
@@ -47,10 +55,10 @@ Current finding:
     - `strong why lane`: `15`
 - the next method question is no longer whether `retain / evict` belongs in
   the active line
-- `Research Beta 6.0` is active as the next method:
+- `Research Beta 6.0` produced the current diagnostic snapshot:
   - pulse duration: `15` minutes
   - each pulse uses one fixed prompt
-  - beta tests use the `eval-pulse` method
+  - the method used `eval-pulse`
   - default pacing: about one sample per minute
   - row labels are pulse evidence only
   - one `PASS / FAIL` verdict for the pulse
@@ -64,15 +72,16 @@ Current finding:
 - the current Beta `6.0` line should be treated as diagnostic rather than clean
   comparison evidence until a proper-config baseline is defined
 
-Current active method:
+Current reset method:
 
 - `Research Beta 5.1` is closed as the row-level `retain / evict` baseline
-- `Research Beta 6.0` is the active pulse-level method
+- `Research Beta 6.0` is the latest pulse-level diagnostic snapshot
+- the clean-baseline candidate keeps the same pulse-level method
 - one fixed-prompt pulse is judged at a time
 - label rows as `anchor`, `counted_seam`, or `excluded_noise`
 - first pulse verdict: `FAIL`
-- next work is defining a clean baseline candidate from the proper config, not
-  another live run yet
+- next work is validating the clean baseline source reset before another live
+  run
 - keep row-level `5.1` as the comparison surface, not the active method
 
 ## Beta Map
@@ -84,9 +93,15 @@ Current active method:
 | `Research Beta 3.0` | Is a coherent line in-lane? | Prompt relevance separated lane control from sentence quality. |
 | `Research Beta 4.1` | Can coherent drift still be valuable? | Coherent absurdity became a small selective class. |
 | `Research Beta 5.1` | When does a fail family stay active evidence versus earn eviction? | `retain / evict` stays active, with the instruction surface tightened to preserve shape-first lane control. |
-| `Research Beta 6.0` | Can Probaboracle hold shape across a bounded fixed-prompt pulse? | The fixed-prompt pulse becomes the binary unit, but the first line is held as a snapshot until a clean proper-config baseline is defined. |
+| `Research Beta 6.0` | Can Probaboracle hold shape across a bounded fixed-prompt pulse? | The fixed-prompt pulse became the binary unit, but the first line is now a diagnostic snapshot. |
 
-Active pulse method:
+Current reset:
+
+- [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md)
+- proper-config candidate
+- same fixed-prompt pulse method before the next boundary decision
+
+Pulse method reference:
 
 - `Research Beta 6.0`
 - [Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md)
@@ -100,6 +115,7 @@ Read in order:
 4. [Research Beta 4.1: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
 5. [Research Beta 5.1: Retain + Evict](./BETA_5_RETAIN_OR_EVICT.md)
 6. [Research Beta 6.0: Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md)
+7. [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md)
 
 ## How To Read The Betas And Stages
 
@@ -115,6 +131,8 @@ Each beta marks a real change in what the evaluation is asking:
 - `Research Beta 5.1` separates failure evidence from later runtime correction while keeping the live instruction path shape-first
 - `Research Beta 6.0` moves bounded non-OCR work from row-level product
   verdicts to pulse evidence plus one pulse-level verdict
+- the clean baseline reset is not a new beta yet; it resets the source surface
+  before the next pulse decides whether the beta boundary moves
 
 Later betas do not erase earlier ones. They narrow what each verdict is allowed to mean.
 
@@ -128,6 +146,7 @@ flowchart LR
   B4["Research Beta 4.1<br/>coherence + coherent absurdity"]
   B5["Research Beta 5.1<br/>retain + evict"]
   B6["Research Beta 6.0<br/>bounded fail-pressure pulse"]
+  C1["Clean baseline reset<br/>proper-config candidate"]
 
   S1["one verdict overloaded tone,<br/>sentence quality, and lane control"]
   S2["coherence pulled out as the<br/>primary experimental gate"]
@@ -135,21 +154,25 @@ flowchart LR
   S4["valuable coherent drift preserved<br/>as a selective class"]
   S5["failure evidence separated from<br/>later runtime correction"]
   S6["row evidence labels feed<br/>one pulse verdict"]
+  S7["source surface reset before<br/>the next comparable pulse"]
 
-  B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4 --> B5 --> S5 --> B6 --> S6
+  B1 --> S1 --> B2 --> S2 --> B3 --> S3 --> B4 --> S4 --> B5 --> S5 --> B6 --> S6 --> C1 --> S7
 ```
 
 ## Plans
 
 Plans are useful, but they are not evidence. They do not become active method until the repo earns them.
 
-Planning lanes:
+Active reset lane:
 
 - clean baseline reset:
-  - compare the Beta `6.0` snapshot against a proper-config
-    baseline
-  - keep the comparison diagram explicit before deciding whether this becomes a
-    new beta boundary or a reset inside Beta `6.0`
+  - keep `config.py` structural
+  - keep prompt phrase banks and slot scaffolds out of the source surface
+  - compare the Beta `6.0` snapshot against the next proper-config pulse
+  - keep the comparison diagram explicit before deciding whether this becomes
+    a new beta boundary or a reset inside Beta `6.0`
+
+Planning lanes:
 - provider portability:
   - keep OpenAI-native behaviour stable if the runtime surface later widens
   - leave room for an Azure-compatible path if it becomes necessary
