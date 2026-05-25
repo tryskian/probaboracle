@@ -5,6 +5,10 @@
 Diagnostic snapshot. The first valid pulse failed, and the current line is held
 for clean-baseline comparison rather than treated as live baseline proof.
 
+This page owns the public evidence record for the Beta `6.0` pulse. New
+proper-config results belong in [Clean Baseline Reset](./070_CB-CLEAN_BASELINE_RESET.md)
+or a promoted pulse report, not as another result claim on this snapshot page.
+
 `Research Beta 6.0` uses a fixed-prompt pulse as the binary unit:
 
 - duration: `15` minutes
@@ -128,13 +132,14 @@ history. Treat the failed pulse and the grammar-led correction as diagnostic
 surfaces. Do not fold the next run into the same line until the baseline
 question is settled.
 
-The active reset note is [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md).
+The active reset note is [Clean Baseline Reset](./070_CB-CLEAN_BASELINE_RESET.md).
 
 Next research slice:
 
 - define a clean baseline candidate from the proper cleaned config
 - keep the fixed-prompt pulse method unchanged
 - compare the Beta `6.0` snapshot against the clean baseline line
+- use the public runtime templates for any promoted pulse report or seam case
 - use a diagram to make the comparison boundary explicit
 - only then decide whether the clean baseline is a new beta boundary or a
   reset inside Beta `6.0`

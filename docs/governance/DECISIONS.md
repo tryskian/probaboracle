@@ -1147,7 +1147,8 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - remove the research beta label from the user-facing CLI banner because
     research betas are method eras, not app versions
   - keep the fixed-prompt pulse method for the next comparable run
-  - start the next live pulse from a fresh local eval store after validation
+  - start the next comparable pulse from a fresh local eval store after
+    validation
 - Validation:
   - `make test TEST_ARGS="tests/test_agent.py tests/test_config.py tests/test_main.py"`
   - `make format-check`
@@ -1159,3 +1160,24 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   eval tools would lose the lab bench; keeping phrase-bank config would make
   the next pulse hard to trust. The clean reset keeps the measurement system
   and strips the live prompt surface back to a proper-config candidate.
+
+## D-061: Public research templates live under runtime docs
+
+- Date: `2026-05-25`
+- Category: `workflow_environment`, `eval_quality`
+- Tags: `docs_templates`, `research_docs`, `pulse_method`, `public_docs`
+- Provenance: `human-led docs process decision`
+- Decision:
+  - keep reusable public research-doc templates in `docs/runtime/templates/`
+  - use those templates for future beta boundaries, clean-baseline notes,
+    pulse reports, cases, hypotheses, and backlog docs
+  - keep `docs/peanut/` as the private scratch lane, not the public template
+    source
+  - keep the templates aligned with the fixed-prompt pulse method:
+    - one fixed-prompt pulse or run is the judged unit
+    - row labels are evidence only
+    - one pulse receives one `PASS / FAIL` verdict
+- Why: The repo needs a reusable public doc shape without promoting private
+  scratch material or older row-level wording. Putting the templates under
+  runtime docs keeps the process discoverable while preserving the public
+  research lane for actual findings.
