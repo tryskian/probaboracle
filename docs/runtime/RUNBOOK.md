@@ -277,13 +277,17 @@ Row-level useful wrappers:
 - `make sweep-rigorous`
 - `make sweep-rigorous SWEEP_COUNT=3 SWEEP_LIST_LIMIT=10`
 
-Do not use this loop as the active `Research Beta 6.0` verdict unit.
+Do not use this loop as the fixed-prompt pulse verdict unit.
 
-## Beta 6.0 Pulse Loop
+## Fixed-Prompt Pulse Loop
 
-Use this as the active `Research Beta 6.0` beta-test loop. It follows the same
-beta discipline as earlier loops, but uses `eval-pulse` because the
-fixed-prompt pulse, not the row, is the binary unit.
+Use this for Beta `6.0`-style pulse work and the next clean-baseline candidate.
+It follows the same beta discipline as earlier loops, but uses `eval-pulse`
+because the fixed-prompt pulse, not the row, is the binary unit.
+
+The first Beta `6.0` pulse is now a diagnostic snapshot. Do not treat it as the
+clean baseline. The next comparable pulse should start from the proper-config
+source reset.
 
 1. Choose one fixed prompt.
 2. Run one fixed-prompt pulse:

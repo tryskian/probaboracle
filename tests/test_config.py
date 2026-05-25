@@ -4,6 +4,7 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase
 from unittest.mock import patch
 
+import probaboracle.config as config
 from probaboracle.config import (
     PROMPT_TYPES,
     VERDICTS,
@@ -19,6 +20,20 @@ class ConfigContractTests(TestCase):
 
     def test_verdicts_are_binary_only(self) -> None:
         self.assertEqual(VERDICTS, ("pass", "fail"))
+
+    def test_config_stays_structural_without_prompt_phrase_banks(self) -> None:
+        removed_prompt_bank_names = (
+            "PROMPT_FRAMES",
+            "LANE_GUARDS",
+            "TONE_CONTRACT",
+            "PIPELINE_STEPS",
+            "STYLE_SIGNALS",
+            "OUTPUT_GUARDS",
+        )
+
+        for name in removed_prompt_bank_names:
+            with self.subTest(name=name):
+                self.assertFalse(hasattr(config, name))
 
     def test_prompt_type_normalisation_rejects_unknown_value(self) -> None:
         with self.assertRaises(ValueError):

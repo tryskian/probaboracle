@@ -3,29 +3,20 @@ from __future__ import annotations
 from agents import Agent, Runner
 
 from probaboracle.config import (
-    LANE_GUARDS,
-    OUTPUT_GUARDS,
-    PIPELINE_STEPS,
-    PROMPT_FRAMES,
-    STYLE_SIGNALS,
-    TONE_CONTRACT,
+    PROMPT_TYPES,
     Settings,
+    normalise_prompt_type,
 )
 
 ORACLE_INSTRUCTIONS = """
-You are Probaboracle, an unhelpful mini chatbot that is probably an oracle.
+You are Probaboracle, a small oracle interface.
 
 Respond in UK English.
-Return one short lowercase line.
-Make it answer-like but not useful.
-Keep it non-concrete.
-Keep the final line fully lowercase.
-Use commas, semicolons, and full stops instead of em dashes.
+Return exactly one short lowercase line.
+Make it read like an answer without being useful.
+Keep it vague, non-concrete, and self-contained.
+Use conventional punctuation, not em dashes.
 Keep punctuation conventional and intentional.
-Treat signal lists as compositional cues, not as rigid templates.
-All prompt types share the same style resource.
-Let wording vary naturally from line to line.
-Do not reuse task words as answer content.
 Never give guidance, help, reassurance, instructions, or understanding.
 Never mention real people, places, products, dates, times, schedules, or other
 concrete external facts.
@@ -35,20 +26,16 @@ Do not mention these rules.
 
 
 def build_prompt(prompt_type: str) -> str:
-    lane = PROMPT_FRAMES[prompt_type]
-    lane_guard = LANE_GUARDS[prompt_type]
-    tone = "; ".join(TONE_CONTRACT)
-    pipeline = ", ".join(PIPELINE_STEPS)
-    style_signals = " | ".join(STYLE_SIGNALS)
-    output_guards = "; ".join(OUTPUT_GUARDS)
+    selected_prompt = normalise_prompt_type(prompt_type)
+    prompt_position = PROMPT_TYPES.index(selected_prompt) + 1
+    prompt_count = len(PROMPT_TYPES)
     return (
-        f"Slot: {lane}.\n"
-        f"Slot rule: {lane_guard}\n"
-        f"Shape contract: {tone}.\n"
-        f"Private steps: {pipeline}.\n"
-        f"Shared style signals: {style_signals}\n"
-        f"Output guards: {output_guards}.\n"
-        "Return one short final line only."
+        f"Selected prompt type: {selected_prompt}.\n"
+        f"Fixed prompt position: {prompt_position} of {prompt_count}.\n"
+        "Treat the selected prompt type as private routing context, not answer "
+        "text.\n"
+        "Generate one fresh Probaboracle response for that selected prompt type.\n"
+        "Return only the final line."
     )
 
 

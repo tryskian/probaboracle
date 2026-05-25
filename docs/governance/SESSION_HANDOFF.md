@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-24
+Last updated: 2026-05-25
 
 ## Start Here
 
@@ -64,6 +64,11 @@ Current maintenance surface:
   - no separate isort dependency
   - no `[tool.isort]` block
   - no doctor-env isort import check
+- clean baseline source reset:
+  - `config.py` is structural only
+  - prompt phrase banks, style-signal lists, pipeline-step lists, and slot
+    scaffolds are out of config
+  - the app banner says `PROBABORACLE`, not a research beta label
 
 ## Research Snapshot
 
@@ -72,18 +77,24 @@ Most recently closed beta:
 - `Research Beta 5.1`
 - `retain + evict`
 
-Current active method:
+Current reset state:
 
-- `Research Beta 6.0`
-- `fail-pressure pulse`
+- `clean baseline reset`
+- source state:
+  - proper-config candidate
+  - structural config only
+  - minimal routing prompt in `agent.py`
+- next eval gate:
+  - `eval-pulse`
+  - one fixed prompt per pulse
+  - one pulse-level `PASS / FAIL`
 - status:
-  - active method
-  - first valid fixed-prompt pulse failed
-  - snapshot for clean-baseline planning
-  - live eval work paused on rate-limit / prepaid-credit boundary
-  - invalid false starts discarded
+  - first valid Beta `6.0` fixed-prompt pulse failed
+  - that line is now a diagnostic snapshot
+  - live eval work remains paused on the rate-limit / prepaid-credit boundary
+  - invalid false starts were discarded
 
-Current long-run checkpoint:
+Historical eval checkpoint before the local fresh-start strip:
 
 - product-judged through row `4723`
 - pulse-labeled through row `4863`
@@ -94,6 +105,8 @@ Current long-run checkpoint:
 - archived out of the active surface:
   - `501` stale product-pending rows
   - `364` pre-sidecar rows with no live coherence lane
+- this checkout's local `.local/evals.sqlite` was removed for the fresh start
+- historical counts above are tracked documentation context, not live DB state
 
 The active coherence rule is stricter than the early runs:
 
@@ -136,7 +149,7 @@ Useful current reads:
 - Beta `5.1` is now the most recently closed row-level baseline:
   - retain-evict stays closed there
   - hard-coded phrase scaffolds are removed
-- Beta `6.0` has started as the active pulse-level method:
+- Beta `6.0` produced the latest pulse-level diagnostic snapshot:
   - each pulse uses one fixed prompt
   - pulse duration: `15` minutes
   - default pacing: about one sample per minute
@@ -161,11 +174,11 @@ Useful current reads:
   - keep imagery secondary to the sentence claim
   - vary sentence openings across samples
 - baseline reset note:
-  - do not treat that first correction as a clean comparable baseline yet
+  - do not treat that first correction as a clean comparable baseline
   - prior hard-coded prompt scaffolds may have contaminated the current logic
     line even after removal
-  - the next research slice should define a clean baseline from the proper
-    config before spending more live API calls
+  - the clean baseline source reset now defines the next proper-config
+    candidate before spending more live API calls
   - compare the Beta `6.0` snapshot against that clean baseline as a
     separate line, preferably with a diagram
 - Stop condition for the next session:
@@ -187,13 +200,12 @@ Choose one lane at a time:
   - keep the user loop separate from operator commands
 - research:
   - keep `Beta 5.1` frozen as the most recently closed row-level beta
-  - treat `Beta 6.0` as the active pulse-level method, but snapshot the current
-    evidence line before rerunning it
+  - treat `Beta 6.0` as the latest pulse-level diagnostic snapshot
+  - validate the clean baseline source reset before rerunning live evals
   - preserve the explicit comparison boundary:
     - row-level `5.1`
-    - pulse-level `6.0`
-  - define the clean baseline candidate from the proper config before running
-    another live pulse
+    - pulse-level `6.0` snapshot
+    - clean baseline candidate
   - diagram the comparison:
     - Beta `6.0` snapshot
     - clean baseline candidate
@@ -223,8 +235,8 @@ Choose one lane at a time:
 - Keep the active beta's verdict unit explicit:
   - row-level `5.1`
   - pulse-level `6.0`
-- Keep style signals as reasoning cues, not as a hard word bank.
-- Keep lane configs shape-first; content-led cues invite repetition and drift.
+- Keep config structural; prompt phrase banks do not belong there.
+- Keep prompt routing minimal; content-led cues invite repetition and drift.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
 - Treat `retain / evict` as the closed row-level failure-family layer, not as
   the active `Beta 6.0` row gate.

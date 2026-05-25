@@ -10,7 +10,7 @@ Use it when you need to understand how the app, generation path, eval storage, a
 | --- | --- |
 | `pyproject.toml` | package metadata and dependency pins |
 | `Makefile` | operator command surface |
-| `src/probaboracle/config.py` | prompt constants, settings, and runtime contract |
+| `src/probaboracle/config.py` | structural constants, settings, and runtime validation |
 | `src/probaboracle/agent.py` | OpenAI Agents SDK generation path |
 | `src/probaboracle/main.py` | default app loop and explicit subcommands |
 | `src/probaboracle/eval_db.py` | local SQLite eval storage |
@@ -44,21 +44,21 @@ Explicit subcommands such as `ask`, `sample`, `eval-list`, and `judge` remain av
 
 1. The selector returns one fixed prompt type.
 2. `config.py` validates that prompt type.
-3. The prompt type sets the reasoning lane and matched scope.
-4. The lane draws from shared style signals:
-   - certainty
-   - indecision
-   - connective hinges
-   - soft conclusions
-5. The runtime asks grammar to carry the answer shape:
-   - one plain sentence claim
-   - one clear subject and finite verb
-   - imagery secondary to the sentence claim
+3. `agent.py` builds one minimal routing prompt from the selected prompt type.
+4. The routing prompt treats the prompt type as private context, not answer text.
+5. `ORACLE_INSTRUCTIONS` carries the stable output contract:
+   - UK English
+   - one short lowercase line
+   - answer-like but not useful
+   - vague and non-concrete
+   - no concrete external facts
 6. `agent.py` runs one OpenAI Agents SDK generation node.
 7. The model resolves the final sentence structure inside that node.
 8. The CLI prints the final response.
 
-The runtime is not stitched from static fragments. The shared style signals are cues for synthesis, not a fixed word bank.
+The runtime is not stitched from static fragments. `config.py` does not hold
+prompt phrase banks, style-signal lists, pipeline-step lists, or hidden slot
+scaffolds.
 
 ## Eval Path
 
@@ -106,6 +106,7 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
 - The prompt surface stays fixed to `what`, `when`, `why`, and `where`.
 - The default user path does not accept freeform input.
 - Operator commands stay separate from the app loop.
+- Runtime config stays structural; prompt phrase banks do not belong there.
 - Eval verdicts stay binary, but the active beta owns the unit:
   - `pass`
   - `fail`
