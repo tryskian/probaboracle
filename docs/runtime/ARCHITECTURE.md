@@ -83,7 +83,7 @@ The row-level binary lenses are:
 
 Coherence is the primary experimental gate. It only passes when the line resolves as one sentence with one dominant reasoning lane.
 
-The active Beta `6.0` gate is pulse-level:
+The pulse-level gate is:
 
 - each pulse uses one fixed prompt
 - one fixed-prompt pulse
@@ -93,9 +93,9 @@ The active Beta `6.0` gate is pulse-level:
   - `excluded_noise`
 - one pulse-level `pass` or `fail`
 
-Beta `6.0` pulse labels do not update `eval_outputs.current_verdict`.
+Pulse labels do not update `eval_outputs.current_verdict`.
 Row-level product verdicts remain the `Beta 5.1` comparison surface and the
-operator chart source, not the active Beta `6.0` verdict unit.
+operator chart source, not the pulse-level verdict unit.
 
 The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md`. The more detailed stop/pass/fail operator flow stays in local/private `docs/peanut/` notes.
 
@@ -107,13 +107,12 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
 - The default user path does not accept freeform input.
 - Operator commands stay separate from the app loop.
 - Runtime config stays structural; prompt phrase banks do not belong there.
-- Eval verdicts stay binary, but the active beta owns the unit:
+- Eval verdicts stay binary, but the research method owns the unit:
   - `pass`
   - `fail`
 - Row-level baselines may decide `retain / evict` after a failure family
   stabilises.
-- Beta `6.0` rows are not product-judged; they feed one fixed-prompt pulse
-  verdict.
+- Pulse rows are not product-judged; they feed one fixed-prompt pulse verdict.
 - Runtime directions describe the target reasoning shape rather than accumulating long restriction lists.
 
 ## Operator Surface
@@ -139,6 +138,7 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
 | `docs/governance/CHARTER.md` | durable rules |
 | `docs/governance/DECISIONS.md` | durable runtime and eval decisions |
 | `docs/runtime/RUNBOOK.md` | operator procedure and commands |
+| `docs/runtime/templates/` | public templates for research docs and pulse reports |
 | `docs/governance/SESSION_HANDOFF.md` | current checkpoint and next slice |
 | `docs/research/` | tracked beta findings |
 | `docs/diagrams/PIPELINE.md` | public generation and eval-shape diagrams |

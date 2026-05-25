@@ -49,7 +49,7 @@ flowchart TD
   M --> J
 ```
 
-## Active Beta 6.0 Pulse Gate
+## Fixed-Prompt Pulse Gate
 
 ```mermaid
 flowchart LR
@@ -62,8 +62,8 @@ flowchart LR
   E --> G
   F --> G
   G -->|"PASS"| H["Keep confidence in prompt shape"]
-  G -->|"FAIL"| I["Plan the smallest shape correction"]
-  I --> J["Rerun one fixed-prompt pulse"]
+  G -->|"FAIL"| I["Plan the next bounded comparison"]
+  I --> J["Rerun one fixed-prompt pulse when the method earns it"]
 ```
 
 ## Clean-Baseline Comparison Plan
@@ -126,7 +126,7 @@ surface:
 - rerun
 - `PASS / FAIL`
 
-The active `Beta 6.0` gate is different:
+The pulse-level gate is different:
 
 - one fixed prompt feeds one fixed-prompt pulse
 - different prompts get separate pulses
@@ -134,6 +134,7 @@ The active `Beta 6.0` gate is different:
 - pulse evidence is `anchor`, `counted_seam`, or `excluded_noise`
 - the pulse receives one `PASS / FAIL` verdict
 
-The clean-baseline comparison is not another eval gate yet. It is a planning
+The clean-baseline comparison is not another eval result yet. It is a planning
 boundary that keeps the current Beta `6.0` snapshot separate from the next
-proper-config baseline candidate.
+proper-config baseline candidate until a local pulse is run, labeled, and
+reported.

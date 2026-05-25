@@ -1147,7 +1147,8 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   - remove the research beta label from the user-facing CLI banner because
     research betas are method eras, not app versions
   - keep the fixed-prompt pulse method for the next comparable run
-  - start the next live pulse from a fresh local eval store after validation
+  - start the next comparable pulse from a fresh local eval store after
+    validation
 - Validation:
   - `make test TEST_ARGS="tests/test_agent.py tests/test_config.py tests/test_main.py"`
   - `make format-check`
@@ -1159,3 +1160,56 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   eval tools would lose the lab bench; keeping phrase-bank config would make
   the next pulse hard to trust. The clean reset keeps the measurement system
   and strips the live prompt surface back to a proper-config candidate.
+
+## D-061: Public research templates live under runtime docs
+
+- Date: `2026-05-25`
+- Category: `workflow_environment`, `eval_quality`
+- Tags: `docs_templates`, `research_docs`, `pulse_method`, `public_docs`
+- Provenance: `human-led docs process decision`
+- Decision:
+  - keep reusable public research-doc templates in `docs/runtime/templates/`
+  - use those templates for future beta boundaries, clean-baseline notes,
+    pulse reports, cases, hypotheses, and backlog docs
+  - keep `docs/peanut/` as the private scratch lane, not the public template
+    source
+  - keep the templates aligned with the fixed-prompt pulse method:
+    - one fixed-prompt pulse or run is the judged unit
+    - row labels are evidence only
+    - one pulse receives one `PASS / FAIL` verdict
+- Why: The repo needs a reusable public doc shape without promoting private
+  scratch material or older row-level wording. Putting the templates under
+  runtime docs keeps the process discoverable while preserving the public
+  research lane for actual findings.
+
+## D-062: Probsie chart types follow eval shape first
+
+- Date: `2026-05-25`
+- Category: `eval_quality`, `workflow_environment`
+- Tags: `data_viz`, `observable_plot`, `pulse_method`, `chart_types`
+- Provenance: `human-led visualisation planning with Codex chart-type review`
+- Decision:
+  - choose chart types from Probsie's eval data shape before aligning with
+    neighbouring toy repos
+  - use shared chart families only when the data shape naturally matches:
+    - bars for counts
+    - stacked bars for part-to-whole eval labels
+    - table heatmaps for matrix-style lens/status reads
+    - slope charts only for real before/after correction pairs
+  - keep the initial Probsie chart set focused on:
+    - `eval-pulse-stack`: stacked horizontal bar chart
+    - `pulse-comparison`: grouped or faceted stacked horizontal bars
+    - `eval-detail-table`: detail table below the chart
+    - `row-verdict-stack`: stacked bar chart by prompt type
+    - `lens-table-heatmap`: table heatmap
+    - `fail-family-bars`: horizontal bar chart
+    - `correction-slope`: optional slope chart when correction pairs exist
+  - treat small multiples as a layout choice inside comparison views, not as a
+    standalone chart family
+  - treat lollipop styling as an option inside `fail-family-bars`, not as a
+    separate chart family
+  - keep Sankey-style method storytelling out of the initial eval-data set
+- Why: Probsie's data is primarily an eval-method surface: row-level verdicts,
+  sidecar lenses, fixed-prompt pulse labels, and pulse-level verdicts. The
+  chart set should make that method legible without forcing another toy's
+  shape onto Probsie.
