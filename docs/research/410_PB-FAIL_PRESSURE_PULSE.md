@@ -1,7 +1,7 @@
 # Pre-Beta 6.0: Fail-Pressure Pulse
 
 > Historical staging note. The active contract now lives in
-> [Research Beta 6.0: Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md).
+> [Research Beta 6.0: Fail-Pressure Pulse](./060_B-FAIL_PRESSURE_PULSE.md).
 
 ## What This Pre-Beta Asked
 

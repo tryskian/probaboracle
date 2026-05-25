@@ -58,10 +58,11 @@ Use boundary files like this in Probaboracle:
 
 Examples:
 
-- `010_B-RETAIN_EVICT.md`
-- `020_B-FAIL_PRESSURE_PULSE.md`
-- `030_CB-CLEAN_BASELINE_RESET.md`
-- `410_PB-NEXT_PULSE_METHOD.md`
+- `010_B-PRODUCT_FIT.md`
+- `051_B-RETAIN_OR_EVICT.md`
+- `060_B-FAIL_PRESSURE_PULSE.md`
+- `070_CB-CLEAN_BASELINE_RESET.md`
+- `410_PB-FAIL_PRESSURE_PULSE.md`
 
 ## Shared Metadata
 

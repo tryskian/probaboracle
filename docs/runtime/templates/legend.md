@@ -12,8 +12,10 @@
 
 | Code | File | Meaning | Category | Status |
 | --- | --- | --- | --- | --- |
-| `CBR` | `030_CB-CLEAN_BASELINE_RESET.md` | clean-baseline reset boundary | `boundary` | `active` |
-| `B60` | `060_B-FIXED_PROMPT_PULSE.md` | fixed-prompt pulse beta boundary | `boundary` | `snapshot` |
+| `B51` | `051_B-RETAIN_OR_EVICT.md` | retain/evict beta boundary | `boundary` | `closed` |
+| `B60` | `060_B-FAIL_PRESSURE_PULSE.md` | fail-pressure pulse beta boundary | `boundary` | `snapshot` |
+| `CBR` | `070_CB-CLEAN_BASELINE_RESET.md` | clean-baseline reset boundary | `boundary` | `active` |
+| `PB60` | `410_PB-FAIL_PRESSURE_PULSE.md` | staged fail-pressure pulse boundary | `boundary` | `archived` |
 | `PULSE` | `120_PULSE_METHOD.md` | current pulse method lane | `lane` | `active` |
 | `DRIFT` | `220_DRIFT_CASE.md` | bounded output drift case | `case` | `representative` |
 | `AUDIT` | `310_PROMPT_SURFACE_AUDIT.md` | prompt-surface validation proof | `validation` | `staged` |

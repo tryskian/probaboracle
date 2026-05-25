@@ -15,8 +15,8 @@ Current public research surface:
 
 | Surface | Role | Status |
 | --- | --- | --- |
-| [Research Beta 6.0](./BETA_6_FAIL_PRESSURE_PULSE.md) | latest pulse-method evidence | diagnostic snapshot |
-| [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md) | proper-config comparison plan | active reset |
+| [Research Beta 6.0](./060_B-FAIL_PRESSURE_PULSE.md) | latest pulse-method evidence | diagnostic snapshot |
+| [Clean Baseline Reset](./070_CB-CLEAN_BASELINE_RESET.md) | proper-config comparison plan | active reset |
 | [Runtime templates](../runtime/templates/README.md) | reusable public doc shapes | ready |
 
 ## Current Stage
@@ -110,7 +110,7 @@ Current reset method:
 
 Current reset:
 
-- [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md)
+- [Clean Baseline Reset](./070_CB-CLEAN_BASELINE_RESET.md)
 - proper-config candidate
 - first planned comparison: `why` pulse against the Beta `6.0` `why` snapshot
 - same fixed-prompt pulse method before the next boundary decision
@@ -121,18 +121,18 @@ Current reset:
 Pulse method reference:
 
 - `Research Beta 6.0`
-- [Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md)
-- staging note: [Pre-Beta 6.0](./PRE_BETA_6_FAIL_PRESSURE_PULSE.md)
+- [Fail-Pressure Pulse](./060_B-FAIL_PRESSURE_PULSE.md)
+- staging note: [Pre-Beta 6.0](./410_PB-FAIL_PRESSURE_PULSE.md)
 
 Read in order:
 
-1. [Research Beta 1.0: Product Fit Only](./BETA_1_PRODUCT_FIT.md)
-2. [Research Beta 2.0: Coherence First](./BETA_2_COHERENCE_FIRST.md)
-3. [Research Beta 3.0: Coherence + Prompt Relevance](./BETA_3_PROMPT_RELEVANCE.md)
-4. [Research Beta 4.1: Coherence + Coherent Absurdity](./BETA_4_COHERENT_ABSURDITY.md)
-5. [Research Beta 5.1: Retain + Evict](./BETA_5_RETAIN_OR_EVICT.md)
-6. [Research Beta 6.0: Fail-Pressure Pulse](./BETA_6_FAIL_PRESSURE_PULSE.md)
-7. [Clean Baseline Reset](./CLEAN_BASELINE_RESET.md)
+1. [Research Beta 1.0: Product Fit Only](./010_B-PRODUCT_FIT.md)
+2. [Research Beta 2.0: Coherence First](./020_B-COHERENCE_FIRST.md)
+3. [Research Beta 3.0: Coherence + Prompt Relevance](./030_B-PROMPT_RELEVANCE.md)
+4. [Research Beta 4.1: Coherence + Coherent Absurdity](./041_B-COHERENT_ABSURDITY.md)
+5. [Research Beta 5.1: Retain + Evict](./051_B-RETAIN_OR_EVICT.md)
+6. [Research Beta 6.0: Fail-Pressure Pulse](./060_B-FAIL_PRESSURE_PULSE.md)
+7. [Clean Baseline Reset](./070_CB-CLEAN_BASELINE_RESET.md)
 
 ## How To Read The Betas And Stages
 
