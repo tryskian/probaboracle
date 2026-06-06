@@ -1213,3 +1213,39 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   sidecar lenses, fixed-prompt pulse labels, and pulse-level verdicts. The
   chart set should make that method legible without forcing another toy's
   shape onto Probsie.
+
+## D-063: Runtime instructions state positive shape targets
+
+- Date: `2026-06-06`
+- Category: `runtime_engineering`, `eval_quality`
+- Tags: `positive_instruction`, `prompt_surface`, `clean_baseline`, `polinko_method`
+- Provenance: `human-led method decision`, later `implementation decision`
+- Decision:
+  - treat this correction as a human-led method decision:
+    - config states the structural runtime surface
+    - the agent instruction surface states the target output shape
+  - keep `config.py` structural
+  - state the live oracle instruction surface as positive output-shape targets:
+    - UK English
+    - one short lowercase line
+    - one complete sentence with a clear subject and finite verb
+    - answer-shaped, vague, abstract, generic, and self-contained
+    - grammar-led shape with imagery as secondary texture
+    - compact conventional punctuation
+    - flat oracle-like voice with deliberately low utility
+    - generic abstract referents
+  - keep routing language positive:
+    - selected prompt type
+    - fixed prompt position
+    - private response-shape context
+    - one fresh response
+    - final line only
+  - implement the correction in `src/probaboracle/agent.py`
+  - add tests that protect the live instruction and routing surfaces from
+    prohibition-directive drift
+- Why: The reset exists because the prior mixed config/instruction surface
+  helped contaminate the Beta `6.0` evidence. The Polinko method needs config
+  to record the structural experiment boundary, runtime instructions to state
+  the intended behaviour directly, and evals to judge the produced shape
+  against that target. A positive target surface gives the clean-baseline pulse
+  interpretable evidence from the actual toy contract.

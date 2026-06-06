@@ -43,17 +43,16 @@ evidence means, not just when wording or procedure gets tidier. The current
 reset keeps the `eval-pulse` method but stops treating the first Beta `6.0`
 line as live baseline proof.
 
-The next baseline starts from structural config only: fixed prompt types,
-binary verdicts, runtime settings, and a minimal routing prompt in the agent
-path. Earlier prompt scaffolds and config-level word lists are kept out of the
-fresh line. The next comparable evidence should be a new fixed-prompt pulse,
-run one prompt at a time after the rate-limit / prepaid-credit boundary is
-healthy.
+The next baseline starts from structural config plus agent-owned positive
+routing/output targets: fixed prompt types, binary verdicts, runtime settings,
+local paths, and a minimal positive routing prompt in the agent path. The next
+comparable evidence should be a new fixed-prompt pulse, run one prompt at a
+time after the rate-limit / prepaid-credit boundary is healthy.
 
 ## What This Repo Demonstrates
 
 - constrained one-node generation through a fixed prompt surface
-- structural config without prompt phrase banks
+- structural config plus positive agent-owned routing/output targets
 - coherence-first evaluation instead of one overloaded product verdict
 - beta-specific evidence gates:
   - row-level baselines use `PASS / FAIL`

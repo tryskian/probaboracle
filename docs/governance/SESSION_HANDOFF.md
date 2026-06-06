@@ -68,6 +68,8 @@ Current refactor surface:
   - `config.py` is structural only
   - prompt phrase banks, style-signal lists, pipeline-step lists, and slot
     scaffolds are out of config
+  - `agent.py` uses positive output-shape targets for the oracle instruction
+    surface and routing prompt
   - the app banner says `PROBABORACLE`, not a research beta label
 
 ## Research Snapshot
@@ -83,7 +85,7 @@ Current reset state:
 - source state:
   - proper-config candidate
   - structural config only
-  - minimal routing prompt in `agent.py`
+  - minimal positive routing prompt in `agent.py`
 - current kernel:
   - clean-baseline docs alignment before local evidence collection
 - next eval gate:
@@ -245,24 +247,24 @@ Choose one lane at a time:
 - Keep the runtime local and CLI-first.
 - Keep generation agent-backed through the OpenAI Agents SDK.
 - Keep prompt types fixed to `what`, `when`, `why`, and `where`.
-- Do not add freeform input while the constrained interaction theory is active.
+- Keep the constrained interaction theory on fixed prompt types.
 - Keep eval verdicts binary only.
 - Keep the current verdict unit explicit:
   - row-level `5.1`
   - pulse-level `6.0` snapshot
   - clean-baseline pulse candidate
-- Keep config structural; prompt phrase banks do not belong there.
+- Keep config structural: prompt types, binary verdicts, runtime settings, and
+  local paths.
 - Keep prompt routing minimal; content-led cues invite repetition and drift.
 - Prefer baseline-first tuning from repeated failures, not prompt accretion.
 - Treat `retain / evict` as the closed row-level failure-family layer, not as
   the pulse-level row gate.
 - `when` has earned `evict`, and the first narrow fix is now confirmed.
 - `why` has now earned `evict`, but the first fix attempt overcollapsed and
-was not promoted.
-- Do not use the saturated pre-fix `why` residue as the live post-fix
-denominator.
-- Do not count one repeated pass family as a healthy `why` lane.
-- Do not stack a new `why` fix with unrelated `when` or `where` tinkering.
+  was not promoted.
+- Use fresh post-fix `why` evidence as the live denominator.
+- Count a healthy `why` lane from varied pass families.
+- Tune one prompt family at a time.
 
 ## Close A Session
 

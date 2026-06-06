@@ -44,21 +44,26 @@ Explicit subcommands such as `ask`, `sample`, `eval-list`, and `judge` remain av
 
 1. The selector returns one fixed prompt type.
 2. `config.py` validates that prompt type.
-3. `agent.py` builds one minimal routing prompt from the selected prompt type.
-4. The routing prompt treats the prompt type as private context, not answer text.
+3. `agent.py` builds one minimal positive routing prompt from the selected
+   prompt type.
+4. The routing prompt uses the prompt type as private response-shape context.
 5. `ORACLE_INSTRUCTIONS` carries the stable output contract:
    - UK English
    - one short lowercase line
-   - answer-like but not useful
-   - vague and non-concrete
-   - no concrete external facts
+   - one complete sentence with a clear subject and finite verb
+   - answer-shaped, vague, abstract, generic, and self-contained
+   - grammar-led shape with imagery as secondary texture
+   - compact conventional punctuation
+   - flat oracle-like voice with deliberately low utility
+   - generic abstract referents
+   - only the response line
 6. `agent.py` runs one OpenAI Agents SDK generation node.
 7. The model resolves the final sentence structure inside that node.
 8. The CLI prints the final response.
 
-The runtime is not stitched from static fragments. `config.py` does not hold
-prompt phrase banks, style-signal lists, pipeline-step lists, or hidden slot
-scaffolds.
+The model owns the final sentence in one generation node. `config.py` carries
+structural runtime values: prompt types, binary verdicts, runtime settings, and
+local paths.
 
 ## Eval Path
 
@@ -104,15 +109,16 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
 - The runtime stays local and CLI-first.
 - The runtime stays agent-backed through the OpenAI Agents SDK.
 - The prompt surface stays fixed to `what`, `when`, `why`, and `where`.
-- The default user path does not accept freeform input.
+- The default user path uses the fixed selector as the prompt boundary.
 - Operator commands stay separate from the app loop.
-- Runtime config stays structural; prompt phrase banks do not belong there.
+- Runtime config stays structural: prompt types, binary verdicts, runtime
+  settings, and local paths.
 - Eval verdicts stay binary, but the research method owns the unit:
   - `pass`
   - `fail`
 - Row-level baselines may decide `retain / evict` after a failure family
   stabilises.
-- Pulse rows are not product-judged; they feed one fixed-prompt pulse verdict.
+- Pulse rows feed one fixed-prompt pulse verdict.
 - Runtime directions describe the target reasoning shape rather than accumulating long restriction lists.
 
 ## Operator Surface

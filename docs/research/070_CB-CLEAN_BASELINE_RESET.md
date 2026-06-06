@@ -35,7 +35,8 @@ Reset:
   - environment loading
 - prompt phrase banks, style-signal lists, pipeline-step lists, and slot
   scaffolds are no longer config content
-- `agent.py` owns one minimal routing prompt for the selected prompt type
+- `agent.py` owns one minimal positive routing prompt for the selected prompt
+  type
 - the CLI app banner no longer presents a research beta as an app version
 
 ## Cleanup Before Eval
@@ -91,7 +92,7 @@ separate line:
   - verdict `FAIL`
 - clean baseline candidate:
   - structural config
-  - minimal routing prompt
+  - minimal positive routing prompt
   - same fixed-prompt pulse method
   - fresh local eval store before collection
 
@@ -132,7 +133,7 @@ Comparison shape:
 | Line | Prompt | Config State | Method | Verdict |
 | --- | --- | --- | --- | --- |
 | Beta `6.0` snapshot | `why` | prior contaminated line | fixed-prompt pulse | `FAIL` |
-| clean baseline candidate | `why` | structural config + minimal routing prompt | fixed-prompt pulse | pending |
+| clean baseline candidate | `why` | structural config + positive routing prompt | fixed-prompt pulse | pending |
 
 The comparison should focus on pulse-level seam density:
 
@@ -142,5 +143,5 @@ The comparison should focus on pulse-level seam density:
 - repeated seam family, if any
 - one pulse-level verdict
 
-Do not judge the clean-baseline rows as product rows. They are evidence inside
-the fixed-prompt pulse.
+Use clean-baseline rows as evidence inside the fixed-prompt pulse. Apply
+product-row judgment to row-level baseline runs.

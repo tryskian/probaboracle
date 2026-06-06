@@ -43,7 +43,7 @@ Most recently closed beta:
 Clean-baseline question:
 
 Can Probaboracle produce a comparable fixed-prompt pulse from structural config
-alone, without carrying forward prompt phrase banks or slot scaffolds?
+plus agent-owned positive routing/output targets?
 
 Current finding:
 

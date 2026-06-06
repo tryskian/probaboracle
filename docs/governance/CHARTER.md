@@ -16,9 +16,9 @@ Runtime:
 
 - local and CLI-first
 - agent-backed through the OpenAI Agents SDK
-- one model generation path, not stitched fragment composition
+- one model generation path with model-owned final wording
 - minimal structural config
-- no config-level prompt phrase banks
+- config limited to prompt types, verdicts, runtime settings, and local paths
 - runtime directions that describe the target shape instead of accumulating restriction piles
 
 Prompt surface:
@@ -28,7 +28,8 @@ Prompt surface:
 - `why`
 - `where`
 
-The active runtime path does not accept freeform prompt input. The fixed prompt types are the interaction boundary and the reasoning boundary.
+The active runtime path uses fixed prompt types as the interaction boundary and
+the reasoning boundary.
 
 Responses:
 
@@ -36,14 +37,14 @@ Responses:
 - vague
 - answer-shaped
 - non-concrete
-- not a resource for yes, no, or maybe
+- low-utility oracle text
 
 Eval:
 
 - binary verdicts only
 - `pass`
 - `fail`
-- no `mixed` state
+- verdict state set stays binary
 - the research method defines the unit of judgment:
   - row-level baselines judge rows
   - pulse-level baselines judge fixed-prompt pulses
@@ -60,8 +61,7 @@ Eval:
   evidence under the current rule
 - `evict` means make the later upstream runtime correction because the failure
   family has stabilised enough to earn removal
-- do not keep re-judging a known bad family forever once it has earned
-  eviction
+- eviction ends repeated judgment of the known bad family
 - one eval focus at a time
 - treat small evals as smoke checks only
 - treat long-run consistency as the real evidence surface
