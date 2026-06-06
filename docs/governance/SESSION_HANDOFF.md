@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-05-25
+Last updated: 2026-06-06
 
 ## Start Here
 
@@ -54,7 +54,7 @@ Operator commands remain separate:
 - `judge`
 - sidecar judgment commands
 
-Current maintenance surface:
+Current refactor surface:
 
 - public licence presentation follows Polinko style:
   - README heading and link text use `Licence`
@@ -85,7 +85,7 @@ Current reset state:
   - structural config only
   - minimal routing prompt in `agent.py`
 - current kernel:
-  - docs cleanup before local evidence collection
+  - clean-baseline docs alignment before local evidence collection
 - next eval gate:
   - `eval-pulse`
   - one fixed prompt per pulse
@@ -207,8 +207,7 @@ Choose one lane at a time:
 - research:
   - keep `Beta 5.1` frozen as the most recently closed row-level beta
   - treat `Beta 6.0` as the latest pulse-level diagnostic snapshot
-  - finish docs cleanup and validate the clean baseline reset before running
-    local evals
+  - validate clean-baseline docs alignment before running local evals
   - preserve the explicit comparison boundary:
     - row-level `5.1`
     - pulse-level `6.0` snapshot
@@ -234,7 +233,7 @@ Choose one lane at a time:
     is cleared
 - docs:
   - sweep tracked docs after every runtime, product-shape, or research-method change
-  - current cleanup should remove stale "active Beta `6.0`" framing from
+  - keep stale "active Beta `6.0`" framing out of
     stable docs while preserving historical decision entries
   - use `docs/runtime/templates/` for new public research docs and pulse
     reports

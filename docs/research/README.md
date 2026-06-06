@@ -25,7 +25,7 @@ Current research stage:
 
 - `clean baseline reset`
 - source state: proper-config candidate
-- current kernel: docs cleanup before local evidence collection
+- current kernel: clean-baseline docs alignment before local evidence collection
 - next eval gate: `eval-pulse`
 
 Most recent diagnostic snapshot:
@@ -94,7 +94,7 @@ Current reset method:
 - one fixed-prompt pulse is judged at a time
 - label rows as `anchor`, `counted_seam`, or `excluded_noise`
 - first pulse verdict: `FAIL`
-- next work is docs cleanup and validation before the local run
+- next work is rate-limit / prepaid-credit confirmation before the local run
 - keep row-level `5.1` as the comparison surface, not the active method
 
 ## Beta Map
@@ -183,7 +183,7 @@ Plans are useful, but they are not evidence. They do not become active method un
 Active reset lane:
 
 - clean baseline reset:
-  - finish tracked docs cleanup before local evidence collection
+  - keep tracked docs aligned before local evidence collection
   - keep `config.py` structural
   - keep prompt phrase banks and slot scaffolds out of the source surface
   - compare the Beta `6.0` snapshot against the next proper-config pulse
