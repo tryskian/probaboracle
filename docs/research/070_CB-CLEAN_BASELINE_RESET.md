@@ -2,7 +2,7 @@
 
 ## Status
 
-Active docs cleanup and source reset before the next local pulse.
+Clean-baseline source reset before the next local pulse.
 
 The failed Beta `6.0` fixed-prompt pulse remains useful as a diagnostic
 snapshot, but it is not clean baseline proof. The next comparable line starts
@@ -40,7 +40,7 @@ Reset:
 
 ## Cleanup Before Eval
 
-Docs cleanup happens before local evidence collection:
+Tracked docs stay aligned before local evidence collection:
 
 - keep tracked docs aligned on the reset boundary
 - keep Beta `6.0` as a diagnostic snapshot, not the active baseline

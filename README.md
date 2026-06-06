@@ -112,7 +112,7 @@ make check
 - [docs/research/README.md](./docs/research/README.md)
   - beta map and research reading path
 - [docs/research/070_CB-CLEAN_BASELINE_RESET.md](./docs/research/070_CB-CLEAN_BASELINE_RESET.md)
-  - current reset boundary, docs cleanup, and first local pulse plan
+  - current reset boundary and first local pulse plan
 - [docs/diagrams/EVAL_CHART.md](./docs/diagrams/EVAL_CHART.md)
   - current static eval chart contract
 - [docs/diagrams/PIPELINE.md](./docs/diagrams/PIPELINE.md)
