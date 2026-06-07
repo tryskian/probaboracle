@@ -129,8 +129,7 @@ The first correction is not a clean comparable baseline.
 Earlier hard-coded prompt scaffolds were removed from the runtime surface, but
 the current Beta `6.0` evidence may still be shaped by that prior config
 history. Treat the failed pulse and the grammar-led correction as diagnostic
-surfaces. Do not fold the next run into the same line until the baseline
-question is settled.
+surfaces. Keep the next run separate until the baseline question is settled.
 
 The active reset note is [Clean Baseline Reset](./070_CB-CLEAN_BASELINE_RESET.md).
 

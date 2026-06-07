@@ -6,6 +6,17 @@ from probaboracle.agent import (
     normalise_response_text,
 )
 
+PROHIBITION_DIRECTIVES = (
+    "never",
+    "do not",
+    "don't",
+    "not ",
+    "without",
+    "avoid",
+    "instead of",
+    "no ",
+)
+
 
 class AgentOutputNormalisationTests(TestCase):
     def test_normalise_response_text_compacts_whitespace(self) -> None:
@@ -36,17 +47,31 @@ class AgentPromptContractTests(TestCase):
         self.assertNotIn("flavour pool", ORACLE_INSTRUCTIONS)
         self.assertNotIn("slot", ORACLE_INSTRUCTIONS.lower())
 
+    def test_oracle_instructions_use_positive_shape_targets(self) -> None:
+        self.assertIn("Write in UK English.", ORACLE_INSTRUCTIONS)
+        self.assertIn("Return exactly one short lowercase line.", ORACLE_INSTRUCTIONS)
+        self.assertIn("clear subject and finite verb", ORACLE_INSTRUCTIONS)
+        self.assertIn("answer-shaped, vague, abstract", ORACLE_INSTRUCTIONS)
+        self.assertIn("Use generic abstract referents.", ORACLE_INSTRUCTIONS)
+
+        lower_instructions = ORACLE_INSTRUCTIONS.lower()
+        for directive in PROHIBITION_DIRECTIVES:
+            with self.subTest(directive=directive):
+                self.assertNotIn(directive, lower_instructions)
+
     def test_build_prompt_uses_minimal_routing_contract(self) -> None:
         prompt = build_prompt("why")
 
         self.assertIn("Selected prompt type: why.", prompt)
         self.assertIn("Fixed prompt position: 3 of 4.", prompt)
         self.assertIn("private routing context", prompt)
+        self.assertIn("response shape", prompt)
         self.assertIn("Return only the final line.", prompt)
         self.assertNotIn("Shared style signals:", prompt)
         self.assertNotIn("Shape contract:", prompt)
         self.assertNotIn("Private steps:", prompt)
         self.assertNotIn("Output guards:", prompt)
+        self.assertNotIn("not answer text", prompt.lower())
         self.assertNotIn("slot", prompt.lower())
         self.assertNotIn("Lane example:", prompt)
         self.assertNotIn("reason", prompt.lower())
@@ -76,6 +101,11 @@ class AgentPromptContractTests(TestCase):
         self.assertNotIn("decorative metaphor", prompt)
         self.assertNotIn("fallback loops", prompt)
         self.assertNotIn("reason without becoming a real explanation", prompt)
+
+        lower_prompt = prompt.lower()
+        for directive in PROHIBITION_DIRECTIVES:
+            with self.subTest(directive=directive):
+                self.assertNotIn(directive, lower_prompt)
 
     def test_build_prompt_rejects_unknown_prompt_type(self) -> None:
         with self.assertRaises(ValueError):
