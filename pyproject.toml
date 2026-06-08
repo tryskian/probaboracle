@@ -10,11 +10,11 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
 dependencies = [
-  "idna==3.16",
-  "openai==2.38.0",
-  "openai-agents==0.17.3",
+  "idna==3.18",
+  "openai==2.41.0",
+  "openai-agents==0.17.4",
   "python-dotenv==1.2.2",
-  "starlette==1.1.0",
+  "starlette==1.2.1",
   "urllib3==2.7.0",
 ]
 
@@ -24,7 +24,7 @@ dev = [
   "mypy==2.1.0",
   "pip-audit==2.10.0",
   "pre-commit==4.6.0",
-  "ruff==0.15.14",
+  "ruff==0.15.16",
 ]
 
 [project.scripts]
