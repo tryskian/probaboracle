@@ -1,12 +1,19 @@
 # Probaboracle
 
-[![Research Stage](https://img.shields.io/badge/research_stage-clean%20baseline%20reset-4C956C)](./docs/research/README.md) ![Polinko toy factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C) ![Refactor](https://img.shields.io/badge/refactor-in%20progress-F28E2B)
+[![Research Stage](https://img.shields.io/badge/research_stage-polinko%20research%20model%20refactor-4C956C)](./docs/research/README.md)
+[![Polinko Model](https://img.shields.io/badge/polinko_model-staged_next_beta-4C956C)](https://github.com/tryskian/polinko)
+![Polinko Toy Factory](https://img.shields.io/badge/polinko_toy_factory-active-4C956C)
+![Model Refactor](https://img.shields.io/badge/model_refactor-active-F28E2B)
 
 ## probably a mini oracle. definitely a mini chatbot
 
-> **Refactor in progress.** Probaboracle is in a clean-baseline refactor.
-> The Beta `6.0` pulse is preserved as a diagnostic snapshot before the next
-> fixed-prompt `eval-pulse` is cut from the proper-config candidate.
+> [!NOTE]
+> **Current status:** The Polinko research model is being staged for the next
+> beta.
+>
+> This is an active refactor window for the model contract, evidence snapshots,
+> docs, and supporting tools. Current builds are kept stable while the repo
+> surfaces are simplified, tested, and aligned for the next release.
 
 Probaboracle is a small, local, agent-backed CLI mini chatbot using the **[Polinko research model](https://github.com/tryskian/polinko)**.
 
@@ -21,9 +28,11 @@ That narrow surface is the point. Probaboracle is not trying to be a general cha
 
 Current research stage:
 
-- `clean baseline reset`
-- source state: proper-config candidate
-- next eval gate: `eval-pulse`
+- `Polinko research model refactor`
+- source state: under audit against the Polinko-family governance contract
+- live eval gate: paused
+- next step: reconstruct the instruction/config blueprint before any runtime
+  or beta claim
 
 Most recent diagnostic snapshot:
 
@@ -39,15 +48,14 @@ Most recently closed beta:
 - `retain + evict`
 
 In this repo, a new beta gets pinned when the method change alters what the
-evidence means, not just when wording or procedure gets tidier. The current
-reset keeps the `eval-pulse` method but stops treating the first Beta `6.0`
-line as live baseline proof.
+evidence means, not just when wording or procedure gets tidier. The previous
+clean-baseline reset frame is now under quarantine until the family governance
+contract is reconstructed and checked against the established Polinko method.
 
-The next baseline starts from structural config plus agent-owned positive
-routing/output targets: fixed prompt types, binary verdicts, runtime settings,
-local paths, and a minimal positive routing prompt in the agent path. The next
-comparable evidence should be a new fixed-prompt pulse, run one prompt at a
-time after the rate-limit / prepaid-credit boundary is healthy.
+The next baseline is not a live eval run. It is a method-contract repair pass:
+separate structural config from runtime instruction language, identify
+patched-in instruction drift, and require human approval before any instruction
+change becomes a research or beta claim.
 
 ## What This Repo Demonstrates
 
