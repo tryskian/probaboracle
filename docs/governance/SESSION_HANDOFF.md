@@ -39,6 +39,7 @@ Operator commands remain separate:
 - `make end-preflight`
 - `make end-git-check`
 - `make lint-docs`
+- `make scripts-check`
 - `make package-check`
 - `make package-install-check`
 - `make security-checks`
@@ -72,6 +73,10 @@ Current refactor surface:
   - npm audit overrides cover transitive `js-yaml` and `markdown-it`
   - `undici` is resolved through the refreshed lockfile
   - no open Probaboracle PRs remain
+- local shell helper contracts are now a named gate:
+  - `make scripts-check` validates tracked `scripts/*.sh` and `tools/*.sh`
+  - closeout runs the gate before the broader `make check`
+  - closeout skip knobs use uppercase `END_*` variables
 - clean baseline source reset:
   - `config.py` is structural only
   - prompt phrase banks, style-signal lists, pipeline-step lists, and slot

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import re
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -20,6 +22,7 @@ class ToolingContractTests(unittest.TestCase):
 
         for target in (
             "lint-docs",
+            "scripts-check",
             "end-docs-check",
             "package-install-check",
             "python-security-check",
@@ -34,6 +37,7 @@ class ToolingContractTests(unittest.TestCase):
         for command in (
             "make --no-print-directory end-docs-check",
             "make --no-print-directory lint-docs",
+            "make --no-print-directory scripts-check",
             "make --no-print-directory package-check",
             "make --no-print-directory package-install-check",
             "make --no-print-directory security-checks",
@@ -61,6 +65,7 @@ class ToolingContractTests(unittest.TestCase):
 
         for command in (
             "make lint-docs",
+            "make scripts-check",
             "make package-install-check",
             "make security-checks",
             "make end-docs-check",
@@ -78,6 +83,20 @@ class ToolingContractTests(unittest.TestCase):
         self.assertNotIn('"isort', pyproject)
         self.assertNotIn("[tool.isort]", pyproject)
         self.assertNotIn('"isort"', doctor)
+
+    def test_shell_script_contract_checker_accepts_tracked_scripts(self) -> None:
+        self.assertTrue((ROOT / "scripts/check_shell_scripts.py").exists())
+
+        result = subprocess.run(
+            [sys.executable, "scripts/check_shell_scripts.py"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+
+        self.assertIn("shell-script-contracts: PASS", result.stdout)
+        self.assertIn("scripts checked", result.stdout)
 
 
 if __name__ == "__main__":
