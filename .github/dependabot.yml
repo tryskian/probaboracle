@@ -8,6 +8,11 @@ updates:
       time: "09:00"
       timezone: "America/Toronto"
     open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
 
   - package-ecosystem: "pip"
     directory: "/"
@@ -19,6 +24,11 @@ updates:
     open-pull-requests-limit: 5
     groups:
       python-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      python-security:
+        applies-to: security-updates
         patterns:
           - "*"
 
@@ -32,5 +42,10 @@ updates:
     open-pull-requests-limit: 5
     groups:
       npm-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      npm-security:
+        applies-to: security-updates
         patterns:
           - "*"

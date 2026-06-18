@@ -28,7 +28,7 @@ PIP_AUDIT_ARGS ?=
 
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
-.PHONY: install env venv doctor-env path-leak-check path-leak-audit-local test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check end-pending-check ask sample eval-init list archive-pending judge pass fail eval-pulse-start eval-pulse-label eval-pulse-report clean
+.PHONY: install refresh-deps env venv doctor-env path-leak-check path-leak-audit-local test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check end-pending-check ask sample eval-init list archive-pending judge pass fail eval-pulse-start eval-pulse-label eval-pulse-report clean
 .PHONY: lint-docs end-docs-check package-install-check python-security-check node-security-check security-checks
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
@@ -43,6 +43,12 @@ install:
 	$(PYTHON) -m venv $(VENV)
 	$(PIP) install --upgrade pip
 	$(PIP) install -e ".[dev]"
+
+refresh-deps:
+	@test -d "$(VENV)" || $(PYTHON) -m venv $(VENV)
+	$(PIP) install --upgrade pip
+	$(PIP) install --upgrade --upgrade-strategy eager -e ".[dev]"
+	npm install --no-audit --no-fund
 
 env venv:
 	@test -d "$(VENV)" || (echo "Missing .venv. Run make install." && exit 1)
