@@ -29,7 +29,7 @@ PIP_AUDIT_ARGS ?=
 LIST_ARGS = $(if $(PROMPT),--prompt-type $(PROMPT),) --limit $(LIMIT)
 
 .PHONY: install refresh-deps env venv doctor-env path-leak-check path-leak-audit-local test lint format-check format typecheck precommit-install precommit-run prepush-run check package-check end-pending-check ask sample eval-init list archive-pending judge pass fail eval-pulse-start eval-pulse-label eval-pulse-report clean
-.PHONY: lint-docs end-docs-check package-install-check python-security-check node-security-check security-checks
+.PHONY: lint-docs scripts-check end-docs-check package-install-check python-security-check node-security-check security-checks
 .PHONY: render-eval-chart-deps render-eval-chart
 .PHONY: what when why where
 .PHONY: eval-what-5 eval-when-5 eval-why-5 eval-where-5
@@ -83,6 +83,9 @@ typecheck:
 
 lint-docs:
 	npm run lint:docs
+
+scripts-check:
+	$(PY) ./scripts/check_shell_scripts.py
 
 precommit-install:
 	$(PY) -m pre_commit install --install-hooks --hook-type pre-commit --hook-type pre-push
@@ -229,7 +232,7 @@ end:
 	bash ./tools/end_of_day_routine.sh
 
 end-preflight:
-	end_SKIP_GIT_CHECK=1 bash ./tools/end_of_day_routine.sh
+	END_SKIP_GIT_CHECK=1 bash ./tools/end_of_day_routine.sh
 
 end-pending-check:
 	PYTHONPATH=src $(PY) ./scripts/check_end_pending.py

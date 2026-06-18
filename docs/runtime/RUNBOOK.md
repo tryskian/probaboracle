@@ -60,6 +60,7 @@ Use the compact operator path when you want the canonical morning check:
 | check Python formatting                      | `make format-check`           |
 | run static typing                            | `make typecheck`              |
 | run tests                                    | `make test`                   |
+| validate shell helper contracts              | `make scripts-check`          |
 | install git hooks                            | `make precommit-install`      |
 | run pre-commit hooks on all files            | `make precommit-run`          |
 | run pre-push hooks on all files              | `make prepush-run`            |
@@ -110,6 +111,7 @@ The app loop is the default user-facing path. It opens the responsive header and
   - `node-security`
 - local closeout exposes matching operator targets:
   - `make lint-docs`
+  - `make scripts-check`
   - `make package-check`
   - `make package-install-check`
   - `make security-checks`
@@ -219,6 +221,9 @@ Run the smallest check set that matches the change:
 - docs change:
   - `make lint-docs`
   - `git diff --check`
+- shell helper change:
+  - `make scripts-check`
+  - `git diff --check`
 - packaging or dependency metadata change:
   - `make package-check`
   - `make package-install-check`
@@ -243,6 +248,7 @@ That routine runs:
 - `make path-leak-audit-local`
 - `make doctor-env`
 - `npm run lint:docs`
+- `make scripts-check`
 - `make check`
 - `git diff --check`
 - `make end-pending-check`

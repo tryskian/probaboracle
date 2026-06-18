@@ -57,6 +57,7 @@ Sequence:
   - tracked path leak check
   - local path leak audit
   - `make lint-docs`
+  - `make scripts-check`
   - `make check`
   - `make package-check`
   - `make package-install-check`
