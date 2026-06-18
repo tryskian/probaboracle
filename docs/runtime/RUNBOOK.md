@@ -55,6 +55,7 @@ Use the compact operator path when you want the canonical morning check:
 | open the venv shell                          | `make env`                    |
 | check the environment                        | `make doctor-env`             |
 | show session status                          | `make session-status`         |
+| refresh local dependency surfaces            | `make refresh-deps`           |
 | lint Python files                            | `make lint`                   |
 | check Python formatting                      | `make format-check`           |
 | run static typing                            | `make typecheck`              |
@@ -120,6 +121,12 @@ The app loop is the default user-facing path. It opens the responsive header and
   - `github-actions`
   - `pip`
   - `npm`
+- Dependabot security updates are grouped for:
+  - `pip`
+  - `npm`
+- After merged dependency work, run:
+  - `make refresh-deps`
+  - `make security-checks`
 
 ## Oracle Commands
 

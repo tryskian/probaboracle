@@ -75,6 +75,12 @@ Preflight:
 - runs the validation and background-stop path without requiring clean synced
   `main`
 
+Dependency maintenance:
+
+- `make refresh-deps`
+- run it after merged Dependabot or dependency metadata work, then run
+  `make security-checks`
+
 Source of truth:
 
 - [tools/end_of_day_routine.sh](../../tools/end_of_day_routine.sh)
