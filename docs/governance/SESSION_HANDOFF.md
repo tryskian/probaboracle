@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-06-12
+Last updated: 2026-06-18
 
 ## Start Here
 
@@ -67,6 +67,11 @@ Current refactor surface:
   - no separate isort dependency
   - no `[tool.isort]` block
   - no doctor-env isort import check
+- dependency/security cleanup is current on `main`:
+  - Dependabot Starlette and grouped Python dependency updates are merged
+  - npm audit overrides cover transitive `js-yaml` and `markdown-it`
+  - `undici` is resolved through the refreshed lockfile
+  - no open Probaboracle PRs remain
 - clean baseline source reset:
   - `config.py` is structural only
   - prompt phrase banks, style-signal lists, pipeline-step lists, and slot
