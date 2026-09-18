@@ -1,6 +1,6 @@
 # Session Handoff
 
-Last updated: 2026-06-18
+Last updated: 2026-09-18
 
 ## Start Here
 
@@ -43,10 +43,6 @@ Operator commands remain separate:
 - `make package-check`
 - `make package-install-check`
 - `make security-checks`
-- `make caffeinate`
-- `make caffeinate-status`
-- `make decaffeinate-status`
-- `make decaffeinate`
 - `make rituals`
 - `ask`
 - `sample`
@@ -77,6 +73,11 @@ Current refactor surface:
   - `make scripts-check` validates tracked `scripts/*.sh` and `tools/*.sh`
   - closeout runs the gate before the broader `make check`
   - closeout skip knobs use uppercase `END_*` variables
+- Mac-wide power control is external to this repository:
+  - the Coffee Codex plugin owns the one shared keep-awake session for Polinko
+    and the toys
+  - `make start`, `make end-preflight`, and `make end` leave it unchanged
+  - Probaboracle owns no power-control PID, process state, or Make target
 - clean baseline source reset:
   - `config.py` is structural only
   - prompt phrase banks, style-signal lists, pipeline-step lists, and slot

@@ -1273,3 +1273,50 @@ If a decision crosses layers, say so plainly instead of flattening the method in
   before longer closeout checks run. Uppercase closeout environment variables
   keep the branch-local preflight and clean-main git gate aligned with the
   surrounding repo-family convention.
+
+## D-065: Keep Mac-wide power control outside the repository lifecycle
+
+- Date: `2026-09-18`
+- Category: `workflow_environment`
+- Tags: `coffee_plugin`, `keep_awake`, `operator_surface`, `repo_lifecycle`
+- Provenance: `human-led repo-family decision`, later `implementation decision`
+- Decision:
+  - let the external Coffee Codex plugin exclusively own the one shared
+    Mac-wide keep-awake session for Polinko and the toys
+  - remove Probaboracle's power-control variables and Make targets
+  - keep startup, preflight, closeout, and session status focused on
+    repository-owned runtime, eval, validation, and Git state
+  - leave external Coffee state unchanged throughout the repo lifecycle
+  - supersede the wake-lock portion of `D-046` while preserving its shared
+    start/end operator contract
+- Validation:
+  - `make start`
+  - `make end-preflight`
+  - `make end` on clean synced `main`
+  - tooling contracts reject repository-owned power-control targets and calls
+- Why: A Mac-wide process is shared across repositories and tasks. Repository
+  lifecycle hooks create conflicting ownership and allow one closeout to
+  interfere with unrelated work.
+
+## D-066: Keep dependency audits strict during lifecycle closeout
+
+- Date: `2026-09-18`
+- Category: `workflow_environment`
+- Tags: `dependency_security`, `npm_audit`, `pip_audit`, `closeout`
+- Provenance: `human-led maintenance decision`, later `implementation decision`
+- Decision:
+  - refresh the local Python environment through `make refresh-deps` when its
+    installed transitive packages fall behind the tracked resolver surface
+  - keep current direct Python constraints when they already resolve the fixed
+    versions in clean CI installs
+  - override `smol-toml` to the compatible fixed `1.8.0` release and
+    `js-yaml` to the compatible fixed `4.3.2` release, then regenerate
+    `package-lock.json`
+  - keep `make security-checks` strict in preflight and clean-main closeout
+- Validation:
+  - `make security-checks`
+  - `make end-preflight`
+- Why: Closeout exposed stale local Python packages and vulnerable Node
+  transitive pins. Refreshing the existing resolver surface and applying the
+  required Node overrides clear the advisories without broadening the
+  runtime dependency contract.

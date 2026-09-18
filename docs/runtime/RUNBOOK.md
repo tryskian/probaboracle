@@ -46,10 +46,6 @@ Use the compact operator path when you want the canonical morning check:
 | run the closeout routine                     | `make end`                    |
 | run closeout before merge                    | `make end-preflight`          |
 | verify clean synced main                     | `make end-git-check`          |
-| start managed caffeinate                     | `make caffeinate`             |
-| stop managed caffeinate                      | `make decaffeinate`           |
-| check managed caffeinate                     | `make caffeinate-status`      |
-| alias wake-lock status for closeout language | `make decaffeinate-status`    |
 | show the compact start/end sheet             | `make rituals`                |
 | open the app loop                            | `probaboracle`                |
 | open the venv shell                          | `make env`                    |
@@ -74,6 +70,16 @@ Use the compact operator path when you want the canonical morning check:
 | open the OpenAI usage page                   | `make open-usage`             |
 | open the OpenAI billing page                 | `make open-billing`           |
 | open all three OpenAI cost pages             | `make open-cost-console`      |
+
+## Shared Power Control
+
+The external Coffee Codex plugin owns the one shared Mac-wide keep-awake
+session for Polinko and the toys. Probaboracle does not inspect, start, adopt,
+or stop that session during startup, preflight, or closeout.
+
+The repository owns no power-control PID file, log, process state, or Make
+target. Its lifecycle remains focused on the oracle runtime, eval evidence,
+pending-row gate, validation, and Git state.
 
 The app loop is the default user-facing path. It opens the responsive header and fixed selector, then generates one response at a time. `enter` selects, and `esc` exits.
 
@@ -252,7 +258,6 @@ That routine runs:
 - `make check`
 - `git diff --check`
 - `make end-pending-check`
-- `make decaffeinate`
 - `make session-status`
 - `make end-git-check`
 
