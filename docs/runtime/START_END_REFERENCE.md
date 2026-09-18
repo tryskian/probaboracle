@@ -19,8 +19,6 @@ Sequence:
   - `git status --short --branch`
 2. Run the generic startup safety path:
   - `make doctor-env`
-  - `make caffeinate`
-  - `make caffeinate-status`
   - `make session-status`
 3. Stop before repo action:
   - print the canonical rehydrate prompt
@@ -36,10 +34,12 @@ Source of truth:
 
 - [tools/start_of_day_routine.sh](../../tools/start_of_day_routine.sh)
 
-Wake-lock rule:
+Shared power-control boundary:
 
-- `make caffeinate` records only this repo's managed PID
-- unmanaged `caffeinate` processes are reported but never adopted or stopped
+- the external Coffee Codex plugin owns the one shared Mac-wide keep-awake
+  session for Polinko and the toys
+- Probaboracle start, preflight, and closeout leave that session unchanged
+- the repository owns no power-control PID, process state, or Make target
 
 ## End
 
@@ -64,7 +64,6 @@ Sequence:
   - `git diff --check`
   - `make end-pending-check`
   - `make security-checks`
-  - `make decaffeinate`
 2. Print the final repo state:
   - `make session-status`
 3. Enforce the final git state:
@@ -73,8 +72,7 @@ Sequence:
 Preflight:
 
 - `make end-preflight`
-- runs the validation and background-stop path without requiring clean synced
-  `main`
+- runs the validation path without requiring clean synced `main`
 
 Dependency maintenance:
 

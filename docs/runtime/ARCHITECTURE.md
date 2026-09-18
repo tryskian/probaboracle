@@ -127,11 +127,9 @@ The public generation and eval-shape diagrams live in `docs/diagrams/PIPELINE.md
 - Day-close routine: `make end`
 - Branch-local closeout validation: `make end-preflight`
 - Clean-main closeout gate: `make end-git-check`
-- Managed wake lock:
-  - `make caffeinate`
-  - `make caffeinate-status`
-  - `make decaffeinate-status`
-  - `make decaffeinate`
+- Shared power-control boundary:
+  - the external Coffee Codex plugin owns Mac-wide keep-awake state
+  - repository lifecycle commands leave that external state unchanged
 - Baseline validation: `make check`
 - Environment sanity: `make doctor-env`
 - Compact operator sheet: `make rituals`

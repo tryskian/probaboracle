@@ -47,6 +47,47 @@ class ToolingContractTests(unittest.TestCase):
         self.assertNotIn("npm run lint:docs", script)
         self.assertNotIn("./scripts/check_end_docs.py", script)
 
+    def test_repo_lifecycle_leaves_external_power_control_unchanged(self) -> None:
+        makefile = read("Makefile")
+        start_script = read("tools/start_of_day_routine.sh")
+        end_script = read("tools/end_of_day_routine.sh")
+
+        for target in (
+            "caffeinate",
+            "caffeinate-status",
+            "decaffeinate",
+            "decaffeinate-status",
+        ):
+            self.assertNotRegex(makefile, rf"(?m)^{re.escape(target)}:")
+
+        for forbidden in (
+            "CAFFEINATE_PID_FILE",
+            "CAFFEINATE_LOG",
+            "CAFFEINATE_CMD",
+            "make --no-print-directory caffeinate",
+            "make --no-print-directory decaffeinate",
+        ):
+            self.assertNotIn(forbidden, "\n".join((makefile, start_script, end_script)))
+
+        self.assertIn("[start] 1/4 workspace context", start_script)
+        self.assertIn("[start] 4/4 REHYDRATE PROMPT", start_script)
+        self.assertIn("TOTAL_STEPS=14", end_script)
+        self.assertIn("TOTAL_STEPS=13", end_script)
+        self.assertIn("[end] 13/$TOTAL_STEPS session snapshot", end_script)
+        self.assertIn("[end] 14/$TOTAL_STEPS git closeout", end_script)
+
+        active_docs = "\n".join(
+            read(path)
+            for path in (
+                "README.md",
+                "docs/governance/SESSION_HANDOFF.md",
+                "docs/runtime/ARCHITECTURE.md",
+                "docs/runtime/RUNBOOK.md",
+                "docs/runtime/START_END_REFERENCE.md",
+            )
+        )
+        self.assertNotRegex(active_docs, r"(?i)caffeinate|decaffeinate|wake-lock")
+
     def test_legacy_end_routine_delegates_to_active_tool(self) -> None:
         script = read("scripts/end_of_day_routine.sh")
 
