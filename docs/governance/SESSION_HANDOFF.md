@@ -1,8 +1,8 @@
 # Session Handoff
 
-Last updated: 2026-09-18
+Last updated: 2026-10-03
 
-Dependency maintenance: 2026-10-03. The security update retains the
+Dependency maintenance: PR #130 merged on 2026-10-03. The security update retains the
 `markdownlint` 0.41.1 rule engine and the existing rule overrides/ignore paths,
 but uses `markdownlint-cli` 0.49.1 instead of `markdownlint-cli2`. CI and local
 docs checks now use the same locked CLI. This removes the unpatched `braces`
