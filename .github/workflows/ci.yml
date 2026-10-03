@@ -12,14 +12,16 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.14"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Install Node dependencies
+        run: npm ci
       - name: Check tracked path leaks
         run: python ./scripts/path_leak_check.py --scope tracked
       - name: Lint Markdown
-        uses: DavidAnson/markdownlint-cli2-action@v23
-        with:
-          globs: |
-            README.md
-            docs/**/*.md
+        run: npm run lint:docs
 
   test:
     runs-on: ubuntu-latest
