@@ -2,6 +2,13 @@
 
 Last updated: 2026-09-18
 
+Dependency maintenance: 2026-10-03. The security update retains the
+`markdownlint` 0.41.1 rule engine and the existing rule overrides/ignore paths,
+but uses `markdownlint-cli` 0.49.1 instead of `markdownlint-cli2`. CI and local
+docs checks now use the same locked CLI. This removes the unpatched `braces`
+dependency from the tooling tree. The existing Python and Undici fixes remain
+part of the same security PR; generation and evaluation settings are unchanged.
+
 ## Start Here
 
 1. Read:
@@ -68,7 +75,6 @@ Current refactor surface:
   - Dependabot Starlette and grouped Python dependency updates are merged
   - npm audit overrides cover transitive `js-yaml` and `markdown-it`
   - `undici` is resolved through the refreshed lockfile
-  - no open Probaboracle PRs remain
 - local shell helper contracts are now a named gate:
   - `make scripts-check` validates tracked `scripts/*.sh` and `tools/*.sh`
   - closeout runs the gate before the broader `make check`
